@@ -32,25 +32,31 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		'''the function that draw the addon UI'''
 		layout = self.layout
 		
-		# Display the first frame path
+		# check if there is a movie clip set
 		if(context.space_data.clip is not None):
 			firstFile = context.space_data.clip.filepath
 			ext = firstFile.split('.')[-1]
+			
+			# Check farme format
 			if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
 						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']:
+				# Display the first frame path and frame extension
 				row = layout.row()
 				row.label( text="First frame path:" )
 				row = layout.row()
 				row.label( text= firstFile )
 				row = layout.row()
 				row.label( text="File type: "+ext )
+				
 			else:
+				# Display an error message, request for a sequence of images
 				row = layout.row()
 				row.label( text="Current movie can't be use by addon.",
 					 icon="ERROR"  )
 				row = layout.row()
 				row.label( text="Only images sequence are accept." )
 		else:
+			# Display a request for a movie clip
 			row = layout.row()
 			row.label( text="select/load an images sequence in Movie Editor.",
 					 icon="ERROR" )
@@ -63,7 +69,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			text="run")
 		
 		# A field to set the first and last frames to use from source
-		# A field to remind the extension of the frames
 		# A field to choose the object wich the curve is assigned to
 		# A field to choose the F-Curve
 		# A field to remind F-Curve min and max value 
