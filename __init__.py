@@ -10,9 +10,8 @@ bl_info = {
 
 
 import bpy
-from bpy.types import Panel
 
-class FramesAnimatedByCurvePanel(Panel):
+class FramesAnimatedByCurvePanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
