@@ -35,8 +35,13 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# Display the first frame path
 		row = layout.row()
 		row.label( text="First frame path:" )
+		firstFile = context.space_data.clip.filepath
 		row = layout.row()
-		row.label( text=context.space_data.clip.filepath )
+		row.label( text= firstFile )
+		
+		ext = firstFile.split('.')[-1]
+		row = layout.row()
+		row.label( text="Extension: "+ext )
 		
 		# the button to run the script
 		row = layout.row()
