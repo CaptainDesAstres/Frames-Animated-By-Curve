@@ -11,6 +11,16 @@ bl_info = {
 
 import bpy
 
+class CurveToFrame(bpy.types.Operator):
+	bl_idname = "curve.toframe"
+	bl_label= "Frames Animated By Curve"
+	
+	def execute(self, context):
+		print("Frames Animated By Curve have been executed")
+		return {'FINISHED'}
+
+
+
 class FramesAnimatedByCurvePanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
@@ -22,6 +32,10 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		'''the function that draw the addon UI'''
 		layout = self.layout
 		
+		row = layout.row()
+		row.operator(
+			"curve.toframe",
+			text="run")
 		# A field to select the frames to use (or the directory containing it)
 		# A field to set the first and last frames to use from source
 		# A field to remind the extension of the frames
@@ -39,6 +53,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 
 def register():
 	'''addon register'''
+	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	print("Frames Animated By Curve is enable")
 
@@ -46,5 +61,6 @@ def register():
 def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
+	bpy.utils.unregister_class(CurveToFrame)
 	print("Frames Animated By Curve is disable")
 
