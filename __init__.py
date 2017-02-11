@@ -32,11 +32,18 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		'''the function that draw the addon UI'''
 		layout = self.layout
 		
+		# Display the first frame path
+		row = layout.row()
+		row.label( text="First frame path:" )
+		row = layout.row()
+		row.label( text=context.space_data.clip.filepath )
+		
+		# the button to run the script
 		row = layout.row()
 		row.operator(
 			"curve.toframe",
 			text="run")
-		# A field to select the frames to use (or the directory containing it)
+		
 		# A field to set the first and last frames to use from source
 		# A field to remind the extension of the frames
 		# A field to choose the object wich the curve is assigned to
@@ -47,8 +54,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# A field to choose between Round Floor and Ceil rounding method
 		# A field to set the name of the sub directory name to use as destination
 		# A checkbox to set if user want to make real copy of the frame file rather than link
-		# A button to refresh display
-		# A button to run the script
 
 
 def register():
