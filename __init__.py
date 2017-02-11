@@ -33,21 +33,27 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		layout = self.layout
 		
 		# Display the first frame path
-		firstFile = context.space_data.clip.filepath
-		ext = firstFile.split('.')[-1]
-		if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
-					'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']:
-			row = layout.row()
-			row.label( text="First frame path:" )
-			row = layout.row()
-			row.label( text= firstFile )
-			row = layout.row()
-			row.label( text="File type: "+ext )
+		if(context.space_data.clip is not None):
+			firstFile = context.space_data.clip.filepath
+			ext = firstFile.split('.')[-1]
+			if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
+						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']:
+				row = layout.row()
+				row.label( text="First frame path:" )
+				row = layout.row()
+				row.label( text= firstFile )
+				row = layout.row()
+				row.label( text="File type: "+ext )
+			else:
+				row = layout.row()
+				row.label( text="Current movie can't be use by addon.",
+					 icon="ERROR"  )
+				row = layout.row()
+				row.label( text="Only images sequence are accept." )
 		else:
 			row = layout.row()
-			row.label( text="Current movie can't be use by addon." )
-			row = layout.row()
-			row.label( text="Only images sequence are accept." )
+			row.label( text="select/load an images sequence in Movie Editor.",
+					 icon="ERROR" )
 		
 		
 		# the button to run the script
