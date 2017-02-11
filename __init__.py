@@ -35,6 +35,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# check if there is a movie clip set
 		if(context.space_data.clip is not None):
 			firstFile = context.space_data.clip.filepath
+			path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 			first, ext = os.path.basename( firstFile ).split('.')
 			
 			# Check farme format
@@ -52,7 +53,20 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 				row = layout.row()
 				row.label( text="File type: "+ext )
 				
-				# Get and display the last frame name
+				# Get the last frame name
+				nameLen = len(first)
+				first = int(first)
+				last = first
+				while True:
+					last += 1
+					lastPath = path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext
+					if(not os.path.exists(lastPath)):
+						last -= 1
+						break
+				
+				# Display last frame name
+				row = layout.row()
+				row.label( text="last frame: "+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
 				
 			else:
 				# Display an error message, request for a sequence of images
