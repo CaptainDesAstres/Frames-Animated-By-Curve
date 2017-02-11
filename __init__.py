@@ -43,11 +43,11 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
 						and type(first) is str\
 						and first.isdecimal() :
-				# Display the first frame path
+				# Display the directory path
 				row = layout.row()
-				row.label( text="First frame path:" )
+				row.label( text = "Frame Directory path:" )
 				row = layout.row()
-				row.label( text= firstFile )
+				row.label( text= path )
 				
 				# Display frame extension
 				row = layout.row()
@@ -55,8 +55,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 				
 				# Get the last frame name
 				nameLen = len(first)
-				first = int(first)
-				last = first
+				last = int(first)
 				while True:
 					last += 1
 					lastPath = path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext
@@ -64,9 +63,10 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 						last -= 1
 						break
 				
-				# Display last frame name
+				# Display first to last frame name range
 				row = layout.row()
-				row.label( text="last frame: "+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
+				row.label( text="Frames: "+first+'.'+ext+' to '\
+					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
 				
 			else:
 				# Display an error message, request for a sequence of images
