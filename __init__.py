@@ -16,7 +16,8 @@ class FramesAnimatedByCurvePanel(Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Curve Anim"
+	bl_label = "Frames Animated By Curve"
+	bl_category = "Curve Anim"
 	
 	def draw(self, context):
 		layout = self.layout
