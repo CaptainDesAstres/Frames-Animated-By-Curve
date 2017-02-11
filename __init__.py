@@ -33,15 +33,22 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		layout = self.layout
 		
 		# Display the first frame path
-		row = layout.row()
-		row.label( text="First frame path:" )
 		firstFile = context.space_data.clip.filepath
-		row = layout.row()
-		row.label( text= firstFile )
-		
 		ext = firstFile.split('.')[-1]
-		row = layout.row()
-		row.label( text="Extension: "+ext )
+		if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
+					'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']:
+			row = layout.row()
+			row.label( text="First frame path:" )
+			row = layout.row()
+			row.label( text= firstFile )
+			row = layout.row()
+			row.label( text="File type: "+ext )
+		else:
+			row = layout.row()
+			row.label( text="Current movie can't be use by addon." )
+			row = layout.row()
+			row.label( text="Only images sequence are accept." )
+		
 		
 		# the button to run the script
 		row = layout.row()
