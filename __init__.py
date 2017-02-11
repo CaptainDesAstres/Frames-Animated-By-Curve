@@ -10,9 +10,26 @@ bl_info = {
 
 
 import bpy
+from bpy.types import Panel
+
+class FramesAnimatedByCurvePanel(Panel):
+	'''class of the panel who contains addon control'''
+	bl_space_type = "CLIP_EDITOR"
+	bl_region_type = "TOOLS"
+	bl_label = "Curve Anim"
+	
+	def draw(self, context):
+		layout = self.layout
+
 
 def register():
+	'''addon register'''
+	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	print("Frames Animated By Curve is enable")
 
+
 def unregister():
+	'''addon unregister'''
+	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	print("Frames Animated By Curve is disable")
+
