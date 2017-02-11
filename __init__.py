@@ -9,7 +9,7 @@ bl_info = {
     "category": "Animation"}
 
 
-import bpy
+import bpy, os
 
 class CurveToFrame(bpy.types.Operator):
 	bl_idname = "curve.toframe"
@@ -35,18 +35,24 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# check if there is a movie clip set
 		if(context.space_data.clip is not None):
 			firstFile = context.space_data.clip.filepath
-			ext = firstFile.split('.')[-1]
+			first, ext = os.path.basename( firstFile ).split('.')
 			
 			# Check farme format
 			if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
-						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']:
-				# Display the first frame path and frame extension
+						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
+						and type(first) is str\
+						and first.isdecimal() :
+				# Display the first frame path
 				row = layout.row()
 				row.label( text="First frame path:" )
 				row = layout.row()
 				row.label( text= firstFile )
+				
+				# Display frame extension
 				row = layout.row()
 				row.label( text="File type: "+ext )
+				
+				# Get and display the last frame name
 				
 			else:
 				# Display an error message, request for a sequence of images
@@ -55,11 +61,16 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 					 icon="ERROR"  )
 				row = layout.row()
 				row.label( text="Only images sequence are accept." )
+				row = layout.row()
+				row.label( text="Only decimal character are accept in file name." )
+				
 		else:
 			# Display a request for a movie clip
 			row = layout.row()
 			row.label( text="select/load an images sequence in Movie Editor.",
 					 icon="ERROR" )
+		
+		
 		
 		
 		# the button to run the script
