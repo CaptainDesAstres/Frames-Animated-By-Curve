@@ -11,6 +11,13 @@ bl_info = {
 
 import bpy, os
 
+# Add to scene type a property to define if script does real file copy
+bpy.types.Scene.CurveToFrameRealCopy = bpy.props.BoolProperty(
+		name="Make real copy file", 
+		description="Do Frames Animated By Curve add-on make real file copy rather than link",
+		default = False)
+
+
 class CurveToFrame(bpy.types.Operator):
 	bl_idname = "curve.toframe"
 	bl_label= "Frames Animated By Curve"
@@ -85,8 +92,9 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			row.label( text="select/load an images sequence in Movie Editor.",
 					 icon="ERROR" )
 		
-		
-		
+		# A checkbox to get real frame file copy
+		row = layout.row()
+		row.prop(context.scene, "CurveToFrameRealCopy")
 		
 		# the button to run the script
 		row = layout.row()
@@ -102,7 +110,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# A field to set the max F-Curve Value to assigne to the last frames
 		# A field to choose between Round Floor and Ceil rounding method
 		# A field to set the name of the sub directory name to use as destination
-		# A checkbox to set if user want to make real copy of the frame file rather than link
 
 
 def register():
