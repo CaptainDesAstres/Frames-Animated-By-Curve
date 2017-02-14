@@ -17,6 +17,18 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		description="Do Frames Animated By Curve add-on make real file copy rather than link",
 		default = False)
 
+# Add to movieclip type the property of the add-on
+bpy.types.MovieClip.CtFStart = bpy.props.IntProperty(
+		name = "First frame",
+		description = "first frame that Frames Animated By Curve add-on must take in count",
+		default = 0,
+		min = 0)
+bpy.types.MovieClip.CtFEnd = bpy.props.IntProperty(
+		name = "Last frame",
+		description = "last frame that Frames Animated By Curve add-on must take in count",
+		default = 100,
+		min = 1)
+
 
 class CurveToFrame(bpy.types.Operator):
 	bl_idname = "curve.toframe"
@@ -76,6 +88,12 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 				row = layout.row()
 				row.label( text="Frames: "+first+'.'+ext+' to '\
 					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
+				
+				# Display Frame Settings
+				row = layout.row()
+				row.prop(clip, "CtFStart")
+				row = layout.row()
+				row.prop(clip, "CtFEnd")
 				
 			else:
 				# Display an error message, request for a sequence of images
