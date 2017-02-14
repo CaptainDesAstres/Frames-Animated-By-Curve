@@ -12,7 +12,7 @@ bl_info = {
 import bpy, os
 
 # Add to scene type a property to define if script does real file copy
-bpy.types.Scene.CurveToFrameRealCopy = bpy.props.BoolProperty(
+bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
 		description="Do Frames Animated By Curve add-on make real file copy rather than link",
 		default = False)
@@ -42,7 +42,8 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		
 		# check if there is a movie clip set
 		if(context.space_data.clip is not None):
-			firstFile = context.space_data.clip.filepath
+			clip = context.space_data.clip
+			firstFile = clip.filepath
 			path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 			first, ext = os.path.basename( firstFile ).split('.')
 			
@@ -94,7 +95,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		
 		# A checkbox to get real frame file copy
 		row = layout.row()
-		row.prop(context.scene, "CurveToFrameRealCopy")
+		row.prop(context.scene, "CtFRealCopy")
 		
 		# the button to run the script
 		row = layout.row()
