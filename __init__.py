@@ -14,6 +14,7 @@ import bpy, os
 class CurveToFrame(bpy.types.Operator):
 	bl_idname = "curve.toframe"
 	bl_label= "Frames Animated By Curve"
+	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
 		print("Frames Animated By Curve have been executed")
