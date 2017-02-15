@@ -53,7 +53,15 @@ class CtFRefresh(bpy.types.Operator):
 
 def set_end_frame(self, context):
 	'''check that start and end frame are valid when changing end frame settings'''
+	if self.end > self.size:
+		self.end = self.size
 	
+	if self.start >= self.end:
+		if self.end > 0:
+			self['start'] = self.end - 1
+		else:
+			self['start'] = 0
+			self['end'] = 1
 
 
 def set_start_frame(self, context):
