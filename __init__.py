@@ -66,7 +66,15 @@ def set_end_frame(self, context):
 
 def set_start_frame(self, context):
 	'''check that start and end frame are valid when changing start frame settings'''
+	if self.start < 0:
+		self.start = 0
 	
+	if self.start >= self.end:
+		if self.start < self.size:
+			self['end'] = self.start + 1
+		else:
+			self['start'] = self.size - 1
+			self['end'] = self.size
 
 
 class CtF(bpy.types.PropertyGroup):
