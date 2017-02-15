@@ -19,9 +19,6 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 
 
 
-def set_start_frame(self, val):
-	'''check Start frame new Value'''
-	self['CtFStart'] = val
 
 class CtF(bpy.types.PropertyGroup):
 	start = bpy.props.IntProperty(
