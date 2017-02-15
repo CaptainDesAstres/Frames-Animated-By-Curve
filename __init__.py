@@ -21,18 +21,25 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 
 
 class CtF(bpy.types.PropertyGroup):
+	''' class containang all MovieClip Property design form CtF addon'''
+	
+	# first frame property
 	start = bpy.props.IntProperty(
 		name = "First frame",
 		description = "first frame that Frames Animated By Curve add-on must take in count",
 		default = 0,
 		min = 0)
+	
+	# last frame property
 	end = bpy.props.IntProperty(
 		name = "Last frame",
 		description = "last frame that Frames Animated By Curve add-on must take in count",
 		default = 100,
 		min = 1)
 	
+	
 	def draw(self, context, layout):
+		'''a method to draw the panel'''
 		row = layout.row()
 		row.prop(self, "start")
 		row = layout.row()
