@@ -26,7 +26,7 @@ class CtFRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		clip = context.space_data.clip
-		print("Frames Animated By Curve have been refresh")
+		print("Frames Animated By Curve have been refreshed")
 		return {'FINISHED'}
 
 
@@ -53,11 +53,16 @@ class CtF(bpy.types.PropertyGroup):
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
 		
-		
-		row = layout.row()
-		row.prop(self, "start")
-		row = layout.row()
-		row.prop(self, "end")
+		if(self.firstFile == ''):
+			row = layout.row()
+			row.operator(
+				"ctf.refresh",
+				text="initialize MovieClip info")
+		else:
+			row = layout.row()
+			row.prop(self, "start")
+			row = layout.row()
+			row.prop(self, "end")
 
 
 class CurveToFrame(bpy.types.Operator):
