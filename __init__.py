@@ -47,6 +47,16 @@ class CtFRefresh(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+def set_end_frame(self, context):
+	'''check that start and end frame are valid when changing end frame settings'''
+	
+
+
+def set_start_frame(self, context):
+	'''check that start and end frame are valid when changing start frame settings'''
+	
+
+
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
@@ -61,14 +71,14 @@ class CtF(bpy.types.PropertyGroup):
 		name = "First frame",
 		description = "first frame that Frames Animated By Curve add-on must take in count",
 		default = 0,
-		min = 0)
+		min = 0,
+		update = set_start_frame)
 	
 	# last frame property
 	end = bpy.props.IntProperty(
 		name = "Last frame",
 		description = "last frame that Frames Animated By Curve add-on must take in count",
-		default = 100,
-		min = 1)
+		update = set_end_frame)
 	
 	
 	def draw(self, context, layout, clip):
@@ -116,7 +126,6 @@ class CtF(bpy.types.PropertyGroup):
 				"curve.toframe",
 				text="run")
 			
-			# A field to set the first and last frames to use from source
 			# A field to choose the object wich the curve is assigned to
 			# A field to choose the F-Curve
 			# A field to remind F-Curve min and max value 
