@@ -41,7 +41,9 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def refresh(self, clip):
 		'''refresh attribute value'''
-		
+		self.firstFile = clip.filepath
+		self.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
+		self.first, self.ext = os.path.basename( firstFile ).split('.')
 	
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
