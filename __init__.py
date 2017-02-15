@@ -66,6 +66,18 @@ class CtF(bpy.types.PropertyGroup):
 						'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
 						and type(self.firstName) is str\
 						and self.firstName.isdecimal() ) :
+			
+			# Display the directory path
+			row = layout.row()
+			row.label( text = "Frame Directory path:" )
+			row = layout.row()
+			row.label( text= self.path )
+			
+			# Display frame extension
+			row = layout.row()
+			row.label( text="File type: "+self.ext )
+			
+			# Display Start/End settings
 			row = layout.row()
 			row.prop(self, "start")
 			row = layout.row()
@@ -119,15 +131,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
 						and type(first) is str\
 						and first.isdecimal() :
-				# Display the directory path
-				row = layout.row()
-				row.label( text = "Frame Directory path:" )
-				row = layout.row()
-				row.label( text= path )
-				
-				# Display frame extension
-				row = layout.row()
-				row.label( text="File type: "+ext )
 				
 				# Get the last frame name
 				nameLen = len(first)
