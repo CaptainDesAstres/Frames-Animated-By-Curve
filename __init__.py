@@ -62,7 +62,10 @@ class CtF(bpy.types.PropertyGroup):
 			row.operator(
 				"ctf.refresh",
 				text="initialize MovieClip info")
-		else:
+		elif(self.ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 'jpeg', 'jp2',
+						'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
+						and type(self.firstName) is str\
+						and self.firstName.isdecimal() ) :
 			row = layout.row()
 			row.prop(self, "start")
 			row = layout.row()
