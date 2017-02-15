@@ -70,6 +70,15 @@ class CtF(bpy.types.PropertyGroup):
 			row.prop(self, "start")
 			row = layout.row()
 			row.prop(self, "end")
+		else:
+			# Display an error message, request for a sequence of images
+			row = layout.row()
+			row.label( text="Current movie can't be use by addon.",
+				 icon="ERROR"  )
+			row = layout.row()
+			row.label( text="Only images sequence are accept." )
+			row = layout.row()
+			row.label( text="Only decimal character are accept in file name." )
 
 
 class CurveToFrame(bpy.types.Operator):
@@ -134,17 +143,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 				row = layout.row()
 				row.label( text="Frames: "+first+'.'+ext+' to '\
 					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
-					
-			else:
-				# Display an error message, request for a sequence of images
-				row = layout.row()
-				row.label( text="Current movie can't be use by addon.",
-					 icon="ERROR"  )
-				row = layout.row()
-				row.label( text="Only images sequence are accept." )
-				row = layout.row()
-				row.label( text="Only decimal character are accept in file name." )
-				
 		else:
 			# Display a request for a movie clip
 			row = layout.row()
