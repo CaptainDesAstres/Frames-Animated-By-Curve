@@ -90,6 +90,12 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			row.label( text="File type: "+self.ext )
 			
+			
+			# Display first to last accepted frame name range
+			row = layout.row()
+			row.label( text="Valid frames: "+self.firstName+'.'+self.ext+' to '\
+				+self.lastName+'.'+self.ext )
+			
 			# Display Start/End settings
 			row = layout.row()
 			row.prop(self, "start")
@@ -135,30 +141,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			# Display Frame Settings
 			clip.CtF.draw(context, layout, clip)
 			
-			firstFile = clip.filepath
-			path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
-			first, ext = os.path.basename( firstFile ).split('.')
-			
-			# Check farme format
-			if ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 
-						'jpeg', 'jp2', 'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
-						and type(first) is str\
-						and first.isdecimal() :
-				
-				# Get the last frame name
-				nameLen = len(first)
-				last = int(first)
-				while True:
-					last += 1
-					lastPath = path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext
-					if(not os.path.exists(lastPath)):
-						last -= 1
-						break
-				
-				# Display first to last frame name range
-				row = layout.row()
-				row.label( text="Frames: "+first+'.'+ext+' to '\
-					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
 		else:
 			# Display a request for a movie clip
 			row = layout.row()
