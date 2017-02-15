@@ -26,14 +26,18 @@ class CtFRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		clip = context.space_data.clip
-		print("Frames Animated By Curve have been refreshed")
+		firstFile = clip.filepath
+		clip.CtF.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
+		clip.CtF.firstName, clip.CtF.ext = os.path.basename( firstFile ).split('.')
 		return {'FINISHED'}
 
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
-	firstFile = path = first = ext = ''
+	path = bpy.props.StringProperty()
+	firstName = bpy.props.StringProperty()
+	ext = bpy.props.StringProperty()
 	
 	# first frame property
 	start = bpy.props.IntProperty(
@@ -53,7 +57,7 @@ class CtF(bpy.types.PropertyGroup):
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
 		
-		if(self.firstFile == ''):
+		if(self.path == ''):
 			row = layout.row()
 			row.operator(
 				"ctf.refresh",
@@ -93,6 +97,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			
 			# Display Frame Settings
 			clip.CtF.draw(context, layout, clip)
+			
 			firstFile = clip.filepath
 			path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 			first, ext = os.path.basename( firstFile ).split('.')
