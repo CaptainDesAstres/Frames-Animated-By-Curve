@@ -38,7 +38,7 @@ class CtF(bpy.types.PropertyGroup):
 		min = 1)
 	
 	
-	def draw(self, context, layout):
+	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
 		row = layout.row()
 		row.prop(self, "start")
@@ -106,7 +106,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
 				
 				# Display Frame Settings
-				clip.CtF.draw(context, layout)
+				clip.CtF.draw(context, layout, clip)
 				
 			else:
 				# Display an error message, request for a sequence of images
