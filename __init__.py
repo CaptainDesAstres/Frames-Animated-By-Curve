@@ -29,6 +29,18 @@ class CtFRefresh(bpy.types.Operator):
 		firstFile = clip.filepath
 		clip.CtF.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 		clip.CtF.firstName, clip.CtF.ext = os.path.basename( firstFile ).split('.')
+		
+		# Get the last frame name
+		nameLen = len(clip.CtF.firstName)
+		last = int(clip.CtF.firstName)
+		while True:
+			last += 1
+			lastPath = clip.CtF.path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+clip.CtF.ext
+			if(not os.path.exists(lastPath)):
+				last -= 1
+				break
+		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
+		
 		return {'FINISHED'}
 
 
@@ -37,6 +49,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	path = bpy.props.StringProperty()
 	firstName = bpy.props.StringProperty()
+	lastName = bpy.props.StringProperty()
 	ext = bpy.props.StringProperty()
 	
 	# first frame property
