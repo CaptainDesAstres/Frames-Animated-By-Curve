@@ -82,6 +82,9 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		# check if there is a movie clip set
 		if(context.space_data.clip is not None):
 			clip = context.space_data.clip
+			
+			# Display Frame Settings
+			clip.CtF.draw(context, layout, clip)
 			firstFile = clip.filepath
 			path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 			first, ext = os.path.basename( firstFile ).split('.')
@@ -115,10 +118,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 				row = layout.row()
 				row.label( text="Frames: "+first+'.'+ext+' to '\
 					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
-				
-				# Display Frame Settings
-				clip.CtF.draw(context, layout, clip)
-				
+					
 			else:
 				# Display an error message, request for a sequence of images
 				row = layout.row()
