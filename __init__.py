@@ -38,9 +38,13 @@ class CtFRefresh(bpy.types.Operator):
 			lastPath = clip.CtF.path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+clip.CtF.ext
 			if(not os.path.exists(lastPath)):
 				break
+		
+		clip.CtF.size = last - int(clip.CtF.firstName)
+		
 		if(not clip.CtF.init):
-			clip.CtF.end = last - int(clip.CtF.firstName)
+			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
+		
 		last -= 1
 		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
 		
@@ -64,6 +68,7 @@ class CtF(bpy.types.PropertyGroup):
 	path = bpy.props.StringProperty()
 	firstName = bpy.props.StringProperty()
 	lastName = bpy.props.StringProperty()
+	size = bpy.props.IntProperty()
 	ext = bpy.props.StringProperty()
 	
 	# first frame property
