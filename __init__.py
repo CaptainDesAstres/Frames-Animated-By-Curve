@@ -158,6 +158,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 
 def register():
 	'''addon register'''
+	bpy.utils.register_class(CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	print("Frames Animated By Curve is enable")
@@ -165,6 +166,7 @@ def register():
 
 def unregister():
 	'''addon unregister'''
+	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
 	print("Frames Animated By Curve is disable")
