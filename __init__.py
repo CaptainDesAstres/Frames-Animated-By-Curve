@@ -17,12 +17,20 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		description="Do Frames Animated By Curve add-on make real file copy rather than link",
 		default = False)
 
+
+
+def set_start_frame(self, val):
+	'''check Start frame new Value'''
+	self['CtFStart'] = val
+
+
 # Add to movieclip type the property of the add-on
 bpy.types.MovieClip.CtFStart = bpy.props.IntProperty(
 		name = "First frame",
 		description = "first frame that Frames Animated By Curve add-on must take in count",
 		default = 0,
-		min = 0)
+		min = 0, 
+		set=set_start_frame)
 bpy.types.MovieClip.CtFEnd = bpy.props.IntProperty(
 		name = "Last frame",
 		description = "last frame that Frames Animated By Curve add-on must take in count",
