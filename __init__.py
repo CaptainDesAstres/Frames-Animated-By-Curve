@@ -23,6 +23,8 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
+	firstFile = path = first = ext = ''
+	
 	# first frame property
 	start = bpy.props.IntProperty(
 		name = "First frame",
