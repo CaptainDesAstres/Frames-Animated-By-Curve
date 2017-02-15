@@ -30,15 +30,18 @@ class CtFRefresh(bpy.types.Operator):
 		clip.CtF.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 		clip.CtF.firstName, clip.CtF.ext = os.path.basename( firstFile ).split('.')
 		
-		# Get the last frame name
+		# Get the last frame name and the clip size
 		nameLen = len(clip.CtF.firstName)
 		last = int(clip.CtF.firstName)
 		while True:
 			last += 1
 			lastPath = clip.CtF.path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+clip.CtF.ext
 			if(not os.path.exists(lastPath)):
-				last -= 1
 				break
+		if(not clip.CtF.init):
+			clip.CtF.end = last - int(clip.CtF.firstName)
+			clip.CtF.init = True
+		last -= 1
 		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
 		
 		return {'FINISHED'}
@@ -47,6 +50,7 @@ class CtFRefresh(bpy.types.Operator):
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
+	init = bpy.props.BoolProperty(default = False)
 	path = bpy.props.StringProperty()
 	firstName = bpy.props.StringProperty()
 	lastName = bpy.props.StringProperty()
