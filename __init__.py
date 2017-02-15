@@ -105,6 +105,26 @@ class CtF(bpy.types.PropertyGroup):
 			row.prop(self, "start")
 			row = layout.row()
 			row.prop(self, "end")
+			
+			# A checkbox to get real frame file copy
+			row = layout.row()
+			row.prop(context.scene, "CtFRealCopy")
+			
+			# the button to run the script
+			row = layout.row()
+			row.operator(
+				"curve.toframe",
+				text="run")
+			
+			# A field to set the first and last frames to use from source
+			# A field to choose the object wich the curve is assigned to
+			# A field to choose the F-Curve
+			# A field to remind F-Curve min and max value 
+			# A field to set the min F-Curve Value to assigne to the first frames
+			# A field to set the max F-Curve Value to assigne to the last frames
+			# A field to choose between Round Floor and Ceil rounding method
+			# A field to set the name of the sub directory name to use as destination
+			
 		else:
 			# Display an error message, request for a sequence of images
 			row = layout.row()
@@ -142,7 +162,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		if(context.space_data.clip is not None):
 			clip = context.space_data.clip
 			
-			# Display Frame Settings
+			# draw panel
 			clip.CtF.draw(context, layout, clip)
 			
 		else:
@@ -151,24 +171,6 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			row.label( text="select/load an images sequence in Movie Editor.",
 					 icon="ERROR" )
 		
-		# A checkbox to get real frame file copy
-		row = layout.row()
-		row.prop(context.scene, "CtFRealCopy")
-		
-		# the button to run the script
-		row = layout.row()
-		row.operator(
-			"curve.toframe",
-			text="run")
-		
-		# A field to set the first and last frames to use from source
-		# A field to choose the object wich the curve is assigned to
-		# A field to choose the F-Curve
-		# A field to remind F-Curve min and max value 
-		# A field to set the min F-Curve Value to assigne to the first frames
-		# A field to set the max F-Curve Value to assigne to the last frames
-		# A field to choose between Round Floor and Ceil rounding method
-		# A field to set the name of the sub directory name to use as destination
 
 
 def register():
