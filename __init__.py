@@ -19,6 +19,16 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 
 
 
+class CtFRefresh(bpy.types.Operator):
+	bl_idname = "ctf.refresh"
+	bl_label= "refresh MovieClip CtF Attribute"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		clip = context.space_data.clip
+		print("Frames Animated By Curve have been refresh")
+		return {'FINISHED'}
+
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
@@ -39,17 +49,10 @@ class CtF(bpy.types.PropertyGroup):
 		default = 100,
 		min = 1)
 	
-	def refresh(self, clip):
-		'''refresh attribute value'''
-		self.firstFile = clip.filepath
-		self.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
-		self.first, self.ext = os.path.basename( firstFile ).split('.')
 	
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
 		
-		if(self.firstFile == ''):
-			self.refresh(clip)
 		
 		row = layout.row()
 		row.prop(self, "start")
@@ -157,6 +160,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 
 def register():
 	'''addon register'''
+	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
@@ -166,6 +170,7 @@ def register():
 
 def unregister():
 	'''addon unregister'''
+	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
