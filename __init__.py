@@ -23,6 +23,23 @@ def set_start_frame(self, val):
 	'''check Start frame new Value'''
 	self['CtFStart'] = val
 
+class CtF(bpy.types.PropertyGroup):
+	start = bpy.props.IntProperty(
+		name = "First frame",
+		description = "first frame that Frames Animated By Curve add-on must take in count",
+		default = 0,
+		min = 0)
+	end = bpy.props.IntProperty(
+		name = "Last frame",
+		description = "last frame that Frames Animated By Curve add-on must take in count",
+		default = 100,
+		min = 1)
+	
+	def draw(self, context, layout):
+		row = layout.row(start)
+		row.prop(self, "")
+		row = layout.row(end)
+		row.prop(self, "")
 
 # Add to movieclip type the property of the add-on
 bpy.types.MovieClip.CtFStart = bpy.props.IntProperty(
