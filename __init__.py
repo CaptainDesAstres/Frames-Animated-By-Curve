@@ -41,19 +41,6 @@ class CtF(bpy.types.PropertyGroup):
 		row = layout.row(end)
 		row.prop(self, "")
 
-# Add to movieclip type the property of the add-on
-bpy.types.MovieClip.CtFStart = bpy.props.IntProperty(
-		name = "First frame",
-		description = "first frame that Frames Animated By Curve add-on must take in count",
-		default = 0,
-		min = 0, 
-		set=set_start_frame)
-bpy.types.MovieClip.CtFEnd = bpy.props.IntProperty(
-		name = "Last frame",
-		description = "last frame that Frames Animated By Curve add-on must take in count",
-		default = 100,
-		min = 1)
-
 
 class CurveToFrame(bpy.types.Operator):
 	bl_idname = "curve.toframe"
@@ -115,10 +102,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 					+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+ext )
 				
 				# Display Frame Settings
-				row = layout.row()
-				row.prop(clip, "CtFStart")
-				row = layout.row()
-				row.prop(clip, "CtFEnd")
+				clip.CtF.draw(context, layout)
 				
 			else:
 				# Display an error message, request for a sequence of images
