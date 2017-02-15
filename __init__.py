@@ -39,9 +39,16 @@ class CtF(bpy.types.PropertyGroup):
 		default = 100,
 		min = 1)
 	
+	def refresh(self, clip):
+		'''refresh attribute value'''
+		
 	
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
+		
+		if(self.firstFile == ''):
+			self.refresh(clip)
+		
 		row = layout.row()
 		row.prop(self, "start")
 		row = layout.row()
