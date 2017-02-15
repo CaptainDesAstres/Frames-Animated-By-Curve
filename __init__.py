@@ -159,6 +159,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtF)
+	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	print("Frames Animated By Curve is enable")
