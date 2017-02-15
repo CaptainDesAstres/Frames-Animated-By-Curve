@@ -36,10 +36,10 @@ class CtF(bpy.types.PropertyGroup):
 		min = 1)
 	
 	def draw(self, context, layout):
-		row = layout.row(start)
-		row.prop(self, "")
-		row = layout.row(end)
-		row.prop(self, "")
+		row = layout.row()
+		row.prop(self, "start")
+		row = layout.row()
+		row.prop(self, "end")
 
 
 class CurveToFrame(bpy.types.Operator):
