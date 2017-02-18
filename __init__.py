@@ -187,6 +187,7 @@ class CurveToFrame(bpy.types.Operator):
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
+		bpy.ops.ctf.refresh()
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
 
