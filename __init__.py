@@ -25,27 +25,21 @@ class CtFRefresh(bpy.types.Operator):
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
+		bpy.ops.clip.reload()
 		clip = context.space_data.clip
 		firstFile = clip.filepath
 		clip.CtF.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
 		clip.CtF.firstName, clip.CtF.ext = os.path.basename( firstFile ).split('.')
 		
 		# Get the last frame name and the clip size
+		clip.CtF.size = clip.frame_duration
 		nameLen = len(clip.CtF.firstName)
-		last = int(clip.CtF.firstName)
-		while True:
-			last += 1
-			lastPath = clip.CtF.path+('0'*(nameLen - len(str(last)) ))+str(last)+'.'+clip.CtF.ext
-			if(not os.path.exists(lastPath)):
-				break
-		
-		clip.CtF.size = last - int(clip.CtF.firstName)
 		
 		if(not clip.CtF.init):
 			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
 		
-		last -= 1
+		last = int(clip.CtF.firstName) + clip.CtF.size - 1
 		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
 		
 		return {'FINISHED'}
