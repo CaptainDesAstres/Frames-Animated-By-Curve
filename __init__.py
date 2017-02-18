@@ -27,9 +27,10 @@ class CtFRefresh(bpy.types.Operator):
 	def execute(self, context):
 		bpy.ops.clip.reload()
 		clip = context.space_data.clip
-		firstFile = clip.filepath
-		clip.CtF.path = os.path.abspath(bpy.path.abspath(firstFile+'/../'))+'/'
-		clip.CtF.firstName, clip.CtF.ext = os.path.basename( firstFile ).split('.')
+		
+		clip.CtF.path, clip.CtF.firstName = os.path.split(bpy.path.abspath(clip.filepath))
+		clip.CtF.path += '/'
+		clip.CtF.firstName, clip.CtF.ext = os.path.splitext( clip.CtF.firstName )
 		
 		# Get the last frame name and the clip size
 		clip.CtF.size = clip.frame_duration
@@ -104,8 +105,8 @@ class CtF(bpy.types.PropertyGroup):
 			row.operator(
 				"ctf.refresh",
 				text="initialize MovieClip info")
-		elif(self.ext in ['bmp', 'dpx', 'rgb', 'png', 'jpg', 'jpeg', 'jp2',
-						'j2c', 'tga', 'exr', 'cin', 'hdr', 'tif']\
+		elif(self.ext in ['.bmp', '.dpx', '.rgb', '.png', '.jpg', '.jpeg', '.jp2',
+						'.j2c', '.tga', '.exr', '.cin', '.hdr', '.tif']\
 						and type(self.firstName) is str\
 						and self.firstName.isdecimal() ) :
 			
@@ -122,8 +123,8 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# Display first to last accepted frame name range
 			row = layout.row()
-			row.label( text="Valid frames: "+self.firstName+'.'+self.ext+' to '\
-				+self.lastName+'.'+self.ext )
+			row.label( text="Valid frames: "+self.firstName+self.ext+' to '\
+				+self.lastName+self.ext )
 			
 			# Display Start/End settings
 			row = layout.row()
