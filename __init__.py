@@ -32,6 +32,14 @@ class CtFRefresh(bpy.types.Operator):
 		clip.CtF.path += '/'
 		clip.CtF.firstName, clip.CtF.ext = os.path.splitext( clip.CtF.firstName )
 		
+		#get file naming prefix and suffix and length
+		l = n = len(clip.CtF.firstName)-1
+		while ( not clip.CtF.firstName[n].isdigit() and n > 0 ):
+			n -= 1
+		suffix = clip.CtF.firstName[n+1:l]
+		prefix = clip.CtF.firstName[0:n].strip('0123456789')
+		nLength = l - len(suffix)-len(prefix)
+		
 		# Get the last frame name and the clip size
 		clip.CtF.size = clip.frame_duration
 		nameLen = len(clip.CtF.firstName)
