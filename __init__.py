@@ -36,9 +36,9 @@ class CtFRefresh(bpy.types.Operator):
 		l = n = len(name)-1
 		while ( not name[n].isdigit() and n > 0 ):
 			n -= 1
-		suffix = name[n+1:l]
-		prefix = name[0:n].rstrip('0123456789')
-		nLength = l - len(suffix)-len(prefix)
+		clip.CtF.suffix = name[n+1:l]
+		clip.CtF.prefix = name[0:n].rstrip('0123456789')
+		clip.CtF.numberSize = l - len(suffix)-len(prefix)
 		
 		# Get the last frame name and the clip size
 		clip.CtF.size = clip.frame_duration
@@ -85,6 +85,9 @@ class CtF(bpy.types.PropertyGroup):
 	
 	init = bpy.props.BoolProperty(default = False)
 	path = bpy.props.StringProperty()
+	prefix = bpy.props.StringProperty()
+	suffix = bpy.props.StringProperty()
+	numberSize = bpy.props.IntProperty()
 	first = bpy.props.IntProperty()
 	last = bpy.props.IntProperty()
 	size = bpy.props.IntProperty()
