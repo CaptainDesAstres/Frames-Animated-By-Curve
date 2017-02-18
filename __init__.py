@@ -28,28 +28,28 @@ class CtFRefresh(bpy.types.Operator):
 		bpy.ops.clip.reload()
 		clip = context.space_data.clip
 		
-		clip.CtF.path, clip.CtF.firstName = os.path.split(bpy.path.abspath(clip.filepath))
+		clip.CtF.path, name = os.path.split(bpy.path.abspath(clip.filepath))
 		clip.CtF.path += '/'
-		clip.CtF.firstName, clip.CtF.ext = os.path.splitext( clip.CtF.firstName )
+		name, clip.CtF.ext = os.path.splitext( name )
 		
 		#get file naming prefix and suffix and length
-		l = n = len(clip.CtF.firstName)-1
-		while ( not clip.CtF.firstName[n].isdigit() and n > 0 ):
+		l = n = len(name)-1
+		while ( not name[n].isdigit() and n > 0 ):
 			n -= 1
-		suffix = clip.CtF.firstName[n+1:l]
-		prefix = clip.CtF.firstName[0:n].rstrip('0123456789')
+		suffix = name[n+1:l]
+		prefix = name[0:n].rstrip('0123456789')
 		nLength = l - len(suffix)-len(prefix)
 		
 		# Get the last frame name and the clip size
 		clip.CtF.size = clip.frame_duration
-		nameLen = len(clip.CtF.firstName)
+		nameLen = len(name)
 		
 		if(not clip.CtF.init):
 			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
 		
-		last = int(clip.CtF.firstName) + clip.CtF.size - 1
-		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
+		last = int(name) + clip.CtF.size - 1
+#		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
 		
 		return {'FINISHED'}
 
@@ -85,8 +85,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	init = bpy.props.BoolProperty(default = False)
 	path = bpy.props.StringProperty()
-	firstName = bpy.props.StringProperty()
-	lastName = bpy.props.StringProperty()
+	first = bpy.props.IntProperty()
+	last = bpy.props.IntProperty()
 	size = bpy.props.IntProperty()
 	ext = bpy.props.StringProperty()
 	
@@ -114,9 +114,7 @@ class CtF(bpy.types.PropertyGroup):
 				"ctf.refresh",
 				text="initialize MovieClip info")
 		elif(self.ext in ['.bmp', '.dpx', '.rgb', '.png', '.jpg', '.jpeg', '.jp2',
-						'.j2c', '.tga', '.exr', '.cin', '.hdr', '.tif']\
-						and type(self.firstName) is str\
-						and self.firstName.isdecimal() ) :
+						'.j2c', '.tga', '.exr', '.cin', '.hdr', '.tif']) :
 			
 			# Display the directory path
 			row = layout.row()
@@ -130,9 +128,9 @@ class CtF(bpy.types.PropertyGroup):
 			
 			
 			# Display first to last accepted frame name range
-			row = layout.row()
-			row.label( text="Valid frames: "+self.firstName+self.ext+' to '\
-				+self.lastName+self.ext )
+#			row = layout.row()
+#			row.label( text="Valid frames: "+self.firstName+self.ext+' to '\
+#				+self.lastName+self.ext )
 			
 			# Display Start/End settings
 			row = layout.row()
@@ -165,8 +163,6 @@ class CtF(bpy.types.PropertyGroup):
 				 icon="ERROR"  )
 			row = layout.row()
 			row.label( text="Only images sequence are accept." )
-			row = layout.row()
-			row.label( text="Only decimal character are accept in file name." )
 			row = layout.row()
 			row.operator(
 				"ctf.refresh",
