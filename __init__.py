@@ -37,7 +37,7 @@ class CtFRefresh(bpy.types.Operator):
 		while ( not clip.CtF.firstName[n].isdigit() and n > 0 ):
 			n -= 1
 		suffix = clip.CtF.firstName[n+1:l]
-		prefix = clip.CtF.firstName[0:n].strip('0123456789')
+		prefix = clip.CtF.firstName[0:n].rstrip('0123456789')
 		nLength = l - len(suffix)-len(prefix)
 		
 		# Get the last frame name and the clip size
