@@ -159,6 +159,10 @@ class CtF(bpy.types.PropertyGroup):
 			row.label( text="Only images sequence are accept." )
 			row = layout.row()
 			row.label( text="Only decimal character are accept in file name." )
+			row = layout.row()
+			row.operator(
+				"ctf.refresh",
+				text="Refresh MovieClip info")
 
 
 class CurveToFrame(bpy.types.Operator):
@@ -195,6 +199,10 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			row = layout.row()
 			row.label( text="select/load an images sequence in Movie Editor.",
 					 icon="ERROR" )
+			row = layout.row()
+			row.operator(
+				"ctf.refresh",
+				text="Refresh MovieClip info")
 		
 
 
