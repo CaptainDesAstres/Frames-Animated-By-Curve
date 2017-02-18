@@ -50,8 +50,7 @@ class CtFRefresh(bpy.types.Operator):
 			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
 		
-#		last = int(name) + clip.CtF.size - 1
-#		clip.CtF.lastName = ('0'*(nameLen - len(str(last)) ))+str(last)
+		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
 		
 		return {'FINISHED'}
 
