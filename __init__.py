@@ -109,6 +109,14 @@ class CtF(bpy.types.PropertyGroup):
 		update = set_end_frame)
 	
 	
+	def getFrameName(self, n):
+		'''return the file name of a frame'''
+		return	(	self.prefix +
+					str(n).rjust(self.numberSize, '0')+
+					self.suffix + self.ext	)
+		
+	
+	
 	def draw(self, context, layout, clip):
 		'''a method to draw the panel'''
 		
