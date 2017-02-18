@@ -140,9 +140,9 @@ class CtF(bpy.types.PropertyGroup):
 			
 			
 			# Display first to last accepted frame name range
-#			row = layout.row()
-#			row.label( text="Valid frames: "+self.firstName+self.ext+' to '\
-#				+self.lastName+self.ext )
+			row = layout.row()
+			row.label( text="Valid frames: "+self.getFrameName(self.first)+' to '\
+				+self.getFrameName(self.last) )
 			
 			# Display Start/End settings
 			row = layout.row()
