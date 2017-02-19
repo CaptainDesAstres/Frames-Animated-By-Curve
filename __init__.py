@@ -59,6 +59,10 @@ class CtFRefresh(bpy.types.Operator):
 
 def getFCurveByDataPath(ob, path):
 	'''Return object fcurve corresponding to datapath or None'''
+	
+	if(ob.animation_data is None):
+		return None
+	
 	for curve in ob.animation_data.action.fcurves:
 		if curve.data_path == path:
 			return curve
@@ -201,7 +205,7 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			row.prop(self, "curve")
 			
-			# A field to remind F-Curve min and max value 
+			# A field to remind F-Curve min and max value
 			
 			# A field to set the min F-Curve Value to assigne to the first frames
 			row = layout.row()
