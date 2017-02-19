@@ -217,6 +217,15 @@ class CtF(bpy.types.PropertyGroup):
 			row.prop(self, "curve")
 			
 			# A field to remind F-Curve min and max value
+			fCurve = getFCurveByDataPath(clip, 'CtF.curve')
+			if(fCurve is None):
+				m = M = self.curve
+			else:
+				m, M = getCurveLimit(fCurve)
+			m = round(m*1000)/1000
+			M = round(M*1000)/1000
+			row = layout.row()
+			row.label( text = "Goes from "+str(m)+" to "+str(M) )
 			
 			# A field to set the min F-Curve Value to assigne to the first frames
 			row = layout.row()
