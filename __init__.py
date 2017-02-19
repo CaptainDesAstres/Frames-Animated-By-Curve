@@ -102,6 +102,30 @@ class CtF(bpy.types.PropertyGroup):
 	size = bpy.props.IntProperty() # number of frame of the sequence
 	ext = bpy.props.StringProperty() # extension of source file
 	
+	# Property for frame animation curve
+	curve = bpy.props.FloatProperty(
+		name = 'curve',
+		description = 'The curve used to determined the frame of the Movie clip to display at each frame',
+		default = 0.0
+		)
+	
+	# min value associated to the first frames
+	curve = bpy.props.FloatProperty(
+		name = 'Mini',
+		description = 'the minimal value of the curve, all smaller value will display the first frame',
+		default = 0.0
+		)
+	
+	# max value associated to the last frames
+	curve = bpy.props.FloatProperty(
+		name = 'maxi',
+		description = 'the maximal value of the curve, all bigger value will display the last frame',
+		default = 1.0
+		)
+	
+	# Rounding method
+	# destination sub directory name
+	
 	# first frame of the clip to use
 	start = bpy.props.IntProperty(
 		name = "First frame",
