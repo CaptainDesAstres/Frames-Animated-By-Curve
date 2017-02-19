@@ -128,16 +128,22 @@ class CtF(bpy.types.PropertyGroup):
 	def draw(self, context, layout, clip):
 		'''draw the CtF panel'''
 		
-		if(not self.init):
+		if(clip.source != 'SEQUENCE'):
+			# Display an error message, requesting for a sequence of images
+			row = layout.row()
+			row.label( text="Current movie can't be use by addon.",
+				 icon="ERROR"  )
+			row = layout.row()
+			row.label( text="Only images sequence are accept." )
+			
+		elif(not self.init):
 			# ask to initialize CtF on thes MovieClip
 			row = layout.row()
 			row.operator(
 				"ctf.refresh",
 				text="initialize MovieClip info")
 			
-		elif(self.ext in ['.bmp', '.dpx', '.rgb', '.png', '.jpg', '.jpeg', '.jp2',
-						'.j2c', '.tga', '.exr', '.cin', '.hdr', '.tif']) :
-			
+		else:
 			# Display the directory path
 			row = layout.row()
 			row.label( text = "Frame Directory path:" )
@@ -147,7 +153,6 @@ class CtF(bpy.types.PropertyGroup):
 			# Display frame extension
 			row = layout.row()
 			row.label( text="File type: "+self.ext )
-			
 			
 			# Display first to last accepted frame name range
 			row = layout.row()
@@ -176,18 +181,6 @@ class CtF(bpy.types.PropertyGroup):
 			row.operator(
 				"curve.toframe",
 				text="run")
-			
-		else:
-			# Display an error message, requesting for a sequence of images
-			row = layout.row()
-			row.label( text="Current movie can't be use by addon.",
-				 icon="ERROR"  )
-			row = layout.row()
-			row.label( text="Only images sequence are accept." )
-			row = layout.row()
-			row.operator(
-				"ctf.refresh",
-				text="Refresh MovieClip info")
 
 
 class CurveToFrame(bpy.types.Operator):
