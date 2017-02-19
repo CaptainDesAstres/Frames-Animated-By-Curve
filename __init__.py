@@ -72,6 +72,13 @@ def getCurveLimit(curve):
 	'''return curve min and max values'''
 	m = M = curve.evaluate(1)
 	s, e = curve.range()
+	
+	if s < bpy.context.scene.frame_start:
+		s = bpy.context.scene.frame_start
+	
+	if e > bpy.context.scene.frame_end:
+		e = bpy.context.scene.frame_end
+	
 	for i in range(int(s)-1, int(e)+1):
 		val = curve.evaluate(i)
 		if val < m:
