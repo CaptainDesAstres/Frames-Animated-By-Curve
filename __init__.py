@@ -20,19 +20,22 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 
 
 class CtFRefresh(bpy.types.Operator):
+	'''operator to initialize or refresh CtF info of a movie clip'''
 	bl_idname = "ctf.refresh"
 	bl_label= "refresh MovieClip CtF Attribute"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
-		bpy.ops.clip.reload()
+		'''refresh CtF info of a movie clip'''
+		bpy.ops.clip.reload()# reload source file
 		clip = context.space_data.clip
 		
+		# get source path and extension
 		clip.CtF.path, name = os.path.split(bpy.path.abspath(clip.filepath))
 		clip.CtF.path += '/'
 		name, clip.CtF.ext = os.path.splitext( name )
 		
-		# get file naming prefix and suffix and length
+		# get file naming prefix, suffix and length
 		l = len(name)
 		n = l-1
 		while ( not name[n].isdigit() and n > 0 ):
@@ -40,26 +43,27 @@ class CtFRefresh(bpy.types.Operator):
 		clip.CtF.suffix = name[n+1:l]
 		clip.CtF.prefix = name[0:n].rstrip('0123456789')
 		clip.CtF.numberSize = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
+		
+		# Get clip length and first and last frame number
 		clip.CtF.first = int(name[len(clip.CtF.suffix):n+1])
-		
-		# Get the last frame name and the clip size
 		clip.CtF.size = clip.frame_duration
-		nameLen = len(name)
+		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
 		
-		if(not clip.CtF.init):
+		# adapt CtF.end property if needed
+		if(not clip.CtF.init or clip.CtF.end > clip.CtF.size):
 			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
-		
-		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
 		
 		return {'FINISHED'}
 
 
 def set_end_frame(self, context):
 	'''check that start and end frame are valid when changing end frame settings'''
+	# check end isn't over clip size
 	if self.end > self.size:
 		self.end = self.size
 	
+	# check start isn't over end
 	if self.start >= self.end:
 		if self.end > 0:
 			self['start'] = self.end - 1
@@ -70,9 +74,11 @@ def set_end_frame(self, context):
 
 def set_start_frame(self, context):
 	'''check that start and end frame are valid when changing start frame settings'''
+	# check start isn't under 0
 	if self.start < 0:
 		self.start = 0
 	
+	# check start isn't over end
 	if self.start >= self.end:
 		if self.start < self.size:
 			self['end'] = self.start + 1
@@ -84,17 +90,19 @@ def set_start_frame(self, context):
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
+	# flag to know if CtF have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
-	path = bpy.props.StringProperty()
-	prefix = bpy.props.StringProperty()
-	suffix = bpy.props.StringProperty()
-	numberSize = bpy.props.IntProperty()
-	first = bpy.props.IntProperty()
-	last = bpy.props.IntProperty()
-	size = bpy.props.IntProperty()
-	ext = bpy.props.StringProperty()
 	
-	# first frame property
+	path = bpy.props.StringProperty() # The sources directory path
+	prefix = bpy.props.StringProperty() # the source name prefix
+	suffix = bpy.props.StringProperty() # the source name suffix
+	numberSize = bpy.props.IntProperty() # the source name frame number size in char
+	first = bpy.props.IntProperty() # the first frame number (in source file name)
+	last = bpy.props.IntProperty() # the last frame number (in source file name)
+	size = bpy.props.IntProperty() # number of frame of the sequence
+	ext = bpy.props.StringProperty() # extension of source file
+	
+	# first frame of the clip to use
 	start = bpy.props.IntProperty(
 		name = "First frame",
 		description = "first frame that Frames Animated By Curve add-on must take in count",
@@ -102,7 +110,7 @@ class CtF(bpy.types.PropertyGroup):
 		min = 0,
 		update = set_start_frame)
 	
-	# last frame property
+	# last frame of the clip to use
 	end = bpy.props.IntProperty(
 		name = "Last frame",
 		description = "last frame that Frames Animated By Curve add-on must take in count",
@@ -118,13 +126,15 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def draw(self, context, layout, clip):
-		'''a method to draw the panel'''
+		'''draw the CtF panel'''
 		
-		if(self.path == ''):
+		if(not self.init):
+			# ask to initialize CtF on thes MovieClip
 			row = layout.row()
 			row.operator(
 				"ctf.refresh",
 				text="initialize MovieClip info")
+			
 		elif(self.ext in ['.bmp', '.dpx', '.rgb', '.png', '.jpg', '.jpeg', '.jp2',
 						'.j2c', '.tga', '.exr', '.cin', '.hdr', '.tif']) :
 			
@@ -168,7 +178,7 @@ class CtF(bpy.types.PropertyGroup):
 				text="run")
 			
 		else:
-			# Display an error message, request for a sequence of images
+			# Display an error message, requesting for a sequence of images
 			row = layout.row()
 			row.label( text="Current movie can't be use by addon.",
 				 icon="ERROR"  )
@@ -181,6 +191,7 @@ class CtF(bpy.types.PropertyGroup):
 
 
 class CurveToFrame(bpy.types.Operator):
+	'''the operaton to execute add on feature'''
 	bl_idname = "curve.toframe"
 	bl_label= "Frames Animated By Curve"
 	bl_options = {'INTERNAL'}
