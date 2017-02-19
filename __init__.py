@@ -150,6 +150,13 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			row.prop(self, "end")
 			
+			# A float field to animated with a curve
+			# A field to remind F-Curve min and max value 
+			# A field to set the min F-Curve Value to assigne to the first frames
+			# A field to set the max F-Curve Value to assigne to the last frames
+			# A field to choose between Round Floor and Ceil rounding method
+			# A field to set the name of the sub directory name to use as destination
+			
 			# A checkbox to get real frame file copy
 			row = layout.row()
 			row.prop(context.scene, "CtFRealCopy")
@@ -159,14 +166,6 @@ class CtF(bpy.types.PropertyGroup):
 			row.operator(
 				"curve.toframe",
 				text="run")
-			
-			# A field to choose the object wich the curve is assigned to
-			# A field to choose the F-Curve
-			# A field to remind F-Curve min and max value 
-			# A field to set the min F-Curve Value to assigne to the first frames
-			# A field to set the max F-Curve Value to assigne to the last frames
-			# A field to choose between Round Floor and Ceil rounding method
-			# A field to set the name of the sub directory name to use as destination
 			
 		else:
 			# Display an error message, request for a sequence of images
