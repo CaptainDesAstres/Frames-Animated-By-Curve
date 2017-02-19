@@ -68,6 +68,17 @@ def getFCurveByDataPath(ob, path):
 			return curve
 	return None
 
+def getCurveLimit(curve):
+	'''return curve min and max values'''
+	m = M = curve.evaluate(1)
+	s, e = curve.range()
+	for i in range(int(s)-1, int(e)+1):
+		val = curve.evaluate(i)
+		if val < m:
+			m = val
+		if val > M:
+			M = val
+	return (m,M)
 
 def set_end_frame(self, context):
 	'''check that start and end frame are valid when changing end frame settings'''
