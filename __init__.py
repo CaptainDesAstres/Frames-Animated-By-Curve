@@ -57,6 +57,14 @@ class CtFRefresh(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+def getFCurveByDataPath(ob, path):
+	'''Return object fcurve corresponding to datapath or None'''
+	for curve in ob.animation_data.action.fcurves:
+		if curve.data_path == path:
+			return curve
+	return None
+
+
 def set_end_frame(self, context):
 	'''check that start and end frame are valid when changing end frame settings'''
 	# check end isn't over clip size
