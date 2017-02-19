@@ -110,14 +110,14 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# min value associated to the first frames
-	curve = bpy.props.FloatProperty(
+	mini = bpy.props.FloatProperty(
 		name = 'Mini',
 		description = 'the minimal value of the curve, all smaller value will display the first frame',
 		default = 0.0
 		)
 	
 	# max value associated to the last frames
-	curve = bpy.props.FloatProperty(
+	maxi = bpy.props.FloatProperty(
 		name = 'maxi',
 		description = 'the maximal value of the curve, all bigger value will display the last frame',
 		default = 1.0
@@ -190,9 +190,19 @@ class CtF(bpy.types.PropertyGroup):
 			row.prop(self, "end")
 			
 			# A float field to animated with a curve
+			row = layout.row()
+			row.prop(self, "curve")
+			
 			# A field to remind F-Curve min and max value 
+			
 			# A field to set the min F-Curve Value to assigne to the first frames
+			row = layout.row()
+			row.prop(self, "mini")
+			
 			# A field to set the max F-Curve Value to assigne to the last frames
+			row = layout.row()
+			row.prop(self, "maxi")
+			
 			# A field to choose between Round Floor and Ceil rounding method
 			# A field to set the name of the sub directory name to use as destination
 			
