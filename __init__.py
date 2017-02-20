@@ -18,7 +18,7 @@ else:
 	d = True
 bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
-		description="Do Frames Animated By Curve add-on make real file copy rather than link",
+		description="Do Frames Animated By Curve add-on make real file copy rather than symbolic link. (symbolic link are only avaible on unix/linux system)",
 		default = d)
 
 
@@ -314,6 +314,15 @@ class CurveToFrame(bpy.types.Operator):
 	
 	def execute(self, context):
 		bpy.ops.ctf.refresh()
+		clip = context.space_data.clip
+		
+		# check output method
+		if(context.scene.CtFRealCopy):
+			output = shutil.copyfile
+		else:
+			if(platform.system().lower() in ['linux', 'unix']):
+				output = os.symlink
+		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
 
