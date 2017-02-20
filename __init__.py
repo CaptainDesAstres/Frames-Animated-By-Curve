@@ -117,6 +117,20 @@ def set_start_frame(self, context):
 			self['end'] = self.size
 
 
+
+def set_mini(self, context):
+	'''check that maxi value are greater than maxi value when editing mini value'''
+	if self.mini > self.maxi:
+		self['maxi'] = self.mini
+
+
+
+def set_maxi(self, context):
+	'''check that maxi value are greater than maxi value when editing maxi value'''
+	if self.mini > self.maxi:
+		self['mini'] = self.maxi
+
+
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
 	
@@ -143,14 +157,16 @@ class CtF(bpy.types.PropertyGroup):
 	mini = bpy.props.FloatProperty(
 		name = 'Mini',
 		description = 'the minimal value of the curve, all smaller value will display the first frame',
-		default = 0.0
+		default = 0.0,
+		update = set_mini
 		)
 	
 	# max value associated to the last frames
 	maxi = bpy.props.FloatProperty(
 		name = 'maxi',
 		description = 'the maximal value of the curve, all bigger value will display the last frame',
-		default = 1.0
+		default = 1.0,
+		update = set_maxi
 		)
 	
 	# Rounding method
