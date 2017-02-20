@@ -320,8 +320,7 @@ class CurveToFrame(bpy.types.Operator):
 		if(context.scene.CtFRealCopy):
 			output = shutil.copyfile
 		else:
-			if(platform.system().lower() in ['linux', 'unix']):
-				output = os.symlink
+			output = os.symlink
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
