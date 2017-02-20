@@ -214,12 +214,14 @@ class CtF(bpy.types.PropertyGroup):
 				+self.getFrameName(self.last) )
 			
 			# Display Start/End settings
+			layout.separator()
 			row = layout.row()
 			row.prop(self, "start")
 			row = layout.row()
 			row.prop(self, "end")
 			
 			# A float field to animated with a curve
+			layout.separator()
 			row = layout.row()
 			row.prop(self, "curve")
 			
@@ -246,6 +248,7 @@ class CtF(bpy.types.PropertyGroup):
 			# A field to set the name of the sub directory name to use as destination
 			
 			# A checkbox to get real frame file copy
+			layout.separator()
 			row = layout.row()
 			row.prop(context.scene, "CtFRealCopy")
 			
