@@ -154,7 +154,17 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# Rounding method
-	
+	rounding = bpy.props.EnumProperty(
+		name = 'Rounding method',
+		description = 'the rounding method use by the script to round the float value extract from the curve into a integer value corresponding to a frame',
+		default = 'round',
+		items = [
+			#(identifier,	name, 		description, 					icon, number)
+			('round',		'round',	'the closest integer.'),
+			('ceil',		'ceil',		'the closest greater integer'),
+			('floor',		'floor',		'the closest smaller integer')
+			]
+		)
 	
 	# destination sub directory name
 	destination = bpy.props.StringProperty(
