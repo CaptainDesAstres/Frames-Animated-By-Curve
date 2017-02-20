@@ -154,7 +154,13 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# Rounding method
+	
+	
 	# destination sub directory name
+	destination = bpy.props.StringProperty(
+		name = "Destination subdirectory",
+		description = "The name of the directory (create in the source directory) where generated file gone be.",
+		default = "CtFOutput" )
 	
 	# first frame of the clip to use
 	start = bpy.props.IntProperty(
