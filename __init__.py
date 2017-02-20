@@ -9,13 +9,17 @@ bl_info = {
     "category": "Animation"}
 
 
-import bpy, os
+import bpy, os, shutil, platform
 
 # Add to scene type a property to define if script does real file copy
+if platform.system().lower() in ['linux', 'unix']:
+	d = False
+else:
+	d = True
 bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
 		description="Do Frames Animated By Curve add-on make real file copy rather than link",
-		default = False)
+		default = d)
 
 
 
