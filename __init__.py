@@ -265,10 +265,16 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(self, "maxi")
 			
 			# A field to choose between Round Floor and Ceil rounding method
+			layout.separator()
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "rounding")
+			
 			# A field to set the name of the sub directory name to use as destination
+			col = row.column()
+			col.prop(self, "destination")
 			
 			# A checkbox to get real frame file copy
-			layout.separator()
 			row = layout.row()
 			col = row.column()
 			col.prop(context.scene, "CtFRealCopy")
