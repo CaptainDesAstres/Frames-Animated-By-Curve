@@ -206,24 +206,27 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# Display frame extension
 			row = layout.row()
-			row.label( text="File type: "+self.ext )
+			col = row.column()
+			col.label( text="File type: "+self.ext )
 			
 			# Display first to last accepted frame name range
-			row = layout.row()
-			row.label( text="Valid frames: "+self.getFrameName(self.first)+' to '\
+			col = row.column()
+			col.label( text="Valid frames: "+self.getFrameName(self.first)+' to '\
 				+self.getFrameName(self.last) )
 			
 			# Display Start/End settings
 			layout.separator()
 			row = layout.row()
-			row.prop(self, "start")
-			row = layout.row()
-			row.prop(self, "end")
+			col = row.column()
+			col.prop(self, "start")
+			col = row.column()
+			col.prop(self, "end")
 			
 			# A float field to animated with a curve
 			layout.separator()
 			row = layout.row()
-			row.prop(self, "curve")
+			col = row.column()
+			col.prop(self, "curve")
 			
 			# A field to remind F-Curve min and max value
 			fCurve = getFCurveByDataPath(clip, 'CtF.curve')
@@ -233,16 +236,17 @@ class CtF(bpy.types.PropertyGroup):
 				m, M = getCurveLimit(fCurve)
 			m = round(m*1000)/1000
 			M = round(M*1000)/1000
-			row = layout.row()
-			row.label( text = "Goes from "+str(m)+" to "+str(M) )
+			col = row.column()
+			col.label( text = "(Goes from "+str(m)+" to "+str(M)+')' )
 			
 			# A field to set the min F-Curve Value to assigne to the first frames
 			row = layout.row()
-			row.prop(self, "mini")
+			col = row.column()
+			col.prop(self, "mini")
 			
 			# A field to set the max F-Curve Value to assigne to the last frames
-			row = layout.row()
-			row.prop(self, "maxi")
+			col = row.column()
+			col.prop(self, "maxi")
 			
 			# A field to choose between Round Floor and Ceil rounding method
 			# A field to set the name of the sub directory name to use as destination
@@ -250,11 +254,12 @@ class CtF(bpy.types.PropertyGroup):
 			# A checkbox to get real frame file copy
 			layout.separator()
 			row = layout.row()
-			row.prop(context.scene, "CtFRealCopy")
+			col = row.column()
+			col.prop(context.scene, "CtFRealCopy")
 			
 			# the button to run the script
-			row = layout.row()
-			row.operator(
+			col = row.column()
+			col.operator(
 				"curve.toframe",
 				text="run")
 
