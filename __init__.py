@@ -322,6 +322,12 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			output = os.symlink
 		
+		# loop from start frame to end frame
+		s = context.scene.frame_start
+		e = context.scene.frame_end + 1
+		for frame in range(s, e):
+			continue
+		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
 
