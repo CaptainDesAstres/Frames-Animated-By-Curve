@@ -23,6 +23,26 @@ bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 
 
 
+class CtFRefreshMiniMaxi(bpy.types.Operator):
+	'''operator to initialize or refresh CtF info of a movie clip'''
+	bl_idname = "ctf.refresh_mini_maxi"
+	bl_label= "get curve mini and maxi value has mini/maxi settings"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''get curve mini and maxi value has mini/maxi settings'''
+		clip = context.space_data.clip
+		
+		fCurve = getFCurveByDataPath(clip, 'CtF.curve')
+		if(fCurve is None):
+			m = M = self.curve
+		else:
+			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
+		
+		return {'FINISHED'}
+
+
+
 class CtFRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
 	bl_idname = "ctf.refresh"
