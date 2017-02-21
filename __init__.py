@@ -304,6 +304,10 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.prop(self, "maxi")
 			
+			# A button to get curve min max value
+			col = row.column()
+			col.operator('ctf.refresh_mini_maxi', icon='FILE_REFRESH', text = '')
+			
 			# A field to choose between Round Floor and Ceil rounding method
 			layout.separator()
 			row = layout.row()
@@ -390,6 +394,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
+	bpy.utils.register_class(CtFRefreshMiniMaxi)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
@@ -400,6 +405,7 @@ def register():
 def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
+	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
