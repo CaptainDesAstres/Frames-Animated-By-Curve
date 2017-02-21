@@ -319,6 +319,14 @@ class CtF(bpy.types.PropertyGroup):
 			# A field to set the name of the sub directory name to use as destination
 			col = row.column()
 			col.prop(self, "destination")
+			if(os.path.exists(self.path+self.destination)\
+				and os.path.isdir(self.path+self.destination)):
+				if(not os.access(self.path+self.destination, os.W_OK)):
+					col = row.column()
+					col.label(text='no permission', icon='ERROR')
+				elif(len(os.listdir(self.path+self.destination))>0):
+					col = row.column()
+					col.label(text='content could be erased', icon='ERROR')
 			
 			# A checkbox to get real frame file copy
 			row = layout.row()
