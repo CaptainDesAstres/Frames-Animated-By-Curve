@@ -13,13 +13,15 @@ import bpy, os, shutil, platform
 
 # Add to scene type a property to define if script does real file copy
 if platform.system().lower() in ['linux', 'unix']:
-	d = False
-else:
-	d = True
-bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
-		description="Do Frames Animated By Curve add-on make real file copy rather than symbolic link. (symbolic link are only avaible on unix/linux system)",
-		default = d)
+		description="Do Frames Animated By Curve add-on make real file copy rather than symbolic link.",
+		default = False)
+else:
+	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+		name="Make real copy file", 
+		description="You must keep this enable as your system don't implement symbolic link. disable at your one risk!",
+		default = True)
 
 
 
@@ -321,7 +323,11 @@ class CtF(bpy.types.PropertyGroup):
 			# A checkbox to get real frame file copy
 			row = layout.row()
 			col = row.column()
-			col.prop(context.scene, "CtFRealCopy")
+			if(not context.scene.CtFRealCopy \
+				and platform.system().lower() not in ['linux', 'unix']):
+				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
+			else:
+				col.prop(context.scene, "CtFRealCopy")
 			
 			# the button to run the script
 			col = row.column()
