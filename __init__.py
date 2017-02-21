@@ -315,12 +315,16 @@ class CurveToFrame(bpy.types.Operator):
 	def execute(self, context):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
+		settings = clip.CtF
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
 			output = shutil.copyfile
 		else:
 			output = os.symlink
+		
+		# get frame interval value
+		interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 		
 		# loop from start frame to end frame
 		s = context.scene.frame_start
