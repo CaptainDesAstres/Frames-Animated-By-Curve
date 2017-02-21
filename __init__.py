@@ -256,6 +256,7 @@ class CtF(bpy.types.PropertyGroup):
 				text="initialize MovieClip info")
 			
 		else:
+			warning = False
 			# Display the directory path
 			row = layout.row()
 			row.label( text = "Frame Directory path:" )
@@ -322,9 +323,11 @@ class CtF(bpy.types.PropertyGroup):
 			if(os.path.exists(self.path+self.destination)\
 				and os.path.isdir(self.path+self.destination)):
 				if(not os.access(self.path+self.destination, os.W_OK)):
+					warning = True
 					col = row.column()
 					col.label(text='no permission', icon='ERROR')
 				elif(len(os.listdir(self.path+self.destination))>0):
+					warning = True
 					col = row.column()
 					col.label(text='content could be erased', icon='ERROR')
 			
@@ -334,14 +337,23 @@ class CtF(bpy.types.PropertyGroup):
 			if(not context.scene.CtFRealCopy \
 				and platform.system().lower() not in ['linux', 'unix']):
 				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
+				warning = True
 			else:
 				col.prop(context.scene, "CtFRealCopy")
 			
 			# the button to run the script
-			col = row.column()
-			col.operator(
-				"curve.toframe",
-				text="run")
+			
+			if(warning):
+				row = layout.row()
+				row.operator(
+					"curve.toframe",
+					text="ignore warning and run at my one risk",
+					icon = 'ERROR')
+			else:
+				col = row.column()
+				col.operator(
+					"curve.toframe",
+					text="run")
 
 
 class CurveToFrame(bpy.types.Operator):
