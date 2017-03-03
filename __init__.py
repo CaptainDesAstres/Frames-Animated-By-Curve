@@ -393,6 +393,16 @@ class CurveToFrame(bpy.types.Operator):
 		e = context.scene.frame_end + 1
 		for frame in range(s, e):
 			val = curve.evaluate(frame)
+			
+			# compute frame corresponding to curve value
+			if(val <= settings.mini):
+				fr = settings.start
+			elif(val >= settings.maxi):
+				fr = settings.end
+			else:
+				fr = settings.start + rounding( (val - settings.mini) / interval )
+			
+			
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
