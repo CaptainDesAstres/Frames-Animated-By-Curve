@@ -434,9 +434,13 @@ class CurveToFrame(bpy.types.Operator):
 					+ rounding( (val - settings.mini) / interval )
 			
 			# copy (or symlink) the corresponding frame into the destination path
-			output( settings.path + clip.CtF.getFrameName(fr),
-					dst + clip.CtF.getFrameName(frame)
-					)
+			try:
+				output( settings.path + clip.CtF.getFrameName(fr),
+						dst + clip.CtF.getFrameName(frame)
+						)
+			except OSError as e:
+				self.report({'ERROR'}, 'error while copying file: '+e.strerror+'. Abort action.')
+				return {'CANCELLED'}
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
