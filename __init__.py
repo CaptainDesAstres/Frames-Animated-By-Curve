@@ -388,6 +388,11 @@ class CurveToFrame(bpy.types.Operator):
 		# get the curve
 		curve = getFCurveByDataPath(clip, 'CtF.curve')
 		
+		#get dertination directory name
+		dst = settings.destination
+		if(dst[-1] != '/'):
+			dst += '/'
+		
 		# loop from start frame to end frame
 		s = context.scene.frame_start
 		e = context.scene.frame_end + 1
@@ -402,7 +407,10 @@ class CurveToFrame(bpy.types.Operator):
 			else:
 				fr = settings.start + rounding( (val - settings.mini) / interval )
 			
-			
+			# copy (or symlink) the corresponding frame into the destination path
+			output( settings.path + clip.CtF.getFrameName(fr),
+					settings.path + dst + clip.CtF.getFrameName(frame)
+					)
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
