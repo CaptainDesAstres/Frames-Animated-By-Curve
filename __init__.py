@@ -122,18 +122,18 @@ def set_end_frame(self, context):
 	
 	# check start isn't over end
 	if self.start >= self.end:
-		if self.end > 0:
+		if self.end > 1:
 			self['start'] = self.end - 1
 		else:
-			self['start'] = 0
-			self['end'] = 1
+			self['start'] = 1
+			self['end'] = 2
 
 
 def set_start_frame(self, context):
 	'''check that start and end frame are valid when changing start frame settings'''
 	# check start isn't under 0
-	if self.start < 0:
-		self.start = 0
+	if self.start < 1:
+		self.start = 1
 	
 	# check start isn't over end
 	if self.start >= self.end:
@@ -219,8 +219,8 @@ class CtF(bpy.types.PropertyGroup):
 	start = bpy.props.IntProperty(
 		name = "First frame",
 		description = "first frame that Frames Animated By Curve add-on must take in count",
-		default = 0,
-		min = 0,
+		default = 1,
+		min = 1,
 		update = set_start_frame)
 	
 	# last frame of the clip to use
@@ -426,11 +426,11 @@ class CurveToFrame(bpy.types.Operator):
 			
 			# compute frame corresponding to curve value
 			if(val <= settings.mini):
-				fr = settings.first + settings.start
+				fr = settings.first + settings.start - 1
 			elif(val >= settings.maxi):
-				fr = settings.first + settings.end
+				fr = settings.first + settings.end - 1
 			else:
-				fr = settings.first + settings.start\
+				fr = settings.first + settings.start - 1\
 					+ rounding( (val - settings.mini) / interval )
 			
 			# copy (or symlink) the corresponding frame into the destination path
