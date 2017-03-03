@@ -394,13 +394,16 @@ class CurveToFrame(bpy.types.Operator):
 			dst += '/'
 		
 		# check destination directory exist, is writable and purge it
-		if( os.path.exist( dst ) ):
+		if( os.path.exists( dst ) ):
 			# check destination directory access
 			if(os.access(dst, os.W_OK)):
 				# clear content
 				
 			else:
-				# reponte error then quit 
+				# report error then quit 
+				self.report(	{'ERROR'},
+								'No write access to destination directory' )
+				return {'CANCELLED'}
 		else:
 			# create directory
 			try:
