@@ -10,6 +10,7 @@ bl_info = {
 
 
 import bpy, os, shutil, platform
+from math import ceil, floor
 
 # Add to scene type a property to define if script does real file copy
 if platform.system().lower() in ['linux', 'unix']:
@@ -372,6 +373,14 @@ class CurveToFrame(bpy.types.Operator):
 			output = shutil.copyfile
 		else:
 			output = os.symlink
+		
+		# get rounding method
+		if(settings.rounding == 'round'):
+			rounding = round
+		elif(settings.rounding == 'floor'):
+			rounding = floor
+		else:
+			rounding = ceil
 		
 		# get frame interval value
 		interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
