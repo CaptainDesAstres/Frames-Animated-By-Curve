@@ -400,8 +400,9 @@ class CurveToFrame(bpy.types.Operator):
 				# clear content
 				for f in os.listdir(dst):
 					if(	f.endswith(settings.ext)
-						and os.path.isfile(dst+f)
-						and os.access(dst+f, os.W_OK)
+						and os.path.islink(dst+f)
+						or ( os.path.isfile(dst+f)
+						and os.access(dst+f, os.W_OK) )
 						):
 						os.remove(dst+f)
 			else:
