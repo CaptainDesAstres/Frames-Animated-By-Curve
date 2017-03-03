@@ -398,7 +398,12 @@ class CurveToFrame(bpy.types.Operator):
 			# check destination directory access
 			if(os.access(dst, os.W_OK)):
 				# clear content
-				
+				for f in os.listdir(dst):
+					if(	f.endswith(settings.ext)
+						and os.path.isfile(dst+f)
+						and os.access(dst+f, os.W_OK)
+						):
+						os.remove(dst+f)
 			else:
 				# report error then quit 
 				self.report(	{'ERROR'},
