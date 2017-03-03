@@ -403,7 +403,11 @@ class CurveToFrame(bpy.types.Operator):
 				# reponte error then quit 
 		else:
 			# create directory
-			
+			try:
+				os.mkdir(dst)
+			except OSError as e:
+				self.report({'ERROR'}, 'impossible to create destination directory :'+e.strerror)
+				return {'CANCELLED'}
 		
 		# loop from start frame to end frame
 		s = context.scene.frame_start
