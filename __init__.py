@@ -401,11 +401,12 @@ class CurveToFrame(bpy.types.Operator):
 			
 			# compute frame corresponding to curve value
 			if(val <= settings.mini):
-				fr = settings.start
+				fr = settings.first + settings.start
 			elif(val >= settings.maxi):
-				fr = settings.end
+				fr = settings.first + settings.end
 			else:
-				fr = settings.start + rounding( (val - settings.mini) / interval )
+				fr = settings.first + settings.start\
+					+ rounding( (val - settings.mini) / interval )
 			
 			# copy (or symlink) the corresponding frame into the destination path
 			output( settings.path + clip.CtF.getFrameName(fr),
