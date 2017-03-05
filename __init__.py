@@ -172,13 +172,24 @@ def set_ppm(self, context):
 	
 	# get frame rate and start/end frame
 	fps = context.scene.render.fps
-	start = context.scene.frame_start
+	frame = start = context.scene.frame_start
 	end = context.scene.frame_end
 	
 	# get ppm curve or ppm constant value
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
+	value = 0
 	if ppm is None and self.ppm > 0:
 		interval = 60 / self.ppm * fps / 2
+		end += ceil(interval)
+		
+		while(frame < end):
+			curve.keyframe_points.insert(frame, value)
+			curve.keyframe_points[-1].interpolation = 'LINEAR'
+			frame += interval
+			if value == 0:
+				value = 1
+			else:
+				value = 0
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
