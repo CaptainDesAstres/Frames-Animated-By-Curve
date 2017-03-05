@@ -235,7 +235,8 @@ def set_ppm(self, context):
 				else:
 					value = 0
 			else:
-				break
+				value = 0
+				frame += 0.01
 		curve.lock = True
 
 
