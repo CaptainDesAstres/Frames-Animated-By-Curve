@@ -157,6 +157,9 @@ def set_maxi(self, context):
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
 
+def set_ppm(self, context):
+	'''update peaks curve when settings have been changed'''
+	return
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
@@ -229,6 +232,19 @@ class CtF(bpy.types.PropertyGroup):
 		description = "last frame that Frames Animated By Curve add-on must take in count",
 		update = set_end_frame)
 	
+	# peaks per minute settings and curve
+	ppm = bpy.props.FloatProperty(
+		name = "bpm",
+		description = "curve peaks per minute",
+		default = 0,
+		min = 0,
+		update = set_ppm)
+	peaks_curve = bpy.props.FloatProperty(
+		name = "bpm",
+		description = "curve peaks per minute",
+		default = 1,
+		min = 0,
+		max = 1)
 	
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
