@@ -220,11 +220,12 @@ def set_ppm(self, context):
 			self.peaks_curve = 1
 	else:
 		while(frame < end):
-			curve.keyframe_points.insert(frame, value)
-			curve.keyframe_points[-1].interpolation = 'LINEAR'
-			
-			# next frame
 			if(ppm.evaluate(frame) > 0):
+				# add keyframe
+				curve.keyframe_points.insert(frame, value)
+				curve.keyframe_points[-1].interpolation = 'LINEAR'
+				
+				# next frame
 				interval = 60 / ppm.evaluate(frame) * fps / 2
 				frame += interval
 				
