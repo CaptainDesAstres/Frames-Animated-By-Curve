@@ -213,7 +213,7 @@ def set_ppm(self, context):
 					value = 1
 				else:
 					value = 0
-			
+			curve.lock = True
 		else:
 			# no peaks when ppm == 0
 			clip.animation_data.action.fcurves.remove(curve)
@@ -232,6 +232,7 @@ def set_ppm(self, context):
 					value = 1
 				else:
 					value = 0
+		curve.lock = True
 
 
 class CtF(bpy.types.PropertyGroup):
