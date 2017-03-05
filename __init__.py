@@ -159,7 +159,17 @@ def set_maxi(self, context):
 
 def set_ppm(self, context):
 	'''update peaks curve when settings have been changed'''
-	return
+	clip = context.space_data.clip
+	
+	# remove old peaks curve
+	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+	if curve is not None:
+		clip.animation_data.action.fcurves.remove(curve)
+	
+	# create new peaks curve
+	clip.animation.action.fcurves.new('CtF.peaks_curve')
+	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+	
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
