@@ -108,6 +108,7 @@ def getFCurveByDataPath(ob, path):
 			return curve
 	return None
 
+
 def getCurveLimit(curve):
 	'''return curve min and max values'''
 	m = M = curve.evaluate(1)
@@ -126,6 +127,7 @@ def getCurveLimit(curve):
 		if val > M:
 			M = val
 	return (m,M)
+
 
 def set_end_frame(self, context):
 	'''check that start and end frame are valid when changing end frame settings'''
@@ -169,6 +171,7 @@ def set_maxi(self, context):
 	'''check that maxi value are greater than maxi value when editing maxi value'''
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
+
 
 def set_ppm(self, context):
 	'''update peaks curve when settings have been changed'''
@@ -229,6 +232,7 @@ def set_ppm(self, context):
 					value = 1
 				else:
 					value = 0
+
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
@@ -405,6 +409,11 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks_curve")
+			col = row.column()
+			col.operator(
+				"ctf.peaks_refresh",
+				text='',
+				icon='FILE_REFRESH')
 			
 			# A field to choose between Round Floor and Ceil rounding method
 			layout.separator()
