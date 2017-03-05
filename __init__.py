@@ -234,14 +234,14 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# peaks per minute settings and curve
 	ppm = bpy.props.FloatProperty(
-		name = "bpm",
+		name = "ppm",
 		description = "curve peaks per minute",
 		default = 0,
 		min = 0,
 		update = set_ppm)
 	peaks_curve = bpy.props.FloatProperty(
-		name = "bpm",
-		description = "curve peaks per minute",
+		name = "peaks curve",
+		description = "Curve representing the peaks. Can't be edit manually: use ppm settings.",
 		default = 1,
 		min = 0,
 		max = 1)
@@ -327,6 +327,15 @@ class CtF(bpy.types.PropertyGroup):
 			# A button to get curve min max value
 			col = row.column()
 			col.operator('ctf.refresh_mini_maxi', icon='FILE_REFRESH', text = '')
+			
+			# a button to activate and set peaks per minute feature
+			layout.separator()
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "ppm")
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "peaks_curve")
 			
 			# A field to choose between Round Floor and Ceil rounding method
 			layout.separator()
