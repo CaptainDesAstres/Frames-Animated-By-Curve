@@ -202,6 +202,20 @@ def set_ppm(self, context):
 			# no peaks when ppm == 0
 			clip.animation_data.action.fcurves.remove(curve)
 			self.peaks_curve = 1
+	else:
+		while(frame < end):
+				curve.keyframe_points.insert(frame, value)
+				curve.keyframe_points[-1].interpolation = 'LINEAR'
+				
+				# next frame
+				interval = 60 / ppm.evaluate(frame) * fps / 2
+				frame += interval
+				
+				# invert value
+				if value == 0:
+					value = 1
+				else:
+					value = 0
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
