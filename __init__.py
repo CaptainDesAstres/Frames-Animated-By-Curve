@@ -476,6 +476,7 @@ class CurveToFrame(bpy.types.Operator):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
 		settings = clip.CtF
+		set_ppm(settings, context)
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
