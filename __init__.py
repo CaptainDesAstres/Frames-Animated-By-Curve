@@ -170,6 +170,9 @@ def set_ppm(self, context):
 	clip.animation.action.fcurves.new('CtF.peaks_curve')
 	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
 	
+	# get frame rate
+	fps = context.scene.render.fps
+	
 	# get ppm curve or ppm constant value
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
 	if ppm is None:
