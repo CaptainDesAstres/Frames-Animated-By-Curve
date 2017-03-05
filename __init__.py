@@ -87,7 +87,7 @@ class CtFRefresh(bpy.types.Operator):
 def getFCurveByDataPath(ob, path):
 	'''Return object fcurve corresponding to datapath or None'''
 	
-	if(ob.animation_data is None):
+	if(ob.animation_data is None or ob.animation_data.action is None):
 		return None
 	
 	for curve in ob.animation_data.action.fcurves:
