@@ -84,6 +84,19 @@ class CtFRefresh(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+
+class CtFPeaksCurveRefresh(bpy.types.Operator):
+	'''operator to initialize or refresh CtF info of a movie clip'''
+	bl_idname = "ctf.peaks_refresh"
+	bl_label= "refresh peaks curve"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''refresh clip peaks curve'''
+		set_ppm(context.space_data.clip.CtF, context)
+		return {'FINISHED'}
+
+
 def getFCurveByDataPath(ob, path):
 	'''Return object fcurve corresponding to datapath or None'''
 	
@@ -562,6 +575,7 @@ def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtFRefreshMiniMaxi)
+	bpy.utils.register_class(CtFPeaksCurveRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
@@ -573,6 +587,7 @@ def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
+	bpy.utils.unregister_class(CtFPeaksCurveRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
