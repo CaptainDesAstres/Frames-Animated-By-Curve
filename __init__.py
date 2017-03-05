@@ -178,18 +178,22 @@ def set_ppm(self, context):
 	# get ppm curve or ppm constant value
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
 	value = 0
-	if ppm is None and self.ppm > 0:
-		interval = 60 / self.ppm * fps / 2
-		end += ceil(interval)
+	if ppm is None:
+		if self.ppm > 0:
+			interval = 60 / self.ppm * fps / 2
+			end += ceil(interval)
 		
-		while(frame < end):
-			curve.keyframe_points.insert(frame, value)
-			curve.keyframe_points[-1].interpolation = 'LINEAR'
-			frame += interval
-			if value == 0:
-				value = 1
-			else:
-				value = 0
+			while(frame < end):
+				curve.keyframe_points.insert(frame, value)
+				curve.keyframe_points[-1].interpolation = 'LINEAR'
+				frame += interval
+				if value == 0:
+					value = 1
+				else:
+					value = 0
+		else:
+			clip.animation_data.action.fcurves.remove(curve)
+			self.peaks_curve = 1
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property design form CtF addon'''
