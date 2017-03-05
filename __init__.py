@@ -532,17 +532,20 @@ class CurveToFrame(bpy.types.Operator):
 		# loop from start frame to end frame
 		s = context.scene.frame_start
 		e = context.scene.frame_end + 1
+		maxi = settings.maxi - settings.mini
 		for frame in range(s, e):
 			val = intensityCurve.evaluate(frame)
 			
 			# compute frame corresponding to curve value
 			if(val <= settings.mini):
 				fr = settings.first + settings.start - 1
-			elif(val >= settings.maxi):
-				fr = settings.first + settings.end - 1
 			else:
-				fr = settings.first + settings.start - 1\
-					+ rounding( (val - settings.mini) / interval )
+				val = (val - settings.mini) * peaksCurve.evaluate(frame)
+				if(val >= maxi):
+					fr = settings.first + settings.end - 1
+				else:
+					fr = settings.first + settings.start - 1\
+						+ rounding( val / interval )
 			
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
