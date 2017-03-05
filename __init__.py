@@ -167,7 +167,7 @@ def set_ppm(self, context):
 		clip.animation_data.action.fcurves.remove(curve)
 	
 	# create new peaks curve
-	clip.animation.action.fcurves.new('CtF.peaks_curve')
+	clip.animation_data.action.fcurves.new('CtF.peaks_curve')
 	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
 	
 	# get frame rate and start/end frame
