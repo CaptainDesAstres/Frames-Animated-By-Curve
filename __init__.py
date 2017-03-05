@@ -216,8 +216,8 @@ def update_peaks_curve(self, context):
 			curve.lock = True
 		else:
 			# no peaks when ppm == 0
-			clip.animation_data.action.fcurves.remove(curve)
-			self.peaks_curve = 1
+			curve.keyframe_points.insert(0, 1)
+			curve.lock = True
 	else:
 		while(frame < end):
 			if(ppm.evaluate(frame) > 0):
