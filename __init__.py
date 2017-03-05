@@ -179,19 +179,27 @@ def set_ppm(self, context):
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
 	value = 0
 	if ppm is None:
+		# compute with ppm constant value
 		if self.ppm > 0:
 			interval = 60 / self.ppm * fps / 2
 			end += ceil(interval)
-		
+			
+			# add each keyframe
 			while(frame < end):
 				curve.keyframe_points.insert(frame, value)
 				curve.keyframe_points[-1].interpolation = 'LINEAR'
+				
+				# next frame
 				frame += interval
+				
+				# invert value
 				if value == 0:
 					value = 1
 				else:
 					value = 0
+			
 		else:
+			# no peaks when ppm == 0
 			clip.animation_data.action.fcurves.remove(curve)
 			self.peaks_curve = 1
 
