@@ -495,8 +495,9 @@ class CurveToFrame(bpy.types.Operator):
 		# get frame interval value
 		interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 		
-		# get the intensity curves
+		# get the intensity curves and peaks curve
 		intensityCurve = getFCurveByDataPath(clip, 'CtF.curve')
+		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
 		
 		# get dertination directory name
 		dst = settings.path +settings.destination
