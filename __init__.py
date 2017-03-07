@@ -572,10 +572,10 @@ class CurveToFrame(bpy.types.Operator):
 				fr = first
 			else:
 				if(settings.ignore):
-					val = peaksCurve.evaluate(context.scene.frame_current)
+					val = settings.peaks_curve
 					fr = first + rounding( val / interval )
 				else:
-					val = (val - settings.mini) * peaksCurve.evaluate(context.scene.frame_current)
+					val = (val - settings.mini) * settings.peaks_curve
 					
 					if(val >= maxi):
 						fr = last
