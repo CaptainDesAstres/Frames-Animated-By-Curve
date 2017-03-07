@@ -586,7 +586,9 @@ class CurveToFrame(bpy.types.Operator):
 						)
 			except OSError as e:
 				self.report({'ERROR'}, 'error while copying file: '+e.strerror+'. Abort action.')
+				context.scene.frame_current = current
 				return {'CANCELLED'}
+		context.scene.frame_current = current
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
