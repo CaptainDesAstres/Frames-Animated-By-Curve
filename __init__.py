@@ -507,23 +507,6 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			rounding = ceil
 		
-		# get frame interval value
-		if(settings.ignore):
-			# when amplitude is ignored
-			interval = 1 / (settings.end - settings.start)
-		else:
-			# when amplitude is used
-			interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
-		
-		# get the intensity curves and peaks curve
-		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
-		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
-		if(amplitudeCurve is None):
-				# report error then quit 
-				self.report(	{'ERROR'},
-								'amplitude must be animated for script to work' )
-				return {'CANCELLED'}
-		
 		# get dertination directory name
 		dst = settings.path +settings.destination
 		if(dst[-1] != '/'):
@@ -552,6 +535,23 @@ class CurveToFrame(bpy.types.Operator):
 				os.mkdir(dst)
 			except OSError as e:
 				self.report({'ERROR'}, 'impossible to create destination directory :'+e.strerror)
+				return {'CANCELLED'}
+		
+		# get frame interval value
+		if(settings.ignore):
+			# when amplitude is ignored
+			interval = 1 / (settings.end - settings.start)
+		else:
+			# when amplitude is used
+			interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
+		
+		# get the intensity curves and peaks curve
+		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
+		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+		if(amplitudeCurve is None):
+				# report error then quit 
+				self.report(	{'ERROR'},
+								'amplitude must be animated for script to work' )
 				return {'CANCELLED'}
 		
 		# loop from start frame to end frame
