@@ -433,7 +433,7 @@ class CtF(bpy.types.PropertyGroup):
 			# A field to set the max F-Curve Value to assigne to the last frames
 			col = row.column()
 			col.prop(self, "maxi")
-			if(self.ignore):
+			if(self.amplitude_mode == 'ignore'):
 				col.enabled = False
 			
 			# A button to get curve min max value
@@ -570,7 +570,7 @@ class CurveToFrame(bpy.types.Operator):
 			last = settings.first + settings.end - 1
 			
 			# compute interval value for each frame
-			if(settings.ignore):
+			if(settings.amplitude_mode == 'ignore'):
 				# when amplitude is ignored
 				interval = 1 / (settings.end - settings.start)
 			else:
@@ -581,7 +581,7 @@ class CurveToFrame(bpy.types.Operator):
 			if(val <= settings.mini):
 				fr = first
 			else:
-				if(settings.ignore):
+				if(settings.amplitude_mode == 'ignore'):
 					val = settings.peaks_curve
 					fr = first + rounding( val / interval )
 				else:
