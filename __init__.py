@@ -563,12 +563,17 @@ class CurveToFrame(bpy.types.Operator):
 			if(val <= settings.mini):
 				fr = first
 			else:
-				val = (val - settings.mini) * peaksCurve.evaluate(frame)
-				if(val >= maxi):
-					fr = last
-				else:
+				if(settings.ignore):
+					val = peaksCurve.evaluate(frame)
 					fr = first + rounding( val / interval )
-			
+				else:
+					val = (val - settings.mini) * peaksCurve.evaluate(frame)
+					
+					if(val >= maxi):
+						fr = last
+					else:
+						fr = first + rounding( val / interval )
+			print(fr)
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
 				output( settings.path + clip.CtF.getFrameName(fr),
