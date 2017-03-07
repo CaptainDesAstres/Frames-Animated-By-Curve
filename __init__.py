@@ -575,19 +575,20 @@ class CurveToFrame(bpy.types.Operator):
 				interval = 1 / (settings.end - settings.start)
 			
 			# compute corresponding frame
-			if(val <= settings.mini):
+			if(val <= settings.mini
+					and settings.amplitude_mode == 'multiply'):
 				fr = first
 			else:
-				if(settings.amplitude_mode == 'ignore'):
-					val = settings.peaks_curve
-					fr = first + rounding( val / interval )
-				else:
+				if(settings.amplitude_mode == 'multiply'):
 					val = (val - settings.mini) * settings.peaks_curve
 					
 					if(val >= maxi):
 						fr = last
 					else:
 						fr = first + rounding( val / interval )
+				else:
+					val = settings.peaks_curve
+					fr = first + rounding( val / interval )
 			
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
