@@ -196,30 +196,29 @@ def update_peaks(self, context):
 	# get ppm curve or ppm constant value
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
 	value = 0
-	if ppm is None:
-		# compute with ppm constant value
-		if self.ppm > 0:
-			interval = 60 / self.ppm * fps / 2
-			end += ceil(interval)
+	if ppm is None and self.ppm <= 0:
+		# ppm isn't animate and is equal to 0, peaks always equal 1
+		curve.keyframe_points.insert(0, 1)
+	elif ppm is None:
+		# compute when ppm have constant value
+		interval = 60 / self.ppm * fps / 2
+		end += ceil(interval)
+		
+		# add each keyframe
+		while(frame < end):
+			curve.keyframe_points.insert(frame, value)
+			curve.keyframe_points[-1].interpolation = 'LINEAR'
 			
-			# add each keyframe
-			while(frame < end):
-				curve.keyframe_points.insert(frame, value)
-				curve.keyframe_points[-1].interpolation = 'LINEAR'
-				
-				# next frame
-				frame += interval
-				
-				# invert value
-				if value == 0:
-					value = 1
-				else:
-					value = 0
-			curve.lock = True
-		else:
-			# no peaks when ppm == 0
-			curve.keyframe_points.insert(0, 1)
-			curve.lock = True
+			# next frame
+			frame += interval
+			
+			# invert value
+			if value == 0:
+				value = 1
+			else:
+				value = 0
+		curve.lock = True
+		
 	else:
 		while(frame < end):
 			if(ppm.evaluate(frame) > 0):
@@ -239,7 +238,7 @@ def update_peaks(self, context):
 			else:
 				value = 0
 				frame += 0.01
-		curve.lock = True
+	curve.lock = True
 
 
 class CtF(bpy.types.PropertyGroup):
