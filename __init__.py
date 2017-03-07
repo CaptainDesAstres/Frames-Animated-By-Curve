@@ -193,8 +193,9 @@ def update_peaks(self, context):
 	frame = start = context.scene.frame_start
 	end = context.scene.frame_end
 	
-	# get ppm curve or ppm constant value
+	# get ppm curve and amplitude mode curve
 	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
+	amp_mode = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
 	value = 0
 	if ppm is None and self.ppm <= 0:
 		# ppm isn't animate and is equal to 0, peaks always equal 1
