@@ -559,10 +559,11 @@ class CurveToFrame(bpy.types.Operator):
 		maxi = settings.maxi - settings.mini
 		first = settings.first + settings.start - 1
 		last = settings.first + settings.end - 1
-		for context.scene.frame_current in range(
-									context.scene.frame_start, 
-									context.scene.frame_end + 1):
-			val = amplitudeCurve.evaluate(context.scene.frame_current)
+		for frame in range(
+						context.scene.frame_start, 
+						context.scene.frame_end + 1):
+			context.scene.frame_set(frame)
+			val = settings.amplitude
 			
 			# compute corresponding frame
 			if(val <= settings.mini):
@@ -586,9 +587,10 @@ class CurveToFrame(bpy.types.Operator):
 						)
 			except OSError as e:
 				self.report({'ERROR'}, 'error while copying file: '+e.strerror+'. Abort action.')
-				context.scene.frame_current = current
+				context.scene.frame_set(current)
 				return {'CANCELLED'}
-		context.scene.frame_current = current
+		
+		context.scene.frame_set(current)
 		
 		print("Frames Animated By Curve have been executed")
 		return {'FINISHED'}
