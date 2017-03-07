@@ -498,6 +498,11 @@ class CurveToFrame(bpy.types.Operator):
 		# get the intensity curves and peaks curve
 		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+		if(amplitudeCurve is None):
+				# report error then quit 
+				self.report(	{'ERROR'},
+								'amplitude must be animated for script to work' )
+				return {'CANCELLED'}
 		
 		# get dertination directory name
 		dst = settings.path +settings.destination
