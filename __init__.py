@@ -434,7 +434,18 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.prop(self, "rounding")
 			
+			# A checkbox to get real frame file copy
+			
+			col = row.column()
+			if(not context.scene.CtFRealCopy \
+				and platform.system().lower() not in ['linux', 'unix']):
+				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
+				warning = True
+			else:
+				col.prop(context.scene, "CtFRealCopy")
+			
 			# A field to set the name of the sub directory name to use as destination
+			row = layout.row()
 			col = row.column()
 			col.prop(self, "destination")
 			if(os.path.exists(self.path+self.destination)\
@@ -447,16 +458,6 @@ class CtF(bpy.types.PropertyGroup):
 					warning = True
 					col = row.column()
 					col.label(text='content could be erased', icon='ERROR')
-			
-			# A checkbox to get real frame file copy
-			row = layout.row()
-			col = row.column()
-			if(not context.scene.CtFRealCopy \
-				and platform.system().lower() not in ['linux', 'unix']):
-				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
-				warning = True
-			else:
-				col.prop(context.scene, "CtFRealCopy")
 			
 			# the button to run the script
 			
