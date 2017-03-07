@@ -504,7 +504,12 @@ class CurveToFrame(bpy.types.Operator):
 			rounding = ceil
 		
 		# get frame interval value
-		interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
+		if(settings.ignore):
+			# when amplitude is ignored
+			interval = 1 / (settings.end - settings.start)
+		else:
+			# when amplitude is used
+			interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 		
 		# get the intensity curves and peaks curve
 		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
