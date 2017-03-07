@@ -275,12 +275,6 @@ class CtF(bpy.types.PropertyGroup):
 			('ignore',		'ignore',	'only peaks curve value determined frame')
 			]
 		)
-	ignore = bpy.props.BoolProperty(
-		name = 'ignore amplitude',
-		description = 'Ignore amplitude. All value greater than Mini will be considired as 1.',
-		options = {'LIBRARY_EDITABLE'},
-		default = False
-		)
 	
 	# min value associated to the first frames
 	mini = bpy.props.FloatProperty(
