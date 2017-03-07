@@ -261,6 +261,11 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Must be animated with a curve to determined the frame of the Movie clip to display at each frame',
 		default = 0.0
 		)
+	ignore = bpy.props.BoolProperty(
+		name = 'ignore amplitude',
+		description = 'Ignore amplitude. All value greater than Mini will be considired as 1.',
+		default = False
+		)
 	
 	# min value associated to the first frames
 	mini = bpy.props.FloatProperty(
