@@ -266,12 +266,12 @@ class CtF(bpy.types.PropertyGroup):
 	amplitude_mode = bpy.props.EnumProperty(
 		name = 'amplitude mode',
 		description = 'the way to use amplitude associated with peaks',
-		options = {'LIBRARY_EDITABLE'},
 		default = 'multiply',
 		items = [
 			#(identifier,	name, 		description, 					icon, number)
 			('multiply',	'multiply',	'peaks curve value is multiplied by amplitude'),
-			('clamp',		'clamp',	'peaks curve value is clamped by amplitude'),
+			('clamp_key',		'clamp_key',	'peaks curve keyframe is clamped by amplitude'),
+			('clamp_curve',		'clamp_curve',	'peaks curve value is clamped by amplitude'),
 			('ignore',		'ignore',	'only peaks curve value determined frame')
 			]
 		)
