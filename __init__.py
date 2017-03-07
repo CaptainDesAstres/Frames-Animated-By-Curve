@@ -556,14 +556,16 @@ class CurveToFrame(bpy.types.Operator):
 		
 		# loop from start frame to end frame
 		current = context.scene.frame_current
-		maxi = settings.maxi - settings.mini
-		first = settings.first + settings.start - 1
-		last = settings.first + settings.end - 1
 		for frame in range(
 						context.scene.frame_start, 
 						context.scene.frame_end + 1):
 			context.scene.frame_set(frame)
+			# get amplitade value
 			val = settings.amplitude
+			# compute maxi value and first and last frame numbber
+			maxi = settings.maxi - settings.mini
+			first = settings.first + settings.start - 1
+			last = settings.first + settings.end - 1
 			
 			# compute corresponding frame
 			if(val <= settings.mini):
