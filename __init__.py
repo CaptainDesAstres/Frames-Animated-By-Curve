@@ -36,7 +36,7 @@ class CtFRefreshMiniMaxi(bpy.types.Operator):
 		'''get curve mini and maxi value has mini/maxi settings'''
 		clip = context.space_data.clip
 		
-		fCurve = getFCurveByDataPath(clip, 'CtF.curve')
+		fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 		if(fCurve is None):
 			m = M = self.curve
 		else:
@@ -255,17 +255,17 @@ class CtF(bpy.types.PropertyGroup):
 	size = bpy.props.IntProperty() # number of frame of the sequence
 	ext = bpy.props.StringProperty() # extension of source file
 	
-	# Property for frame animation curve
-	curve = bpy.props.FloatProperty(
-		name = 'curve',
-		description = 'The curve used to determined the frame of the Movie clip to display at each frame',
+	# amplitude property
+	amplitude = bpy.props.FloatProperty(
+		name = 'amplitude',
+		description = 'Must be animated with a curve to determined the frame of the Movie clip to display at each frame',
 		default = 0.0
 		)
 	
 	# min value associated to the first frames
 	mini = bpy.props.FloatProperty(
 		name = 'Mini',
-		description = 'the minimal value of the curve, all smaller value will display the first frame',
+		description = 'the minimal value of the amplitude curve, all smaller value will display the first frame',
 		default = 0.0,
 		update = set_mini
 		)
@@ -273,7 +273,7 @@ class CtF(bpy.types.PropertyGroup):
 	# max value associated to the last frames
 	maxi = bpy.props.FloatProperty(
 		name = 'maxi',
-		description = 'the maximal value of the curve, all bigger value will display the last frame',
+		description = 'the maximal value of the amplitude curve. All bigger value will display the last frame',
 		default = 1.0,
 		update = set_maxi
 		)
@@ -281,7 +281,7 @@ class CtF(bpy.types.PropertyGroup):
 	# Rounding method
 	rounding = bpy.props.EnumProperty(
 		name = 'Rounding method',
-		description = 'the rounding method use by the script to round the float value extract from the curve into a integer value corresponding to a frame',
+		description = 'the rounding method use by the script to round the float computed value into a integer value corresponding to a frame',
 		default = 'round',
 		items = [
 			#(identifier,	name, 		description, 					icon, number)
@@ -377,16 +377,16 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.prop(self, "end")
 			
-			# A float field to animated with a curve
+			# A float amplitude field
 			layout.separator()
 			row = layout.row()
 			col = row.column()
-			col.prop(self, "curve")
+			col.prop(self, "amplitude")
 			
 			# A field to remind F-Curve min and max value
-			fCurve = getFCurveByDataPath(clip, 'CtF.curve')
+			fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 			if(fCurve is None):
-				m = M = self.curve
+				m = M = self.amplitude
 			else:
 				m, M = getCurveLimit(fCurve)
 			m = round(m*1000)/1000
@@ -496,7 +496,7 @@ class CurveToFrame(bpy.types.Operator):
 		interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 		
 		# get the intensity curves and peaks curve
-		intensityCurve = getFCurveByDataPath(clip, 'CtF.curve')
+		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
 		
 		# get dertination directory name
@@ -534,9 +534,9 @@ class CurveToFrame(bpy.types.Operator):
 		e = context.scene.frame_end + 1
 		maxi = settings.maxi - settings.mini
 		for frame in range(s, e):
-			val = intensityCurve.evaluate(frame)
+			val = amplitudeCurve.evaluate(frame)
 			
-			# compute frame corresponding to curve value
+			# compute corresponding frame
 			if(val <= settings.mini):
 				fr = settings.first + settings.start - 1
 			else:
