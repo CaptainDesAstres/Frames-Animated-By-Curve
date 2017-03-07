@@ -263,6 +263,18 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Determined the frame of the Movie clip to use at each frame',
 		default = 0.0
 		)
+	amplitude_mode = bpy.props.EnumProperty(
+		name = 'amplitude mode',
+		description = 'the way to use amplitude associated with peaks',
+		options = {'LIBRARY_EDITABLE'},
+		default = 'multiply',
+		items = [
+			#(identifier,	name, 		description, 					icon, number)
+			('multiply',	'multiply',	'peaks curve value is multiplied by amplitude'),
+			('clamp',		'clamp',	'peaks curve value is clamped by amplitude'),
+			('ignore',		'ignore',	'only peaks curve value determined frame')
+			]
+		)
 	ignore = bpy.props.BoolProperty(
 		name = 'ignore amplitude',
 		description = 'Ignore amplitude. All value greater than Mini will be considired as 1.',
