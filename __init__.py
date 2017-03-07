@@ -87,15 +87,15 @@ class CtFRefresh(bpy.types.Operator):
 
 
 
-class CtFPeaksCurveRefresh(bpy.types.Operator):
+class CtFPeaksRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
 	bl_idname = "ctf.peaks_refresh"
-	bl_label= "refresh peaks curve"
+	bl_label= "refresh peaks"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
-		'''refresh clip peaks curve'''
-		update_peaks_curve(context.space_data.clip.CtF, context)
+		'''refresh clip peaks'''
+		update_peaks(context.space_data.clip.CtF, context)
 		return {'FINISHED'}
 
 
@@ -175,18 +175,18 @@ def set_maxi(self, context):
 		self['mini'] = self.maxi
 
 
-def update_peaks_curve(self, context):
-	'''update peaks curve when settings have been changed'''
+def update_peaks(self, context):
+	'''update peaks when settings have been changed'''
 	clip = context.space_data.clip
 	
-	# remove old peaks curve
-	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+	# remove old peaks
+	curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	if curve is not None:
 		clip.animation_data.action.fcurves.remove(curve)
 	
-	# create new peaks curve
-	clip.animation_data.action.fcurves.new('CtF.peaks_curve')
-	curve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
+	# create new peaks
+	clip.animation_data.action.fcurves.new('CtF.peaks')
+	curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	
 	# get frame rate and start/end frame
 	fps = context.scene.render.fps
@@ -269,10 +269,10 @@ class CtF(bpy.types.PropertyGroup):
 		default = 'multiply',
 		items = [
 			#(identifier,	name, 		description, 					icon, number)
-			('multiply',	'multiply',	'peaks curve value is multiplied by amplitude'),
-			('clamp_key',		'clamp_key',	'peaks curve keyframe is clamped by amplitude'),
-			('clamp_curve',		'clamp_curve',	'peaks curve value is clamped by amplitude'),
-			('ignore',		'ignore',	'only peaks curve value determined frame')
+			('multiply',	'multiply',	'peaks is multiplied by amplitude'),
+			('clamp_key',		'clamp_key',	'peaks keyframe is clamped by amplitude'),
+			('clamp_curve',		'clamp_curve',	'all peaks value is clamped by amplitude'),
+			('ignore',		'ignore',	'only peaks value determined frame')
 			]
 		)
 	
@@ -329,13 +329,13 @@ class CtF(bpy.types.PropertyGroup):
 	# peaks per minute settings and curve
 	ppm = bpy.props.FloatProperty(
 		name = "ppm",
-		description = "curve peaks per minute",
+		description = "peaks per minute",
 		default = 0,
 		min = 0,
-		update = update_peaks_curve)
-	peaks_curve = bpy.props.FloatProperty(
-		name = "peaks curve",
-		description = "Curve representing the peaks. Can't be edit manually: use ppm settings.",
+		update = update_peaks)
+	peaks = bpy.props.FloatProperty(
+		name = "peaks",
+		description = "only to vusualize the peaks curve. Can't be edit manually: use ppm settings.",
 		default = 1,
 		min = 0,
 		max = 1)
@@ -441,7 +441,7 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(self, "ppm")
 			col = row.column()
 			col.enabled = False
-			col.prop(self, "peaks_curve")
+			col.prop(self, "peaks")
 			col = row.column()
 			col.operator(
 				"ctf.peaks_refresh",
@@ -503,7 +503,7 @@ class CurveToFrame(bpy.types.Operator):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
 		settings = clip.CtF
-		update_peaks_curve(settings, context)
+		update_peaks(settings, context)
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
@@ -573,7 +573,7 @@ class CurveToFrame(bpy.types.Operator):
 				fr = first
 			else:
 				if(settings.amplitude_mode == 'multiply'):
-					val = (val - settings.mini) * settings.peaks_curve
+					val = (val - settings.mini) * settings.peaks
 					
 					if(val >= maxi):
 						fr = last
@@ -583,7 +583,7 @@ class CurveToFrame(bpy.types.Operator):
 									 (settings.end - settings.start))
 						fr = first + rounding( val / interval )
 				else:
-					val = settings.peaks_curve
+					val = settings.peaks
 					# compute interval value and frame
 					interval = 1 / (settings.end - settings.start)
 					fr = first + rounding( val / interval )
@@ -639,7 +639,7 @@ def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtFRefreshMiniMaxi)
-	bpy.utils.register_class(CtFPeaksCurveRefresh)
+	bpy.utils.register_class(CtFPeaksRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
@@ -651,7 +651,7 @@ def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
-	bpy.utils.unregister_class(CtFPeaksCurveRefresh)
+	bpy.utils.unregister_class(CtFPeaksRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
