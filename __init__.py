@@ -567,12 +567,12 @@ class CurveToFrame(bpy.types.Operator):
 			last = settings.first + settings.end - 1
 			
 			# compute interval value for each frame
-			if(settings.amplitude_mode == 'ignore'):
-				# when amplitude is ignored
-				interval = 1 / (settings.end - settings.start)
-			else:
+			if(settings.amplitude_mode == 'multiply'):
 				# when amplitude is used
 				interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
+			else:
+				# when amplitude is ignored or clamp peaks curve
+				interval = 1 / (settings.end - settings.start)
 			
 			# compute corresponding frame
 			if(val <= settings.mini):
