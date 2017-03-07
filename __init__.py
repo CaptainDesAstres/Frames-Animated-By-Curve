@@ -17,11 +17,13 @@ if platform.system().lower() in ['linux', 'unix']:
 	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
 		description="Do Frames Animated By Curve add-on make real file copy rather than symbolic link.",
+		options = {'LIBRARY_EDITABLE'},
 		default = False)
 else:
 	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
 		description="You must keep this enable as your system don't implement symbolic link. disable at your one risk!",
+		options = {'LIBRARY_EDITABLE'},
 		default = True)
 
 
@@ -264,6 +266,7 @@ class CtF(bpy.types.PropertyGroup):
 	ignore = bpy.props.BoolProperty(
 		name = 'ignore amplitude',
 		description = 'Ignore amplitude. All value greater than Mini will be considired as 1.',
+		options = {'LIBRARY_EDITABLE'},
 		default = False
 		)
 	
@@ -287,6 +290,7 @@ class CtF(bpy.types.PropertyGroup):
 	rounding = bpy.props.EnumProperty(
 		name = 'Rounding method',
 		description = 'the rounding method use by the script to round the float computed value into a integer value corresponding to a frame',
+		options = {'LIBRARY_EDITABLE'},
 		default = 'round',
 		items = [
 			#(identifier,	name, 		description, 					icon, number)
