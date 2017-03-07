@@ -278,7 +278,7 @@ class CtF(bpy.types.PropertyGroup):
 	# max value associated to the last frames
 	maxi = bpy.props.FloatProperty(
 		name = 'maxi',
-		description = 'the maximal value of the amplitude curve. All bigger value will display the last frame',
+		description = 'the maximal value of the amplitude curve. All bigger value will display the last frame. This property is useless when amplitude is ignored.',
 		default = 1.0,
 		update = set_maxi
 		)
@@ -407,6 +407,8 @@ class CtF(bpy.types.PropertyGroup):
 			# A field to set the max F-Curve Value to assigne to the last frames
 			col = row.column()
 			col.prop(self, "maxi")
+			if(self.ignore):
+				col.enabled = False
 			
 			# A button to get curve min max value
 			col = row.column()
