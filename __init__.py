@@ -555,13 +555,13 @@ class CurveToFrame(bpy.types.Operator):
 				return {'CANCELLED'}
 		
 		# loop from start frame to end frame
-		s = context.scene.frame_start
-		e = context.scene.frame_end + 1
 		current = context.scene.frame_current
 		maxi = settings.maxi - settings.mini
 		first = settings.first + settings.start - 1
 		last = settings.first + settings.end - 1
-		for context.scene.frame_current in range(s, e):
+		for context.scene.frame_current in range(
+									context.scene.frame_start, 
+									context.scene.frame_end + 1):
 			val = amplitudeCurve.evaluate(context.scene.frame_current)
 			
 			# compute corresponding frame
