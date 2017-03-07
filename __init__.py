@@ -537,13 +537,6 @@ class CurveToFrame(bpy.types.Operator):
 				self.report({'ERROR'}, 'impossible to create destination directory :'+e.strerror)
 				return {'CANCELLED'}
 		
-		# get frame interval value
-		if(settings.ignore):
-			# when amplitude is ignored
-			interval = 1 / (settings.end - settings.start)
-		else:
-			# when amplitude is used
-			interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 		
 		# loop from start frame to end frame
 		current = context.scene.frame_current
@@ -557,6 +550,14 @@ class CurveToFrame(bpy.types.Operator):
 			maxi = settings.maxi - settings.mini
 			first = settings.first + settings.start - 1
 			last = settings.first + settings.end - 1
+			
+			# compute interval value for each frame
+			if(settings.ignore):
+				# when amplitude is ignored
+				interval = 1 / (settings.end - settings.start)
+			else:
+				# when amplitude is used
+				interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
 			
 			# compute corresponding frame
 			if(val <= settings.mini):
