@@ -399,6 +399,10 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.label( text = "(Goes from "+str(m)+" to "+str(M)+')' )
 			
+			# amplitude ignoring checkbox
+			row = layout.row()
+			row.prop(self, 'ignore')
+			
 			# A field to set the min F-Curve Value to assigne to the first frames
 			row = layout.row()
 			col = row.column()
@@ -460,7 +464,6 @@ class CtF(bpy.types.PropertyGroup):
 					col.label(text='content could be erased', icon='ERROR')
 			
 			# the button to run the script
-			
 			if(warning):
 				row = layout.row()
 				row.operator(
