@@ -364,7 +364,13 @@ class CtF(bpy.types.PropertyGroup):
 			warning = False
 			# Display the directory path
 			row = layout.row()
-			row.label( text = "Frame Directory path:" )
+			col = row.column()
+			col.label( text = "Frame Directory path:" )
+			col = row.column()
+			col.operator(
+				"ctf.refresh",
+				icon = 'FILE_REFRESH',
+				text = '')
 			row = layout.row()
 			row.label( text= self.path )
 			
