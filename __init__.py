@@ -573,7 +573,7 @@ class CurveToFrame(bpy.types.Operator):
 						fr = last
 					else:
 						fr = first + rounding( val / interval )
-			print(fr)
+			
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
 				output( settings.path + clip.CtF.getFrameName(fr),
