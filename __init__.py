@@ -260,7 +260,7 @@ class CtF(bpy.types.PropertyGroup):
 	# amplitude property
 	amplitude = bpy.props.FloatProperty(
 		name = 'amplitude',
-		description = 'Must be animated with a curve to determined the frame of the Movie clip to display at each frame',
+		description = 'Determined the frame of the Movie clip to use at each frame',
 		default = 0.0
 		)
 	ignore = bpy.props.BoolProperty(
@@ -544,15 +544,6 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			# when amplitude is used
 			interval = (settings.maxi - settings.mini)/ (settings.end - settings.start)
-		
-		# get the intensity curves and peaks curve
-		amplitudeCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
-		peaksCurve = getFCurveByDataPath(clip, 'CtF.peaks_curve')
-		if(amplitudeCurve is None):
-				# report error then quit 
-				self.report(	{'ERROR'},
-								'amplitude must be animated for script to work' )
-				return {'CANCELLED'}
 		
 		# loop from start frame to end frame
 		current = context.scene.frame_current
