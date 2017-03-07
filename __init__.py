@@ -557,21 +557,22 @@ class CurveToFrame(bpy.types.Operator):
 		# loop from start frame to end frame
 		s = context.scene.frame_start
 		e = context.scene.frame_end + 1
+		current = context.scene.frame_current
 		maxi = settings.maxi - settings.mini
 		first = settings.first + settings.start - 1
 		last = settings.first + settings.end - 1
-		for frame in range(s, e):
-			val = amplitudeCurve.evaluate(frame)
+		for context.scene.frame_current in range(s, e):
+			val = amplitudeCurve.evaluate(context.scene.frame_current)
 			
 			# compute corresponding frame
 			if(val <= settings.mini):
 				fr = first
 			else:
 				if(settings.ignore):
-					val = peaksCurve.evaluate(frame)
+					val = peaksCurve.evaluate(context.scene.frame_current)
 					fr = first + rounding( val / interval )
 				else:
-					val = (val - settings.mini) * peaksCurve.evaluate(frame)
+					val = (val - settings.mini) * peaksCurve.evaluate(context.scene.frame_current)
 					
 					if(val >= maxi):
 						fr = last
@@ -581,7 +582,7 @@ class CurveToFrame(bpy.types.Operator):
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
 				output( settings.path + clip.CtF.getFrameName(fr),
-						dst + clip.CtF.getFrameName(frame)
+						dst + clip.CtF.getFrameName(context.scene.frame_current)
 						)
 			except OSError as e:
 				self.report({'ERROR'}, 'error while copying file: '+e.strerror+'. Abort action.')
