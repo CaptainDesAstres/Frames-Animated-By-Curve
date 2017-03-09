@@ -230,6 +230,13 @@ def update_curves(self, context):
 		if raw is not None:
 			r = raw.evaluate(frame)
 		
+		#compute net value
+		if r <= m:
+			value = 0
+		elif r >= M:
+			value = 1
+		else:
+			value = (r-m) / (M-m)
 		
 		
 		frame += step
