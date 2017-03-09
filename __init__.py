@@ -199,7 +199,15 @@ def update_curves(self, context):
 	end = context.scene.frame_end + 5
 	step = 0.05
 	
+	# get and erase amplitude_net fcurve
+	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
+	if net is not None:
+		clip.animation_data.action.fcurves.remove(net)
+	clip.animation_data.action.fcurves.new('CtF.amplitude_net')
+	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
 	
+	# get amplitude fcurve
+	net = getFCurveByDataPath(clip, 'CtF.amplitude')
 	
 	
 	#############################################
