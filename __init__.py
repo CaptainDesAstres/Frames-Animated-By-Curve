@@ -194,7 +194,10 @@ def update_curves(self, context):
 	#############################################
 	##    update amplification net curve        ##
 	#############################################
-	
+	# determine frame working space and frame step
+	frame = start = context.scene.frame_start - 5
+	end = context.scene.frame_end + 5
+	step = 0.05
 	
 	
 	
