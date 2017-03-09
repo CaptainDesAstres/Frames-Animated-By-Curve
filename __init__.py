@@ -268,6 +268,10 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Determined the frame of the Movie clip to use at each frame',
 		default = 0.0
 		)
+	amplitude_net = bpy.props.FloatProperty(
+		name = 'amplitude (net)',
+		description = 'show the apply of mini and maxi to amplitude brut. Can\'t be edit.',
+		)
 	amplitude_mode = bpy.props.EnumProperty(
 		name = 'amplitude mode',
 		description = 'the way to use amplitude associated with peaks',
@@ -448,6 +452,14 @@ class CtF(bpy.types.PropertyGroup):
 			# A button to get curve min max value
 			col = row.column()
 			col.operator('ctf.refresh_mini_maxi', icon='FILE_REFRESH', text = '')
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "amplitude_net")
+			col = row.column()
+			col.operator(
+				"ctf.peaks_refresh",
+				text='',
+				icon='FILE_REFRESH')
 			
 			# a button to activate and set peaks per minute feature
 			layout.separator()
