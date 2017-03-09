@@ -244,6 +244,10 @@ def update_curves(self, context):
 		
 		frame += step
 	
+	# avoid any manual curve edition
+	net.convert_to_samples(start, frame+10)
+	
+	
 	#############################################
 	##       update peaks curve                ##
 	#############################################
