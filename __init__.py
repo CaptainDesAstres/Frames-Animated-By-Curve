@@ -214,14 +214,19 @@ def update_peaks(self, context):
 		# ppm isn't animate and is equal to 0, peaks always equal 1
 		curve.keyframe_points.insert(0, 1)
 	else:
+		current_ppm = self.ppm
 		while(frame < end):
-			if(ppm.evaluate(frame) > 0):
+			# get ppm value at this frame
+			if ppm is not None:
+				current_ppm = ppm.evaluate(frame)
+			
+			if(current_ppm > 0):
 				# add keyframe
 				curve.keyframe_points.insert(frame, value)
 				curve.keyframe_points[-1].interpolation = 'LINEAR'
 				
 				# next frame
-				interval = 60 / ppm.evaluate(frame) * fps / 2
+				interval = 60 / current_ppm * fps / 2
 				frame += interval
 				
 				# invert value
