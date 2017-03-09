@@ -237,25 +237,6 @@ def update_peaks(self, context):
 			else:
 				value = 0
 				frame += 0.01
-	
-#	if ppm is None:
-#		# compute when ppm have constant value
-#		interval = 60 / self.ppm * fps / 2
-#		end += ceil(interval)
-#		
-#		# add each keyframe
-#		while(frame < end):
-#			curve.keyframe_points.insert(frame, value)
-#			curve.keyframe_points[-1].interpolation = 'LINEAR'
-#			
-#			# next frame
-#			frame += interval
-#			
-#			# invert value
-#			if value == 0:
-#				value = 1
-#			else:
-#				value = 0
 	curve.lock = True
 
 
