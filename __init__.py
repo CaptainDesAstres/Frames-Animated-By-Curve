@@ -254,7 +254,6 @@ def update_curves(self, context):
 		
 		# create keyframe
 		net.keyframe_points.insert(frame, value)
-		net.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		frame += 1
 	
