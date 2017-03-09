@@ -44,6 +44,9 @@ class CtFRefreshMiniMaxi(bpy.types.Operator):
 		else:
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
+		# update curves
+		update_curves(clip.CtF, context)
+		
 		return {'FINISHED'}
 
 
@@ -157,6 +160,9 @@ def set_end_frame(self, context):
 		else:
 			self['start'] = 1
 			self['end'] = 2
+	
+	# update curves
+	update_curves(self, context)
 
 
 def set_start_frame(self, context):
@@ -172,6 +178,9 @@ def set_start_frame(self, context):
 		else:
 			self['start'] = self.size - 1
 			self['end'] = self.size
+	
+	# update curves
+	update_curves(self, context)
 
 
 
@@ -179,6 +188,9 @@ def set_mini(self, context):
 	'''check that maxi value are greater than maxi value when editing mini value'''
 	if self.mini > self.maxi:
 		self['maxi'] = self.mini
+	
+	# update curves
+	update_curves(self, context)
 
 
 
@@ -186,6 +198,9 @@ def set_maxi(self, context):
 	'''check that maxi value are greater than maxi value when editing maxi value'''
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
+	
+	# update curves
+	update_curves(self, context)
 
 
 def update_curves(self, context):
