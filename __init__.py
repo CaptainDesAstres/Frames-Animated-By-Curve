@@ -216,7 +216,10 @@ def update_curves(self, context):
 	# get and erase amplitude_net fcurve
 	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
 	if net is not None:
+		hide = net.hide
 		clip.animation_data.action.fcurves.remove(net)
+	else:
+		hide = True
 	clip.animation_data.action.fcurves.new('CtF.amplitude_net')
 	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
 	
@@ -259,6 +262,7 @@ def update_curves(self, context):
 	
 	# prevent curve edition
 	net.lock = True
+	net.hide = hide
 	
 	
 	#############################################
@@ -267,7 +271,10 @@ def update_curves(self, context):
 	# remove old peaks
 	curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	if curve is not None:
+		hide = curve.hide
 		clip.animation_data.action.fcurves.remove(curve)
+	else:
+		hide = True
 	
 	# create new peaks
 	clip.animation_data.action.fcurves.new('CtF.peaks')
@@ -314,6 +321,7 @@ def update_curves(self, context):
 	
 	# prevent curve edition
 	curve.lock = True
+	curve.hide = hide
 	
 	# get amplitude mode curve
 	amp_mode = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
