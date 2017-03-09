@@ -503,7 +503,11 @@ class CtF(bpy.types.PropertyGroup):
 					col.label(text='content could be erased', icon='ERROR')
 			
 			# the button to run the script
-			if(warning):
+			if(checkCtFDriver(clip)):
+				row = layout.row()
+				row.label(text='This function can\'t be used with driver!', 
+							icon='ERROR')
+			elif(warning):
 				row = layout.row()
 				row.operator(
 					"curve.toframe",
