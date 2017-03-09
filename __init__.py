@@ -189,9 +189,19 @@ def set_maxi(self, context):
 
 
 def update_curves(self, context):
-	'''update peaks when settings have been changed'''
+	'''update curve when settings have been changed'''
 	clip = context.space_data.clip
+	#############################################
+	##    update amplification net curve        ##
+	#############################################
 	
+	
+	
+	
+	
+	#############################################
+	##       update peaks curve                ##
+	#############################################
 	# remove old peaks
 	curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	if curve is not None:
