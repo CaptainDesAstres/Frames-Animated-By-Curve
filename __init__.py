@@ -237,10 +237,12 @@ def update_peaks(self, context):
 			else:
 				value = 0
 				frame += 0.01
+	# add last keyframe
 	curve.keyframe_points.insert(frame, value)
 	curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
-	curve.lock = True
+	# avoid any manual curve edition
+	curve.convert_to_samples(start, frame+10)
 
 
 class CtF(bpy.types.PropertyGroup):
