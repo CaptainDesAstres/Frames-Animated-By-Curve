@@ -207,7 +207,7 @@ def update_curves(self, context):
 	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
 	
 	# get amplitude fcurve
-	net = getFCurveByDataPath(clip, 'CtF.amplitude')
+	raw = getFCurveByDataPath(clip, 'CtF.amplitude')
 	
 	
 	#############################################
@@ -285,13 +285,13 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# amplitude property
 	amplitude = bpy.props.FloatProperty(
-		name = 'amplitude (brut)',
+		name = 'amplitude (raw)',
 		description = 'Determined the frame of the Movie clip to use at each frame',
 		default = 0.0
 		)
 	amplitude_net = bpy.props.FloatProperty(
 		name = 'amplitude (net)',
-		description = 'show the apply of mini and maxi to amplitude brut. Can\'t be edit.',
+		description = 'show the apply of mini and maxi to amplitude raw. Can\'t be edit.',
 		)
 	amplitude_mode = bpy.props.EnumProperty(
 		name = 'amplitude mode',
