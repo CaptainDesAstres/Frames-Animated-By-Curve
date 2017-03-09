@@ -95,7 +95,7 @@ class CtFPeaksRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh clip peaks'''
-		update_peaks(context.space_data.clip.CtF, context)
+		update_curves(context.space_data.clip.CtF, context)
 		return {'FINISHED'}
 
 
@@ -188,7 +188,7 @@ def set_maxi(self, context):
 		self['mini'] = self.maxi
 
 
-def update_peaks(self, context):
+def update_curves(self, context):
 	'''update peaks when settings have been changed'''
 	clip = context.space_data.clip
 	
@@ -264,7 +264,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# amplitude property
 	amplitude = bpy.props.FloatProperty(
-		name = 'amplitude',
+		name = 'amplitude (brut)',
 		description = 'Determined the frame of the Movie clip to use at each frame',
 		default = 0.0
 		)
@@ -347,7 +347,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = "peaks per minute",
 		default = 0,
 		min = 0,
-		update = update_peaks)
+		update = update_curves)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "only to vusualize the peaks curve. Can't be edit manually: use ppm settings.",
@@ -522,7 +522,7 @@ class CurveToFrame(bpy.types.Operator):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
 		settings = clip.CtF
-		update_peaks(settings, context)
+		update_curves(settings, context)
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
