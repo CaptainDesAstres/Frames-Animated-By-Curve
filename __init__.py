@@ -237,6 +237,9 @@ def update_peaks(self, context):
 			else:
 				value = 0
 				frame += 0.01
+	curve.keyframe_points.insert(frame, value)
+	curve.keyframe_points[-1].interpolation = 'LINEAR'
+	
 	curve.lock = True
 
 
