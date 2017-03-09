@@ -258,8 +258,8 @@ def update_curves(self, context):
 		
 		frame += 1
 	
-	# avoid any manual curve edition
-	net.convert_to_samples(start, frame+10)
+	# prevent curve edition
+	net.lock = True
 	
 	
 	#############################################
@@ -313,8 +313,8 @@ def update_curves(self, context):
 	curve.keyframe_points.insert(frame, value)
 	curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
-	# avoid any manual curve edition
-	curve.convert_to_samples(start, frame+10)
+	# prevent curve edition
+	curve.lock = True
 	
 	# get amplitude mode curve
 	amp_mode = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
