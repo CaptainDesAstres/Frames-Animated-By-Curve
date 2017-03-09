@@ -271,16 +271,16 @@ class CtF(bpy.types.PropertyGroup):
 #			(identifier,			name,
 #				description, number)
 			
-			('multiply',		'multiply',
+			('multiply',		'Multiply',
 				'peaks is multiplied by amplitude',				0),
 			
-			('clamp_key',		'clamp_key',
-				'peaks keyframe is clamped by amplitude',		1),
-			
-			('clamp_curve',		'clamp_curve',
-				'all peaks value is clamped by amplitude',		2),
-			
-			('ignore',			'ignore',
+#			('clamp_key',		'Clamp keyframe',
+#				'peaks keyframe is clamped by amplitude',		1),
+#			
+#			('clamp_curve',		'Clamp curve value',
+#				'all peaks value is clamped by amplitude',		2),
+#			
+			('ignore',			'Ignore',
 				'only peaks value determined frame',			3)
 			
 			]
