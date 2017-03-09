@@ -213,6 +213,9 @@ def update_curves(self, context):
 	mini = getFCurveByDataPath(clip, 'CtF.mini')
 	maxi = getFCurveByDataPath(clip, 'CtF.maxi')
 	
+	# generate amplitude_net curve
+	while( frame <= end ):
+		frame += step
 	
 	#############################################
 	##       update peaks curve                ##
