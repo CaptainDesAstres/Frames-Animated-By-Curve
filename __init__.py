@@ -238,6 +238,9 @@ def update_curves(self, context):
 		else:
 			value = (r-m) / (M-m)
 		
+		# create keyframe
+		net.keyframe_points.insert(frame, value)
+		net.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		frame += step
 	
