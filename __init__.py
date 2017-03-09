@@ -195,9 +195,8 @@ def update_curves(self, context):
 	##    update amplification net curve        ##
 	#############################################
 	# determine frame working space and frame step
-	frame = start = context.scene.frame_start - 5
-	end = context.scene.frame_end + 5
-	step = 0.05
+	frame = start = floor(context.scene.frame_start - 5)
+	end = ceil(context.scene.frame_end + 5)
 	
 	# get and erase amplitude_net fcurve
 	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
@@ -242,7 +241,7 @@ def update_curves(self, context):
 		net.keyframe_points.insert(frame, value)
 		net.keyframe_points[-1].interpolation = 'LINEAR'
 		
-		frame += step
+		frame += 1
 	
 	# avoid any manual curve edition
 	net.convert_to_samples(start, frame+10)
