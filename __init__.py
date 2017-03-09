@@ -209,6 +209,10 @@ def update_curves(self, context):
 	# get amplitude fcurve
 	raw = getFCurveByDataPath(clip, 'CtF.amplitude')
 	
+	# get mini and maxi fcurve
+	mini = getFCurveByDataPath(clip, 'CtF.mini')
+	maxi = getFCurveByDataPath(clip, 'CtF.maxi')
+	
 	
 	#############################################
 	##       update peaks curve                ##
