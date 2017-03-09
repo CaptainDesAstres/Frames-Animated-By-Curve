@@ -111,6 +111,19 @@ def getFCurveByDataPath(ob, path):
 	return None
 
 
+def checkCtFDriver(ob):
+	'''check the object have no driver on property used by the addon'''
+	if(	ob.animation_data is None
+		or ob.animation_data.drivers is None):
+		return False
+	
+	for driver in ob.animation_data.drivers:
+		if( driver.data_path.startswith('CtF.') ):
+			return True
+	
+	return False
+
+
 def getCurveLimit(curve):
 	'''return curve min and max values'''
 	m = M = curve.evaluate(1)
