@@ -878,7 +878,7 @@ def register():
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
-	print("Frames Animated By Curve is enable")
+	print("Frames Animated By Curve is enabled")
 
 
 def unregister():
@@ -889,5 +889,5 @@ def unregister():
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(CurveToFrame)
-	print("Frames Animated By Curve is disable")
+	print("Frames Animated By Curve is disabled")
 
