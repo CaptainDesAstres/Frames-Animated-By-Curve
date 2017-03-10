@@ -323,6 +323,11 @@ def update_curves(self, context):
 	curve.lock = True
 	curve.hide = hide
 	
+	
+	#############################################
+	##       update combined curve             ##
+	#############################################
+	
 	# get amplitude mode curve
 	amp_mode = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
 
@@ -434,10 +439,17 @@ class CtF(bpy.types.PropertyGroup):
 		update = update_curves)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
-		description = "only to vusualize the peaks curve. Can't be edit manually: use ppm settings.",
+		description = "Only to vusualize the peaks curve. Can't be edit manually: use ppm settings.",
 		default = 1,
 		min = 0,
 		max = 1)
+	combination = bpy.props.FloatProperty(
+		name = "combination",
+		description = "Only to vusualize the combination of peaks and amplitude curve curve. Can't be edit manually: use ppm and amplitude settings.",
+		default = 0,
+		min = 0,
+		max = 1)
+	
 	
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
@@ -549,6 +561,9 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks")
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "combination")
 			col = row.column()
 			col.operator(
 				"ctf.peaks_refresh",
