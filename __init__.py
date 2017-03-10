@@ -397,6 +397,12 @@ def update_curves(self, context):
 	clip.animation_data.action.fcurves.new('CtF.output')
 	output_curve = getFCurveByDataPath(clip, 'CtF.output')
 	
+	# get start and end curve ande default value:
+	start_curve = getFCurveByDataPath(clip, 'CtF.start')
+	start_value = clip.CtF.start
+	end_curve = getFCurveByDataPath(clip, 'CtF.end')
+	end_value = clip.CtF.end
+	
 	# generate first keyframe
 	output_curve.keyframe_points.insert( start - 1, 0 )
 	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
