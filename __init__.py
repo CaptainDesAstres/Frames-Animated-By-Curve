@@ -288,9 +288,9 @@ def update_curves(self, context):
 	
 	# get ppm curve and default value
 	ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
-	ppm_value = self.ppm
+	ppm_value = clip.CtF.ppm
 	value = 0
-	if ppm_curve is None and self.ppm <= 0:
+	if ppm_curve is None and clip.CtF.ppm <= 0:
 		# ppm isn't animate and is equal to 0, peaks always equal 1
 		peaks_curve.keyframe_points.insert(0, 1)
 	else:
