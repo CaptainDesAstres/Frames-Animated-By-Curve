@@ -397,11 +397,9 @@ def update_curves(self, context):
 	clip.animation_data.action.fcurves.new('CtF.output')
 	output_curve = getFCurveByDataPath(clip, 'CtF.output')
 	
-	# get start and end curve ande default value:
+	# get start and end curve
 	start_curve = getFCurveByDataPath(clip, 'CtF.start')
-	start_value = clip.CtF.start
 	end_curve = getFCurveByDataPath(clip, 'CtF.end')
-	end_value = clip.CtF.end
 	
 	# generate first keyframe
 	output_curve.keyframe_points.insert( start - 1, 0 )
@@ -411,6 +409,19 @@ def update_curves(self, context):
 	frame = start
 	end = context.scene.frame_end
 	while frame <= end:
+		# get start value at this frame
+		if start_curve is not None:
+			start_value = start_curve.evaluate(frame)
+		else:
+			start_value = clip.CtF.start
+		
+		# get end value at this frame
+		if end_curve is not None:
+			end_value = end_curve.evaluate(frame)
+		else:
+			end_value = clip.CtF.end
+		
+		# next frame
 		frame += 1
 	
 	# generate last keyframe
