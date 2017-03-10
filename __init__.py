@@ -397,6 +397,20 @@ def update_curves(self, context):
 	clip.animation_data.action.fcurves.new('CtF.output')
 	output_curve = getFCurveByDataPath(clip, 'CtF.output')
 	
+	# generate first keyframe
+	output_curve.keyframe_points.insert( start - 1, 0 )
+	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
+	
+	# generate a keyframe at each frame 
+	frame = start
+	end = context.scene.frame_end
+	while frame <= end:
+		frame += 1
+	
+	# generate last keyframe
+	output_curve.keyframe_points.insert( frame + 1, 0 )
+	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
+	
 	# prevent curve edition
 	output_curve.lock = True
 	output_curve.hide = hide
