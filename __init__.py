@@ -443,7 +443,7 @@ def update_curves(self, context):
 		
 		# generate keyframe
 		output_frame = rounding(
-				clip.CtF.first + start_value 
+				clip.CtF.first + start_value - 1 
 				+ combination_curve.evaluate(frame)
 				* (end_value - start_value)
 				)
