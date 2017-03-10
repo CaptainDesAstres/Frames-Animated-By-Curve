@@ -161,8 +161,6 @@ def set_end_frame(self, context):
 			self['start'] = 1
 			self['end'] = 2
 	
-	# update curves
-	update_curves(self, context)
 
 
 def set_start_frame(self, context):
@@ -179,8 +177,6 @@ def set_start_frame(self, context):
 			self['start'] = self.size - 1
 			self['end'] = self.size
 	
-	# update curves
-	update_curves(self, context)
 
 
 
@@ -189,8 +185,6 @@ def set_mini(self, context):
 	if self.mini > self.maxi:
 		self['maxi'] = self.mini
 	
-	# update curves
-	update_curves(self, context)
 
 
 
@@ -199,8 +193,6 @@ def set_maxi(self, context):
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
 	
-	# update curves
-	update_curves(self, context)
 
 
 def update_curves(self, context):
@@ -524,8 +516,7 @@ class CtF(bpy.types.PropertyGroup):
 			('ignore',			'Peaks Curve Ignore amplitude',
 				'Peaks amplitude are always 1',			3)
 			
-			],
-			update = update_curves
+			]
 		)
 	
 	# min value associated to the first frames
@@ -569,8 +560,7 @@ class CtF(bpy.types.PropertyGroup):
 		name = "ppm",
 		description = "peaks per minute",
 		default = 0,
-		min = 0,
-		update = update_curves)
+		min = 0)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. Can't be edit manually: use ppm settings.",
