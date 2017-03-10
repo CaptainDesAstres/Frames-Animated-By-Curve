@@ -433,11 +433,18 @@ def update_curves(self, context):
 		elif end_value > clip.CtF.size:
 			end_value = clip.CtF.size
 		
+		# generate keyframe
+		output_frame = clip.CtF.first + start_value \
+				+ combination_curve.evaluate(frame)\
+				* (end_value - start_value)
+		output_curve.keyframe_points.insert( frame, output_frame )
+		
+		
 		# next frame
 		frame += 1
 	
 	# generate last keyframe
-	output_curve.keyframe_points.insert( frame + 1, 0 )
+	output_curve.keyframe_points.insert( frame , 0 )
 	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
 	# prevent curve edition
