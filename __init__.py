@@ -270,42 +270,42 @@ def update_curves(self, context):
 	##       update peaks curve                ##
 	#############################################
 	# remove old peaks
-	curve = getFCurveByDataPath(clip, 'CtF.peaks')
-	if curve is not None:
-		hide = curve.hide
-		clip.animation_data.action.fcurves.remove(curve)
+	peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
+	if peaks_curve is not None:
+		hide = peaks_curve.hide
+		clip.animation_data.action.fcurves.remove(peaks_curve)
 	else:
 		hide = True
 	
 	# create new peaks
 	clip.animation_data.action.fcurves.new('CtF.peaks')
-	curve = getFCurveByDataPath(clip, 'CtF.peaks')
+	peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	
 	# get frame rate and start/end frame
 	fps = context.scene.render.fps
 	frame = start = context.scene.frame_start
 	end = context.scene.frame_end
 	
-	# get ppm curve
-	ppm = getFCurveByDataPath(clip, 'CtF.ppm')
+	# get ppm curve and default value
+	ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
+	ppm_value = self.ppm
 	value = 0
-	if ppm is None and self.ppm <= 0:
+	if ppm_curve is None and self.ppm <= 0:
 		# ppm isn't animate and is equal to 0, peaks always equal 1
-		curve.keyframe_points.insert(0, 1)
+		peaks_curve.keyframe_points.insert(0, 1)
 	else:
-		current_ppm = self.ppm
 		while(frame < end):
 			# get ppm value at this frame
-			if ppm is not None:
-				current_ppm = ppm.evaluate(frame)
+			if ppm_curve is not None:
+				ppm_value = ppm_curve.evaluate(frame)
 			
-			if(current_ppm > 0):
+			if(ppm_value > 0):
 				# add keyframe
-				curve.keyframe_points.insert(frame, value)
-				curve.keyframe_points[-1].interpolation = 'LINEAR'
+				peaks_curve.keyframe_points.insert(frame, value)
+				peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
 				
 				# next frame
-				interval = 60 / current_ppm * fps / 2
+				interval = 60 / ppm_value * fps / 2
 				frame += interval
 				
 				# invert value
@@ -317,12 +317,12 @@ def update_curves(self, context):
 				value = 0
 				frame += 0.01
 	# add last keyframe
-	curve.keyframe_points.insert(frame, value)
-	curve.keyframe_points[-1].interpolation = 'LINEAR'
+	peaks_curve.keyframe_points.insert(frame, value)
+	peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
 	# prevent curve edition
-	curve.lock = True
-	curve.hide = hide
+	peaks_curve.lock = True
+	peaks_curve.hide = hide
 	
 	
 	#############################################
