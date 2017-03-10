@@ -249,14 +249,15 @@ def update_curves(self, context):
 		
 		#compute net value
 		if raw_value <= mini_value:
-			value = 0
+			net_amplitude_value = 0
 		elif raw_value >= maxi_value:
-			value = 1
+			net_amplitude_value = 1
 		else:
-			value = ( raw_value - mini_value ) / ( maxi_value - mini_value )
+			net_amplitude_value = ( raw_value - mini_value )\
+									/( maxi_value - mini_value )
 		
 		# create keyframe
-		amplitude_net_curve.keyframe_points.insert(frame, value)
+		amplitude_net_curve.keyframe_points.insert(frame, net_amplitude_value)
 		
 		frame += 1
 	
