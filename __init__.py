@@ -382,6 +382,24 @@ def update_curves(self, context):
 	# prevent curve edition
 	combination_curve.lock = True
 	combination_curve.hide = hide
+	
+	
+	#############################################
+	##    update output frame curve            ##
+	#############################################
+	# get and initialize output curve
+	output_curve = getFCurveByDataPath(clip, 'CtF.output')
+	if output_curve is not None:
+		hide = output_curve.hide
+		clip.animation_data.action.fcurves.remove(output_curve)
+	else:
+		hide = True
+	clip.animation_data.action.fcurves.new('CtF.output')
+	output_curve = getFCurveByDataPath(clip, 'CtF.output')
+	
+	# prevent curve edition
+	output_curve.lock = True
+	output_curve.hide = hide
 
 
 class CtF(bpy.types.PropertyGroup):
