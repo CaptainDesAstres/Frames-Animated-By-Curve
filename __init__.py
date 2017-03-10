@@ -333,6 +333,16 @@ def update_curves(self, context):
 	amp_mode = clip.CtF['amplitude_mode']
 	amp_mode_curve = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
 	
+	# get and initialize combination curve
+	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
+	if combination_curve is not None:
+		hide = combination_curve.hide
+		clip.animation_data.action.fcurves.remove(combination_curve)
+	else:
+		hide = True
+	clip.animation_data.action.fcurves.new('CtF.combination')
+	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
+	
 	
 
 
