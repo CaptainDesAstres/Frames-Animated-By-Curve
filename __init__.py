@@ -629,6 +629,13 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "combination")
+			
+			# visualize output frame
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "output")
+			
+			# refresh curve
 			col = row.column()
 			col.operator(
 				"ctf.peaks_refresh",
