@@ -545,6 +545,9 @@ class CtF(bpy.types.PropertyGroup):
 			('ignore_amplitude',			'Only use peaks curve',
 				'Only use peaks curve',			3)
 			
+			('ignore_peaks',			'Only use amplitude curve',
+				'Only use amplitude curve',			4)
+			
 			],
 		update = update_curves
 		)
