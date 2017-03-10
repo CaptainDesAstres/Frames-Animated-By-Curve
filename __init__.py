@@ -415,11 +415,23 @@ def update_curves(self, context):
 		else:
 			start_value = clip.CtF.start
 		
+		# check start_value
+		if start_value < 1 :
+			start_value = 1
+		elif start_value > clip.CtF.size:
+			start_value = clip.CtF.size
+		
 		# get end value at this frame
 		if end_curve is not None:
 			end_value = end_curve.evaluate(frame)
 		else:
 			end_value = clip.CtF.end
+		
+		# check end_value
+		if end_value < start_value :
+			end_value = start_value
+		elif end_value > clip.CtF.size:
+			end_value = clip.CtF.size
 		
 		# next frame
 		frame += 1
