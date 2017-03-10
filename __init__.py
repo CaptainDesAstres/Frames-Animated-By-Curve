@@ -357,6 +357,14 @@ def update_curves(self, context):
 		if amp_mode != 3 : # «amplitude mode == multiply or clamp
 			value = value * amplitude_net_curve.evaluate(frame)
 		combination_curve.keyframe_points.insert(frame, value)
+	
+	
+	# loop for all frame
+	end = frame # consider peaks last keyframe as end 
+	frame = start
+	while frame <= end:
+		
+		frame += 1
 
 
 class CtF(bpy.types.PropertyGroup):
