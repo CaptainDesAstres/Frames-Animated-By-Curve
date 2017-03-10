@@ -701,6 +701,9 @@ class CtF(bpy.types.PropertyGroup):
 			# set combination mode
 			layout.separator()
 			row = layout.row()
+			if getFCurveByDataPath(clip, 'CtF.ppm') is None \
+					and clip.CtF.ppm <= 0:
+				row.enabled = False
 			row.prop(self, 'amplitude_mode')
 			
 			# visualize combination of peaks and amplitude curve
