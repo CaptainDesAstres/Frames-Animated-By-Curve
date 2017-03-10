@@ -337,7 +337,11 @@ def update_curves(self, context):
 	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
 	
 	if ppm_curve is None and clip.CtF.ppm <= 0:
-		
+		for keyframe in amplitude_net_curve.keyframe_points:
+			combination_curve.keyframe_points.insert(
+										keyframe.co[0],
+										keyframe.co[1]
+										)
 	else:
 		# loop only on peak curve keyframe
 		for keyframe in peaks_curve.keyframe_points:
