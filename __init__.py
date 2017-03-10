@@ -526,10 +526,6 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.label( text = "(Goes from "+str(m)+" to "+str(M)+')' )
 			
-			# amplitude ignoring checkbox
-			row = layout.row()
-			row.prop(self, 'amplitude_mode')
-			
 			# A field to set the min F-Curve Value to assigne to the first frames
 			row = layout.row()
 			col = row.column()
@@ -561,6 +557,18 @@ class CtF(bpy.types.PropertyGroup):
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks")
+			col = row.column()
+			col.operator(
+				"ctf.peaks_refresh",
+				text='',
+				icon='FILE_REFRESH')
+			
+			# set combination mode 
+			row = layout.row()
+			row.prop(self, 'amplitude_mode')
+			
+			# visualize combination of peaks and amplitude curve
+			row = layout.row()
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "combination")
