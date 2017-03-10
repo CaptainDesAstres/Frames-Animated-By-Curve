@@ -502,7 +502,7 @@ class CtF(bpy.types.PropertyGroup):
 		default = 0,
 		min = 0,
 		max = 1)
-	output = bpy.props.FloatProperty(
+	output = bpy.props.IntProperty(
 		name = "output frame",
 		description = "Only to visualize the output frames. Can't be edit manually.")
 	
