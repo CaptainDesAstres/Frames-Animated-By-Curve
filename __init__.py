@@ -538,9 +538,9 @@ class CtF(bpy.types.PropertyGroup):
 			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
 				'peaks keyframe is clamped by amplitude',		1),
 			
-#			('clamp_curve',		'Peaks Curve Clamped to amplitude',
-#				'all peaks value is clamped by amplitude',		2),
-#			
+			('clamp_curve',		'Peaks Curve Clamped to amplitude',
+				'all peaks value is clamped by amplitude',		2),
+			
 			('ignore',			'Peaks Curve Ignore amplitude',
 				'Peaks amplitude are always 1',			3)
 			
