@@ -377,7 +377,8 @@ class CtF(bpy.types.PropertyGroup):
 			('ignore',			'Peaks Curve Ignore amplitude',
 				'Peaks amplitude are always 1',			3)
 			
-			]
+			],
+			update = update_curves
 		)
 	
 	# min value associated to the first frames
