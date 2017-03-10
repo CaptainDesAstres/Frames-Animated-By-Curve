@@ -378,6 +378,10 @@ def update_curves(self, context):
 		
 		# next frame
 		frame += 1
+	
+	# prevent curve edition
+	combination_curve.lock = True
+	combination_curve.hide = hide
 
 
 class CtF(bpy.types.PropertyGroup):
