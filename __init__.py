@@ -563,7 +563,8 @@ class CtF(bpy.types.PropertyGroup):
 				text='',
 				icon='FILE_REFRESH')
 			
-			# set combination mode 
+			# set combination mode
+			layout.separator()
 			row = layout.row()
 			row.prop(self, 'amplitude_mode')
 			
