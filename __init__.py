@@ -376,20 +376,21 @@ def update_curves(self, context):
 		end = frame # consider peaks last keyframe as end 
 		frame = start
 		while frame <= end:
-			# get peaks value
-			value = peaks_curve.evaluate(frame)
-			
 			# get amplitude_mode at this frame
 			if amp_mode_curve is not None:
 				amp_mode = amp_mode_curve.evaluate(frame)
 			
 			if amp_mode == 0 : # amplitude mode is «multiply»
-				value = value * amplitude_net_curve.evaluate(frame)
-			
-			# generate keyframe if amplitude mode 
-			# is not «ignore» or «clamp_key»
-			if amp_mode not in [ 1, 3]:
+				value = peaks_curve.evaluate(frame)\
+						* amplitude_net_curve.evaluate(frame)
 				combination_curve.keyframe_points.insert(frame, value)
+			elif amp_mode == 2: # amplitude mode is «clamp_curve»
+				if( combination_curve.evaluate(frame) 
+					> amplitude_net_curve.evaluate(frame) ):
+					combination_curve.keyframe_points.insert(
+							frame,
+							amplitude_net_curve.evaluate(frame)
+							)
 			
 			# next frame
 			frame += 1
