@@ -331,10 +331,10 @@ def update_curves(self, context):
 	##       update combined curve             ##
 	#############################################
 	
-	# get amplitude mode curve
-	amp_mode = clip.CtF['amplitude_mode']
-	amp_mode_curve = getFCurveByDataPath(clip, 
-							'CtF.amplitude_mode')
+	# get combination mode curve
+	combination_mode = clip.CtF['combination_mode']
+	combination_mode_curve = getFCurveByDataPath(clip, 
+							'CtF.combination_mode')
 	
 	# get and initialize combination curve
 	combination_curve = getFCurveByDataPath(clip, 
@@ -362,12 +362,12 @@ def update_curves(self, context):
 			frame = keyframe.co[0]
 			value = keyframe.co[1]
 			
-			# get amplitude_mode at this frame
-			if amp_mode_curve is not None:
-				amp_mode = amp_mode_curve.evaluate(frame)
+			# get combination_mode at this frame
+			if combination_mode_curve is not None:
+				combination_mode = combination_mode_curve.evaluate(frame)
 			
 			# generate keyframe
-			if amp_mode != 3 : # «amplitude mode == multiply or clamp
+			if combination_mode != 3 : # «combination mode == multiply or clamp
 				value = value * amplitude_net_curve.evaluate(frame)
 			combination_curve.keyframe_points.insert(frame, value)
 		
@@ -376,15 +376,15 @@ def update_curves(self, context):
 		end = frame # consider peaks last keyframe as end 
 		frame = start
 		while frame <= end:
-			# get amplitude_mode at this frame
-			if amp_mode_curve is not None:
-				amp_mode = amp_mode_curve.evaluate(frame)
+			# get combination_mode at this frame
+			if combination_mode_curve is not None:
+				combination_mode = combination_mode_curve.evaluate(frame)
 			
-			if amp_mode == 0 : # amplitude mode is «multiply»
+			if combination_mode == 0 : # combination mode is «multiply»
 				value = peaks_curve.evaluate(frame)\
 						* amplitude_net_curve.evaluate(frame)
 				combination_curve.keyframe_points.insert(frame, value)
-			elif amp_mode == 2: # amplitude mode is «clamp_curve»
+			elif combination_mode == 2: # combination mode is «clamp_curve»
 				if( combination_curve.evaluate(frame) 
 					> amplitude_net_curve.evaluate(frame) ):
 					combination_curve.keyframe_points.insert(
@@ -524,9 +524,9 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'show the apply of mini and maxi to \
 							amplitude raw. Can\'t be edit.',
 		)
-	amplitude_mode = bpy.props.EnumProperty(
-		name = 'amplitude mode',
-		description = 'the way to use amplitude associated with peaks',
+	combination_mode = bpy.props.EnumProperty(
+		name = 'combination mode',
+		description = 'the way to combine amplitude and peaks curve',
 		default = 'multiply',
 		items = [
 #			(identifier,			name,
@@ -542,8 +542,8 @@ class CtF(bpy.types.PropertyGroup):
 			('clamp_curve',		'Peaks Curve Clamped to amplitude',
 				'all peaks value is clamped by amplitude',		2),
 			
-			('ignore',			'Peaks Curve Ignore amplitude',
-				'Peaks amplitude are always 1',			3)
+			('ignore',			'Only use peaks curve',
+				'Only use peaks curve',			3)
 			
 			],
 		update = update_curves
@@ -709,7 +709,7 @@ class CtF(bpy.types.PropertyGroup):
 			# assigne to the last frames
 			col = row.column()
 			col.prop(self, "maxi")
-			if(self.amplitude_mode == 'ignore'):
+			if(self.combination_mode == 'ignore'):
 				col.enabled = False
 			
 			# A button to get curve min max value
@@ -746,7 +746,7 @@ class CtF(bpy.types.PropertyGroup):
 			if getFCurveByDataPath(clip, 'CtF.ppm') is None \
 					and clip.CtF.ppm <= 0:
 				row.enabled = False
-			row.prop(self, 'amplitude_mode')
+			row.prop(self, 'combination_mode')
 			
 			# visualize combination of peaks and amplitude curve
 			row = layout.row()
