@@ -336,42 +336,45 @@ def update_curves(self, context):
 	clip.animation_data.action.fcurves.new('CtF.combination')
 	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
 	
-	# loop only on peak curve keyframe
-	for keyframe in peaks_curve.keyframe_points:
-		# get peaks keyframe value and frame
-		frame = keyframe.co[0]
-		value = keyframe.co[1]
+	if ppm_curve is None and clip.CtF.ppm <= 0:
 		
-		# get amplitude_mode at this frame
-		if amp_mode_curve is not None:
-			amp_mode = amp_mode_curve.evaluate(frame)
-		
-		# generate keyframe
-		if amp_mode != 3 : # «amplitude mode == multiply or clamp
-			value = value * amplitude_net_curve.evaluate(frame)
-		combination_curve.keyframe_points.insert(frame, value)
-	
-	
-	# loop for all frame
-	end = frame # consider peaks last keyframe as end 
-	frame = start
-	while frame <= end:
-		# get peaks value
-		value = peaks_curve.evaluate(frame)
-		
-		# get amplitude_mode at this frame
-		if amp_mode_curve is not None:
-			amp_mode = amp_mode_curve.evaluate(frame)
-		
-		if amp_mode == 0 : # amplitude mode is «multiply»
-			value = value * amplitude_net_curve.evaluate(frame)
-		
-		# generate keyframe if amplitude mode is not «ignore» or «clamp_key»
-		if amp_mode not in [ 1, 3]:
+	else:
+		# loop only on peak curve keyframe
+		for keyframe in peaks_curve.keyframe_points:
+			# get peaks keyframe value and frame
+			frame = keyframe.co[0]
+			value = keyframe.co[1]
+			
+			# get amplitude_mode at this frame
+			if amp_mode_curve is not None:
+				amp_mode = amp_mode_curve.evaluate(frame)
+			
+			# generate keyframe
+			if amp_mode != 3 : # «amplitude mode == multiply or clamp
+				value = value * amplitude_net_curve.evaluate(frame)
 			combination_curve.keyframe_points.insert(frame, value)
 		
-		# next frame
-		frame += 1
+		
+		# loop for all frame
+		end = frame # consider peaks last keyframe as end 
+		frame = start
+		while frame <= end:
+			# get peaks value
+			value = peaks_curve.evaluate(frame)
+			
+			# get amplitude_mode at this frame
+			if amp_mode_curve is not None:
+				amp_mode = amp_mode_curve.evaluate(frame)
+			
+			if amp_mode == 0 : # amplitude mode is «multiply»
+				value = value * amplitude_net_curve.evaluate(frame)
+			
+			# generate keyframe if amplitude mode is not «ignore» or «clamp_key»
+			if amp_mode not in [ 1, 3]:
+				combination_curve.keyframe_points.insert(frame, value)
+			
+			# next frame
+			frame += 1
 	
 	# prevent curve edition
 	combination_curve.lock = True
