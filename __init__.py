@@ -343,7 +343,20 @@ def update_curves(self, context):
 	clip.animation_data.action.fcurves.new('CtF.combination')
 	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
 	
-	
+	# loop only on peak curve keyframe
+	for keyframe in peaks_curve.keyframe_points:
+		# get peaks keyframe value and frame
+		frame = keyframe.co[0]
+		value = keyframe.co[1]
+		
+		# get amplitude_mode at this frame
+		if amp_mode_curve is not None:
+			amp_mode = amp_mode_curve.evaluate(frame)
+		
+		# generate keyframe
+		if amp_mode != 3 : # «amplitude mode == multiply or clamp
+			value = value * amplitude_net_curve.evaluate(frame)
+		combination_curve.keyframe_points.insert(frame, value)
 
 
 class CtF(bpy.types.PropertyGroup):
