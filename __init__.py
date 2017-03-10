@@ -316,9 +316,10 @@ def update_curves(self, context):
 			else:
 				value = 0
 				frame += 0.01
-	# add last keyframe
-	peaks_curve.keyframe_points.insert(frame, value)
-	peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
+		
+		# add last keyframe
+		peaks_curve.keyframe_points.insert(frame, value)
+		peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
 	# prevent curve edition
 	peaks_curve.lock = True
