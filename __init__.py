@@ -789,16 +789,8 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			output = os.symlink
 		
-		# get rounding method
-		if(settings.rounding == 'round'):
-			rounding = round
-		elif(settings.rounding == 'floor'):
-			rounding = floor
-		else:
-			rounding = ceil
-		
-		# get dertination directory name
-		dst = settings.path +settings.destination
+		# get destination directory name
+		dst = settings.path + settings.destination
 		if(dst[-1] != '/'):
 			dst += '/'
 		
@@ -836,35 +828,8 @@ class CurveToFrame(bpy.types.Operator):
 			# set current frame and update property value
 			context.scene.frame_set(frame)
 			
-			# get amplitade value
-			val = settings.amplitude
-			
-			# compute maxi value and first and last frame numbber
-			maxi = settings.maxi - settings.mini
-			first = settings.first + settings.start - 1
-			last = settings.first + settings.end - 1
-			
-			
-			# compute corresponding frame
-			if(val <= settings.mini
-					and settings.amplitude_mode == 'multiply'):
-				fr = first
-			else:
-				if(settings.amplitude_mode == 'multiply'):
-					val = (val - settings.mini) * settings.peaks
-					
-					if(val >= maxi):
-						fr = last
-					else:
-						# compute interval value and frame
-						interval = ((settings.maxi - settings.mini)/
-									 (settings.end - settings.start))
-						fr = first + rounding( val / interval )
-				else:
-					val = settings.peaks
-					# compute interval value and frame
-					interval = 1 / (settings.end - settings.start)
-					fr = first + rounding( val / interval )
+			# get output frame
+			fr = clip.CtF.output
 			
 			# copy (or symlink) the corresponding frame into the destination path
 			try:
