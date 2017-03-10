@@ -366,8 +366,9 @@ def update_curves(self, context):
 		if amp_mode == 0 : # amplitude mode is «multiply»
 			value = value * amplitude_net_curve.evaluate(frame)
 		
-		# generate keyframe
-		combination_curve.keyframe_points.insert(frame, value)
+		# generate keyframe if amplitude mode is not «ignore» or «clamp_key»
+		if amp_mode not in [ 1, 3]:
+			combination_curve.keyframe_points.insert(frame, value)
 		
 		# next frame
 		frame += 1
