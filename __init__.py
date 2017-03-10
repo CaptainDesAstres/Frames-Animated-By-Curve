@@ -329,7 +329,10 @@ def update_curves(self, context):
 	#############################################
 	
 	# get amplitude mode curve
-	amp_mode = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
+	amp_mode = clip.CtF['amplitude_mode']
+	amp_mode_curve = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
+	
+	
 
 
 class CtF(bpy.types.PropertyGroup):
