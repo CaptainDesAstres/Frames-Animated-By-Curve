@@ -369,7 +369,9 @@ def update_curves(self, context):
 			# generate keyframe
 			if combination_mode != 3 : # «combination mode == multiply or clamp
 				value = value * amplitude_net_curve.evaluate(frame)
-			combination_curve.keyframe_points.insert(frame, value)
+			
+			if combination_mode != 4 :
+				combination_curve.keyframe_points.insert(frame, value)
 		
 		
 		# loop for all frame
@@ -388,6 +390,12 @@ def update_curves(self, context):
 				if( combination_curve.evaluate(frame) 
 					> amplitude_net_curve.evaluate(frame) ):
 					combination_curve.keyframe_points.insert(
+							frame,
+							amplitude_net_curve.evaluate(frame)
+							)
+			elif combination_mode == 4: 
+				# combination mode is «ignore peaks»
+				combination_curve.keyframe_points.insert(
 							frame,
 							amplitude_net_curve.evaluate(frame)
 							)
@@ -543,7 +551,7 @@ class CtF(bpy.types.PropertyGroup):
 				'all peaks value is clamped by amplitude',		2),
 			
 			('ignore_amplitude',			'Only use peaks curve',
-				'Only use peaks curve',			3)
+				'Only use peaks curve',			3),
 			
 			('ignore_peaks',			'Only use amplitude curve',
 				'Only use amplitude curve',			4)
