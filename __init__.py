@@ -16,13 +16,15 @@ from math import ceil, floor
 if platform.system().lower() in ['linux', 'unix']:
 	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
-		description="Do Frames Animated By Curve add-on make real file copy rather than symbolic link.",
+		description="Do Frames Animated By Curve add-on make \
+				real file copy rather than symbolic link.",
 		options = {'LIBRARY_EDITABLE'},
 		default = False)
 else:
 	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
 		name="Make real copy file", 
-		description="You must keep this enable as your system don't implement symbolic link. disable at your one risk!",
+		description="You must keep this enable as your system \
+				don't implement symbolic link. disable at your one risk!",
 		options = {'LIBRARY_EDITABLE'},
 		default = True)
 
@@ -116,8 +118,8 @@ def getFCurveByDataPath(ob, path):
 
 def checkCtFDriver(ob):
 	'''check the object have no driver on property used by the addon'''
-	if(	ob.animation_data is None
-		or ob.animation_data.drivers is None):
+	if(		ob.animation_data is None
+			or ob.animation_data.drivers is None):
 		return False
 	
 	for driver in ob.animation_data.drivers:
@@ -148,7 +150,8 @@ def getCurveLimit(curve):
 
 
 def set_end_frame(self, context):
-	'''check that start and end frame are valid when changing end frame settings'''
+	'''check that start and end frame are valid when 
+			changing end frame settings'''
 	# check end isn't over clip size
 	if self.end > self.size:
 		self.end = self.size
@@ -164,7 +167,8 @@ def set_end_frame(self, context):
 
 
 def set_start_frame(self, context):
-	'''check that start and end frame are valid when changing start frame settings'''
+	'''check that start and end frame are valid 
+			when changing start frame settings'''
 	# check start isn't under 0
 	if self.start < 1:
 		self.start = 1
@@ -181,7 +185,8 @@ def set_start_frame(self, context):
 
 
 def set_mini(self, context):
-	'''check that maxi value are greater than maxi value when editing mini value'''
+	'''check that maxi value are greater than maxi value 
+			when editing mini value'''
 	if self.mini > self.maxi:
 		self['maxi'] = self.mini
 	
@@ -189,7 +194,8 @@ def set_mini(self, context):
 
 
 def set_maxi(self, context):
-	'''check that maxi value are greater than maxi value when editing maxi value'''
+	'''check that maxi value are greater than maxi value
+			when editing maxi value'''
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
 	
@@ -206,14 +212,16 @@ def update_curves(self, context):
 	end = ceil(context.scene.frame_end + 5)
 	
 	# get and erase amplitude_net fcurve
-	amplitude_net_curve = getFCurveByDataPath(clip, 'CtF.amplitude_net')
+	amplitude_net_curve = getFCurveByDataPath(clip, 
+									'CtF.amplitude_net')
 	if amplitude_net_curve is not None:
 		hide = amplitude_net_curve.hide
 		clip.animation_data.action.fcurves.remove(amplitude_net_curve)
 	else:
 		hide = True
 	clip.animation_data.action.fcurves.new('CtF.amplitude_net')
-	amplitude_net_curve = getFCurveByDataPath(clip, 'CtF.amplitude_net')
+	amplitude_net_curve = getFCurveByDataPath(clip,
+									'CtF.amplitude_net')
 	
 	# get amplitude fcurve
 	raw_curve = getFCurveByDataPath(clip, 'CtF.amplitude')
@@ -249,7 +257,8 @@ def update_curves(self, context):
 									/( maxi_value - mini_value )
 		
 		# create keyframe
-		amplitude_net_curve.keyframe_points.insert(frame, net_amplitude_value)
+		amplitude_net_curve.keyframe_points.insert(frame,
+							net_amplitude_value)
 		
 		frame += 1
 	
@@ -324,17 +333,21 @@ def update_curves(self, context):
 	
 	# get amplitude mode curve
 	amp_mode = clip.CtF['amplitude_mode']
-	amp_mode_curve = getFCurveByDataPath(clip, 'CtF.amplitude_mode')
+	amp_mode_curve = getFCurveByDataPath(clip, 
+							'CtF.amplitude_mode')
 	
 	# get and initialize combination curve
-	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
+	combination_curve = getFCurveByDataPath(clip, 
+							'CtF.combination')
 	if combination_curve is not None:
 		hide = combination_curve.hide
 		clip.animation_data.action.fcurves.remove(combination_curve)
 	else:
 		hide = True
-	clip.animation_data.action.fcurves.new('CtF.combination')
-	combination_curve = getFCurveByDataPath(clip, 'CtF.combination')
+	clip.animation_data.action.fcurves.new(
+								'CtF.combination')
+	combination_curve = getFCurveByDataPath(clip, 
+								'CtF.combination')
 	
 	if ppm_curve is None and clip.CtF.ppm <= 0:
 		for keyframe in amplitude_net_curve.keyframe_points:
@@ -373,7 +386,8 @@ def update_curves(self, context):
 			if amp_mode == 0 : # amplitude mode is «multiply»
 				value = value * amplitude_net_curve.evaluate(frame)
 			
-			# generate keyframe if amplitude mode is not «ignore» or «clamp_key»
+			# generate keyframe if amplitude mode 
+			# is not «ignore» or «clamp_key»
 			if amp_mode not in [ 1, 3]:
 				combination_curve.keyframe_points.insert(frame, value)
 			
@@ -464,7 +478,8 @@ def update_curves(self, context):
 
 
 class CtF(bpy.types.PropertyGroup):
-	''' class containang all MovieClip Property design form CtF addon'''
+	''' class containang all MovieClip Property 
+			design form CtF addon'''
 	
 	# flag to know if CtF have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
@@ -479,7 +494,8 @@ class CtF(bpy.types.PropertyGroup):
 	# first frame of the clip to use
 	start = bpy.props.IntProperty(
 		name = "First frame",
-		description = "first frame that Frames Animated By Curve add-on must take in count",
+		description = "first frame that Frames Animated \
+					By Curve add-on must take in count",
 		default = 1,
 		min = 1,
 		update = set_start_frame)
@@ -487,7 +503,8 @@ class CtF(bpy.types.PropertyGroup):
 	# last frame of the clip to use
 	end = bpy.props.IntProperty(
 		name = "Last frame",
-		description = "last frame that Frames Animated By Curve add-on must take in count",
+		description = "last frame that Frames Animated \
+					By Curve add-on must take in count",
 		update = set_end_frame)
 	
 	
@@ -497,12 +514,14 @@ class CtF(bpy.types.PropertyGroup):
 	# amplitude property
 	amplitude = bpy.props.FloatProperty(
 		name = 'amplitude (raw)',
-		description = 'Determined the frame of the Movie clip to use at each frame',
+		description = 'Determined the frame of the Movie \
+								clip to use at each frame',
 		default = 0.0
 		)
 	amplitude_net = bpy.props.FloatProperty(
 		name = 'amplitude (net)',
-		description = 'show the apply of mini and maxi to amplitude raw. Can\'t be edit.',
+		description = 'show the apply of mini and maxi to \
+							amplitude raw. Can\'t be edit.',
 		)
 	amplitude_mode = bpy.props.EnumProperty(
 		name = 'amplitude mode',
@@ -513,7 +532,8 @@ class CtF(bpy.types.PropertyGroup):
 #				description, number)
 			
 			('multiply',		'Peaks Curve Multiplied by amplitude',
-				'peaks is multiplied by amplitude percentage of maxi',				0),
+				'peaks is multiplied by \
+				amplitude percentage of maxi',				0),
 			
 			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
 				'peaks keyframe is clamped by amplitude',		1),
@@ -530,7 +550,9 @@ class CtF(bpy.types.PropertyGroup):
 	# min value associated to the first frames
 	mini = bpy.props.FloatProperty(
 		name = 'Mini',
-		description = 'the minimal value of the amplitude curve, all smaller value will display the first frame',
+		description = 'the minimal value of the \
+						amplitude curve, all smaller\
+						 value will display the first frame',
 		default = 0.0,
 		update = set_mini
 		)
@@ -538,7 +560,10 @@ class CtF(bpy.types.PropertyGroup):
 	# max value associated to the last frames
 	maxi = bpy.props.FloatProperty(
 		name = 'maxi',
-		description = 'the maximal value of the amplitude curve. All bigger value will display the last frame. This property is useless when amplitude is ignored.',
+		description = 'the maximal value of the amplitude\
+						 curve. All bigger value will display \
+						the last frame. This property is useless \
+						when amplitude is ignored.',
 		default = 1.0,
 		update = set_maxi
 		)
@@ -546,11 +571,14 @@ class CtF(bpy.types.PropertyGroup):
 	# Rounding method
 	rounding = bpy.props.EnumProperty(
 		name = 'Rounding method',
-		description = 'the rounding method use by the script to round the float computed value into a integer value corresponding to a frame',
+		description = 'the rounding method use by the \
+						script to round the float computed \
+						value into a integer value corresponding \
+						to a frame',
 		options = {'LIBRARY_EDITABLE'},
 		default = 'round',
 		items = [
-			#(identifier,	name, 		description, 					icon, number)
+			#(identifier,	name, 		description )
 			('round',		'round',	'the closest integer.'),
 			('ceil',		'ceil',		'the closest greater integer'),
 			('floor',		'floor',		'the closest smaller integer')
@@ -560,7 +588,9 @@ class CtF(bpy.types.PropertyGroup):
 	# destination sub directory name
 	destination = bpy.props.StringProperty(
 		name = "Destination subdirectory",
-		description = "The name of the directory (create in the source directory) where generated file gone be.",
+		description = "The name of the directory (create \
+						in the source directory) where \
+						generated file gone be.",
 		default = "CtFOutput" )
 	
 	# peaks per minute settings and curve
@@ -571,19 +601,23 @@ class CtF(bpy.types.PropertyGroup):
 		min = 0)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
-		description = "Only to visualize the peaks curve. Can't be edit manually: use ppm settings.",
+		description = "Only to visualize the peaks curve. \
+					Can't be edit manually: use ppm settings.",
 		default = 1,
 		min = 0,
 		max = 1)
 	combination = bpy.props.FloatProperty(
 		name = "combination",
-		description = "Only to visualize the combination of peaks and amplitude curve curve. Can't be edit manually: use ppm and amplitude settings.",
+		description = "Only to visualize the combination of \
+					peaks and amplitude curve curve. Can't \
+					be edit manually: use ppm and amplitude settings.",
 		default = 0,
 		min = 0,
 		max = 1)
 	output = bpy.props.IntProperty(
 		name = "output frame",
-		description = "Only to visualize the output frames. Can't be edit manually.")
+		description = "Only to visualize the output frames. \
+						Can't be edit manually.")
 	
 	
 	def getFrameName(self, n):
@@ -633,7 +667,8 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# Display first to last accepted frame name range
 			col = row.column()
-			col.label( text="Valid frames: "+self.getFrameName(self.first)+' to '\
+			col.label( text="Valid frames: "\
+				+self.getFrameName(self.first)+' to '\
 				+self.getFrameName(self.last) )
 			
 			# Display Start/End settings
@@ -659,14 +694,17 @@ class CtF(bpy.types.PropertyGroup):
 			m = round(m*1000)/1000
 			M = round(M*1000)/1000
 			col = row.column()
-			col.label( text = "(Goes from "+str(m)+" to "+str(M)+')' )
+			col.label( text = "(Goes from "+str(m)\
+						+" to "+str(M)+')' )
 			
-			# A field to set the min F-Curve Value to assigne to the first frames
+			# A field to set the min F-Curve Value to 
+			# assigne to the first frames
 			row = layout.row()
 			col = row.column()
 			col.prop(self, "mini")
 			
-			# A field to set the max F-Curve Value to assigne to the last frames
+			# A field to set the max F-Curve Value to 
+			# assigne to the last frames
 			col = row.column()
 			col.prop(self, "maxi")
 			if(self.amplitude_mode == 'ignore'):
@@ -674,7 +712,9 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# A button to get curve min max value
 			col = row.column()
-			col.operator('ctf.refresh_mini_maxi', icon='FILE_REFRESH', text = '')
+			col.operator('ctf.refresh_mini_maxi',
+						icon='FILE_REFRESH',
+						text = '')
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "amplitude_net")
@@ -724,7 +764,8 @@ class CtF(bpy.types.PropertyGroup):
 				text='',
 				icon='FILE_REFRESH')
 			
-			# A field to choose between Round Floor and Ceil rounding method
+			# A field to choose between Round Floor and 
+			# Ceil rounding method
 			layout.separator()
 			row = layout.row()
 			col = row.column()
@@ -734,13 +775,15 @@ class CtF(bpy.types.PropertyGroup):
 			
 			col = row.column()
 			if(not context.scene.CtFRealCopy \
-				and platform.system().lower() not in ['linux', 'unix']):
+					and platform.system().lower() not in\
+								['linux', 'unix']):
 				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
 				warning = True
 			else:
 				col.prop(context.scene, "CtFRealCopy")
 			
-			# A field to set the name of the sub directory name to use as destination
+			# A field to set the name of the sub 
+			# directory name to use as destination
 			row = layout.row()
 			col = row.column()
 			col.prop(self, "destination")
@@ -818,7 +861,9 @@ class CurveToFrame(bpy.types.Operator):
 			try:
 				os.mkdir(dst)
 			except OSError as e:
-				self.report({'ERROR'}, 'impossible to create destination directory :'+e.strerror)
+				self.report({'ERROR'}, 
+						'impossible to create destination\
+							 directory :'+e.strerror)
 				return {'CANCELLED'}
 		
 		
@@ -833,13 +878,16 @@ class CurveToFrame(bpy.types.Operator):
 			# get output frame
 			fr = clip.CtF.output
 			
-			# copy (or symlink) the corresponding frame into the destination path
+			# copy (or symlink) the corresponding 
+			# frame into the destination path
 			try:
 				output( settings.path + clip.CtF.getFrameName(fr),
 						dst + clip.CtF.getFrameName(context.scene.frame_current)
 						)
 			except OSError as e:
-				self.report({'ERROR'}, 'error while copying file: '+e.strerror+'. Abort action.')
+				self.report({'ERROR'}, 
+						'error while copying file: '\
+							+e.strerror+'. Abort action.')
 				context.scene.frame_set(current)
 				return {'CANCELLED'}
 		
@@ -871,8 +919,8 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 		else:
 			# Display a request for a movie clip
 			row = layout.row()
-			row.label( text="select/load an images sequence in Movie Editor.",
-					 icon="ERROR" )
+			row.label( text="select/load an images sequence \
+					in Movie Editor.", icon="ERROR" )
 			row = layout.row()
 			row.operator(
 				"ctf.refresh",
