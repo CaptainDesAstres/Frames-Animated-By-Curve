@@ -542,7 +542,7 @@ class CtF(bpy.types.PropertyGroup):
 			('clamp_curve',		'Peaks Curve Clamped to amplitude',
 				'all peaks value is clamped by amplitude',		2),
 			
-			('ignore',			'Only use peaks curve',
+			('ignore_amplitude',			'Only use peaks curve',
 				'Only use peaks curve',			3)
 			
 			],
@@ -709,7 +709,7 @@ class CtF(bpy.types.PropertyGroup):
 			# assigne to the last frames
 			col = row.column()
 			col.prop(self, "maxi")
-			if(self.combination_mode == 'ignore'):
+			if(self.combination_mode == 'ignore_amplitude'):
 				col.enabled = False
 			
 			# A button to get curve min max value
