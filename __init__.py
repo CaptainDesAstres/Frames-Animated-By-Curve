@@ -492,16 +492,19 @@ class CtF(bpy.types.PropertyGroup):
 		update = update_curves)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
-		description = "Only to vusualize the peaks curve. Can't be edit manually: use ppm settings.",
+		description = "Only to visualize the peaks curve. Can't be edit manually: use ppm settings.",
 		default = 1,
 		min = 0,
 		max = 1)
 	combination = bpy.props.FloatProperty(
 		name = "combination",
-		description = "Only to vusualize the combination of peaks and amplitude curve curve. Can't be edit manually: use ppm and amplitude settings.",
+		description = "Only to visualize the combination of peaks and amplitude curve curve. Can't be edit manually: use ppm and amplitude settings.",
 		default = 0,
 		min = 0,
 		max = 1)
+	output = bpy.props.FloatProperty(
+		name = "output frame",
+		description = "Only to visualize the output frames. Can't be edit manually.")
 	
 	
 	def getFrameName(self, n):
