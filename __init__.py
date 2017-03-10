@@ -507,9 +507,9 @@ class CtF(bpy.types.PropertyGroup):
 			('multiply',		'Peaks Curve Multiplied by amplitude',
 				'peaks is multiplied by amplitude percentage of maxi',				0),
 			
-#			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
-#				'peaks keyframe is clamped by amplitude',		1),
-#			
+			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
+				'peaks keyframe is clamped by amplitude',		1),
+			
 #			('clamp_curve',		'Peaks Curve Clamped to amplitude',
 #				'all peaks value is clamped by amplitude',		2),
 #			
