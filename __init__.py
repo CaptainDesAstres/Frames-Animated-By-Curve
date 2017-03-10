@@ -214,14 +214,14 @@ def update_curves(self, context):
 	end = ceil(context.scene.frame_end + 5)
 	
 	# get and erase amplitude_net fcurve
-	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
-	if net is not None:
-		hide = net.hide
-		clip.animation_data.action.fcurves.remove(net)
+	amplitude_net_curve = getFCurveByDataPath(clip, 'CtF.amplitude_net')
+	if amplitude_net_curve is not None:
+		hide = amplitude_net_curve.hide
+		clip.animation_data.action.fcurves.remove(amplitude_net_curve)
 	else:
 		hide = True
 	clip.animation_data.action.fcurves.new('CtF.amplitude_net')
-	net = getFCurveByDataPath(clip, 'CtF.amplitude_net')
+	amplitude_net_curve = getFCurveByDataPath(clip, 'CtF.amplitude_net')
 	
 	# get amplitude fcurve
 	raw = getFCurveByDataPath(clip, 'CtF.amplitude')
@@ -256,13 +256,13 @@ def update_curves(self, context):
 			value = (r-m) / (M-m)
 		
 		# create keyframe
-		net.keyframe_points.insert(frame, value)
+		amplitude_net_curve.keyframe_points.insert(frame, value)
 		
 		frame += 1
 	
 	# prevent curve edition
-	net.lock = True
-	net.hide = hide
+	amplitude_net_curve.lock = True
+	amplitude_net_curve.hide = hide
 	
 	
 	#############################################
