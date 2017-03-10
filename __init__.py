@@ -428,6 +428,22 @@ class CtF(bpy.types.PropertyGroup):
 	numberSize = bpy.props.IntProperty() # the source name frame number size in char
 	first = bpy.props.IntProperty() # the first frame number (in source file name)
 	last = bpy.props.IntProperty() # the last frame number (in source file name)
+	
+	# first frame of the clip to use
+	start = bpy.props.IntProperty(
+		name = "First frame",
+		description = "first frame that Frames Animated By Curve add-on must take in count",
+		default = 1,
+		min = 1,
+		update = set_start_frame)
+	
+	# last frame of the clip to use
+	end = bpy.props.IntProperty(
+		name = "Last frame",
+		description = "last frame that Frames Animated By Curve add-on must take in count",
+		update = set_end_frame)
+	
+	
 	size = bpy.props.IntProperty() # number of frame of the sequence
 	ext = bpy.props.StringProperty() # extension of source file
 	
@@ -500,20 +516,6 @@ class CtF(bpy.types.PropertyGroup):
 		name = "Destination subdirectory",
 		description = "The name of the directory (create in the source directory) where generated file gone be.",
 		default = "CtFOutput" )
-	
-	# first frame of the clip to use
-	start = bpy.props.IntProperty(
-		name = "First frame",
-		description = "first frame that Frames Animated By Curve add-on must take in count",
-		default = 1,
-		min = 1,
-		update = set_start_frame)
-	
-	# last frame of the clip to use
-	end = bpy.props.IntProperty(
-		name = "Last frame",
-		description = "last frame that Frames Animated By Curve add-on must take in count",
-		update = set_end_frame)
 	
 	# peaks per minute settings and curve
 	ppm = bpy.props.FloatProperty(
