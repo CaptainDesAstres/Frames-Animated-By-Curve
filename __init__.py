@@ -405,6 +405,14 @@ def update_curves(self, context):
 	output_curve.keyframe_points.insert( start - 1, 0 )
 	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
+	# get rounding method
+	if(clip.CtF.rounding == 'round'):
+		rounding = round
+	elif(clip.CtF.rounding == 'floor'):
+		rounding = floor
+	else:
+		rounding = ceil
+	
 	# generate a keyframe at each frame 
 	frame = start
 	end = context.scene.frame_end
@@ -434,9 +442,11 @@ def update_curves(self, context):
 			end_value = clip.CtF.size
 		
 		# generate keyframe
-		output_frame = clip.CtF.first + start_value \
-				+ combination_curve.evaluate(frame)\
+		output_frame = rounding(
+				clip.CtF.first + start_value 
+				+ combination_curve.evaluate(frame)
 				* (end_value - start_value)
+				)
 		output_curve.keyframe_points.insert( frame, output_frame )
 		
 		
