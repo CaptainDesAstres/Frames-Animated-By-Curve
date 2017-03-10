@@ -228,32 +228,32 @@ def update_curves(self, context):
 	raw_value = clip.CtF.amplitude
 	
 	# get mini and maxi fcurve
-	mini = getFCurveByDataPath(clip, 'CtF.mini')
-	m = clip.CtF.mini
-	maxi = getFCurveByDataPath(clip, 'CtF.maxi')
-	M = clip.CtF.maxi
+	mini_curve = getFCurveByDataPath(clip, 'CtF.mini')
+	mini_value = clip.CtF.mini
+	maxi_curve = getFCurveByDataPath(clip, 'CtF.maxi')
+	maxi_value = clip.CtF.maxi
 	
 	# generate amplitude_net curve
 	while( frame <= end ):
 		# get mini value at this frame
-		if mini is not None:
-			m = mini.evaluate(frame)
+		if mini_curve is not None:
+			mini_value = mini_curve.evaluate(frame)
 		
 		# get maxi value at thes frame
-		if maxi is not None:
-			M = maxi.evaluate(frame)
+		if maxi_curve is not None:
+			maxi_value = maxi_curve.evaluate(frame)
 		
 		# get amplitude raw value
 		if raw_curve is not None:
 			raw_value = raw_curve.evaluate(frame)
 		
 		#compute net value
-		if raw_value <= m:
+		if raw_value <= mini_value:
 			value = 0
-		elif raw_value >= M:
+		elif raw_value >= maxi_value:
 			value = 1
 		else:
-			value = (raw_value-m) / (M-m)
+			value = ( raw_value - mini_value ) / ( maxi_value - mini_value )
 		
 		# create keyframe
 		amplitude_net_curve.keyframe_points.insert(frame, value)
