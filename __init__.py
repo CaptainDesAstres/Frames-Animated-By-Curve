@@ -401,7 +401,8 @@ def update_curves(self, context):
 		
 		
 		# loop for all frame
-		end = frame # consider peaks last keyframe as end 
+		end = max(	peaks_curve.keyframe_points[-1].co[0], 
+					context.scene.frame_end )
 		frame = start
 		while frame <= end:
 			# get combination_mode at this frame
