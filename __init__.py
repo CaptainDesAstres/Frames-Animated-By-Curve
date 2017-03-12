@@ -636,6 +636,11 @@ class CtF(bpy.types.PropertyGroup):
 		name = "ppm",
 		description = "peaks per minute",
 		default = 0)
+	auto_constant = bpy.props.BoolProperty(
+		name="auto convert ppm keyframe into constant interpolation", 
+		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
+		options = {'LIBRARY_EDITABLE'},
+		default = True)
 	accuracy = bpy.props.FloatProperty(
 		name = "accuracy",
 		description = "gap between two evaluation of ppm",
