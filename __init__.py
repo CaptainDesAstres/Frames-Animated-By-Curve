@@ -299,7 +299,7 @@ def update_curves(self, context):
 			# ppm isn't animate and is equal to 0, peaks always equal 1
 			peaks_curve.keyframe_points.insert(0, 1)
 	else:
-		peakEnd = False # did the keyframe close a peak?
+		peak = False # did the keyframe is inside a started peak?
 		while(frame < end):
 			# get ppm value at this frame
 			if ppm_curve is not None:
@@ -317,11 +317,10 @@ def update_curves(self, context):
 				# invert value
 				if value == 0:
 					value = 1
-					peakEnd = False
 				else:
 					value = 0
-					peakEnd = True
-			elif(peakEnd):# ppm<=0 but peakEnd == True
+				peak = True
+			elif(peak):# ppm<=0 but peak == True
 				# add keyframe
 				if ppm_value == 0:
 					peaks_curve.keyframe_points.insert(frame, 0)
@@ -332,8 +331,8 @@ def update_curves(self, context):
 				
 				# next frame
 				frame += clip.CtF.accuracy
-				peakEnd = False
-			else:
+				peak = False
+			else:# ppm<=0 and not in a peak
 				frame += clip.CtF.accuracy
 		
 		# add last keyframe
