@@ -299,6 +299,11 @@ def update_curves(self, context):
 			# ppm isn't animate and is equal to 0, peaks always equal 1
 			peaks_curve.keyframe_points.insert(0, 1)
 	else:
+		# convert all ppm keyframe into constant keyframe
+		if ppm_curve is not None and clip.CtF.auto_constant:
+			for k in ppm_curve.keyframe_points:
+				k.interpolation = 'CONSTANT'
+		
 		peak = False # did the keyframe is inside a started peak?
 		while(frame < end):
 			# get ppm value at this frame
