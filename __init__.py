@@ -307,23 +307,22 @@ def update_curves(self, context):
 			
 			if(ppm_value > 0 or peakEnd ):
 				# add keyframe
-				peaks_curve.keyframe_points.insert(frame, value)
-				peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
+				if ppm_value > 0:
+					peaks_curve.keyframe_points.insert(frame, value)
+					peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
 				
-				# next frame
-				interval = 60 / ppm_value * fps / 2
-				if interval > 0:
+					# next frame
+					interval = 60 / ppm_value * fps / 2
 					frame += interval
-				else:
-					frame += 0.01
 				
-				# invert value
-				if value == 0:
-					value = 1
-					peakEnd = False
-				else:
-					value = 0
-					peakEnd = True
+					# invert value
+					if value == 0:
+						value = 1
+						peakEnd = False
+					else:
+						value = 0
+						peakEnd = True
+				
 			else:
 				value = 0
 				frame += 0.01
