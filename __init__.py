@@ -292,8 +292,12 @@ def update_curves(self, context):
 	ppm_value = clip.CtF.ppm
 	value = 0
 	if ppm_curve is None and clip.CtF.ppm <= 0:
-		# ppm isn't animate and is equal to 0, peaks always equal 1
-		peaks_curve.keyframe_points.insert(0, 1)
+		if clip.CtF.ppm == 0:
+			# ppm isn't animate and is equal to 0, peaks always equal 0
+			peaks_curve.keyframe_points.insert(0, 0)
+		else:
+			# ppm isn't animate and is equal to 0, peaks always equal 1
+			peaks_curve.keyframe_points.insert(0, 1)
 	else:
 		while(frame < end):
 			# get ppm value at this frame
@@ -611,7 +615,7 @@ class CtF(bpy.types.PropertyGroup):
 		name = "ppm",
 		description = "peaks per minute",
 		default = 0,
-		min = 0)
+		min = -1)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
