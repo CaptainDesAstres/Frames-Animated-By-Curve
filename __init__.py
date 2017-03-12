@@ -638,6 +638,11 @@ class CtF(bpy.types.PropertyGroup):
 		name = "ppm",
 		description = "peaks per minute",
 		default = 0)
+	accuracy = bpy.props.FloatProperty(
+		name = "accuracy",
+		description = "minimal gap between two evaluation of ppm, when ppm <= 0",
+		default = 0.1,
+		min = 0.00001)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
