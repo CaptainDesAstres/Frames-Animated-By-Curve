@@ -299,25 +299,31 @@ def update_curves(self, context):
 			# ppm isn't animate and is equal to 0, peaks always equal 1
 			peaks_curve.keyframe_points.insert(0, 1)
 	else:
+		peakEnd = False # did the keyframe close a peak?
 		while(frame < end):
 			# get ppm value at this frame
 			if ppm_curve is not None:
 				ppm_value = ppm_curve.evaluate(frame)
 			
-			if(ppm_value > 0):
+			if(ppm_value > 0 or peakEnd ):
 				# add keyframe
 				peaks_curve.keyframe_points.insert(frame, value)
 				peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
 				
 				# next frame
 				interval = 60 / ppm_value * fps / 2
-				frame += interval
+				if interval > 0:
+					frame += interval
+				else:
+					frame += 0.01
 				
 				# invert value
 				if value == 0:
 					value = 1
+					peakEnd = False
 				else:
 					value = 0
+					peakEnd = True
 			else:
 				value = 0
 				frame += 0.01
