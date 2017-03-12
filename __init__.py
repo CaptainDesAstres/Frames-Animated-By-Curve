@@ -305,6 +305,7 @@ def update_curves(self, context):
 				k.interpolation = 'CONSTANT'
 		
 		peak = False # did the keyframe is inside a started peak?
+		no_amplitude = False
 		while(frame < end):
 			# get amplitude net value
 			amplitude_net = amplitude_net_curve.evaluate(frame)
@@ -354,6 +355,7 @@ def update_curves(self, context):
 					peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
 					value = 1
 				frame += clip.CtF.accuracy
+			no_amplitude = (amplitude_net == 0)
 		
 		# add last keyframe
 		peaks_curve.keyframe_points.insert(frame, value)
