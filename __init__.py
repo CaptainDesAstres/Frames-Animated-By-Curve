@@ -306,6 +306,9 @@ def update_curves(self, context):
 		
 		peak = False # did the keyframe is inside a started peak?
 		while(frame < end):
+			# get amplitude net value
+			amplitude_net = amplitude_net_curve.evaluate(frame)
+			
 			# get ppm value at this frame
 			if ppm_curve is not None:
 				ppm_value = ppm_curve.evaluate(frame)
