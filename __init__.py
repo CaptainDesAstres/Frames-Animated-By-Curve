@@ -332,10 +332,10 @@ def update_curves(self, context):
 						value = 1
 					
 					# next frame
-					frame += 0.01
+					frame += clip.CtF.accuracy
 					peakEnd = False
 			else:
-				frame += 0.01
+				frame += clip.CtF.accuracy
 		
 		# add last keyframe
 		peaks_curve.keyframe_points.insert(frame, value)
