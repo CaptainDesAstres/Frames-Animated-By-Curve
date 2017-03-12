@@ -646,7 +646,7 @@ class CtF(bpy.types.PropertyGroup):
 						generated file gone be.",
 		default = "CtFOutput" )
 	
-	# peaks per minute settings and curve
+	# peaks per minute settings
 	ppm = bpy.props.FloatProperty(
 		name = "ppm",
 		description = "peaks per minute",
@@ -663,6 +663,11 @@ class CtF(bpy.types.PropertyGroup):
 		default = 0.1,
 		min = 0.00001,
 		max = 1)
+	synchronized = bpy.props.BoolProperty(
+		name="Synchronized to amplitude", 
+		description="Peaks timing are synchronized with amplitude varying around 0.",
+		options = {'LIBRARY_EDITABLE'},
+		default = False)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
