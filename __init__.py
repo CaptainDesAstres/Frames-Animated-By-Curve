@@ -338,6 +338,12 @@ def update_curves(self, context):
 				frame += clip.CtF.accuracy
 				peak = False
 			else:# ppm<=0 and not in a peak
+				if ppm_value == 0 and value == 1:
+					peaks_curve.keyframe_points.insert(frame, 0)
+					value = 0
+				if ppm_value < 0 and value == 0:
+					peaks_curve.keyframe_points.insert(frame, 1)
+					value = 1
 				frame += clip.CtF.accuracy
 		
 		# add last keyframe
