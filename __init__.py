@@ -664,7 +664,7 @@ class CtF(bpy.types.PropertyGroup):
 		min = 0.00001,
 		max = 1)
 	synchronized = bpy.props.BoolProperty(
-		name="Synchronized to amplitude", 
+		name="Sync to amplitude", 
 		description="Peaks timing are synchronized with amplitude varying around 0.",
 		options = {'LIBRARY_EDITABLE'},
 		default = False)
@@ -804,6 +804,8 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(self, "accuracy")
 			
 			row = layout.row()
+			col = row.column()
+			col.prop(self, "synchronized")
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks")
