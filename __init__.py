@@ -643,7 +643,8 @@ class CtF(bpy.types.PropertyGroup):
 		description = "minimal gap between two evaluation of ppm, when ppm <= 0",
 		options = {'LIBRARY_EDITABLE'},
 		default = 0.1,
-		min = 0.00001)
+		min = 0.00001,
+		max = 1)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
