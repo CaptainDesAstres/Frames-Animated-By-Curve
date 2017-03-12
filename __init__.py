@@ -641,6 +641,7 @@ class CtF(bpy.types.PropertyGroup):
 	accuracy = bpy.props.FloatProperty(
 		name = "accuracy",
 		description = "minimal gap between two evaluation of ppm, when ppm <= 0",
+		options = {'LIBRARY_EDITABLE'},
 		default = 0.1,
 		min = 0.00001)
 	peaks = bpy.props.FloatProperty(
@@ -773,6 +774,8 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			col = row.column()
 			col.prop(self, "ppm")
+			col = row.column()
+			col.prop(self, "accuracy")
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks")
