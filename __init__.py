@@ -328,10 +328,12 @@ def update_curves(self, context):
 			elif(peak):# ppm<=0 but peak == True
 				# add keyframe
 				if ppm_value == 0:
-					peaks_curve.keyframe_points.insert(frame, 0)
+					if value == 0:
+						peaks_curve.keyframe_points.insert(frame, 0)
 					value = 0
 				else: # (ppm<0)
-					peaks_curve.keyframe_points.insert(frame, 1)
+					if value == 1:
+						peaks_curve.keyframe_points.insert(frame, 1)
 					value = 1
 				
 				peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
