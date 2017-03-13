@@ -316,7 +316,10 @@ def update_curves(self, context):
 			
 			if ppm_value > 0:
 				if( clip.CtF.synchronized and no_amplitude):
-					
+					if(amplitude_net == 0):
+						frame += clip.CtF.accuracy
+					else:
+						
 				else:
 					# add keyframe
 					peaks_curve.keyframe_points.insert(frame, value)
