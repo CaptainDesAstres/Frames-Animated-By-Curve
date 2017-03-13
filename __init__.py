@@ -335,12 +335,31 @@ def update_curves(self, context):
 							anticipate_value = anticipate_curve\
 													.evaluate(frame)
 						
+						# get interval at this frame
+						interval = 60 / ppm_value * fps / 2
+						
+						# add first peak starting keyframe
+						# compute starting frame
+						starting_frame = frame - interval * anticipate_value
+						last_KF = peaks_curve.keyframe_points[-1].co[0]
+						
+						# if the starting keyframe muste be before
+						# the previous keyframe, then previous
+						# keyframe is considered as starting keyframe
+						if( last_KF > starting_frame ):
+							value = peaks_curve.keyframe_points[-1].co[1]
+							if value == 0:
+								value = 1
+							else:
+								value = 0
+						else:
+							frame = starting_frame
+						
 						peaks_curve.keyframe_points.insert(frame, value)
 						peaks_curve.keyframe_points[-1]\
 								.interpolation = 'LINEAR'
 						
 						# next frame
-						interval = 60 / ppm_value * fps / 2
 						frame += interval
 						
 						# invert value
