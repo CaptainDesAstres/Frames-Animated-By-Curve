@@ -702,6 +702,12 @@ class CtF(bpy.types.PropertyGroup):
 		description="Peaks timing are synchronized with amplitude varying around 0.",
 		options = {'LIBRARY_EDITABLE'},
 		default = False)
+	anticipate = bpy.props.FloatProperty(
+		name = "anticipate",
+		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks zenit will be exactly when amplitude start to be over 0.",
+		default = 1,
+		min = 0,
+		max = 1)
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
@@ -840,6 +846,10 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			col = row.column()
 			col.prop(self, "synchronized")
+			col = row.column()
+			if (not clip.CtF.synchronized):
+				col.enabled = False
+			col.prop(self, "anticipate")
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "peaks")
