@@ -321,6 +321,7 @@ def update_curves(self, context):
 							peaks_curve.keyframe_points.insert(frame, value)
 							peaks_curve.keyframe_points[-1]\
 									.interpolation = 'CONSTANT'
+						value = 0
 						frame += clip.CtF.accuracy
 					else:
 						peaks_curve.keyframe_points.insert(frame, value)
