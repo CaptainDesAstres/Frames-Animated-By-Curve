@@ -352,6 +352,8 @@ def update_curves(self, context):
 								value = 1
 							else:
 								value = 0
+							peaks_curve.keyframe_points[-1]\
+									.interpolation = 'LINEAR'
 						else:
 							frame = starting_frame
 						
