@@ -290,6 +290,9 @@ def update_curves(self, context):
 	# get ppm curve and default value
 	ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
 	ppm_value = clip.CtF.ppm
+	# get anticipate curve and default value
+	anticipate_curve = getFCurveByDataPath(clip, 'CtF.anticipate')
+	anticipate_value = clip.CtF.anticipate
 	value = 0
 	if ppm_curve is None and clip.CtF.ppm <= 0:
 		if clip.CtF.ppm == 0:
@@ -327,6 +330,11 @@ def update_curves(self, context):
 						value = 0
 						frame += clip.CtF.accuracy
 					else:
+						# get anticipate value at this frame
+						if anticipate_curve is not None:
+							anticipate_value = anticipate_curve\
+													.evaluate(frame)
+						
 						peaks_curve.keyframe_points.insert(frame, value)
 						peaks_curve.keyframe_points[-1]\
 								.interpolation = 'LINEAR'
