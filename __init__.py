@@ -317,10 +317,13 @@ def update_curves(self, context):
 			if ppm_value > 0:
 				if( clip.CtF.synchronized and no_amplitude):
 					if(amplitude_net == 0):
+						# finish last peak if needed
 						if(peaks_curve.keyframe_points[-1].co[1] == 1):
 							peaks_curve.keyframe_points.insert(frame, value)
 							peaks_curve.keyframe_points[-1]\
 									.interpolation = 'CONSTANT'
+							peak = False
+						#continue loop
 						value = 0
 						frame += clip.CtF.accuracy
 					else:
