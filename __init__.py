@@ -315,20 +315,23 @@ def update_curves(self, context):
 				ppm_value = ppm_curve.evaluate(frame)
 			
 			if ppm_value > 0:
-				# add keyframe
-				peaks_curve.keyframe_points.insert(frame, value)
-				peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
-				
-				# next frame
-				interval = 60 / ppm_value * fps / 2
-				frame += interval
-				
-				# invert value
-				if value == 0:
-					value = 1
+				if( clip.CtF.synchronized and no_amplitude):
+					
 				else:
-					value = 0
-				peak = True
+					# add keyframe
+					peaks_curve.keyframe_points.insert(frame, value)
+					peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
+					
+					# next frame
+					interval = 60 / ppm_value * fps / 2
+					frame += interval
+					
+					# invert value
+					if value == 0:
+						value = 1
+					else:
+						value = 0
+					peak = True
 			elif(peak):# ppm<=0 but peak == True
 				# add keyframe
 				if ppm_value == 0:
