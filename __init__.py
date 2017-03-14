@@ -754,7 +754,57 @@ class CtF(bpy.types.PropertyGroup):
 	##       interpolation settings                ##
 	#################################################
 	# interpolation mode
-	interpolation = 
+	interpolation =  bpy.props.EnumProperty(
+		name = 'interpolation',
+		description = 'peaks keyframe interpolation mode',
+		default = 'linear',
+		items = [
+#			(identifier,			name,
+#				description, icon, number)
+			
+			('linear',		'Linear',
+				'Straight-line interpolation',
+				'IPO_LINEAR',			0),
+			
+			('bezier auto',		'Bezier (Auto Handle)',
+				'Bezier interpolation with handle automatically set',
+				'IPO_BEZIER',			1),
+			
+			('bezier free',		'Bezier (Free Handle)',
+				'Bezier interpolation with free handle',
+				'IPO_BEZIER',			2),
+			
+			('sinusoidal',		'Sinusoidal',
+				'Sinusoidal easing',
+				'IPO_SINE',			3),
+			
+			('quad',		'Quadratic',
+				'Quadratic easing',
+				'IPO_QUAD',			4),
+			
+			('cubic',		'Cubic',
+				'Cubic easing',
+				'IPO_CUBIC',			5),
+			
+			('quartic',		'Quartic',
+				'Quartic easing',
+				'IPO_QUART',			6),
+			
+			('quintic',		'Quintic',
+				'Quintic easing',
+				'IPO_QUINT',			7),
+			
+			('exponential',		'Exponential',
+				'Exponential easing',
+				'IPO_EXPO',			8),
+			
+			('circular',		'Circular',
+				'Circular easing',
+				'IPO_CIRC',			9)
+			
+			],
+		update = update_curves
+		)
 	
 	# easing mode (not for Bezier/linear interpolation)
 	easing = 
