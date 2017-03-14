@@ -836,13 +836,31 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# left handle size and angle
-	left_length = 
-	left_angle = 
+	left_length = bpy.props.FloatProperty(
+		name = "L length",
+		description = "Length of left handle relative to half the distance with previous keyframe.",
+		default = 1,
+		min = 0)
+	left_angle = bpy.props.FloatProperty(
+		name = "L angle",
+		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point up\n-90 point down",
+		default = 0,
+		min = -90,
+		max = 90)
 	
 	# right handle free mode, size and angle
 	right_free = 
-	right_length = 
-	right_angle = 
+	right_length = bpy.props.FloatProperty(
+		name = "R length",
+		description = "Length of right handle relative to half the distance with next keyframe.",
+		default = 1,
+		min = 0)
+	right_angle = bpy.props.FloatProperty(
+		name = "R angle",
+		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point up\n-90 point down",
+		default = 0,
+		min = -90,
+		max = 90)
 	
 	
 	
