@@ -755,8 +755,8 @@ class CtF(bpy.types.PropertyGroup):
 	#################################################
 	# interpolation mode
 	interpolation =  bpy.props.EnumProperty(
-		name = 'interpolation',
-		description = 'peaks keyframe interpolation mode',
+		name = 'Interpolation',
+		description = 'Peaks keyframe interpolation mode',
 		default = 'linear',
 		items = [
 #			(identifier,			name,
@@ -807,7 +807,33 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# easing mode (not for Bezier/linear interpolation)
-	easing = 
+	easing = bpy.props.EnumProperty(
+		name = 'Easing',
+		description = 'Easing of interpolation mode',
+		default = 'auto',
+		items = [
+#			(identifier,			name,
+#				description, icon, number)
+			
+			('auto',		'Automatic easing',
+				'Automatic easing',
+				'IPO_EASE_IN_OUT',			0),
+			
+			('in&out',		'Ease In & Out',
+				'Ease In & Out',
+				'IPO_EASE_IN_OUT',			1),
+			
+			('in',		'Ease In',
+				'Ease In',
+				'IPO_EASE_IN',			2),
+			
+			('out',		'Ease Out',
+				'Ease Out',
+				'IPO_EASE_OUT',			3),
+			
+			],
+		update = update_curves
+		)
 	
 	# left handle size and angle
 	left_length = 
