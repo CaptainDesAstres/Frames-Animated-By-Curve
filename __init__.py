@@ -599,6 +599,10 @@ class CtF(bpy.types.PropertyGroup):
 	# flag to know if CtF have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
 	
+	#################################################
+	##     clip settings                           ##
+	#################################################
+	
 	path = bpy.props.StringProperty() # The sources directory path
 	prefix = bpy.props.StringProperty() # the source name prefix
 	suffix = bpy.props.StringProperty() # the source name suffix
@@ -626,6 +630,9 @@ class CtF(bpy.types.PropertyGroup):
 	size = bpy.props.IntProperty() # number of frame of the sequence
 	ext = bpy.props.StringProperty() # extension of source file
 	
+	#################################################
+	##     amplitude settings                      ##
+	#################################################
 	# amplitude property
 	amplitude = bpy.props.FloatProperty(
 		name = 'amplitude (raw)',
@@ -633,12 +640,14 @@ class CtF(bpy.types.PropertyGroup):
 								clip to use at each frame',
 		default = 0.0
 		)
+	
 	# amplitude after applying min and max value
 	amplitude_net = bpy.props.FloatProperty(
 		name = 'amplitude (net)',
 		description = 'show the apply of mini and maxi to \
 							amplitude raw. Can\'t be edit.',
 		)
+	
 	# method used to combine amplitude and peaks curve
 	combination_mode = bpy.props.EnumProperty(
 		name = 'combination mode',
@@ -689,6 +698,81 @@ class CtF(bpy.types.PropertyGroup):
 		update = set_maxi
 		)
 	
+	#################################################
+	##     peaks settings                          ##
+	##       count and synchronization             ##
+	#################################################
+	
+	# peaks per minute settings
+	ppm = bpy.props.FloatProperty(
+		name = "ppm",
+		description = "peaks per minute",
+		default = 0)
+	
+	# automatically use constant for ppm curve interpolation
+	auto_constant = bpy.props.BoolProperty(
+		name="constant", 
+		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
+		options = {'LIBRARY_EDITABLE'},
+		default = True)
+	
+	# synchronize peak with amplitude bounce
+	synchronized = bpy.props.BoolProperty(
+		name="Sync to amplitude", 
+		description="Peaks timing are synchronized with amplitude varying around 0.",
+		options = {'LIBRARY_EDITABLE'},
+		default = False)
+	
+	# accuracy of peak synchronisation
+	accuracy = bpy.props.FloatProperty(
+		name = "accuracy",
+		description = "gap between two evaluation of ppm to check if ppm<=0",
+		options = {'LIBRARY_EDITABLE'},
+		default = 0.1,
+		min = 0.00001,
+		max = 1)
+	
+	# anticipate amplitude rebounce when synchronized
+	anticipate = bpy.props.FloatProperty(
+		name = "anticipate",
+		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks zenit will be exactly when amplitude start to be over 0.",
+		default = 1,
+		min = 0,
+		max = 1)
+	
+	# peaks curve obtain by applying settings
+	peaks = bpy.props.FloatProperty(
+		name = "peaks",
+		description = "Only to visualize the peaks curve. \
+					Can't be edit manually: use ppm settings.",
+		default = 1,
+		min = 0,
+		max = 1)
+	
+	#################################################
+	##     peaks settings                          ##
+	##       interpolation settings                ##
+	#################################################
+	
+	#################################################
+	##     output settings                         ##
+	#################################################
+	# combination of net amplitude and peaks curves
+	combination = bpy.props.FloatProperty(
+		name = "combination",
+		description = "Only to visualize the combination of \
+					peaks and amplitude curve curve. Can't \
+					be edit manually: use ppm and amplitude settings.",
+		default = 0,
+		min = 0,
+		max = 1)
+	
+	# output frame curve
+	output = bpy.props.IntProperty(
+		name = "output frame",
+		description = "Only to visualize the output frames. \
+						Can't be edit manually.")
+	
 	# Rounding method
 	rounding = bpy.props.EnumProperty(
 		name = 'Rounding method',
@@ -713,61 +797,6 @@ class CtF(bpy.types.PropertyGroup):
 						in the source directory) where \
 						generated file gone be.",
 		default = "CtFOutput" )
-	
-	# peaks per minute settings
-	ppm = bpy.props.FloatProperty(
-		name = "ppm",
-		description = "peaks per minute",
-		default = 0)
-	# automatically use constant for ppm curve interpolation
-	auto_constant = bpy.props.BoolProperty(
-		name="constant", 
-		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
-		options = {'LIBRARY_EDITABLE'},
-		default = True)
-	# accuracy of peak synchronisation
-	accuracy = bpy.props.FloatProperty(
-		name = "accuracy",
-		description = "gap between two evaluation of ppm to check if ppm<=0",
-		options = {'LIBRARY_EDITABLE'},
-		default = 0.1,
-		min = 0.00001,
-		max = 1)
-	# synchronize peak with amplitude bounce
-	synchronized = bpy.props.BoolProperty(
-		name="Sync to amplitude", 
-		description="Peaks timing are synchronized with amplitude varying around 0.",
-		options = {'LIBRARY_EDITABLE'},
-		default = False)
-	# anticipate amplitude rebounce when synchronized
-	anticipate = bpy.props.FloatProperty(
-		name = "anticipate",
-		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks zenit will be exactly when amplitude start to be over 0.",
-		default = 1,
-		min = 0,
-		max = 1)
-	# peaks curve obtain by applying settings
-	peaks = bpy.props.FloatProperty(
-		name = "peaks",
-		description = "Only to visualize the peaks curve. \
-					Can't be edit manually: use ppm settings.",
-		default = 1,
-		min = 0,
-		max = 1)
-	# combination of net amplitude and peaks curves
-	combination = bpy.props.FloatProperty(
-		name = "combination",
-		description = "Only to visualize the combination of \
-					peaks and amplitude curve curve. Can't \
-					be edit manually: use ppm and amplitude settings.",
-		default = 0,
-		min = 0,
-		max = 1)
-	# output frame curve
-	output = bpy.props.IntProperty(
-		name = "output frame",
-		description = "Only to visualize the output frames. \
-						Can't be edit manually.")
 	
 	
 	def getFrameName(self, n):
