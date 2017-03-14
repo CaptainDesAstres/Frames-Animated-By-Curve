@@ -753,6 +753,22 @@ class CtF(bpy.types.PropertyGroup):
 	##     peaks settings                          ##
 	##       interpolation settings                ##
 	#################################################
+	# interpolation mode
+	interpolation = 
+	
+	# easing mode (not for Bezier/linear interpolation)
+	easing = 
+	
+	# left handle size and angle
+	left_length = 
+	left_angle = 
+	
+	# right handle free mode, size and angle
+	right_free = 
+	right_length = 
+	right_angle = 
+	
+	
 	
 	#################################################
 	##     output settings                         ##
