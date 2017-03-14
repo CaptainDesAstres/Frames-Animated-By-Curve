@@ -633,11 +633,13 @@ class CtF(bpy.types.PropertyGroup):
 								clip to use at each frame',
 		default = 0.0
 		)
+	# amplitude after applying min and max value
 	amplitude_net = bpy.props.FloatProperty(
 		name = 'amplitude (net)',
 		description = 'show the apply of mini and maxi to \
 							amplitude raw. Can\'t be edit.',
 		)
+	# method used to combine amplitude and peaks curve
 	combination_mode = bpy.props.EnumProperty(
 		name = 'combination mode',
 		description = 'the way to combine amplitude and peaks curve',
@@ -717,11 +719,13 @@ class CtF(bpy.types.PropertyGroup):
 		name = "ppm",
 		description = "peaks per minute",
 		default = 0)
+	# automatically use constant for ppm curve interpolation
 	auto_constant = bpy.props.BoolProperty(
 		name="constant", 
 		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
 		options = {'LIBRARY_EDITABLE'},
 		default = True)
+	# accuracy of peak synchronisation
 	accuracy = bpy.props.FloatProperty(
 		name = "accuracy",
 		description = "gap between two evaluation of ppm to check if ppm<=0",
@@ -729,17 +733,20 @@ class CtF(bpy.types.PropertyGroup):
 		default = 0.1,
 		min = 0.00001,
 		max = 1)
+	# synchronize peak with amplitude bounce
 	synchronized = bpy.props.BoolProperty(
 		name="Sync to amplitude", 
 		description="Peaks timing are synchronized with amplitude varying around 0.",
 		options = {'LIBRARY_EDITABLE'},
 		default = False)
+	# anticipate amplitude rebounce when synchronized
 	anticipate = bpy.props.FloatProperty(
 		name = "anticipate",
 		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks zenit will be exactly when amplitude start to be over 0.",
 		default = 1,
 		min = 0,
 		max = 1)
+	# peaks curve obtain by applying settings
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
@@ -747,6 +754,7 @@ class CtF(bpy.types.PropertyGroup):
 		default = 1,
 		min = 0,
 		max = 1)
+	# combination of net amplitude and peaks curves
 	combination = bpy.props.FloatProperty(
 		name = "combination",
 		description = "Only to visualize the combination of \
@@ -755,6 +763,7 @@ class CtF(bpy.types.PropertyGroup):
 		default = 0,
 		min = 0,
 		max = 1)
+	# output frame curve
 	output = bpy.props.IntProperty(
 		name = "output frame",
 		description = "Only to visualize the output frames. \
@@ -766,7 +775,7 @@ class CtF(bpy.types.PropertyGroup):
 		return	(	self.prefix +
 					str(n).rjust(self.numberSize, '0')+
 					self.suffix + self.ext	)
-		
+	
 	
 	
 	def draw(self, context, layout, clip):
