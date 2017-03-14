@@ -849,7 +849,10 @@ class CtF(bpy.types.PropertyGroup):
 		max = 90)
 	
 	# right handle free mode, size and angle
-	right_free = 
+	right_auto = bpy.props.BoolProperty(
+		name="Auto right handle", 
+		description="Right handle is aligned with the left one and have the same length",
+		default = True)
 	right_length = bpy.props.FloatProperty(
 		name = "R length",
 		description = "Length of right handle relative to half the distance with next keyframe.",
