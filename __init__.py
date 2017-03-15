@@ -609,7 +609,8 @@ def set_peak_interpolation(keyframe, clip):
 	# get interpolation mode:
 	curve = getFCurveByDataPath(clip, 'CtF.interpolation')
 	if curve is None:
-		interpolation = clip.CtF.interpolation
+		enum = clip.CtF.bl_rna.properties['interpolation'].enum_items
+		interpolation = enum.find( clip.CtF.interpolation )
 	else:
 		interpolation = curve.evaluate(frame)
 	
