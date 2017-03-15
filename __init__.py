@@ -352,14 +352,16 @@ def update_curves(self, context):
 								value = 1
 							else:
 								value = 0
-							peaks_curve.keyframe_points[-1]\
-									.interpolation = 'LINEAR'
+							set_peak_interpolation(
+									peaks_curve.keyframe_points[-1],
+									clip.CtF)
 						else:
 							frame = starting_frame
 						
 						peaks_curve.keyframe_points.insert(frame, value)
-						peaks_curve.keyframe_points[-1]\
-								.interpolation = 'LINEAR'
+						set_peak_interpolation(
+								peaks_curve.keyframe_points[-1], 
+								clip.CtF)
 						
 						# next frame
 						frame += interval
@@ -373,7 +375,9 @@ def update_curves(self, context):
 				else:
 					# add keyframe
 					peaks_curve.keyframe_points.insert(frame, value)
-					peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
+					set_peak_interpolation(
+							peaks_curve.keyframe_points[-1], 
+							clip.CtF)
 					
 					# next frame
 					if amplitude_net == 0:
@@ -418,7 +422,9 @@ def update_curves(self, context):
 		
 		# add last keyframe
 		peaks_curve.keyframe_points.insert(frame, value)
-		peaks_curve.keyframe_points[-1].interpolation = 'LINEAR'
+		set_peak_interpolation( 
+				peaks_curve.keyframe_points[-1], 
+				clip.CtF)
 	
 	# prevent curve edition
 	peaks_curve.lock = True
@@ -591,6 +597,12 @@ def update_curves(self, context):
 	output_curve.lock = True
 	output_curve.hide = hide
 
+
+
+
+def set_peak_interpolation(keyframe, settings):
+	'''set peaks keyframe interpolation depending on settings'''
+	keyframe.interpolation = 'LINEAR'
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property 
