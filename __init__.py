@@ -714,6 +714,12 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			right_auto =  clip.CtF.right_auto
 		else:
 			right_auto = curve.evaluate(frame)
+		
+		
+		if right_auto:
+			right_length = left_length
+			right_angle = - left_angle
+		
 
 
 
