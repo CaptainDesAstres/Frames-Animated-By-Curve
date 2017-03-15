@@ -10,7 +10,8 @@ bl_info = {
 
 
 import bpy, os, shutil, platform
-from math import ceil, floor
+from math import ceil, floor, radians
+from mathutils import Euler
 
 # Add to scene type a property to define if script does real file copy
 if platform.system().lower() in ['linux', 'unix']:
@@ -703,7 +704,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		# get left handle angle
 		curve = getFCurveByDataPath(clip, 'CtF.left_angle')
 		if curve is None:
-			left_angle =  clip.CtF.left_angle
+			left_angle = clip.CtF.left_angle
 		else:
 			left_angle = curve.evaluate(frame)
 		
@@ -711,7 +712,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		# get right auto setting
 		curve = getFCurveByDataPath(clip, 'CtF.right_auto')
 		if curve is None:
-			right_auto =  clip.CtF.right_auto
+			right_auto = clip.CtF.right_auto
 		else:
 			right_auto = curve.evaluate(frame)
 		
@@ -724,14 +725,14 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			# get right handle length
 			curve = getFCurveByDataPath(clip, 'CtF.right_length')
 			if curve is None:
-				right_length =  clip.CtF.right_length
+				right_length = clip.CtF.right_length
 			else:
 				right_length = curve.evaluate(frame)
 			
 			# get right handle angle
 			curve = getFCurveByDataPath(clip, 'CtF.right_angle')
 			if curve is None:
-				right_angle =  clip.CtF.right_angle
+				right_angle = clip.CtF.right_angle
 			else:
 				right_angle = curve.evaluate(frame)
 		
