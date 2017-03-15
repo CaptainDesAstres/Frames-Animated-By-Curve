@@ -634,6 +634,15 @@ def set_peak_interpolation(keyframe, clip):
 		elif interpolation == 9:
 			keyframe.interpolation = 'CIRC'
 		
+		# get easing setting
+		curve = getFCurveByDataPath(clip, 'CtF.easing')
+		if curve is None:
+			enum = clip.CtF.bl_rna.properties['easing'].enum_items
+			easing = enum.find( clip.CtF.easing )
+		else:
+			easing = curve.evaluate(frame)
+		
+		
 	else:
 		# Bezier interpolation
 		keyframe.interpolation = 'BEZIER'
