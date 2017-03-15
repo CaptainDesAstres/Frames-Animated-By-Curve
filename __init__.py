@@ -1001,7 +1001,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	left_angle = bpy.props.FloatProperty(
 		name = "L angle",
-		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point up\n-90 point down",
+		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis\n-90 point away from the curve",
 		unit = 'ROTATION',
 		default = 0,
 		min = -90,
@@ -1022,7 +1022,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	right_angle = bpy.props.FloatProperty(
 		name = "R angle",
-		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point up\n-90 point down",
+		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis\n-90 point away from the curve",
 		unit = 'ROTATION',
 		default = 0,
 		min = -90,
