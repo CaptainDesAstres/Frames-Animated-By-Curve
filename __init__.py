@@ -11,7 +11,7 @@ bl_info = {
 
 import bpy, os, shutil, platform
 from math import ceil, floor, radians
-from mathutils import Euler
+from mathutils import Euler, Vector
 
 # Add to scene type a property to define if script does real file copy
 if platform.system().lower() in ['linux', 'unix']:
@@ -741,13 +741,21 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		right_length *= right_ref
 		
 		# convert angle to radians
-		if (keyframe.co[0] == 1 ):
+		if (keyframe.co[1] == 1 ):
 			left_angle = radians(left_angle)
 			right_angle = -radians(right_angle) # invert rotation
 		else:
 			left_angle = -radians(left_angle) # invert rotation
 			right_angle = radians(right_angle)
 		
+		
+		# compute and set left handle vector
+		vector = Vector( ( left_length, 0, 0 ) )
+		vector.rotate( Euler( ( 0, 0, left_angle ) ) )
+		vector.resize(2)
+		vector.x += frame
+		vector.y += keyframe.co[1]
+		keyframe.handle_left = vector
 		
 
 
