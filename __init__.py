@@ -642,6 +642,15 @@ def set_peak_interpolation(keyframe, clip):
 		else:
 			easing = curve.evaluate(frame)
 		
+		# set keyframe easing mode
+		if easing == 0:
+			keyframe.easing = 'AUTO'
+		elif easing == 1:
+			keyframe.easing = 'EASE_IN_OUT'
+		elif easing == 2:
+			keyframe.easing = 'EASE_IN'
+		elif easing == 3:
+			keyframe.easing = 'EASE_OUT'
 		
 	else:
 		# Bezier interpolation
