@@ -614,7 +614,29 @@ def set_peak_interpolation(keyframe, clip):
 	else:
 		interpolation = curve.evaluate(frame)
 	
-	keyframe.interpolation = 'LINEAR'
+	if interpolation == 0:
+		# linear interpolation
+		keyframe.interpolation = 'LINEAR'
+	elif interpolation >=3:
+		# easing interpolation
+		if interpolation == 3:
+			keyframe.interpolation = 'SINE'
+		elif interpolation == 4:
+			keyframe.interpolation = 'QUAD'
+		elif interpolation == 5:
+			keyframe.interpolation = 'CUBIC'
+		elif interpolation == 6:
+			keyframe.interpolation = 'QUART'
+		elif interpolation == 7:
+			keyframe.interpolation = 'QUINT'
+		elif interpolation == 8:
+			keyframe.interpolation = 'EXPO'
+		elif interpolation == 9:
+			keyframe.interpolation = 'CIRC'
+		
+	else:
+		# Bezier interpolation
+		keyframe.interpolation = 'BEZIER'
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property 
