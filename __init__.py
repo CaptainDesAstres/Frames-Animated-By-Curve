@@ -1070,8 +1070,14 @@ class CtF(bpy.types.PropertyGroup):
 			##########################################
 			
 			# keyframes interpolation mode
+			layout.separator()
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "interpolation", text = '')
 			
 			# easing mode
+			col = row.column()
+			col.prop(self, "easing", text = '')
 			
 			# Left length
 			
