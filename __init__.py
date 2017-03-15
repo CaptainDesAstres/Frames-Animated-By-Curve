@@ -806,6 +806,7 @@ class CtF(bpy.types.PropertyGroup):
 		update = update_curves
 		)
 	
+	
 	# easing mode (not for Bezier/linear interpolation)
 	easing = bpy.props.EnumProperty(
 		name = 'Easing',
@@ -841,6 +842,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = "Length of left handle relative to half the distance with previous keyframe.",
 		default = 1,
 		min = 0)
+	
 	left_angle = bpy.props.FloatProperty(
 		name = "L angle",
 		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point up\n-90 point down",
@@ -848,16 +850,19 @@ class CtF(bpy.types.PropertyGroup):
 		min = -90,
 		max = 90)
 	
+	
 	# right handle free mode, size and angle
 	right_auto = bpy.props.BoolProperty(
 		name="Auto right handle", 
 		description="Right handle is aligned with the left one and have the same length",
 		default = True)
+	
 	right_length = bpy.props.FloatProperty(
 		name = "R length",
 		description = "Length of right handle relative to half the distance with next keyframe.",
 		default = 1,
 		min = 0)
+	
 	right_angle = bpy.props.FloatProperty(
 		name = "R angle",
 		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point up\n-90 point down",
