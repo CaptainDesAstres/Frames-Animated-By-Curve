@@ -1066,6 +1066,24 @@ class CtF(bpy.types.PropertyGroup):
 			
 			
 			##########################################
+			##      peaks interpolation settings    ##
+			##########################################
+			
+			# keyframes interpolation mode
+			
+			# easing mode
+			
+			# Left length
+			
+			# left angle
+			
+			# Right auto
+			
+			# Right length
+			
+			# Right angle
+			
+			##########################################
 			##      combination settings & output   ##
 			##########################################
 			
