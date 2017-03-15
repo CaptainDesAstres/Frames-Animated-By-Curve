@@ -1088,25 +1088,28 @@ class CtF(bpy.types.PropertyGroup):
 			# Right auto
 			col = row.column()
 			col.prop(self, "right_auto")
+			if (self.interpolation != 'bezier free'):
+				col.enabled = False
 			
-			# Left length
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "left_length")
-			
-			# left angle
-			col = row.column()
-			col.prop(self, "left_angle")
-			
-			if not self.right_auto:
-				# Right length
+			if (self.interpolation == 'bezier free'):
+				# Left length
 				row = layout.row()
 				col = row.column()
-				col.prop(self, "right_length")
+				col.prop(self, "left_length")
 				
-				# Right angle
+				# left angle
 				col = row.column()
-				col.prop(self, "right_angle")
+				col.prop(self, "left_angle")
+				
+				if not self.right_auto:
+					# Right length
+					row = layout.row()
+					col = row.column()
+					col.prop(self, "right_length")
+					
+					# Right angle
+					col = row.column()
+					col.prop(self, "right_angle")
 			
 			##########################################
 			##      combination settings & output   ##
