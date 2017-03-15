@@ -655,6 +655,17 @@ def set_peak_interpolation(keyframe, clip):
 	else:
 		# Bezier interpolation
 		keyframe.interpolation = 'BEZIER'
+		
+		if interpolation == 1:
+			# interpolation Bezier Auto
+			keyframe.handle_left_type = 'AUTO_CLAMPED'
+			keyframe.handle_right_type = 'AUTO_CLAMPED'
+#		else:
+#			# interpolation Bezier Free handle
+#			
+
+
+
 
 class CtF(bpy.types.PropertyGroup):
 	''' class containang all MovieClip Property 
