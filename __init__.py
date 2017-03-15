@@ -737,7 +737,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 				right_angle = curve.evaluate(frame)
 		
 		# apply reference length
-		left_length *= left_ref
+		left_length *= -left_ref
 		right_length *= right_ref
 		
 		# convert angle to radians
