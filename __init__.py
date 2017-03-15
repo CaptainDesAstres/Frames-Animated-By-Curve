@@ -606,7 +606,7 @@ def set_peak_interpolation(keyframe, clip):
 	frame = keyframe.co[0]
 	
 	# get interpolation mode:
-	curve = getFCurveByDataPath(clip, 'CtF.interpolation'):
+	curve = getFCurveByDataPath(clip, 'CtF.interpolation')
 	if curve is None:
 		interpolation = clip.CtF.interpolation
 	else:
