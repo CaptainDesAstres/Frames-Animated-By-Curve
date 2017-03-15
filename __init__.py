@@ -1078,6 +1078,12 @@ class CtF(bpy.types.PropertyGroup):
 			# easing mode
 			col = row.column()
 			col.prop(self, "easing", text = '')
+			if(self.interpolation in [
+							'linear',
+							'bezier auto',
+							'bezier free'] 
+							):
+				col.enabled = False
 			
 			# Left length
 			
