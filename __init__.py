@@ -757,6 +757,14 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		vector.y += keyframe.co[1]
 		keyframe.handle_left = vector
 		
+		# compute and set right handle vector
+		vector = Vector( ( right_length, 0, 0 ) )
+		vector.rotate( Euler( ( 0, 0, right_angle ) ) )
+		vector.resize(2)
+		vector.x += frame
+		vector.y += keyframe.co[1]
+		keyframe.handle_right = vector
+		
 
 
 
