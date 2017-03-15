@@ -692,6 +692,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			keyframe.handle_left_type = 'FREE'
 			keyframe.handle_right_type = 'FREE'
 		
+		
 		# get left handle length
 		curve = getFCurveByDataPath(clip, 'CtF.left_length')
 		if curve is None:
@@ -706,6 +707,13 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		else:
 			left_angle = curve.evaluate(frame)
 		
+		
+		# get right auto setting
+		curve = getFCurveByDataPath(clip, 'CtF.right_auto')
+		if curve is None:
+			right_auto =  clip.CtF.right_auto
+		else:
+			right_auto = curve.evaluate(frame)
 
 
 
