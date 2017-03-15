@@ -660,9 +660,10 @@ def set_peak_interpolation(keyframe, clip):
 			# interpolation Bezier Auto
 			keyframe.handle_left_type = 'AUTO_CLAMPED'
 			keyframe.handle_right_type = 'AUTO_CLAMPED'
-#		else:
-#			# interpolation Bezier Free handle
-#			
+		else:
+			# interpolation Bezier Free handle
+			keyframe.handle_left_type = 'FREE'
+			keyframe.handle_right_type = 'FREE'
 
 
 
