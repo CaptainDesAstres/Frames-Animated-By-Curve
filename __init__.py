@@ -691,6 +691,14 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			# interpolation Bezier Free handle
 			keyframe.handle_left_type = 'FREE'
 			keyframe.handle_right_type = 'FREE'
+		
+		# get left handle length
+		curve = getFCurveByDataPath(clip, 'CtF.left_length')
+		if curve is None:
+			left_length =  clip.CtF.left_length * left_ref
+		else:
+			left_length = curve.evaluate(frame) * left_ref
+		
 
 
 
