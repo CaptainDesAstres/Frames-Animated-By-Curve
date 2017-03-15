@@ -1085,15 +1085,28 @@ class CtF(bpy.types.PropertyGroup):
 							):
 				col.enabled = False
 			
+			# Right auto
+			col = row.column()
+			col.prop(self, "right_auto")
+			
 			# Left length
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "left_length")
 			
 			# left angle
+			col = row.column()
+			col.prop(self, "left_angle")
 			
-			# Right auto
-			
-			# Right length
-			
-			# Right angle
+			if not self.right_auto:
+				# Right length
+				row = layout.row()
+				col = row.column()
+				col.prop(self, "right_length")
+				
+				# Right angle
+				col = row.column()
+				col.prop(self, "right_angle")
 			
 			##########################################
 			##      combination settings & output   ##
