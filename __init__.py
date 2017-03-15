@@ -436,7 +436,8 @@ def update_curves(self, context):
 	#############################################
 	
 	# get combination mode curve
-	combination_mode = clip.CtF['combination_mode']
+	combination_enum = clip.CtF.bl_rna.properties['combination_mode'].enum_items
+	combination_mode = combination_enum.find( clip.CtF.combination_mode )
 	combination_mode_curve = getFCurveByDataPath(clip, 
 							'CtF.combination_mode')
 	
