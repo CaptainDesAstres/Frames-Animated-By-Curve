@@ -343,7 +343,7 @@ def update_curves(self, context):
 						starting_frame = frame - interval * anticipate_value
 						last_KF = peaks_curve.keyframe_points[-1].co[0]
 						
-						# if the starting keyframe muste be before
+						# if the starting keyframe must be before
 						# the previous keyframe, then previous
 						# keyframe is considered as starting keyframe
 						if( last_KF > starting_frame ):
@@ -352,16 +352,28 @@ def update_curves(self, context):
 								value = 1
 							else:
 								value = 0
+							
+							# set keyframe interpolation
+							right = interval / 2
+							if len(peaks_curve.keyframe_points) > 1:
+								left = (last_KF - peaks_curve.keyframe_points[-2].co[0] ) / 2
+							else:
+								left = right
 							set_peak_interpolation(
 									peaks_curve.keyframe_points[-1],
-									clip)
+									clip,
+									left, right)
 						else:
 							frame = starting_frame
 						
 						peaks_curve.keyframe_points.insert(frame, value)
+						
+						# set keyframe interpolation
+						left = right = interval / 2
 						set_peak_interpolation(
-								peaks_curve.keyframe_points[-1], 
-								clip)
+								peaks_curve.keyframe_points[-1],
+								clip,
+								left, right)
 						
 						# next frame
 						frame += interval
@@ -375,15 +387,23 @@ def update_curves(self, context):
 				else:
 					# add keyframe
 					peaks_curve.keyframe_points.insert(frame, value)
+					
+					# set keyframe interpolation
+					interval = 60 / ppm_value * fps / 2
+					right = interval / 2
+					if len(peaks_curve.keyframe_points) > 1:
+						left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
+					else:
+						left = right
 					set_peak_interpolation(
 							peaks_curve.keyframe_points[-1], 
-							clip)
+							clip,
+							left, right )
 					
 					# next frame
 					if amplitude_net == 0:
 						frame += clip.CtF.accuracy
 					else:
-						interval = 60 / ppm_value * fps / 2
 						frame += interval
 					
 					# invert value
@@ -422,9 +442,16 @@ def update_curves(self, context):
 		
 		# add last keyframe
 		peaks_curve.keyframe_points.insert(frame, value)
+		# set keyframe interpolation
+		if len(peaks_curve.keyframe_points) > 1:
+			left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
+		else:
+			left = interval / 2
+		right = left
 		set_peak_interpolation( 
 				peaks_curve.keyframe_points[-1], 
-				clip)
+				clip,
+				left, right )
 	
 	# prevent curve edition
 	peaks_curve.lock = True
@@ -601,7 +628,7 @@ def update_curves(self, context):
 
 
 
-def set_peak_interpolation(keyframe, clip):
+def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	'''set peaks keyframe interpolation depending on settings'''
 	# get keyframe frame
 	frame = keyframe.co[0]
