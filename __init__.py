@@ -602,6 +602,16 @@ def update_curves(self, context):
 
 def set_peak_interpolation(keyframe, clip):
 	'''set peaks keyframe interpolation depending on settings'''
+	# get keyframe frame
+	frame = keyframe.co[0]
+	
+	# get interpolation mode:
+	curve = getFCurveByDataPath(clip, 'CtF.interpolation'):
+	if curve is None:
+		interpolation = clip.CtF.interpolation
+	else:
+		interpolation = curve.evaluate(frame)
+	
 	keyframe.interpolation = 'LINEAR'
 
 class CtF(bpy.types.PropertyGroup):
