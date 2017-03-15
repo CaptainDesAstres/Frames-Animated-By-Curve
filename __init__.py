@@ -945,6 +945,11 @@ class CtF(bpy.types.PropertyGroup):
 			
 		else:
 			warning = False
+			
+			#####################################
+			##      Movie info & settings      ##
+			#####################################
+			
 			# Display the directory path
 			row = layout.row()
 			col = row.column()
@@ -975,6 +980,11 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(self, "start")
 			col = row.column()
 			col.prop(self, "end")
+			
+			
+			#####################################
+			##      amplitude settings         ##
+			#####################################
 			
 			# A float amplitude field
 			layout.separator()
@@ -1012,6 +1022,7 @@ class CtF(bpy.types.PropertyGroup):
 			col.operator('ctf.refresh_mini_maxi',
 						icon='FILE_REFRESH',
 						text = '')
+			# display net amplitude value
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "amplitude_net")
@@ -1020,6 +1031,11 @@ class CtF(bpy.types.PropertyGroup):
 				"ctf.curves_refresh",
 				text='',
 				icon='FILE_REFRESH')
+			
+			
+			#####################################
+			##      peaks settings             ##
+			#####################################
 			
 			# a button to activate and set peaks per minute feature
 			layout.separator()
@@ -1047,6 +1063,12 @@ class CtF(bpy.types.PropertyGroup):
 				text='',
 				icon='FILE_REFRESH')
 			
+			
+			
+			##########################################
+			##      combination settings & output   ##
+			##########################################
+			
 			# set combination mode
 			layout.separator()
 			row = layout.row()
@@ -1073,6 +1095,12 @@ class CtF(bpy.types.PropertyGroup):
 				text='',
 				icon='FILE_REFRESH')
 			
+			
+			
+			##########################################
+			##      rounding & output settings      ##
+			##########################################
+			
 			# A field to choose between Round Floor and 
 			# Ceil rounding method
 			layout.separator()
@@ -1081,7 +1109,6 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(self, "rounding")
 			
 			# A checkbox to get real frame file copy
-			
 			col = row.column()
 			if(not context.scene.CtFRealCopy \
 					and platform.system().lower() not in\
@@ -1107,7 +1134,11 @@ class CtF(bpy.types.PropertyGroup):
 					col = row.column()
 					col.label(text='content could be erased', icon='ERROR')
 			
-			# the button to run the script
+			
+			##########################################
+			##      run button                      ##
+			##########################################
+			
 			if(checkCtFDriver(clip)):
 				row = layout.row()
 				row.label(text='This function can\'t be used with driver!', 
