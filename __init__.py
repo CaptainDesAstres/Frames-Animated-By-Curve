@@ -354,14 +354,14 @@ def update_curves(self, context):
 								value = 0
 							set_peak_interpolation(
 									peaks_curve.keyframe_points[-1],
-									clip.CtF)
+									clip)
 						else:
 							frame = starting_frame
 						
 						peaks_curve.keyframe_points.insert(frame, value)
 						set_peak_interpolation(
 								peaks_curve.keyframe_points[-1], 
-								clip.CtF)
+								clip)
 						
 						# next frame
 						frame += interval
@@ -377,7 +377,7 @@ def update_curves(self, context):
 					peaks_curve.keyframe_points.insert(frame, value)
 					set_peak_interpolation(
 							peaks_curve.keyframe_points[-1], 
-							clip.CtF)
+							clip)
 					
 					# next frame
 					if amplitude_net == 0:
@@ -424,7 +424,7 @@ def update_curves(self, context):
 		peaks_curve.keyframe_points.insert(frame, value)
 		set_peak_interpolation( 
 				peaks_curve.keyframe_points[-1], 
-				clip.CtF)
+				clip)
 	
 	# prevent curve edition
 	peaks_curve.lock = True
@@ -600,7 +600,7 @@ def update_curves(self, context):
 
 
 
-def set_peak_interpolation(keyframe, settings):
+def set_peak_interpolation(keyframe, clip):
 	'''set peaks keyframe interpolation depending on settings'''
 	keyframe.interpolation = 'LINEAR'
 
