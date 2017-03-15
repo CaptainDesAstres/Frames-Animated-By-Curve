@@ -741,8 +741,9 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		right_length *= right_ref
 		
 		# convert angle to radians
-		left_angle = radians(left_angle)
-		right_angle = -radians(right_angle) # inverse rotation
+		left_angle = -radians(left_angle) # inverse rotation
+		right_angle = radians(right_angle)
+		
 
 
 
