@@ -647,7 +647,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	curve = getFCurveByDataPath(clip, 'CtF.main_interpolation')
 	if curve is None:
 		enum = clip.CtF.bl_rna.properties['main_interpolation'].enum_items
-		interpolation = enum.find( clip.CtF.main_interpolation )
+		interpolation = enum.find( clip.CtF.path_resolve('main_interpolation') )
 	else:
 		interpolation = curve.evaluate(frame)
 	
@@ -675,7 +675,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		curve = getFCurveByDataPath(clip, 'CtF.main_easing')
 		if curve is None:
 			enum = clip.CtF.bl_rna.properties['main_easing'].enum_items
-			easing = enum.find( clip.CtF.main_easing )
+			easing = enum.find( clip.CtF.path_resolve('main_easing') )
 		else:
 			easing = curve.evaluate(frame)
 		
@@ -706,14 +706,14 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		# get left handle length
 		curve = getFCurveByDataPath(clip, 'CtF.main_left_length')
 		if curve is None:
-			left_length =  clip.CtF.main_left_length
+			left_length =  clip.CtF.path_resolve('main_left_length')
 		else:
 			left_length = curve.evaluate(frame)
 		
 		# get left handle angle
 		curve = getFCurveByDataPath(clip, 'CtF.main_left_angle')
 		if curve is None:
-			left_angle = clip.CtF.main_left_angle
+			left_angle = clip.CtF.path_resolve('main_left_angle')
 		else:
 			left_angle = curve.evaluate(frame)
 		
@@ -721,7 +721,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		# get right auto setting
 		curve = getFCurveByDataPath(clip, 'CtF.main_right_auto')
 		if curve is None:
-			right_auto = clip.CtF.main_right_auto
+			right_auto = clip.CtF.path_resolve('main_right_auto')
 		else:
 			right_auto = curve.evaluate(frame)
 		
@@ -734,14 +734,14 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			# get right handle length
 			curve = getFCurveByDataPath(clip, 'CtF.main_right_length')
 			if curve is None:
-				right_length = clip.CtF.main_right_length
+				right_length = clip.CtF.path_resolve('main_right_length')
 			else:
 				right_length = curve.evaluate(frame)
 			
 			# get right handle angle
 			curve = getFCurveByDataPath(clip, 'CtF.main_right_angle')
 			if curve is None:
-				right_angle = clip.CtF.main_right_angle
+				right_angle = clip.CtF.path_resolve('main_right_angle')
 			else:
 				right_angle = curve.evaluate(frame)
 		
