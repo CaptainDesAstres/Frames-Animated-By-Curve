@@ -1193,7 +1193,7 @@ class CtF(bpy.types.PropertyGroup):
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
-					str(n).rjust(self.numberSize, '0')+
+					str(int(n)).rjust(self.numberSize, '0')+
 					self.suffix + self.ext	)
 	
 	
