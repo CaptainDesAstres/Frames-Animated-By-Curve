@@ -1330,21 +1330,25 @@ class CtF(bpy.types.PropertyGroup):
 			##########################################
 			##    top peaks interpolation settings  ##
 			##########################################
-			
-			# keyframes interpolation mode
+			# top peak interpolation same as main
 			row = layout.row()
 			col = row.column()
-			col.prop(self, "top_interpolation", text = '')
+			col.prop(self, "top_interpolation_same", text = 'Same')
 			
-			# easing mode
-			col = row.column()
-			col.prop(self, "top_easing", text = '')
-			if(self.top_interpolation in [
-							'linear',
-							'bezier auto',
-							'bezier free'] 
-							):
-				col.enabled = False
+			if not self.top_interpolation_same:
+				# keyframes interpolation mode
+				col = row.column()
+				col.prop(self, "top_interpolation", text = '')
+			
+				# easing mode
+				col = row.column()
+				col.prop(self, "top_easing", text = '')
+				if(self.top_interpolation in [
+								'linear',
+								'bezier auto',
+								'bezier free'] 
+								):
+					col.enabled = False
 			
 			
 			##########################################
