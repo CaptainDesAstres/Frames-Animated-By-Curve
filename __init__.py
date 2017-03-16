@@ -1069,7 +1069,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	# top peak easing mode (not for Bezier/linear interpolation)
-	main_easing = bpy.props.EnumProperty(
+	top_easing = bpy.props.EnumProperty(
 		name = 'Easing (top peak)',
 		description = 'Easing of interpolation mode (top peak)',
 		default = 'auto',
