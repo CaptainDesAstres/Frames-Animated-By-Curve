@@ -1084,6 +1084,43 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	
+	# left handle size and angle
+	top_left_length = bpy.props.FloatProperty(
+		name = "L length (top peak)",
+		description = "Length of left handle relative to half the distance with previous keyframe.",
+		default = 1,
+		min = 0)
+	
+	top_left_angle = bpy.props.FloatProperty(
+		name = "L angle (top peak)",
+		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis\n-90 point away from the curve",
+		default = 0,
+		min = -90,
+		max = 90)
+	
+	
+	# right handle free mode, size and angle
+	top_right_auto = bpy.props.BoolProperty(
+		name="Auto right handle (top peak)", 
+		description="Right handle is aligned with the left one and have the same length",
+		default = True,
+		update = update_curves)
+	
+	top_right_length = bpy.props.FloatProperty(
+		name = "R length (top peak)",
+		description = "Length of right handle relative to half the distance with next keyframe.",
+		default = 1,
+		min = 0)
+	
+	top_right_angle = bpy.props.FloatProperty(
+		name = "R angle (top peak)",
+		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis\n-90 point away from the curve",
+		default = 0,
+		min = -90,
+		max = 90)
+	
+	
+	
 	
 	
 	#################################################
