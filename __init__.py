@@ -648,10 +648,10 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	
 	
 	# get interpolation mode:
-	curve = getFCurveByDataPath(clip, 'CtF.main_interpolation')
+	curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_interpolation')
 	if curve is None:
-		enum = clip.CtF.bl_rna.properties['main_interpolation'].enum_items
-		interpolation = enum.find( clip.CtF.path_resolve('main_interpolation') )
+		enum = clip.CtF.bl_rna.properties[kind+'_interpolation'].enum_items
+		interpolation = enum.find( clip.CtF.path_resolve(kind+'_interpolation') )
 	else:
 		interpolation = curve.evaluate(frame)
 	
@@ -676,10 +676,10 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			keyframe.interpolation = 'CIRC'
 		
 		# get easing setting
-		curve = getFCurveByDataPath(clip, 'CtF.main_easing')
+		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_easing')
 		if curve is None:
-			enum = clip.CtF.bl_rna.properties['main_easing'].enum_items
-			easing = enum.find( clip.CtF.path_resolve('main_easing') )
+			enum = clip.CtF.bl_rna.properties[kind+'_easing'].enum_items
+			easing = enum.find( clip.CtF.path_resolve(kind+'_easing') )
 		else:
 			easing = curve.evaluate(frame)
 		
@@ -708,24 +708,24 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		
 		
 		# get left handle length
-		curve = getFCurveByDataPath(clip, 'CtF.main_left_length')
+		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_left_length')
 		if curve is None:
-			left_length =  clip.CtF.path_resolve('main_left_length')
+			left_length =  clip.CtF.path_resolve(kind+'_left_length')
 		else:
 			left_length = curve.evaluate(frame)
 		
 		# get left handle angle
-		curve = getFCurveByDataPath(clip, 'CtF.main_left_angle')
+		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_left_angle')
 		if curve is None:
-			left_angle = clip.CtF.path_resolve('main_left_angle')
+			left_angle = clip.CtF.path_resolve(kind+'_left_angle')
 		else:
 			left_angle = curve.evaluate(frame)
 		
 		
 		# get right auto setting
-		curve = getFCurveByDataPath(clip, 'CtF.main_right_auto')
+		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_auto')
 		if curve is None:
-			right_auto = clip.CtF.path_resolve('main_right_auto')
+			right_auto = clip.CtF.path_resolve(kind+'_right_auto')
 		else:
 			right_auto = curve.evaluate(frame)
 		
@@ -736,16 +736,16 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			right_angle = - left_angle
 		else:
 			# get right handle length
-			curve = getFCurveByDataPath(clip, 'CtF.main_right_length')
+			curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_length')
 			if curve is None:
-				right_length = clip.CtF.path_resolve('main_right_length')
+				right_length = clip.CtF.path_resolve(kind+'_right_length')
 			else:
 				right_length = curve.evaluate(frame)
 			
 			# get right handle angle
-			curve = getFCurveByDataPath(clip, 'CtF.main_right_angle')
+			curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_angle')
 			if curve is None:
-				right_angle = clip.CtF.path_resolve('main_right_angle')
+				right_angle = clip.CtF.path_resolve(kind+'_right_angle')
 			else:
 				right_angle = curve.evaluate(frame)
 		
@@ -754,7 +754,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		right_length *= right_ref
 		
 		# convert angle to radians
-		if (top == 1 ):
+		if (keyframe.co[1] == 1 ):
 			left_angle = radians(left_angle)
 			right_angle = -radians(right_angle) # invert rotation
 		else:
