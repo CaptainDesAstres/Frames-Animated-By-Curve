@@ -638,9 +638,9 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	# get top «same» settings
 	curve = getFCurveByDataPath(clip, 'CtF.top_interpolation_same')
 	if curve is None:
-		interpolation = clip.CtF.top_interpolation_same
+		same = clip.CtF.top_interpolation_same
 	else:
-		interpolation = (curve.evaluate(frame) == 1)
+		same = curve.evaluate(frame)
 	
 	
 	# get interpolation mode:
