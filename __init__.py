@@ -1051,6 +1051,24 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
+	
+	#################################################
+	##     peaks settings                          ##
+	##       top peak interpolation settings       ##
+	#################################################
+	# interpolation mode
+	top_interpolation =  bpy.props.EnumProperty(
+		name = 'Interpolation top peak',
+		description = 'Top peaks keyframe interpolation mode',
+		default = 'linear',
+		items = interpolation_enum,
+		update = update_curves
+		)
+	
+	
+	
+	
 	#################################################
 	##     output settings                         ##
 	#################################################
