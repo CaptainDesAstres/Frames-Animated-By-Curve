@@ -633,6 +633,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	'''set peaks keyframe interpolation depending on settings'''
 	# get keyframe frame
 	frame = keyframe.co[0]
+	top = (keyframe.co[1] == 1)
 	
 	# get interpolation mode:
 	curve = getFCurveByDataPath(clip, 'CtF.main_interpolation')
@@ -741,7 +742,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		right_length *= right_ref
 		
 		# convert angle to radians
-		if (keyframe.co[1] == 1 ):
+		if (top == 1 ):
 			left_angle = radians(left_angle)
 			right_angle = -radians(right_angle) # invert rotation
 		else:
