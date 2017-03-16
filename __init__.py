@@ -1308,6 +1308,19 @@ class CtF(bpy.types.PropertyGroup):
 					col = row.column()
 					col.prop(self, "main_right_angle")
 			
+			
+			
+			##########################################
+			##      peaks interpolation settings    ##
+			##########################################
+			
+			# keyframes interpolation mode
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "top_interpolation", text = '')
+			
+			
+			
 			##########################################
 			##      combination settings & output   ##
 			##########################################
