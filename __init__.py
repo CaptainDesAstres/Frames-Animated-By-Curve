@@ -1032,7 +1032,8 @@ class CtF(bpy.types.PropertyGroup):
 	main_right_auto = bpy.props.BoolProperty(
 		name="Auto right handle", 
 		description="Right handle is aligned with the left one and have the same length",
-		default = True)
+		default = True,
+		update = update_curves)
 	
 	main_right_length = bpy.props.FloatProperty(
 		name = "R length",
