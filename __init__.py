@@ -931,11 +931,7 @@ class CtF(bpy.types.PropertyGroup):
 	##       main interpolation settings           ##
 	#################################################
 	# interpolation mode
-	main_interpolation =  bpy.props.EnumProperty(
-		name = 'Interpolation',
-		description = 'Peaks keyframe interpolation mode',
-		default = 'linear',
-		items = [
+	interpolation_enum = [
 #			(identifier,			name,
 #				description, icon, number)
 			
@@ -979,7 +975,12 @@ class CtF(bpy.types.PropertyGroup):
 				'Circular easing',
 				'IPO_CIRC',			9)
 			
-			],
+			]
+	main_interpolation =  bpy.props.EnumProperty(
+		name = 'Interpolation',
+		description = 'Peaks keyframe interpolation mode',
+		default = 'linear',
+		items = interpolation_enum,
 		update = update_curves
 		)
 	
