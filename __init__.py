@@ -635,10 +635,10 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	frame = keyframe.co[0]
 	
 	# get interpolation mode:
-	curve = getFCurveByDataPath(clip, 'CtF.interpolation')
+	curve = getFCurveByDataPath(clip, 'CtF.main_interpolation')
 	if curve is None:
-		enum = clip.CtF.bl_rna.properties['interpolation'].enum_items
-		interpolation = enum.find( clip.CtF.interpolation )
+		enum = clip.CtF.bl_rna.properties['main_interpolation'].enum_items
+		interpolation = enum.find( clip.CtF.main_interpolation )
 	else:
 		interpolation = curve.evaluate(frame)
 	
@@ -663,10 +663,10 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			keyframe.interpolation = 'CIRC'
 		
 		# get easing setting
-		curve = getFCurveByDataPath(clip, 'CtF.easing')
+		curve = getFCurveByDataPath(clip, 'CtF.main_easing')
 		if curve is None:
-			enum = clip.CtF.bl_rna.properties['easing'].enum_items
-			easing = enum.find( clip.CtF.easing )
+			enum = clip.CtF.bl_rna.properties['main_easing'].enum_items
+			easing = enum.find( clip.CtF.main_easing )
 		else:
 			easing = curve.evaluate(frame)
 		
@@ -695,24 +695,24 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 		
 		
 		# get left handle length
-		curve = getFCurveByDataPath(clip, 'CtF.left_length')
+		curve = getFCurveByDataPath(clip, 'CtF.main_left_length')
 		if curve is None:
-			left_length =  clip.CtF.left_length
+			left_length =  clip.CtF.main_left_length
 		else:
 			left_length = curve.evaluate(frame)
 		
 		# get left handle angle
-		curve = getFCurveByDataPath(clip, 'CtF.left_angle')
+		curve = getFCurveByDataPath(clip, 'CtF.main_left_angle')
 		if curve is None:
-			left_angle = clip.CtF.left_angle
+			left_angle = clip.CtF.main_left_angle
 		else:
 			left_angle = curve.evaluate(frame)
 		
 		
 		# get right auto setting
-		curve = getFCurveByDataPath(clip, 'CtF.right_auto')
+		curve = getFCurveByDataPath(clip, 'CtF.main_right_auto')
 		if curve is None:
-			right_auto = clip.CtF.right_auto
+			right_auto = clip.CtF.main_right_auto
 		else:
 			right_auto = curve.evaluate(frame)
 		
@@ -723,16 +723,16 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 			right_angle = - left_angle
 		else:
 			# get right handle length
-			curve = getFCurveByDataPath(clip, 'CtF.right_length')
+			curve = getFCurveByDataPath(clip, 'CtF.main_right_length')
 			if curve is None:
-				right_length = clip.CtF.right_length
+				right_length = clip.CtF.main_right_length
 			else:
 				right_length = curve.evaluate(frame)
 			
 			# get right handle angle
-			curve = getFCurveByDataPath(clip, 'CtF.right_angle')
+			curve = getFCurveByDataPath(clip, 'CtF.main_right_angle')
 			if curve is None:
-				right_angle = clip.CtF.right_angle
+				right_angle = clip.CtF.main_right_angle
 			else:
 				right_angle = curve.evaluate(frame)
 		
@@ -928,10 +928,10 @@ class CtF(bpy.types.PropertyGroup):
 	
 	#################################################
 	##     peaks settings                          ##
-	##       interpolation settings                ##
+	##       main interpolation settings           ##
 	#################################################
 	# interpolation mode
-	interpolation =  bpy.props.EnumProperty(
+	main_interpolation =  bpy.props.EnumProperty(
 		name = 'Interpolation',
 		description = 'Peaks keyframe interpolation mode',
 		default = 'linear',
@@ -985,7 +985,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	# easing mode (not for Bezier/linear interpolation)
-	easing = bpy.props.EnumProperty(
+	main_easing = bpy.props.EnumProperty(
 		name = 'Easing',
 		description = 'Easing of interpolation mode',
 		default = 'auto',
@@ -1014,13 +1014,13 @@ class CtF(bpy.types.PropertyGroup):
 		)
 	
 	# left handle size and angle
-	left_length = bpy.props.FloatProperty(
+	main_left_length = bpy.props.FloatProperty(
 		name = "L length",
 		description = "Length of left handle relative to half the distance with previous keyframe.",
 		default = 1,
 		min = 0)
 	
-	left_angle = bpy.props.FloatProperty(
+	main_left_angle = bpy.props.FloatProperty(
 		name = "L angle",
 		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis\n-90 point away from the curve",
 		default = 0,
@@ -1029,18 +1029,18 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	# right handle free mode, size and angle
-	right_auto = bpy.props.BoolProperty(
+	main_right_auto = bpy.props.BoolProperty(
 		name="Auto right handle", 
 		description="Right handle is aligned with the left one and have the same length",
 		default = True)
 	
-	right_length = bpy.props.FloatProperty(
+	main_right_length = bpy.props.FloatProperty(
 		name = "R length",
 		description = "Length of right handle relative to half the distance with next keyframe.",
 		default = 1,
 		min = 0)
 	
-	right_angle = bpy.props.FloatProperty(
+	main_right_angle = bpy.props.FloatProperty(
 		name = "R angle",
 		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis\n-90 point away from the curve",
 		default = 0,
@@ -1250,12 +1250,12 @@ class CtF(bpy.types.PropertyGroup):
 			layout.separator()
 			row = layout.row()
 			col = row.column()
-			col.prop(self, "interpolation", text = '')
+			col.prop(self, "main_interpolation", text = '')
 			
 			# easing mode
 			col = row.column()
-			col.prop(self, "easing", text = '')
-			if(self.interpolation in [
+			col.prop(self, "main_easing", text = '')
+			if(self.main_interpolation in [
 							'linear',
 							'bezier auto',
 							'bezier free'] 
@@ -1264,29 +1264,29 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# Right auto
 			col = row.column()
-			col.prop(self, "right_auto")
-			if (self.interpolation != 'bezier free'):
+			col.prop(self, "main_right_auto")
+			if (self.main_interpolation != 'bezier free'):
 				col.enabled = False
 			
-			if (self.interpolation == 'bezier free'):
+			if (self.main_interpolation == 'bezier free'):
 				# Left length
 				row = layout.row()
 				col = row.column()
-				col.prop(self, "left_length")
+				col.prop(self, "main_left_length")
 				
 				# left angle
 				col = row.column()
-				col.prop(self, "left_angle")
+				col.prop(self, "main_left_angle")
 				
-				if not self.right_auto:
+				if not self.main_right_auto:
 					# Right length
 					row = layout.row()
 					col = row.column()
-					col.prop(self, "right_length")
+					col.prop(self, "main_right_length")
 					
 					# Right angle
 					col = row.column()
-					col.prop(self, "right_angle")
+					col.prop(self, "main_right_angle")
 			
 			##########################################
 			##      combination settings & output   ##
