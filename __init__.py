@@ -1376,7 +1376,7 @@ class CtF(bpy.types.PropertyGroup):
 				# keyframes interpolation mode
 				col = row.column()
 				col.prop(self, "top_interpolation", text = '')
-			
+				
 				# easing mode
 				col = row.column()
 				col.prop(self, "top_easing", text = '')
@@ -1386,6 +1386,33 @@ class CtF(bpy.types.PropertyGroup):
 								'bezier free'] 
 								):
 					col.enabled = False
+				
+				# Right auto
+				col = row.column()
+				col.prop(self, "top_right_auto")
+				if (self.top_interpolation != 'bezier free'):
+					col.enabled = False
+				
+				if (self.top_interpolation == 'bezier free'):
+					# Left length
+					row = layout.row()
+					col = row.column()
+					col.prop(self, "top_left_length")
+					
+					# left angle
+					col = row.column()
+					col.prop(self, "top_left_angle")
+					
+					if not self.top_right_auto:
+						# Right length
+						row = layout.row()
+						col = row.column()
+						col.prop(self, "top_right_length")
+						
+						# Right angle
+						col = row.column()
+						col.prop(self, "top_right_angle")
+			
 			
 			
 			##########################################
