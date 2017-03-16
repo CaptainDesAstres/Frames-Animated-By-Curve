@@ -1060,8 +1060,8 @@ class CtF(bpy.types.PropertyGroup):
 	#################################################
 	# top peak interpolation mode
 	top_interpolation =  bpy.props.EnumProperty(
-		name = 'Interpolation top peak',
-		description = 'Top peaks keyframe interpolation mode',
+		name = 'Interpolation (top peak)',
+		description = 'keyframe interpolation mode (top peak)',
 		default = 'linear',
 		items = interpolation_enum,
 		update = update_curves
@@ -1070,8 +1070,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# top peak easing mode (not for Bezier/linear interpolation)
 	main_easing = bpy.props.EnumProperty(
-		name = 'Easing',
-		description = 'Easing of interpolation mode',
+		name = 'Easing (top peak)',
+		description = 'Easing of interpolation mode (top peak)',
 		default = 'auto',
 		items = easing_enum,
 		update = update_curves
