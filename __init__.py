@@ -641,6 +641,7 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 	else:
 		same = curve.evaluate(frame)
 	
+	# determine wich interpolation settings to use
 	if (keyframe.co[1] != 1 or same):
 		kind = 'main'
 	else:
