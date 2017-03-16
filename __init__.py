@@ -986,11 +986,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	# easing mode (not for Bezier/linear interpolation)
-	main_easing = bpy.props.EnumProperty(
-		name = 'Easing',
-		description = 'Easing of interpolation mode',
-		default = 'auto',
-		items = [
+	easing_enum = [
 #			(identifier,			name,
 #				description, icon, number)
 			
@@ -1010,7 +1006,12 @@ class CtF(bpy.types.PropertyGroup):
 				'Ease Out',
 				'IPO_EASE_OUT',			3),
 			
-			],
+			]
+	main_easing = bpy.props.EnumProperty(
+		name = 'Easing',
+		description = 'Easing of interpolation mode',
+		default = 'auto',
+		items = easing_enum,
 		update = update_curves
 		)
 	
