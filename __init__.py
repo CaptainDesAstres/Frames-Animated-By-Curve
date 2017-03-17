@@ -1587,7 +1587,9 @@ class CtF(bpy.types.PropertyGroup):
 
 def backup_output( path, level, maximum ):
 	'''backup output directory'''
-	
+	# get backup path
+	if level != 0:
+		backup = path+'.backup'+str(level)
 
 
 
