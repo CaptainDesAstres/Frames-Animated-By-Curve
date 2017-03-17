@@ -43,12 +43,35 @@ class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 		
 		fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 		if(fCurve is None):
-			m = M = self.curve
+			m = M = self.amplitude
 		else:
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
 		update_curves_simple_track(clip.CtF, context)
+		
+		return {'FINISHED'}
+
+
+
+class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
+	'''operator to initialize or refresh CtF info of the scene'''
+	bl_idname = "ctf.refresh_scene_mini_maxi"
+	bl_label= "get scene amplitude curve mini and maxi value"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''get scene amplitude curve mini and maxi value'''
+		scene = context.scene
+		
+		fCurve = getFCurveByDataPath(scene, 'CtF.amplitude')
+		if(fCurve is None):
+			m = M = self.amplitude
+		else:
+			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
+		
+		# update curves
+		update_curves_simple_track(scene.CtF, context)
 		
 		return {'FINISHED'}
 
@@ -1785,6 +1808,7 @@ def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtFRefreshClipMiniMaxi)
+	bpy.utils.register_class(CtFRefreshSceneMiniMaxi)
 	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.register_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
@@ -1800,6 +1824,7 @@ def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtFRefreshClipMiniMaxi)
+	bpy.utils.unregister_class(CtFRefreshSceneMiniMaxi)
 	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
