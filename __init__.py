@@ -1467,26 +1467,31 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# A checkbox to get real frame file copy
 		col = row.column()
+		
 		if(not scene.CtFRealCopy \
-				and platform.system().lower() not in\
-							['linux', 'unix']):
-			col.prop(scene, "CtFRealCopy", icon='ERROR')
+				and platform.system().lower() not in ['linux', 'unix']):
+			col.prop( scene, "CtFRealCopy", icon='ERROR' )
 			warning = True
+			
 		else:
-			col.prop(scene, "CtFRealCopy")
+			col.prop( scene, "CtFRealCopy" )
 		
 		# A field to set the name of the sub 
 		# directory name to use as destination
 		row = layout.row()
 		col = row.column()
 		col.prop(self, "destination")
-		if(os.path.exists(self.path+self.destination)\
-			and os.path.isdir(self.path+self.destination)):
-			if(not os.access(self.path+self.destination, os.W_OK)):
+		if(
+			os.path.exists( self.path + self.destination )
+			and os.path.isdir( self.path + self.destination ) ):
+			
+			if( not os.access( self.path + self.destination,
+							 os.W_OK) ):
 				warning = True
 				col = row.column()
 				col.label(text='no permission', icon='ERROR')
-			elif(len(os.listdir(self.path+self.destination))>0):
+				
+			elif( len( os.listdir( self.path + self.destination ) ) >0 ):
 				warning = True
 				col = row.column()
 				col.label(text='content could be erased', icon='ERROR')
