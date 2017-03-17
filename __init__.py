@@ -1078,7 +1078,11 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_combination_and_output( self, layout, refresh_curve ):
+	def draw_combination_and_output( 
+						self, 
+						layout, 
+						refresh_curve, 
+						no_output=False ):
 		'''draw combination and output settings and value into the panel'''
 		# combination mode field
 		layout.separator()
@@ -1092,9 +1096,10 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "combination")
 		
 		# visualize output frame
-		col = row.column()
-		col.enabled = False
-		col.prop(self, "output")
+		if not no_output:
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "output")
 		
 		# refresh curve
 		col = row.column()
@@ -1659,7 +1664,7 @@ class CtF(bpy.types.PropertyGroup):
 		self.draw_top_interpolation( layout )
 		
 		# draw combination node settings and combination and output value
-		self.draw_combination_and_output( layout, refresh_curve )
+		self.draw_combination_and_output( layout, refresh_curve, True )
 		
 		# draw output and rounding settings
 		#warning = self.draw_output( layout, context.scene )
