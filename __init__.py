@@ -202,9 +202,9 @@ def set_maxi(self, context):
 	
 
 
-def update_curves(self, context):
-	'''update curve when settings have been changed'''
-	clip = context.space_data.clip
+
+def update_net_amplitude_curve( clip, context ):
+	'''update clip amplification net curve'''
 	#############################################
 	##    update amplification net curve        ##
 	#############################################
@@ -267,6 +267,16 @@ def update_curves(self, context):
 	amplitude_net_curve.lock = True
 	amplitude_net_curve.hide = hide
 	
+	return amplitude_net_curve
+
+
+
+def update_curves(self, context):
+	'''update curve when settings have been changed'''
+	clip = context.space_data.clip
+	
+	# update amplitude net curve
+	amplitude_net_curve = update_net_amplitude_curve( clip, context )
 	
 	#############################################
 	##       update peaks curve                ##
