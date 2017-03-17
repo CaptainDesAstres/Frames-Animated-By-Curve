@@ -1596,6 +1596,8 @@ def backup_output( path, level, maximum ):
 	# check older backup
 	if os.path.exists( backup ):
 		backup_output( path, level+1, maximum )
+	else:
+		return
 	
 	# erase too old backup
 	if level >= maximum:
