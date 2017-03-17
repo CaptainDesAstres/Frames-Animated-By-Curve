@@ -1481,19 +1481,7 @@ class CtF(bpy.types.PropertyGroup):
 		col = row.column()
 		col.prop(self, "output_path")
 		path = bpy.path.abspath(self.output_path )
-		if path[-1] != '/':
-			path += '/'
-		path += clip.name+'.CtF_output'
-		if( os.path.exists( path ) and os.path.isdir( path ) ):
-			if not os.access( path, os.W_OK ):
-				warning = True
-				col = row.column()
-				col.label(text='no permission', icon='ERROR')
-				
-			elif( len( os.listdir( path ) ) >0 ):
-				warning = True
-				col = row.column()
-				col.label(text='content could be erased', icon='ERROR')
+		
 		
 		return warning
 	
