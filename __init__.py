@@ -1198,9 +1198,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw(self, context, layout, clip):
-		'''draw the CtF panel'''
-		
+	def draw_clip_load_error(self, layout, clip):
+		'''draw movieclip load error if required'''
 		if(clip.source != 'SEQUENCE'):
 			# Display an error message, requesting for a sequence of images
 			row = layout.row()
@@ -1209,6 +1208,8 @@ class CtF(bpy.types.PropertyGroup):
 			row = layout.row()
 			row.label( text="Only images sequence are accept." )
 			
+			return True
+			
 		elif(not self.init):
 			# ask to initialize CtF on thes MovieClip
 			row = layout.row()
@@ -1216,7 +1217,20 @@ class CtF(bpy.types.PropertyGroup):
 				"ctf.refresh",
 				text="initialize MovieClip info")
 			
-		else:
+			return True
+			
+		return False
+		
+	
+	
+	
+	
+	def draw(self, context, layout, clip):
+		'''draw the CtF panel'''
+		# draw movieclip load error if required
+		error = self.draw_clip_load_error( layout, clip )
+		
+		if not error:
 			warning = False
 			
 			#####################################
