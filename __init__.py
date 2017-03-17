@@ -203,196 +203,7 @@ def set_maxi(self, context):
 
 
 
-def update_peaks_curve(clip, context, amplitude_net_curve):
-	'''update clip peaks curve'''
-	# remove old peaks
-	peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
-	if peaks_curve is not None:
-		hide = peaks_curve.hide
-		clip.animation_data.action.fcurves.remove(peaks_curve)
-	else:
-		hide = True
-	
-	# create new peaks
-	clip.animation_data.action.fcurves.new('CtF.peaks')
-	peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
-	
-	# get frame rate and start/end frame
-	fps = context.scene.render.fps
-	frame = start = context.scene.frame_start
-	end = context.scene.frame_end
-	
-	# get ppm curve and default value
-	ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
-	ppm_value = clip.CtF.ppm
-	# get anticipate curve and default value
-	anticipate_curve = getFCurveByDataPath(clip, 'CtF.anticipate')
-	anticipate_value = clip.CtF.anticipate
-	value = 0
-	if ppm_curve is None and clip.CtF.ppm <= 0:
-		if clip.CtF.ppm == 0:
-			# ppm isn't animate and is equal to 0, peaks always equal 0
-			peaks_curve.keyframe_points.insert(0, 0)
-		else:
-			# ppm isn't animate and is equal to 0, peaks always equal 1
-			peaks_curve.keyframe_points.insert(0, 1)
-	else:
-		# convert all ppm keyframe into constant keyframe
-		if ppm_curve is not None and clip.CtF.auto_constant:
-			for k in ppm_curve.keyframe_points:
-				k.interpolation = 'CONSTANT'
-		
-		peak = False # did the keyframe is inside a started peak?
-		no_amplitude = False
-		while(frame < end):
-			# get amplitude net value
-			amplitude_net = amplitude_net_curve.evaluate(frame)
-			
-			# get ppm value at this frame
-			if ppm_curve is not None:
-				ppm_value = ppm_curve.evaluate(frame)
-			
-			if ppm_value > 0:
-				if( clip.CtF.synchronized and no_amplitude):
-					if(amplitude_net == 0):
-						# finish last peak if needed
-						if(peaks_curve.keyframe_points[-1].co[1] == 1):
-							peaks_curve.keyframe_points.insert(frame, value)
-							peaks_curve.keyframe_points[-1]\
-									.interpolation = 'CONSTANT'
-							peak = False
-						#continue loop
-						value = 0
-						frame += clip.CtF.accuracy
-					else:
-						# get anticipate value at this frame
-						if anticipate_curve is not None:
-							anticipate_value = anticipate_curve\
-													.evaluate(frame)
-						
-						# get interval at this frame
-						interval = 60 / ppm_value * fps / 2
-						
-						# add first peak starting keyframe
-						# compute starting frame
-						starting_frame = frame - interval * anticipate_value
-						last_KF = peaks_curve.keyframe_points[-1].co[0]
-						
-						# if the starting keyframe must be before
-						# the previous keyframe, then previous
-						# keyframe is considered as starting keyframe
-						if( last_KF > starting_frame ):
-							value = peaks_curve.keyframe_points[-1].co[1]
-							if value == 0:
-								value = 1
-							else:
-								value = 0
-							
-							# set keyframe interpolation
-							right = interval / 2
-							if len(peaks_curve.keyframe_points) > 1:
-								left = (last_KF - peaks_curve.keyframe_points[-2].co[0] ) / 2
-							else:
-								left = right
-							set_peak_interpolation(
-									peaks_curve.keyframe_points[-1],
-									clip,
-									left, right)
-						else:
-							frame = starting_frame
-						
-						peaks_curve.keyframe_points.insert(frame, value)
-						
-						# set keyframe interpolation
-						left = right = interval / 2
-						set_peak_interpolation(
-								peaks_curve.keyframe_points[-1],
-								clip,
-								left, right)
-						
-						# next frame
-						frame += interval
-						
-						# invert value
-						if value == 0:
-							value = 1
-						else:
-							value = 0
-						peak = True
-				else:
-					# add keyframe
-					peaks_curve.keyframe_points.insert(frame, value)
-					
-					# set keyframe interpolation
-					interval = 60 / ppm_value * fps / 2
-					right = interval / 2
-					if len(peaks_curve.keyframe_points) > 1:
-						left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
-					else:
-						left = right
-					set_peak_interpolation(
-							peaks_curve.keyframe_points[-1], 
-							clip,
-							left, right )
-					
-					# next frame
-					if amplitude_net == 0:
-						frame += clip.CtF.accuracy
-					else:
-						frame += interval
-					
-					# invert value
-					if value == 0:
-						value = 1
-					else:
-						value = 0
-					peak = True
-			elif(peak):# ppm<=0 but peak == True
-				# add keyframe
-				if ppm_value == 0:
-					if value == 0:
-						peaks_curve.keyframe_points.insert(frame, 0)
-					value = 0
-				else: # (ppm<0)
-					if value == 1:
-						peaks_curve.keyframe_points.insert(frame, 1)
-					value = 1
-				
-				peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
-				
-				# next frame
-				frame += clip.CtF.accuracy
-				peak = False
-			else:# ppm<=0 and not in a peak
-				if ppm_value == 0 and value == 1:
-					peaks_curve.keyframe_points.insert(frame, 0)
-					peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
-					value = 0
-				if ppm_value < 0 and value == 0:
-					peaks_curve.keyframe_points.insert(frame, 1)
-					peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
-					value = 1
-				frame += clip.CtF.accuracy
-			no_amplitude = (amplitude_net == 0)
-		
-		# add last keyframe
-		peaks_curve.keyframe_points.insert(frame, value)
-		# set keyframe interpolation
-		if len(peaks_curve.keyframe_points) > 1:
-			left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
-		else:
-			left = interval / 2
-		right = left
-		set_peak_interpolation( 
-				peaks_curve.keyframe_points[-1], 
-				clip,
-				left, right )
-	
-	# prevent curve edition
-	peaks_curve.lock = True
-	peaks_curve.hide = hide
-	
-	return peaks_curve
+
 
 
 
@@ -404,7 +215,7 @@ def update_curves(self, context):
 	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
 	
 	# update peaks curve
-	peaks_curve = update_peaks_curve(clip, context, amplitude_net_curve)
+	peaks_curve = self.update_peaks_curve(clip, context, amplitude_net_curve)
 	
 	#############################################
 	##       update combined curve             ##
@@ -1558,6 +1369,201 @@ class CtF(bpy.types.PropertyGroup):
 		amplitude_net_curve.hide = hide
 		
 		return amplitude_net_curve
+	
+	
+	
+	
+	def update_peaks_curve(self, clip, context, amplitude_net_curve):
+		'''update clip peaks curve'''
+		# remove old peaks
+		peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
+		if peaks_curve is not None:
+			hide = peaks_curve.hide
+			clip.animation_data.action.fcurves.remove(peaks_curve)
+		else:
+			hide = True
+		
+		# create new peaks
+		clip.animation_data.action.fcurves.new('CtF.peaks')
+		peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
+		
+		# get frame rate and start/end frame
+		fps = context.scene.render.fps
+		frame = start = context.scene.frame_start
+		end = context.scene.frame_end
+		
+		# get ppm curve and default value
+		ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
+		ppm_value = clip.CtF.ppm
+		# get anticipate curve and default value
+		anticipate_curve = getFCurveByDataPath(clip, 'CtF.anticipate')
+		anticipate_value = clip.CtF.anticipate
+		value = 0
+		if ppm_curve is None and clip.CtF.ppm <= 0:
+			if clip.CtF.ppm == 0:
+				# ppm isn't animate and is equal to 0, peaks always equal 0
+				peaks_curve.keyframe_points.insert(0, 0)
+			else:
+				# ppm isn't animate and is equal to 0, peaks always equal 1
+				peaks_curve.keyframe_points.insert(0, 1)
+		else:
+			# convert all ppm keyframe into constant keyframe
+			if ppm_curve is not None and clip.CtF.auto_constant:
+				for k in ppm_curve.keyframe_points:
+					k.interpolation = 'CONSTANT'
+			
+			peak = False # did the keyframe is inside a started peak?
+			no_amplitude = False
+			while(frame < end):
+				# get amplitude net value
+				amplitude_net = amplitude_net_curve.evaluate(frame)
+				
+				# get ppm value at this frame
+				if ppm_curve is not None:
+					ppm_value = ppm_curve.evaluate(frame)
+				
+				if ppm_value > 0:
+					if( clip.CtF.synchronized and no_amplitude):
+						if(amplitude_net == 0):
+							# finish last peak if needed
+							if(peaks_curve.keyframe_points[-1].co[1] == 1):
+								peaks_curve.keyframe_points.insert(frame, value)
+								peaks_curve.keyframe_points[-1]\
+										.interpolation = 'CONSTANT'
+								peak = False
+							#continue loop
+							value = 0
+							frame += clip.CtF.accuracy
+						else:
+							# get anticipate value at this frame
+							if anticipate_curve is not None:
+								anticipate_value = anticipate_curve\
+														.evaluate(frame)
+							
+							# get interval at this frame
+							interval = 60 / ppm_value * fps / 2
+							
+							# add first peak starting keyframe
+							# compute starting frame
+							starting_frame = frame - interval * anticipate_value
+							last_KF = peaks_curve.keyframe_points[-1].co[0]
+							
+							# if the starting keyframe must be before
+							# the previous keyframe, then previous
+							# keyframe is considered as starting keyframe
+							if( last_KF > starting_frame ):
+								value = peaks_curve.keyframe_points[-1].co[1]
+								if value == 0:
+									value = 1
+								else:
+									value = 0
+								
+								# set keyframe interpolation
+								right = interval / 2
+								if len(peaks_curve.keyframe_points) > 1:
+									left = (last_KF - 
+												peaks_curve.keyframe_points[-2].co[0] ) / 2
+								else:
+									left = right
+								set_peak_interpolation(
+										peaks_curve.keyframe_points[-1],
+										clip,
+										left, right)
+							else:
+								frame = starting_frame
+							
+							peaks_curve.keyframe_points.insert(frame, value)
+							
+							# set keyframe interpolation
+							left = right = interval / 2
+							set_peak_interpolation(
+									peaks_curve.keyframe_points[-1],
+									clip,
+									left, right)
+							
+							# next frame
+							frame += interval
+							
+							# invert value
+							if value == 0:
+								value = 1
+							else:
+								value = 0
+							peak = True
+					else:
+						# add keyframe
+						peaks_curve.keyframe_points.insert(frame, value)
+						
+						# set keyframe interpolation
+						interval = 60 / ppm_value * fps / 2
+						right = interval / 2
+						if len(peaks_curve.keyframe_points) > 1:
+							left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
+						else:
+							left = right
+						set_peak_interpolation(
+								peaks_curve.keyframe_points[-1], 
+								clip,
+								left, right )
+						
+						# next frame
+						if amplitude_net == 0:
+							frame += clip.CtF.accuracy
+						else:
+							frame += interval
+						
+						# invert value
+						if value == 0:
+							value = 1
+						else:
+							value = 0
+						peak = True
+				elif(peak):# ppm<=0 but peak == True
+					# add keyframe
+					if ppm_value == 0:
+						if value == 0:
+							peaks_curve.keyframe_points.insert(frame, 0)
+						value = 0
+					else: # (ppm<0)
+						if value == 1:
+							peaks_curve.keyframe_points.insert(frame, 1)
+						value = 1
+					
+					peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
+					
+					# next frame
+					frame += clip.CtF.accuracy
+					peak = False
+				else:# ppm<=0 and not in a peak
+					if ppm_value == 0 and value == 1:
+						peaks_curve.keyframe_points.insert(frame, 0)
+						peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
+						value = 0
+					if ppm_value < 0 and value == 0:
+						peaks_curve.keyframe_points.insert(frame, 1)
+						peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
+						value = 1
+					frame += clip.CtF.accuracy
+				no_amplitude = (amplitude_net == 0)
+			
+			# add last keyframe
+			peaks_curve.keyframe_points.insert(frame, value)
+			# set keyframe interpolation
+			if len(peaks_curve.keyframe_points) > 1:
+				left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
+			else:
+				left = interval / 2
+			right = left
+			set_peak_interpolation( 
+					peaks_curve.keyframe_points[-1], 
+					clip,
+					left, right )
+		
+		# prevent curve edition
+		peaks_curve.lock = True
+		peaks_curve.hide = hide
+		
+		return peaks_curve
 	
 	
 	
