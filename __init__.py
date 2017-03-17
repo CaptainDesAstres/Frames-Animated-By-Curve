@@ -1455,6 +1455,44 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_output( self, layout, scene ):
+		'''draw rounding & output settings into the panel'''
+		warning = False
+		# A field to choose between Round Floor and 
+		# Ceil rounding method
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "rounding")
+		
+		# A checkbox to get real frame file copy
+		col = row.column()
+		if(not scene.CtFRealCopy \
+				and platform.system().lower() not in\
+							['linux', 'unix']):
+			col.prop(scene, "CtFRealCopy", icon='ERROR')
+			warning = True
+		else:
+			col.prop(scene, "CtFRealCopy")
+		
+		# A field to set the name of the sub 
+		# directory name to use as destination
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "destination")
+		if(os.path.exists(self.path+self.destination)\
+			and os.path.isdir(self.path+self.destination)):
+			if(not os.access(self.path+self.destination, os.W_OK)):
+				warning = True
+				col = row.column()
+				col.label(text='no permission', icon='ERROR')
+			elif(len(os.listdir(self.path+self.destination))>0):
+				warning = True
+				col = row.column()
+				col.label(text='content could be erased', icon='ERROR')
+		
+		return warning
+	
 	
 	
 	
@@ -1466,8 +1504,6 @@ class CtF(bpy.types.PropertyGroup):
 		error = self.draw_clip_load_error( layout, clip )
 		
 		if not error:
-			warning = False
-			
 			# draw Movie info & settings
 			self.draw_movieclip_settings( layout )
 			
@@ -1486,44 +1522,9 @@ class CtF(bpy.types.PropertyGroup):
 			# draw combination node settings and combination and output value
 			self.draw_combination_and_output( layout)
 			
+			# draw output and rounding settings
+			warning = self.draw_output( layout, context.scene )
 			
-			
-			##########################################
-			##      rounding & output settings      ##
-			##########################################
-			
-			# A field to choose between Round Floor and 
-			# Ceil rounding method
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "rounding")
-			
-			# A checkbox to get real frame file copy
-			col = row.column()
-			if(not context.scene.CtFRealCopy \
-					and platform.system().lower() not in\
-								['linux', 'unix']):
-				col.prop(context.scene, "CtFRealCopy", icon='ERROR')
-				warning = True
-			else:
-				col.prop(context.scene, "CtFRealCopy")
-			
-			# A field to set the name of the sub 
-			# directory name to use as destination
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "destination")
-			if(os.path.exists(self.path+self.destination)\
-				and os.path.isdir(self.path+self.destination)):
-				if(not os.access(self.path+self.destination, os.W_OK)):
-					warning = True
-					col = row.column()
-					col.label(text='no permission', icon='ERROR')
-				elif(len(os.listdir(self.path+self.destination))>0):
-					warning = True
-					col = row.column()
-					col.label(text='content could be erased', icon='ERROR')
 			
 			
 			##########################################
