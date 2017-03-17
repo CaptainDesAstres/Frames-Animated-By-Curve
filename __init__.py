@@ -1557,6 +1557,35 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_run_button( layout, clip, warning )
 			
 			
+	
+	
+	
+	
+	
+	def draw_multi_track_panel(self, context, layout):
+		'''draw the CtF panel'''
+		# draw amplitude settings
+		#self.draw_amplitude( layout, clip )
+		
+		# draw peaks rythm settings
+		self.draw_peaks(layout)
+		
+		# draw peaks interpolation main settings
+		self.draw_main_interpolation( layout )
+		
+		# draw peaks interpolation top settings
+		self.draw_top_interpolation( layout )
+		
+		# draw combination node settings and combination and output value
+		self.draw_combination_and_output( layout)
+		
+		# draw output and rounding settings
+		#warning = self.draw_output( layout, context.scene )
+		
+		# draw run button or error message
+		#self.draw_run_button( layout, clip, warning )
+		
+		
 
 
 class CurveToFrame(bpy.types.Operator):
@@ -1684,7 +1713,7 @@ class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
-		
+		context.scene.CtF.draw_multi_track_panel( context, layout)
 		
 
 
