@@ -1175,8 +1175,8 @@ class CtF(bpy.types.PropertyGroup):
 			]
 		)
 	
-	# destination sub directory name
-	destination = bpy.props.StringProperty(
+	# output path
+	output_path = bpy.props.StringProperty(
 		name = "output",
 		description = "Output directory path.",
 		default = '//',
@@ -1476,12 +1476,11 @@ class CtF(bpy.types.PropertyGroup):
 		else:
 			col.prop( scene, "CtFRealCopy" )
 		
-		# A field to set the name of the sub 
-		# directory name to use as destination
+		# A field to set the output path
 		row = layout.row()
 		col = row.column()
-		col.prop(self, "destination")
-		path = bpy.path.abspath(self.destination )
+		col.prop(self, "output_path")
+		path = bpy.path.abspath(self.output_path )
 		if path[-1] != '/':
 			path += '/'
 		path += clip.name+'.CtF_output'
@@ -1605,15 +1604,15 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			output = os.symlink
 		
-		# get destination directory name
-		dst = bpy.path.abspath( settings.destination )
+		# get output path
+		dst = bpy.path.abspath( settings.output_path )
 		if(dst[-1] != '/'):
 			dst += '/'
 		dst += clip.name+'.CtF_output'
 		
-		# check destination directory exist, is writable and purge it
+		# check output path exist, is writable and empty
 		if( os.path.exists( dst ) ):
-			# check destination directory access
+			# check path access
 			if(os.access(dst, os.W_OK)):
 				# clear content
 				for f in os.listdir(dst):
@@ -1626,7 +1625,7 @@ class CurveToFrame(bpy.types.Operator):
 			else:
 				# report error then quit 
 				self.report(	{'ERROR'},
-								'No write access to destination directory' )
+								'Output path : no write permission' )
 				return {'CANCELLED'}
 		else:
 			# create directory
@@ -1634,8 +1633,7 @@ class CurveToFrame(bpy.types.Operator):
 				os.mkdir(dst)
 			except OSError as e:
 				self.report({'ERROR'}, 
-						'impossible to create destination\
-							 directory :'+e.strerror)
+						'Unable to create the output path directory:'+e.strerror)
 				return {'CANCELLED'}
 		dst += '/'
 		
@@ -1651,7 +1649,7 @@ class CurveToFrame(bpy.types.Operator):
 			fr = clip.CtF.output
 			
 			# copy (or symlink) the corresponding 
-			# frame into the destination path
+			# frame into the output path
 			try:
 				output( settings.path + clip.CtF.getFrameName(fr),
 						dst + clip.CtF.getFrameName(context.scene.frame_current)
