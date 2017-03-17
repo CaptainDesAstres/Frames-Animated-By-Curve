@@ -243,10 +243,7 @@ def set_maxi(self, context):
 
 def update_curves(self, context):
 	'''update curve when settings have been changed'''
-	if(type(self.id_data) is bpy.types.Scene):
-		ob = context.scene
-	else:
-		ob = context.space_data.clip
+	ob = self.id_data
 	
 	# initialize animation data if required
 	if ob.animation_data is None:
