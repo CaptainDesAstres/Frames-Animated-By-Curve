@@ -1338,6 +1338,55 @@ class CtF(bpy.types.PropertyGroup):
 			icon='FILE_REFRESH')
 	
 	
+	
+	def draw_main_interpolation( self, layout ):
+		'''draw peaks interpolation settings (main) into the panel'''
+		# keyframes interpolation mode
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "main_interpolation", text = '')
+		
+		# easing mode
+		col = row.column()
+		col.prop(self, "main_easing", text = '')
+		if(self.main_interpolation in [
+						'linear',
+						'bezier auto',
+						'bezier free'] 
+						):
+			col.enabled = False
+		
+		# Right auto
+		col = row.column()
+		col.prop(self, "main_right_auto")
+		if (self.main_interpolation != 'bezier free'):
+			col.enabled = False
+		
+		if (self.main_interpolation == 'bezier free'):
+			# Left length
+			row = layout.row()
+			col = row.column()
+			col.prop(self, "main_left_length")
+			
+			# left angle
+			col = row.column()
+			col.prop(self, "main_left_angle")
+			
+			if not self.main_right_auto:
+				# Right length
+				row = layout.row()
+				col = row.column()
+				col.prop(self, "main_right_length")
+				
+				# Right angle
+				col = row.column()
+				col.prop(self, "main_right_angle")
+	
+	
+	
+	
+	
 	def draw(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
@@ -1352,56 +1401,11 @@ class CtF(bpy.types.PropertyGroup):
 			# draw amplitude settings
 			self.draw_amplitude( layout, clip )
 			
-			#draw peaks rythm settings
+			# draw peaks rythm settings
 			self.draw_peaks(layout)
 			
-			
-			
-			##########################################
-			##      peaks interpolation settings    ##
-			##########################################
-			
-			# keyframes interpolation mode
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "main_interpolation", text = '')
-			
-			# easing mode
-			col = row.column()
-			col.prop(self, "main_easing", text = '')
-			if(self.main_interpolation in [
-							'linear',
-							'bezier auto',
-							'bezier free'] 
-							):
-				col.enabled = False
-			
-			# Right auto
-			col = row.column()
-			col.prop(self, "main_right_auto")
-			if (self.main_interpolation != 'bezier free'):
-				col.enabled = False
-			
-			if (self.main_interpolation == 'bezier free'):
-				# Left length
-				row = layout.row()
-				col = row.column()
-				col.prop(self, "main_left_length")
-				
-				# left angle
-				col = row.column()
-				col.prop(self, "main_left_angle")
-				
-				if not self.main_right_auto:
-					# Right length
-					row = layout.row()
-					col = row.column()
-					col.prop(self, "main_right_length")
-					
-					# Right angle
-					col = row.column()
-					col.prop(self, "main_right_angle")
+			# draw peaks interpolation main settings
+			self.draw_main_interpolation( layout )
 			
 			
 			
