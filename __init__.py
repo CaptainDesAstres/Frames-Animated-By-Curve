@@ -1077,7 +1077,8 @@ class CtF(bpy.types.PropertyGroup):
 	top_interpolation_same = bpy.props.BoolProperty(
 		name="Apply to top peaks", 
 		description="apply the same interpolation settings to top and bottom peaks.",
-		default = True)
+		default = True,
+		update = update_curves)
 	
 	# top peak interpolation mode
 	top_interpolation =  bpy.props.EnumProperty(
