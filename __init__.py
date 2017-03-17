@@ -1598,7 +1598,12 @@ def backup_output( path, level, maximum ):
 	# erase too old backup
 	if level >= maximum:
 		shutil.rmtree(backup)
-	
+	else:
+		# increment the backup
+		shutil.move(
+								backup,
+								path+'.backup'+str(level+1)
+								)
 	
 
 
