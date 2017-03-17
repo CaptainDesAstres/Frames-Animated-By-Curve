@@ -865,7 +865,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_amplitude( self, layout, ob):
+	def draw_amplitude( self, layout, ob, refresh_curve):
 		'''draw amplitude settings into the panel'''
 		# A float amplitude field
 		layout.separator()
@@ -909,13 +909,13 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "amplitude_net")
 		col = row.column()
 		col.operator(
-			"ctf.simple_track_curves_refresh",
+			refresh_curve,
 			text='',
 			icon='FILE_REFRESH')
 	
 	
 	
-	def draw_peaks(self, layout):
+	def draw_peaks(self, layout, refresh_curve):
 		'''draw peaks rythm settings into the panel'''
 		# a button to activate and set peaks per minute feature
 		layout.separator()
@@ -939,7 +939,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "peaks")
 		col = row.column()
 		col.operator(
-			"ctf.simple_track_curves_refresh",
+			refresh_curve,
 			text='',
 			icon='FILE_REFRESH')
 	
@@ -1041,7 +1041,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_combination_and_output( self, layout ):
+	def draw_combination_and_output( self, layout, refresh_curve ):
 		'''draw combination and output settings and value into the panel'''
 		# combination mode field
 		layout.separator()
@@ -1062,7 +1062,7 @@ class CtF(bpy.types.PropertyGroup):
 		# refresh curve
 		col = row.column()
 		col.operator(
-			"ctf.simple_track_curves_refresh",
+			refresh_curve,
 			text='',
 			icon='FILE_REFRESH')
 	
@@ -1129,16 +1129,17 @@ class CtF(bpy.types.PropertyGroup):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
+		refresh_curve = "ctf.simple_track_curves_refresh"
 		
 		if not error:
 			# draw Movie info & settings
 			self.draw_movieclip_settings( layout )
 			
 			# draw amplitude settings
-			self.draw_amplitude( layout, clip )
+			self.draw_amplitude( layout, clip, refresh_curve )
 			
 			# draw peaks rythm settings
-			self.draw_peaks(layout)
+			self.draw_peaks(layout, refresh_curve )
 			
 			# draw peaks interpolation main settings
 			self.draw_main_interpolation( layout )
@@ -1147,7 +1148,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_top_interpolation( layout )
 			
 			# draw combination node settings and combination and output value
-			self.draw_combination_and_output( layout)
+			self.draw_combination_and_output( layout, refresh_curve )
 			
 			# draw output and rounding settings
 			warning = self.draw_output( layout, context.scene, clip )
@@ -1602,11 +1603,14 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def draw_multi_track_panel(self, context, layout):
 		'''draw the CtF panel'''
+		
+		refresh_curve = "ctf.multi_track_curves_refresh"
+		
 		# draw amplitude settings
-		self.draw_amplitude( layout, context.scene )
+		self.draw_amplitude( layout, context.scene, refresh_curve )
 		
 		# draw peaks rythm settings
-		self.draw_peaks(layout)
+		self.draw_peaks(layout, refresh_curve )
 		
 		# draw peaks interpolation main settings
 		self.draw_main_interpolation( layout )
@@ -1615,7 +1619,7 @@ class CtF(bpy.types.PropertyGroup):
 		self.draw_top_interpolation( layout )
 		
 		# draw combination node settings and combination and output value
-		self.draw_combination_and_output( layout)
+		self.draw_combination_and_output( layout, refresh_curve )
 		
 		# draw output and rounding settings
 		#warning = self.draw_output( layout, context.scene )
