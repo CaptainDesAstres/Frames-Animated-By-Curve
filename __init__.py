@@ -1481,17 +1481,14 @@ class CtF(bpy.types.PropertyGroup):
 		row = layout.row()
 		col = row.column()
 		col.prop(self, "destination")
-		if(
-			os.path.exists( self.path + self.destination )
-			and os.path.isdir( self.path + self.destination ) ):
-			
-			if( not os.access( self.path + self.destination,
-							 os.W_OK) ):
+		path = bpy.path.abspath(self.destination )
+		if( os.path.exists( path ) and os.path.isdir( path ) ):
+			if not os.access( path, os.W_OK ):
 				warning = True
 				col = row.column()
 				col.label(text='no permission', icon='ERROR')
 				
-			elif( len( os.listdir( self.path + self.destination ) ) >0 ):
+			elif( len( os.listdir( path ) ) >0 ):
 				warning = True
 				col = row.column()
 				col.label(text='content could be erased', icon='ERROR')
@@ -1606,7 +1603,7 @@ class CurveToFrame(bpy.types.Operator):
 			output = os.symlink
 		
 		# get destination directory name
-		dst = settings.path + settings.destination
+		dst = bpy.path.abspath( settings.destination )
 		if(dst[-1] != '/'):
 			dst += '/'
 		
