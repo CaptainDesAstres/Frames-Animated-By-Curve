@@ -1492,10 +1492,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def update_net_amplitude_curve( self, clip, context ):
-		'''update clip amplification net curve'''
-		#############################################
-		##    update amplification net curve        ##
-		#############################################
+		'''update clip amplitude net curve'''
 		# determine frame working space and frame step
 		frame = start = floor(context.scene.frame_start - 5)
 		end = ceil(context.scene.frame_end + 5)
