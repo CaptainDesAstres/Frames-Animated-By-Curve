@@ -96,12 +96,26 @@ class CtFRefresh(bpy.types.Operator):
 class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
 	bl_idname = "ctf.simple_track_curves_refresh"
-	bl_label= "refresh peaks"
+	bl_label= "refresh movieclip curves"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
 		'''refresh clip curves'''
 		update_curves_simple_track(context.space_data.clip.CtF, context)
+		return {'FINISHED'}
+
+
+
+
+class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
+	'''operator to initialize or refresh CtF info of the scene'''
+	bl_idname = "ctf.multi_track_curves_refresh"
+	bl_label= "refresh multi track curves"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''refresh scene curves'''
+		update_curves_simple_track(context.scene.CtF, context)
 		return {'FINISHED'}
 
 
@@ -1768,6 +1782,7 @@ def register():
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtFRefreshMiniMaxi)
 	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
+	bpy.utils.register_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
@@ -1782,9 +1797,10 @@ def unregister():
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
 	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
+	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
-	bpy.utils.register_class(FramesAnimatedByCurvePanel)
+	bpy.utils.unregister_class(FramesAnimatedByCurveMultiPanel)
 	bpy.utils.unregister_class(CurveToFrame)
 	print("Frames Animated By Curve is disabled")
 
