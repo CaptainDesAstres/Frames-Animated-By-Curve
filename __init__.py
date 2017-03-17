@@ -203,26 +203,15 @@ def set_maxi(self, context):
 
 
 
-
-
-
-
-def update_curves(self, context):
-	'''update curve when settings have been changed'''
-	clip = context.space_data.clip
-	
-	# update amplitude net curve
-	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
-	
-	# update peaks curve
-	peaks_curve = self.update_peaks_curve(clip, context, amplitude_net_curve)
-	
-	#############################################
-	##       update combined curve             ##
-	#############################################
-	
+def update_combination_curve(
+						clip, 
+						context, 
+						amplitude_net_curve,
+						peaks_curve):
+	'''update clip combination curve'''
 	# get combination mode curve
-	combination_enum = clip.CtF.bl_rna.properties['combination_mode'].enum_items
+	combination_enum = clip.CtF.bl_rna.\
+												properties['combination_mode'].enum_items
 	combination_mode = combination_enum.find( clip.CtF.combination_mode )
 	combination_mode_curve = getFCurveByDataPath(clip, 
 							'CtF.combination_mode')
@@ -310,6 +299,27 @@ def update_curves(self, context):
 	combination_curve.lock = True
 	combination_curve.hide = hide
 	
+	return combination_curve
+
+
+
+def update_curves(self, context):
+	'''update curve when settings have been changed'''
+	clip = context.space_data.clip
+	
+	# update amplitude net curve
+	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
+	
+	# update peaks curve
+	peaks_curve = self.update_peaks_curve(clip, context, amplitude_net_curve)
+	
+	#update combination curve
+	combination_curve = update_combination_curve(
+											clip, 
+											context, 
+											amplitude_net_curve,
+											peaks_curve
+											)
 	
 	#############################################
 	##    update output frame curve            ##
@@ -329,6 +339,7 @@ def update_curves(self, context):
 	end_curve = getFCurveByDataPath(clip, 'CtF.end')
 	
 	# generate first keyframe
+	start = context.scene.frame_start
 	output_curve.keyframe_points.insert( start - 1, 0 )
 	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
 	
@@ -340,7 +351,7 @@ def update_curves(self, context):
 	else:
 		rounding = ceil
 	
-	# generate a keyframe at each frame 
+	# generate a keyframe at each frame
 	frame = start
 	end = context.scene.frame_end
 	while frame <= end:
