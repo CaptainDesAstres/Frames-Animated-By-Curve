@@ -48,7 +48,7 @@ class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		update_curves_simple_track(clip.CtF, context)
+		update_curves(clip.CtF, context)
 		
 		return {'FINISHED'}
 
@@ -71,7 +71,7 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		update_curves_simple_track(scene.CtF, context)
+		update_curves(scene.CtF, context)
 		
 		return {'FINISHED'}
 
@@ -124,7 +124,7 @@ class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh clip curves'''
-		update_curves_simple_track(context.space_data.clip.CtF, context)
+		update_curves(context.space_data.clip.CtF, context)
 		return {'FINISHED'}
 
 
@@ -138,7 +138,7 @@ class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh scene curves'''
-		update_curves_simple_track(context.scene.CtF, context)
+		update_curves(context.scene.CtF, context)
 		return {'FINISHED'}
 
 
@@ -241,7 +241,7 @@ def set_maxi(self, context):
 
 
 
-def update_curves_simple_track(self, context):
+def update_curves(self, context):
 	'''update curve when settings have been changed'''
 	if(type(self.id_data) is bpy.types.Scene):
 		ob = context.scene
@@ -513,7 +513,7 @@ class CtF(bpy.types.PropertyGroup):
 				'Only use amplitude curve',			4)
 			
 			],
-		update = update_curves_simple_track
+		update = update_curves
 		)
 	
 	# min value associated to the first frames
@@ -643,7 +643,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Peaks keyframe interpolation mode',
 		default = 'linear',
 		items = interpolation_enum,
-		update = update_curves_simple_track
+		update = update_curves
 		)
 	
 	
@@ -674,7 +674,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Easing of interpolation mode',
 		default = 'auto',
 		items = easing_enum,
-		update = update_curves_simple_track
+		update = update_curves
 		)
 	
 	# left handle size and angle
@@ -697,7 +697,7 @@ class CtF(bpy.types.PropertyGroup):
 		name="Auto right handle", 
 		description="Right handle have the same angle and length that the left one.",
 		default = True,
-		update = update_curves_simple_track)
+		update = update_curves)
 	
 	main_right_length = bpy.props.FloatProperty(
 		name = "R length",
@@ -725,7 +725,7 @@ class CtF(bpy.types.PropertyGroup):
 		name="Apply to top peaks", 
 		description="apply the same interpolation settings to top and bottom peaks.",
 		default = True,
-		update = update_curves_simple_track)
+		update = update_curves)
 	
 	# top peak interpolation mode
 	top_interpolation =  bpy.props.EnumProperty(
@@ -733,7 +733,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'keyframe interpolation mode (top peak)',
 		default = 'linear',
 		items = interpolation_enum,
-		update = update_curves_simple_track
+		update = update_curves
 		)
 	
 	
@@ -743,7 +743,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = 'Easing of interpolation mode (top peak)',
 		default = 'auto',
 		items = easing_enum,
-		update = update_curves_simple_track
+		update = update_curves
 		)
 	
 	
@@ -767,7 +767,7 @@ class CtF(bpy.types.PropertyGroup):
 		name="Auto right handle (top peak)", 
 		description="Right handle have the same angle and length that the left one.",
 		default = True,
-		update = update_curves_simple_track)
+		update = update_curves)
 	
 	top_right_length = bpy.props.FloatProperty(
 		name = "R length (top peak)",
@@ -1709,7 +1709,7 @@ class CurveToFrame(bpy.types.Operator):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
 		settings = clip.CtF
-		update_curves_simple_track(settings, context)
+		update_curves(settings, context)
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
