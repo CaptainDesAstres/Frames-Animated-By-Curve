@@ -31,14 +31,14 @@ else:
 
 
 
-class CtFRefreshMiniMaxi(bpy.types.Operator):
+class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.refresh_mini_maxi"
-	bl_label= "get curve mini and maxi value has mini/maxi settings"
+	bl_idname = "ctf.refresh_movieclip_mini_maxi"
+	bl_label= "get movieclip amplitude curve mini and maxi value"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
-		'''get curve mini and maxi value has mini/maxi settings'''
+		'''get movieclip amplitude curve mini and maxi value'''
 		clip = context.space_data.clip
 		
 		fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
@@ -900,7 +900,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# A button to get curve min max value
 		col = row.column()
-		col.operator('ctf.refresh_mini_maxi',
+		col.operator('ctf.refresh_movieclip_mini_maxi',
 					icon='FILE_REFRESH',
 					text = '')
 		# display net amplitude value
@@ -1784,7 +1784,7 @@ class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
-	bpy.utils.register_class(CtFRefreshMiniMaxi)
+	bpy.utils.register_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.register_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
@@ -1799,7 +1799,7 @@ def register():
 def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
-	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
+	bpy.utils.unregister_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
