@@ -1582,8 +1582,14 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# draw run button or error message
 		#self.draw_run_button( layout, clip, warning )
-		
-		
+
+
+
+def backup_output( path, level, maximum ):
+	'''backup output directory'''
+	
+
+
 
 
 class CurveToFrame(bpy.types.Operator):
@@ -1614,14 +1620,9 @@ class CurveToFrame(bpy.types.Operator):
 		if( os.path.exists( dst ) ):
 			# check path access
 			if(os.access(dst, os.W_OK)):
-				# clear content
-				for f in os.listdir(dst):
-					if(	f.endswith(settings.ext)
-						and os.path.islink(dst+f)
-						or ( os.path.isfile(dst+f)
-						and os.access(dst+f, os.W_OK) )
-						):
-						os.remove(dst+f)
+				# backup old output
+				backup_n = context.user_preferences.filepaths.save_version
+				backup_output( dst, 0, backup_n )
 			else:
 				# report error then quit 
 				self.report(	{'ERROR'},
