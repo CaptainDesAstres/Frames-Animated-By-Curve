@@ -93,14 +93,14 @@ class CtFRefresh(bpy.types.Operator):
 
 
 
-class CtFCurvesRefresh(bpy.types.Operator):
+class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.curves_refresh"
+	bl_idname = "ctf.simple_track_curves_refresh"
 	bl_label= "refresh peaks"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
-		'''refresh clip peaks'''
+		'''refresh clip curves'''
 		update_curves_simple_track(context.space_data.clip.CtF, context)
 		return {'FINISHED'}
 
@@ -895,7 +895,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "amplitude_net")
 		col = row.column()
 		col.operator(
-			"ctf.curves_refresh",
+			"ctf.simple_track_curves_refresh",
 			text='',
 			icon='FILE_REFRESH')
 	
@@ -925,7 +925,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "peaks")
 		col = row.column()
 		col.operator(
-			"ctf.curves_refresh",
+			"ctf.simple_track_curves_refresh",
 			text='',
 			icon='FILE_REFRESH')
 	
@@ -1048,7 +1048,7 @@ class CtF(bpy.types.PropertyGroup):
 		# refresh curve
 		col = row.column()
 		col.operator(
-			"ctf.curves_refresh",
+			"ctf.simple_track_curves_refresh",
 			text='',
 			icon='FILE_REFRESH')
 	
@@ -1767,7 +1767,7 @@ def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(CtFRefreshMiniMaxi)
-	bpy.utils.register_class(CtFCurvesRefresh)
+	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
@@ -1781,7 +1781,7 @@ def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(CtFRefreshMiniMaxi)
-	bpy.utils.unregister_class(CtFCurvesRefresh)
+	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
