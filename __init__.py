@@ -1224,6 +1224,40 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_movieclip_settings(self, layout):
+		'''draw Movie info & settings in the panel'''
+		# Display the directory path
+		row = layout.row()
+		col = row.column()
+		col.label( text = "Frame Directory path:" )
+		col = row.column()
+		col.operator(
+			"ctf.refresh",
+			icon = 'FILE_REFRESH',
+			text = '')
+		row = layout.row()
+		row.label( text= self.path )
+		
+		# Display frame extension
+		row = layout.row()
+		col = row.column()
+		col.label( text="File type: "+self.ext )
+		
+		# Display first to last accepted frame name range
+		col = row.column()
+		col.label( text="Valid frames: "\
+			+self.getFrameName(self.first)+' to '\
+			+self.getFrameName(self.last) )
+		
+		# Display Start/End settings
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "start")
+		col = row.column()
+		col.prop(self, "end")
+	
+	
 	
 	def draw(self, context, layout, clip):
 		'''draw the CtF panel'''
@@ -1233,41 +1267,8 @@ class CtF(bpy.types.PropertyGroup):
 		if not error:
 			warning = False
 			
-			#####################################
-			##      Movie info & settings      ##
-			#####################################
-			
-			# Display the directory path
-			row = layout.row()
-			col = row.column()
-			col.label( text = "Frame Directory path:" )
-			col = row.column()
-			col.operator(
-				"ctf.refresh",
-				icon = 'FILE_REFRESH',
-				text = '')
-			row = layout.row()
-			row.label( text= self.path )
-			
-			# Display frame extension
-			row = layout.row()
-			col = row.column()
-			col.label( text="File type: "+self.ext )
-			
-			# Display first to last accepted frame name range
-			col = row.column()
-			col.label( text="Valid frames: "\
-				+self.getFrameName(self.first)+' to '\
-				+self.getFrameName(self.last) )
-			
-			# Display Start/End settings
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "start")
-			col = row.column()
-			col.prop(self, "end")
-			
+			# draw Movie info & settings
+			self.draw_movieclip_settings( layout )
 			
 			#####################################
 			##      amplitude settings         ##
