@@ -43,7 +43,7 @@ class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 		
 		fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
 		if(fCurve is None):
-			m = M = self.amplitude
+			m = M = clip.CtF.amplitude
 		else:
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
@@ -66,7 +66,7 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 		
 		fCurve = getFCurveByDataPath(scene, 'CtF.amplitude')
 		if(fCurve is None):
-			m = M = self.amplitude
+			m = M = scene.CtF.amplitude
 		else:
 			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
 		
@@ -888,7 +888,12 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_amplitude( self, layout, ob, refresh_curve):
+	def draw_amplitude( 
+						self,
+						layout, 
+						ob, 
+						refresh_curve, 
+						refresh_mini_maxi):
 		'''draw amplitude settings into the panel'''
 		# A float amplitude field
 		layout.separator()
@@ -923,7 +928,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# A button to get curve min max value
 		col = row.column()
-		col.operator('ctf.refresh_movieclip_mini_maxi',
+		col.operator(refresh_mini_maxi,
 					icon='FILE_REFRESH',
 					text = '')
 		# display net amplitude value
@@ -1153,13 +1158,14 @@ class CtF(bpy.types.PropertyGroup):
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
 		refresh_curve = "ctf.simple_track_curves_refresh"
-		
+		refresh_mini_maxi = "ctf.refresh_movieclip_mini_maxi"
 		if not error:
 			# draw Movie info & settings
 			self.draw_movieclip_settings( layout )
 			
 			# draw amplitude settings
-			self.draw_amplitude( layout, clip, refresh_curve )
+			self.draw_amplitude( layout, clip, 
+								refresh_curve, refresh_mini_maxi )
 			
 			# draw peaks rythm settings
 			self.draw_peaks(layout, refresh_curve )
@@ -1628,9 +1634,11 @@ class CtF(bpy.types.PropertyGroup):
 		'''draw the CtF panel'''
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
+		refresh_mini_maxi = "ctf.refresh_scene_mini_maxi"
 		
 		# draw amplitude settings
-		self.draw_amplitude( layout, context.scene, refresh_curve )
+		self.draw_amplitude( layout, context.scene, 
+							refresh_curve, refresh_mini_maxi )
 		
 		# draw peaks rythm settings
 		self.draw_peaks(layout, refresh_curve )
