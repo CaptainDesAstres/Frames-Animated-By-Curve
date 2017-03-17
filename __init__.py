@@ -1647,15 +1647,15 @@ class CurveToFrame(bpy.types.Operator):
 				self.report(	{'ERROR'},
 								'Output path : no write permission' )
 				return {'CANCELLED'}
-		else:
-			# create directory
-			try:
-				os.mkdir(dst)
-			except OSError as e:
-				self.report({'ERROR'}, 
-						'Unable to create the output path directory:'+e.strerror)
-				return {'CANCELLED'}
 		dst += '/'
+		# create new output directory
+		try:
+			os.mkdir(dst)
+		except OSError as e:
+			self.report({'ERROR'}, 
+					'Unable to create the output path directory:'+e.strerror)
+			return {'CANCELLED'}
+		
 		
 		# loop from start frame to end frame
 		current = context.scene.frame_current
