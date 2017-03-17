@@ -1039,16 +1039,16 @@ class CtF(bpy.types.PropertyGroup):
 	
 	main_left_angle = bpy.props.FloatProperty(
 		name = "L angle",
-		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis\n-90 point away from the curve",
+		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis",
 		default = 0,
-		min = -90,
+		min = 0,
 		max = 90)
 	
 	
 	# right handle free mode, size and angle
 	main_right_auto = bpy.props.BoolProperty(
 		name="Auto right handle", 
-		description="Right handle is aligned with the left one and have the same length",
+		description="Right handle have the same angle and length that the left one.",
 		default = True,
 		update = update_curves)
 	
@@ -1060,9 +1060,9 @@ class CtF(bpy.types.PropertyGroup):
 	
 	main_right_angle = bpy.props.FloatProperty(
 		name = "R angle",
-		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis\n-90 point away from the curve",
+		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis",
 		default = 0,
-		min = -90,
+		min = 0,
 		max = 90)
 	
 	
@@ -1108,16 +1108,16 @@ class CtF(bpy.types.PropertyGroup):
 	
 	top_left_angle = bpy.props.FloatProperty(
 		name = "L angle (top peak)",
-		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis\n-90 point away from the curve",
+		description = "left handle angle, relative to x axis:\n0: point to the left\n90: point to x axis",
 		default = 0,
-		min = -90,
+		min = 0,
 		max = 90)
 	
 	
 	# right handle free mode, size and angle
 	top_right_auto = bpy.props.BoolProperty(
 		name="Auto right handle (top peak)", 
-		description="Right handle is aligned with the left one and have the same length",
+		description="Right handle have the same angle and length that the left one.",
 		default = True,
 		update = update_curves)
 	
@@ -1129,9 +1129,9 @@ class CtF(bpy.types.PropertyGroup):
 	
 	top_right_angle = bpy.props.FloatProperty(
 		name = "R angle (top peak)",
-		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis\n-90 point away from the curve",
+		description = "right handle angle, relative to x axis:\n0: point to the right\n90: point to x axis",
 		default = 0,
-		min = -90,
+		min = 0,
 		max = 90)
 	
 	
