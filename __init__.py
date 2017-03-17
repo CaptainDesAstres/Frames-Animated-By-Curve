@@ -1526,7 +1526,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw(self, context, layout, clip):
+	def draw_simple_track_panel(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
@@ -1657,7 +1657,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.CtF.draw(context, layout, clip)
+			clip.CtF.draw_simple_track_panel(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
