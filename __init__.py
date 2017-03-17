@@ -1500,6 +1500,28 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_run_button( self, layout, ob, warning ):
+		'''check situation and draw run button into panel'''
+		if(checkCtFDriver(ob)):
+			# check no driver is use on CtF property
+			row = layout.row()
+			row.label(text='This function can\'t be used with driver!', 
+						icon='ERROR')
+		elif(warning):
+			# check there is no warning
+			row = layout.row()
+			row.operator(
+				"curve.toframe",
+				text="ignore warning and run at my one risk",
+				icon = 'ERROR')
+		else:
+			# draw standart run button
+			col = row.column()
+			col.operator(
+				"curve.toframe",
+				text="run")
+	
+	
 	
 	
 	
@@ -1530,27 +1552,10 @@ class CtF(bpy.types.PropertyGroup):
 			# draw output and rounding settings
 			warning = self.draw_output( layout, context.scene )
 			
+			# draw run button or error message
+			self.draw_run_button( layout, clip, warning )
 			
 			
-			##########################################
-			##      run button                      ##
-			##########################################
-			
-			if(checkCtFDriver(clip)):
-				row = layout.row()
-				row.label(text='This function can\'t be used with driver!', 
-							icon='ERROR')
-			elif(warning):
-				row = layout.row()
-				row.operator(
-					"curve.toframe",
-					text="ignore warning and run at my one risk",
-					icon = 'ERROR')
-			else:
-				col = row.column()
-				col.operator(
-					"curve.toframe",
-					text="run")
 
 
 class CurveToFrame(bpy.types.Operator):
