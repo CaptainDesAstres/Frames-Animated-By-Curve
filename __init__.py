@@ -1455,7 +1455,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_output( self, layout, scene ):
+	def draw_output( self, layout, scene, clip ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
 		# A field to choose between Round Floor and 
@@ -1482,6 +1482,9 @@ class CtF(bpy.types.PropertyGroup):
 		col = row.column()
 		col.prop(self, "destination")
 		path = bpy.path.abspath(self.destination )
+		if path[-1] != '/':
+			path += '/'
+		path += clip.name+'.CtF_output'
 		if( os.path.exists( path ) and os.path.isdir( path ) ):
 			if not os.access( path, os.W_OK ):
 				warning = True
@@ -1547,7 +1550,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_combination_and_output( layout)
 			
 			# draw output and rounding settings
-			warning = self.draw_output( layout, context.scene )
+			warning = self.draw_output( layout, context.scene, clip )
 			
 			# draw run button or error message
 			self.draw_run_button( layout, clip, warning )
@@ -1606,6 +1609,7 @@ class CurveToFrame(bpy.types.Operator):
 		dst = bpy.path.abspath( settings.destination )
 		if(dst[-1] != '/'):
 			dst += '/'
+		dst += clip.name+'.CtF_output'
 		
 		# check destination directory exist, is writable and purge it
 		if( os.path.exists( dst ) ):
@@ -1633,7 +1637,7 @@ class CurveToFrame(bpy.types.Operator):
 						'impossible to create destination\
 							 directory :'+e.strerror)
 				return {'CANCELLED'}
-		
+		dst += '/'
 		
 		# loop from start frame to end frame
 		current = context.scene.frame_current
