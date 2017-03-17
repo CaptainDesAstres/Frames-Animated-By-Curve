@@ -267,8 +267,9 @@ def update_curves(self, context):
 											peaks_curve
 											)
 	
-	# update output curve
-	self.update_output_curve(ob, context, combination_curve)
+	if(type(ob) is bpy.types.MovieClip ):
+		# update output curve
+		self.update_output_curve(ob, context, combination_curve)
 	
 
 
