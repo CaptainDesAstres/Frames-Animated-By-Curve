@@ -1664,6 +1664,7 @@ def register():
 	bpy.utils.register_class(CtFCurvesRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
+	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	bpy.utils.register_class(FramesAnimatedByCurveMultiPanel)
