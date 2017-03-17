@@ -1565,7 +1565,7 @@ class CtF(bpy.types.PropertyGroup):
 	def draw_multi_track_panel(self, context, layout):
 		'''draw the CtF panel'''
 		# draw amplitude settings
-		#self.draw_amplitude( layout, clip )
+		self.draw_amplitude( layout, context.scene )
 		
 		# draw peaks rythm settings
 		self.draw_peaks(layout)
