@@ -203,19 +203,8 @@ def set_maxi(self, context):
 
 
 
-
-
-
-def update_curves(self, context):
-	'''update curve when settings have been changed'''
-	clip = context.space_data.clip
-	
-	# update amplitude net curve
-	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
-	
-	#############################################
-	##       update peaks curve                ##
-	#############################################
+def update_peaks_curve(clip, context, amplitude_net_curve):
+	'''update clip peaks curve'''
 	# remove old peaks
 	peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
 	if peaks_curve is not None:
@@ -403,6 +392,19 @@ def update_curves(self, context):
 	peaks_curve.lock = True
 	peaks_curve.hide = hide
 	
+	return peaks_curve
+
+
+
+def update_curves(self, context):
+	'''update curve when settings have been changed'''
+	clip = context.space_data.clip
+	
+	# update amplitude net curve
+	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
+	
+	# update peaks curve
+	peaks_curve = update_peaks_curve(clip, context, amplitude_net_curve)
 	
 	#############################################
 	##       update combined curve             ##
@@ -426,6 +428,9 @@ def update_curves(self, context):
 								'CtF.combination')
 	combination_curve = getFCurveByDataPath(clip, 
 								'CtF.combination')
+	
+	# get ppm curve
+	ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
 	
 	if ppm_curve is None and clip.CtF.ppm <= 0:
 		if clip.CtF.ppm < 0:# peak == 1 (constant)
@@ -462,7 +467,7 @@ def update_curves(self, context):
 		# loop for all frame
 		end = max(	peaks_curve.keyframe_points[-1].co[0], 
 					context.scene.frame_end )
-		frame = start
+		frame = start = context.scene.frame_start
 		while frame <= end:
 			# get combination_mode at this frame
 			if combination_mode_curve is not None:
