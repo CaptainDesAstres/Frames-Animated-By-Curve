@@ -248,6 +248,14 @@ def update_curves_simple_track(self, context):
 	else:
 		ob = context.space_data.clip
 	
+	# initialize animation data if required
+	if ob.animation_data is None:
+		ob.animation_data_create()
+	
+	if ob.animation_data.action is None:
+		ob.animation_data.action = bpy.data.actions.new( 
+									name= ob.name+'Action')
+	
 	# update amplitude net curve
 	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
 	
