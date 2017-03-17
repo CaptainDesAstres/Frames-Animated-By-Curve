@@ -1177,11 +1177,10 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# destination sub directory name
 	destination = bpy.props.StringProperty(
-		name = "Destination subdirectory",
-		description = "The name of the directory (create \
-						in the source directory) where \
-						generated file gone be.",
-		default = "CtFOutput" )
+		name = "output",
+		description = "Output directory path.",
+		default = '//',
+		subtype = 'DIR_PATH')
 	
 	
 	def getFrameName(self, n):
