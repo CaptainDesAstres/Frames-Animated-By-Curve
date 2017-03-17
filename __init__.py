@@ -1259,6 +1259,56 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_amplitude( self, layout, ob):
+		'''draw amplitude settings into the panel'''
+		# A float amplitude field
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "amplitude")
+		
+		# A field to remind F-Curve min and max value
+		fCurve = getFCurveByDataPath(ob, 'CtF.amplitude')
+		if(fCurve is None):
+			m = M = self.amplitude
+		else:
+			m, M = getCurveLimit(fCurve)
+		m = round(m*1000)/1000
+		M = round(M*1000)/1000
+		col = row.column()
+		col.label( text = "(Goes from "+str(m)\
+					+" to "+str(M)+')' )
+		
+		# A field to set the min F-Curve Value to 
+		# assigne to the first frames
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "mini")
+		
+		# A field to set the max F-Curve Value to 
+		# assigne to the last frames
+		col = row.column()
+		col.prop(self, "maxi")
+		if(self.combination_mode == 'ignore_amplitude'):
+			col.enabled = False
+		
+		# A button to get curve min max value
+		col = row.column()
+		col.operator('ctf.refresh_mini_maxi',
+					icon='FILE_REFRESH',
+					text = '')
+		# display net amplitude value
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "amplitude_net")
+		col = row.column()
+		col.operator(
+			"ctf.curves_refresh",
+			text='',
+			icon='FILE_REFRESH')
+	
+	
+	
 	def draw(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
@@ -1270,55 +1320,8 @@ class CtF(bpy.types.PropertyGroup):
 			# draw Movie info & settings
 			self.draw_movieclip_settings( layout )
 			
-			#####################################
-			##      amplitude settings         ##
-			#####################################
-			
-			# A float amplitude field
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "amplitude")
-			
-			# A field to remind F-Curve min and max value
-			fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
-			if(fCurve is None):
-				m = M = self.amplitude
-			else:
-				m, M = getCurveLimit(fCurve)
-			m = round(m*1000)/1000
-			M = round(M*1000)/1000
-			col = row.column()
-			col.label( text = "(Goes from "+str(m)\
-						+" to "+str(M)+')' )
-			
-			# A field to set the min F-Curve Value to 
-			# assigne to the first frames
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "mini")
-			
-			# A field to set the max F-Curve Value to 
-			# assigne to the last frames
-			col = row.column()
-			col.prop(self, "maxi")
-			if(self.combination_mode == 'ignore_amplitude'):
-				col.enabled = False
-			
-			# A button to get curve min max value
-			col = row.column()
-			col.operator('ctf.refresh_mini_maxi',
-						icon='FILE_REFRESH',
-						text = '')
-			# display net amplitude value
-			col = row.column()
-			col.enabled = False
-			col.prop(self, "amplitude_net")
-			col = row.column()
-			col.operator(
-				"ctf.curves_refresh",
-				text='',
-				icon='FILE_REFRESH')
+			# draw amplitude settings
+			self.draw_amplitude( layout, clip )
 			
 			
 			#####################################
