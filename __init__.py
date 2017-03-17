@@ -1590,6 +1590,10 @@ def backup_output( path, level, maximum ):
 	# get backup path
 	if level != 0:
 		backup = path+'.backup'+str(level)
+	
+	# check older backup
+	if os.path.exists( backup ):
+		backup_output( path, level+1, maximum )
 
 
 
