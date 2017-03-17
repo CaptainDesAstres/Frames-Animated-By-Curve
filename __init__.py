@@ -544,13 +544,6 @@ def update_curves(self, context):
 			# next frame
 			frame += 1
 	
-	# keep value beetween 0 and 1
-	for k in combination_curve.keyframe_points:
-		k.interpolation = 'LINEAR'
-		if k.co[1] > 1 :
-			k.co[1] = 1
-		elif k.co[1] < 0 :
-			k.co[1] = 0
 	
 	# prevent curve edition
 	combination_curve.lock = True
