@@ -1309,6 +1309,35 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_peaks(self, layout):
+		'''draw peaks rythm settings into the panel'''
+		# a button to activate and set peaks per minute feature
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "ppm")
+		col = row.column()
+		col.prop(self, "auto_constant")
+		col = row.column()
+		col.prop(self, "accuracy")
+		
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "synchronized")
+		col = row.column()
+		if (not self.synchronized):
+			col.enabled = False
+		col.prop(self, "anticipate")
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "peaks")
+		col = row.column()
+		col.operator(
+			"ctf.curves_refresh",
+			text='',
+			icon='FILE_REFRESH')
+	
+	
 	def draw(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
@@ -1323,36 +1352,8 @@ class CtF(bpy.types.PropertyGroup):
 			# draw amplitude settings
 			self.draw_amplitude( layout, clip )
 			
-			
-			#####################################
-			##      peaks settings             ##
-			#####################################
-			
-			# a button to activate and set peaks per minute feature
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "ppm")
-			col = row.column()
-			col.prop(self, "auto_constant")
-			col = row.column()
-			col.prop(self, "accuracy")
-			
-			row = layout.row()
-			col = row.column()
-			col.prop(self, "synchronized")
-			col = row.column()
-			if (not clip.CtF.synchronized):
-				col.enabled = False
-			col.prop(self, "anticipate")
-			col = row.column()
-			col.enabled = False
-			col.prop(self, "peaks")
-			col = row.column()
-			col.operator(
-				"ctf.curves_refresh",
-				text='',
-				icon='FILE_REFRESH')
+			#draw peaks rythm settings
+			self.draw_peaks(layout)
 			
 			
 			
