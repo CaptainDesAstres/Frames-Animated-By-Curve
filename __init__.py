@@ -1435,6 +1435,34 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def draw_combination_and_output( self, layout ):
+		'''draw combination and output settings and value into the panel'''
+		# combination mode field
+		layout.separator()
+		row = layout.row()
+		row.prop(self, 'combination_mode')
+		
+		# visualize combination of peaks and amplitude curve
+		row = layout.row()
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "combination")
+		
+		# visualize output frame
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "output")
+		
+		# refresh curve
+		col = row.column()
+		col.operator(
+			"ctf.curves_refresh",
+			text='',
+			icon='FILE_REFRESH')
+	
+	
+	
+	
 	
 	
 	
@@ -1462,38 +1490,8 @@ class CtF(bpy.types.PropertyGroup):
 			# draw peaks interpolation top settings
 			self.draw_top_interpolation( layout )
 			
-			
-			
-			
-			##########################################
-			##      combination settings & output   ##
-			##########################################
-			
-			# set combination mode
-			layout.separator()
-			row = layout.row()
-			if getFCurveByDataPath(clip, 'CtF.ppm') is None \
-					and clip.CtF.ppm <= 0:
-				row.enabled = False
-			row.prop(self, 'combination_mode')
-			
-			# visualize combination of peaks and amplitude curve
-			row = layout.row()
-			col = row.column()
-			col.enabled = False
-			col.prop(self, "combination")
-			
-			# visualize output frame
-			col = row.column()
-			col.enabled = False
-			col.prop(self, "output")
-			
-			# refresh curve
-			col = row.column()
-			col.operator(
-				"ctf.curves_refresh",
-				text='',
-				icon='FILE_REFRESH')
+			# draw combination node settings and combination and output value
+			self.draw_combination_and_output( layout)
 			
 			
 			
