@@ -1517,8 +1517,8 @@ class CtF(bpy.types.PropertyGroup):
 				icon = 'ERROR')
 		else:
 			# draw standart run button
-			col = row.column()
-			col.operator(
+			row = layout.row()
+			row.operator(
 				"curve.toframe",
 				text="run")
 	
