@@ -243,24 +243,27 @@ def set_maxi(self, context):
 
 def update_curves_simple_track(self, context):
 	'''update curve when settings have been changed'''
-	clip = context.space_data.clip
+	if(type(self.id_data) is bpy.types.Scene):
+		ob = context.scene
+	else:
+		ob = context.space_data.clip
 	
 	# update amplitude net curve
-	amplitude_net_curve = self.update_net_amplitude_curve( clip, context )
+	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
 	
 	# update peaks curve
-	peaks_curve = self.update_peaks_curve(clip, context, amplitude_net_curve)
+	peaks_curve = self.update_peaks_curve(ob, context, amplitude_net_curve)
 	
 	#update combination curve
 	combination_curve = self.update_combination_curve(
-											clip, 
+											ob, 
 											context, 
 											amplitude_net_curve,
 											peaks_curve
 											)
 	
 	# update output curve
-	self.update_output_curve(clip, context, combination_curve)
+	self.update_output_curve(ob, context, combination_curve)
 	
 
 
