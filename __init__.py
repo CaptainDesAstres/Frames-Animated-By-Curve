@@ -207,6 +207,7 @@ def set_maxi(self, context):
 
 
 
+
 def update_curves(self, context):
 	'''update curve when settings have been changed'''
 	clip = context.space_data.clip
@@ -225,83 +226,9 @@ def update_curves(self, context):
 											peaks_curve
 											)
 	
-	#############################################
-	##    update output frame curve            ##
-	#############################################
-	# get and initialize output curve
-	output_curve = getFCurveByDataPath(clip, 'CtF.output')
-	if output_curve is not None:
-		hide = output_curve.hide
-		clip.animation_data.action.fcurves.remove(output_curve)
-	else:
-		hide = True
-	clip.animation_data.action.fcurves.new('CtF.output')
-	output_curve = getFCurveByDataPath(clip, 'CtF.output')
+	# update output curve
+	self.update_output_curve(clip, context, combination_curve)
 	
-	# get start and end curve
-	start_curve = getFCurveByDataPath(clip, 'CtF.start')
-	end_curve = getFCurveByDataPath(clip, 'CtF.end')
-	
-	# generate first keyframe
-	start = context.scene.frame_start
-	output_curve.keyframe_points.insert( start - 1, 0 )
-	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
-	
-	# get rounding method
-	if(clip.CtF.rounding == 'round'):
-		rounding = round
-	elif(clip.CtF.rounding == 'floor'):
-		rounding = floor
-	else:
-		rounding = ceil
-	
-	# generate a keyframe at each frame
-	frame = start
-	end = context.scene.frame_end
-	while frame <= end:
-		# get start value at this frame
-		if start_curve is not None:
-			start_value = start_curve.evaluate(frame)
-		else:
-			start_value = clip.CtF.start
-		
-		# check start_value
-		if start_value < 1 :
-			start_value = 1
-		elif start_value > clip.CtF.size:
-			start_value = clip.CtF.size
-		
-		# get end value at this frame
-		if end_curve is not None:
-			end_value = end_curve.evaluate(frame)
-		else:
-			end_value = clip.CtF.end
-		
-		# check end_value
-		if end_value < start_value :
-			end_value = start_value
-		elif end_value > clip.CtF.size:
-			end_value = clip.CtF.size
-		
-		# generate keyframe
-		output_frame = rounding(
-				clip.CtF.first + start_value - 1 
-				+ combination_curve.evaluate(frame)
-				* (end_value - start_value)
-				)
-		output_curve.keyframe_points.insert( frame, output_frame )
-		
-		
-		# next frame
-		frame += 1
-	
-	# generate last keyframe
-	output_curve.keyframe_points.insert( frame , 0 )
-	output_curve.keyframe_points[-1].interpolation = 'LINEAR'
-	
-	# prevent curve edition
-	output_curve.lock = True
-	output_curve.hide = hide
 
 
 
@@ -1581,6 +1508,84 @@ class CtF(bpy.types.PropertyGroup):
 		
 		return combination_curve
 	
+	
+	
+	
+	def update_output_curve(self, clip, context, combination_curve):
+		'''update output curve'''
+		# get and initialize output curve
+		output_curve = getFCurveByDataPath(clip, 'CtF.output')
+		if output_curve is not None:
+			hide = output_curve.hide
+			clip.animation_data.action.fcurves.remove(output_curve)
+		else:
+			hide = True
+		clip.animation_data.action.fcurves.new('CtF.output')
+		output_curve = getFCurveByDataPath(clip, 'CtF.output')
+		
+		# get start and end curve
+		start_curve = getFCurveByDataPath(clip, 'CtF.start')
+		end_curve = getFCurveByDataPath(clip, 'CtF.end')
+		
+		# generate first keyframe
+		start = context.scene.frame_start
+		output_curve.keyframe_points.insert( start - 1, 0 )
+		output_curve.keyframe_points[-1].interpolation = 'LINEAR'
+		
+		# get rounding method
+		if(clip.CtF.rounding == 'round'):
+			rounding = round
+		elif(clip.CtF.rounding == 'floor'):
+			rounding = floor
+		else:
+			rounding = ceil
+		
+		# generate a keyframe at each frame
+		frame = start
+		end = context.scene.frame_end
+		while frame <= end:
+			# get start value at this frame
+			if start_curve is not None:
+				start_value = start_curve.evaluate(frame)
+			else:
+				start_value = clip.CtF.start
+			
+			# check start_value
+			if start_value < 1 :
+				start_value = 1
+			elif start_value > clip.CtF.size:
+				start_value = clip.CtF.size
+			
+			# get end value at this frame
+			if end_curve is not None:
+				end_value = end_curve.evaluate(frame)
+			else:
+				end_value = clip.CtF.end
+			
+			# check end_value
+			if end_value < start_value :
+				end_value = start_value
+			elif end_value > clip.CtF.size:
+				end_value = clip.CtF.size
+			
+			# generate keyframe
+			output_frame = rounding(
+					clip.CtF.first + start_value - 1 
+					+ combination_curve.evaluate(frame)
+					* (end_value - start_value)
+					)
+			output_curve.keyframe_points.insert( frame, output_frame )
+			
+			# next frame
+			frame += 1
+		
+		# generate last keyframe
+		output_curve.keyframe_points.insert( frame , 0 )
+		output_curve.keyframe_points[-1].interpolation = 'LINEAR'
+		
+		# prevent curve edition
+		output_curve.lock = True
+		output_curve.hide = hide
 	
 	
 	
