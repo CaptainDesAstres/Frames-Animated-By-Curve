@@ -91,7 +91,7 @@ class CtFRefresh(bpy.types.Operator):
 			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
 			return {'CANCELLED'}
 		else:
-			return context.space_data.clip.CtF.init()
+			return context.space_data.clip.CtF.initialize()
 
 
 
@@ -886,7 +886,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def init( self ):
+	def initialize( self ):
 		'''init or reload movieclip info'''
 		clip = self.id_data
 		
