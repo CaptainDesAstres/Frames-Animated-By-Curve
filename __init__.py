@@ -1713,6 +1713,13 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# draw run button or error message
 		#self.draw_run_button( layout, clip, warning )
+	
+	
+	
+	
+	def panel_tracks( self, layout, context ):
+		'''draw the tracks panel content'''
+		
 
 
 
@@ -1880,8 +1887,9 @@ class TracksPanel(bpy.types.Panel):
 	
 	def draw(self, context):
 		'''the function that draw the addon UI'''
+		context.scene.CtF.panel_tracks( self.layout, context )
 		
-		
+
 
 
 def register():
