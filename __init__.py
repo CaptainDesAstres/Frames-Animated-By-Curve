@@ -1871,6 +1871,7 @@ class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRefresh)
+	bpy.utils.register_class(Track)
 	bpy.utils.register_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.register_class(CtFRefreshSceneMiniMaxi)
 	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
@@ -1887,6 +1888,7 @@ def register():
 def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRefresh)
+	bpy.utils.unregister_class(Track)
 	bpy.utils.unregister_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.unregister_class(CtFRefreshSceneMiniMaxi)
 	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
