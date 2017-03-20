@@ -462,7 +462,6 @@ class Track(bpy.types.PropertyGroup):
 						self.name = track.name
 					except AttributeError:
 						print('Track renaming error on '+self.name)
-						pass
 				
 				return track
 		
