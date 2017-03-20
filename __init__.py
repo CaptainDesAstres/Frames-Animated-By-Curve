@@ -1858,13 +1858,29 @@ class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Multi Track Mode"
+	bl_label = "Multi Track Amplitude & Peaks Settings"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
 		context.scene.CtF.draw_multi_track_panel( context, layout)
+		
+
+
+
+
+
+class FramesAnimatedByCurveTracksPanel(bpy.types.Panel):
+	'''class of the panel who contains addon multi track control'''
+	bl_space_type = "CLIP_EDITOR"
+	bl_region_type = "TOOLS"
+	bl_label = "Tracks"
+	bl_category = "Curve Anim"
+	
+	def draw(self, context):
+		'''the function that draw the addon UI'''
+		
 		
 
 
@@ -1882,6 +1898,7 @@ def register():
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(FramesAnimatedByCurvePanel)
 	bpy.utils.register_class(FramesAnimatedByCurveMultiPanel)
+	bpy.utils.register_class(FramesAnimatedByCurveTracksPanel)
 	print("Frames Animated By Curve is enabled")
 
 
@@ -1897,5 +1914,6 @@ def unregister():
 	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
 	bpy.utils.unregister_class(FramesAnimatedByCurveMultiPanel)
 	bpy.utils.unregister_class(CurveToFrame)
+	bpy.utils.unregister_class(FramesAnimatedByCurveTracksPanel)
 	print("Frames Animated By Curve is disabled")
 
