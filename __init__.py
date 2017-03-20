@@ -1821,7 +1821,7 @@ class CurveToFrame(bpy.types.Operator):
 
 
 
-class FramesAnimatedByCurvePanel(bpy.types.Panel):
+class OneTrackPanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
@@ -1854,7 +1854,7 @@ class FramesAnimatedByCurvePanel(bpy.types.Panel):
 
 
 
-class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
+class MultiTracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
@@ -1871,7 +1871,7 @@ class FramesAnimatedByCurveMultiPanel(bpy.types.Panel):
 
 
 
-class FramesAnimatedByCurveTracksPanel(bpy.types.Panel):
+class TracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
@@ -1896,9 +1896,9 @@ def register():
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
-	bpy.utils.register_class(FramesAnimatedByCurvePanel)
-	bpy.utils.register_class(FramesAnimatedByCurveMultiPanel)
-	bpy.utils.register_class(FramesAnimatedByCurveTracksPanel)
+	bpy.utils.register_class(OneTrackPanel)
+	bpy.utils.register_class(MultiTracksPanel)
+	bpy.utils.register_class(TracksPanel)
 	print("Frames Animated By Curve is enabled")
 
 
@@ -1911,9 +1911,9 @@ def unregister():
 	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
-	bpy.utils.unregister_class(FramesAnimatedByCurvePanel)
-	bpy.utils.unregister_class(FramesAnimatedByCurveMultiPanel)
+	bpy.utils.unregister_class(OneTrackPanel)
+	bpy.utils.unregister_class(MultiTracksPanel)
 	bpy.utils.unregister_class(CurveToFrame)
-	bpy.utils.unregister_class(FramesAnimatedByCurveTracksPanel)
+	bpy.utils.unregister_class(TracksPanel)
 	print("Frames Animated By Curve is disabled")
 
