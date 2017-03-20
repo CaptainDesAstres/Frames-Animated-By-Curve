@@ -442,15 +442,15 @@ class Track(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw (layout):
+	def draw ( self, layout ):
 		'''draw Track info and settings'''
 		return
 	
 	
 	
-	def get(scene):
+	def get( self, scene ):
 		'''return the movie clip corresponding to this track'''
-		
+		return
 
 
 
