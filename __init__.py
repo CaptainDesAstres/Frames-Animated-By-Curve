@@ -468,6 +468,10 @@ def add_track( self, context ):
 	if track.CtF.uid == '':
 		track.CtF.initialize()
 	
+	# add to the list
+	new = context.scene.CtF.tracks.add()
+	new.name = track.name
+	new.uid = track.CtF.uid
 	
 	# clear the add field
 	self.id_data.CtF.track_add=''
