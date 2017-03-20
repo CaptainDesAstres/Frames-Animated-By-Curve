@@ -893,6 +893,8 @@ class CtF(bpy.types.PropertyGroup):
 		type=Track,
 		options = {'LIBRARY_EDITABLE'} )
 	
+	selected_track = bpy.props.IntProperty()
+	
 	
 	
 	
