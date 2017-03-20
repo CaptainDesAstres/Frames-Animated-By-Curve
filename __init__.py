@@ -483,15 +483,11 @@ def add_track( self, context ):
 	try:
 		track = bpy.data.movieclips[ track ]
 	except KeyError:
-		self.report(	{'ERROR'},
-						track+': movieclip not found' )
 		return
 	
 	
 	# check the source is compatible
 	if track.source != 'SEQUENCE':
-		self.report(	{'ERROR'},
-						track.name+' can\'t be used: must be an image sequence.' )
 		return
 	
 	# clear the add field
@@ -1770,6 +1766,15 @@ class CtF(bpy.types.PropertyGroup):
 		# track adding field
 		row = layout.row()
 		row.prop_search(self, "track_add", bpy.data, "movieclips")
+		
+		# error message if unvalid track
+		if self.track_add != '':
+			row = layout.row()
+			if self.track_add not in bpy.data.movieclips.keys():
+				row.label( '  Error: movieclip not found', icon = 'ERROR' )
+			else:
+				row.label( '  Unvalid choice : only image sequence can be used.',
+								icon = 'ERROR' )
 
 
 
