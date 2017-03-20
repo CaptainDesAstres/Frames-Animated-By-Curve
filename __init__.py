@@ -12,6 +12,7 @@ bl_info = {
 import bpy, os, shutil, platform
 from math import ceil, floor, radians
 from mathutils import Euler, Vector
+from uuid import uuid4
 
 # Add to scene type a property to define if script does real file copy
 if platform.system().lower() in ['linux', 'unix']:
@@ -111,6 +112,11 @@ class CtFRefresh(bpy.types.Operator):
 		if(not clip.CtF.init or clip.CtF.end > clip.CtF.size):
 			clip.CtF.end = clip.CtF.size
 			clip.CtF.init = True
+		
+		# allocate an uid to the clip
+		if(clip.CtF.uid == '' ):
+			clip.CtF.uid = str(uuid4())
+		
 		
 		return {'FINISHED'}
 
@@ -435,6 +441,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# flag to know if CtF have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
+	uid = bpy.props.StringProperty( default = '' )
 	
 	#################################################
 	##     clip settings                           ##
