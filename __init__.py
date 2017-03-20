@@ -870,6 +870,23 @@ class CtF(bpy.types.PropertyGroup):
 		subtype = 'DIR_PATH')
 	
 	
+	
+	#################################################
+	##     Tracks managing                         ##
+	#################################################
+	track_add = bpy.props.StringProperty(
+		name = "Add",
+		description = "Add tracks to the list",
+		default = '')
+	
+	tracks = bpy.props.CollectionProperty(
+		type=Track,
+		options = {'LIBRARY_EDITABLE'} )
+	
+	
+	
+	
+	
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
