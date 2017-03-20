@@ -1795,6 +1795,9 @@ class CtF(bpy.types.PropertyGroup):
 			else:
 				row.label( '  Unvalid choice : only image sequence can be used.',
 								icon = 'ERROR' )
+		
+		# display Tracks list
+		
 
 
 
