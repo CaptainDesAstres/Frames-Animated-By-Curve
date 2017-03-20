@@ -412,6 +412,7 @@ class Track(bpy.types.PropertyGroup):
 	''' managing CtF track Identification'''
 	name = bpy.props.StringProperty()
 	uid = bpy.props.StringProperty()
+	track_id = bpy.props.IntProperty()
 	
 	
 	
@@ -472,6 +473,7 @@ def add_track( self, context ):
 	new = context.scene.CtF.tracks.add()
 	new.name = track.name
 	new.uid = track.CtF.uid
+	new.track_id = len(context.scene.CtF.tracks)-1
 	
 	# clear the add field
 	self.id_data.CtF.track_add=''
