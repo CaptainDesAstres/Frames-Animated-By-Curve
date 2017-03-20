@@ -477,7 +477,7 @@ def add_track( self, context ):
 	
 	# avoid recursive call
 	if track == '':
-		return {'FINISHED'}
+		return
 	
 	# get the corresponding movieclip
 	try:
@@ -485,14 +485,14 @@ def add_track( self, context ):
 	except KeyError:
 		self.report(	{'ERROR'},
 						track+': movieclip not found' )
-		return {'CANCELLED'}
+		return
 	
 	
 	# check the source is compatible
 	if track.source != 'SEQUENCE':
 		self.report(	{'ERROR'},
 						track.name+' can\'t be used: must be an image sequence.' )
-		return {'CANCELLED'}
+		return
 	
 	# clear the add field
 	self.id_data.CtF.track_add=''
