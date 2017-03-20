@@ -1734,22 +1734,12 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def get_valid_tracks():
-		'''return a list of all movieclip that can be used as track'''
-		tracks = []
-		
-		for t in bpy.data.movieclips:
-			if t.type.source == 'SEQUENCE':
-				tracks.append(t)
-		
-		return tracks
-	
-	
-	
-	
 	def panel_tracks( self, layout, context ):
 		'''draw the tracks panel content'''
-		
+		# track adding field
+		row = layout.row()
+		row.prop_search(self, "track_add", bpy.data, "movieclips")
+
 
 
 
