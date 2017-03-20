@@ -435,8 +435,28 @@ def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
 
 
 
+class Track(bpy.types.PropertyGroup):
+	''' managing CtF track Identification'''
+	name = bpy.props.StringProperty()
+	uid = bpy.props.StringProperty()
+	
+	
+	
+	def draw (layout):
+		'''draw Track info and settings'''
+		return
+	
+	
+	
+	def get(scene):
+		'''return the movie clip corresponding to this track'''
+		
+
+
+
+
 class CtF(bpy.types.PropertyGroup):
-	''' class containang all MovieClip Property 
+	''' class containing all MovieClip Property 
 			design form CtF addon'''
 	
 	# flag to know if CtF have been initialize on this MovieClip
