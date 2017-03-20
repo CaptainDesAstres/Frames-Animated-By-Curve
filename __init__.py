@@ -1829,7 +1829,15 @@ class CtF(bpy.types.PropertyGroup):
 								icon = 'ERROR' )
 		
 		# display Tracks list
-		
+		row = layout.row()
+		row.template_list(
+				"TrackItem",
+				"",
+				self,
+				"tracks",
+				self,
+				"selected_track",
+				rows=5)
 
 
 
