@@ -470,6 +470,36 @@ class Track(bpy.types.PropertyGroup):
 
 
 
+def add_track( self, context ):
+	'''add the selected tracks in tracks list'''
+	# get new track name
+	track = self.id_data.CtF.track_add
+	
+	# avoid recursive call
+	if track == '':
+		return {'FINISHED'}
+	
+	# get the corresponding movieclip
+	try:
+		track = bpy.data.movieclips[ track ]
+	except KeyError:
+		self.report(	{'ERROR'},
+						track+': movieclip not found' )
+		return {'CANCELLED'}
+	
+	
+	# check the source is compatible
+	if track.source != 'SEQUENCE':
+		self.report(	{'ERROR'},
+						track.name+' can\'t be used: must be an image sequence.' )
+		return {'CANCELLED'}
+	
+	# clear the add field
+	self.id_data.CtF.track_add=''
+
+
+
+
 class CtF(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form CtF addon'''
@@ -877,7 +907,8 @@ class CtF(bpy.types.PropertyGroup):
 	track_add = bpy.props.StringProperty(
 		name = "Add",
 		description = "Add tracks to the list",
-		default = '')
+		default = '',
+		update = add_track )
 	
 	tracks = bpy.props.CollectionProperty(
 		type=Track,
