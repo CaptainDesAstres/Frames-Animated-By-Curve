@@ -87,7 +87,11 @@ class CtFRefresh(bpy.types.Operator):
 	def execute(self, context):
 		'''refresh CtF info of a movie clip'''
 		bpy.ops.clip.reload()# reload source file
-		return context.space_data.clip.CtF.init()
+		if context.space_data.clip is None:
+			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
+			return {'CANCELLED'}
+		else:
+			return context.space_data.clip.CtF.init()
 
 
 
