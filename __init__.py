@@ -1024,7 +1024,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_main_interpolation( self, layout ):
+	def draw_interpolation_main( self, layout ):
 		'''draw peaks interpolation settings (main) into the panel'''
 		# keyframes interpolation mode
 		layout.separator()
@@ -1070,7 +1070,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_top_interpolation( self, layout ):
+	def draw_interpolation_top( self, layout ):
 		'''draw peaks interpolation settings (top) into the panel'''
 		# top peak interpolation same as main
 		row = layout.row()
@@ -1209,7 +1209,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_simple_track_panel(self, context, layout, clip):
+	def panel_simple(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
@@ -1227,10 +1227,10 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_peaks(layout, refresh_curve )
 			
 			# draw peaks interpolation main settings
-			self.draw_main_interpolation( layout )
+			self.draw_interpolation_main( layout )
 			
 			# draw peaks interpolation top settings
-			self.draw_top_interpolation( layout )
+			self.draw_interpolation_top( layout )
 			
 			# draw combination node settings and combination and output value
 			self.draw_combination_and_output( layout, refresh_curve )
@@ -1686,7 +1686,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_multi_track_panel(self, context, layout):
+	def panel_multi(self, context, layout):
 		'''draw the CtF panel'''
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
@@ -1700,10 +1700,10 @@ class CtF(bpy.types.PropertyGroup):
 		self.draw_peaks(layout, refresh_curve )
 		
 		# draw peaks interpolation main settings
-		self.draw_main_interpolation( layout )
+		self.draw_interpolation_main( layout )
 		
 		# draw peaks interpolation top settings
-		self.draw_top_interpolation( layout )
+		self.draw_interpolation_top( layout )
 		
 		# draw combination node settings and combination and output value
 		self.draw_combination_and_output( layout, refresh_curve, True )
@@ -1837,7 +1837,7 @@ class OneTrackPanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.CtF.draw_simple_track_panel(context, layout, clip)
+			clip.CtF.panel_simple(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
@@ -1864,7 +1864,7 @@ class MultiTracksPanel(bpy.types.Panel):
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
-		context.scene.CtF.draw_multi_track_panel( context, layout)
+		context.scene.CtF.panel_multi( context, layout)
 		
 
 
