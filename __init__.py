@@ -87,38 +87,7 @@ class CtFRefresh(bpy.types.Operator):
 	def execute(self, context):
 		'''refresh CtF info of a movie clip'''
 		bpy.ops.clip.reload()# reload source file
-		clip = context.space_data.clip
-		
-		# get source path and extension
-		clip.CtF.path, name = os.path.split(bpy.path.abspath(clip.filepath))
-		clip.CtF.path += '/'
-		name, clip.CtF.ext = os.path.splitext( name )
-		
-		# get file naming prefix, suffix and length
-		l = len(name)
-		n = l-1
-		while ( not name[n].isdigit() and n > 0 ):
-			n -= 1
-		clip.CtF.suffix = name[n+1:l]
-		clip.CtF.prefix = name[0:n].rstrip('0123456789')
-		clip.CtF.numberSize = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
-		
-		# Get clip length and first and last frame number
-		clip.CtF.first = int(name[len(clip.CtF.suffix):n+1])
-		clip.CtF.size = clip.frame_duration
-		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
-		
-		# adapt CtF.end property if needed
-		if(not clip.CtF.init or clip.CtF.end > clip.CtF.size):
-			clip.CtF.end = clip.CtF.size
-			clip.CtF.init = True
-		
-		# allocate an uid to the clip
-		if(clip.CtF.uid == '' ):
-			clip.CtF.uid = str(uuid4())
-		
-		
-		return {'FINISHED'}
+		return context.space_data.clip.CtF.init()
 
 
 
@@ -910,6 +879,43 @@ class CtF(bpy.types.PropertyGroup):
 		type=Track,
 		options = {'LIBRARY_EDITABLE'} )
 	
+	
+	
+	
+	def init( self ):
+		'''init or reload movieclip info'''
+		clip = self.id_data
+		
+		# get source path and extension
+		clip.CtF.path, name = os.path.split(bpy.path.abspath(clip.filepath))
+		clip.CtF.path += '/'
+		name, clip.CtF.ext = os.path.splitext( name )
+		
+		# get file naming prefix, suffix and length
+		l = len(name)
+		n = l-1
+		while ( not name[n].isdigit() and n > 0 ):
+			n -= 1
+		clip.CtF.suffix = name[n+1:l]
+		clip.CtF.prefix = name[0:n].rstrip('0123456789')
+		clip.CtF.numberSize = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
+		
+		# Get clip length and first and last frame number
+		clip.CtF.first = int(name[len(clip.CtF.suffix):n+1])
+		clip.CtF.size = clip.frame_duration
+		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
+		
+		# adapt CtF.end property if needed
+		if(not clip.CtF.init or clip.CtF.end > clip.CtF.size):
+			clip.CtF.end = clip.CtF.size
+			clip.CtF.init = True
+		
+		# allocate an uid to the clip
+		if(clip.CtF.uid == '' ):
+			clip.CtF.uid = str(uuid4())
+		
+		
+		return {'FINISHED'}
 	
 	
 	
