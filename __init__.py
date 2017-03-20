@@ -463,6 +463,12 @@ def add_track( self, context ):
 	if track.source != 'SEQUENCE':
 		return
 	
+	
+	# load tracks if necessary
+	if track.CtF.uid == '':
+		track.CtF.initialize()
+	
+	
 	# clear the add field
 	self.id_data.CtF.track_add=''
 
