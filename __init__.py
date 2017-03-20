@@ -444,6 +444,34 @@ class Track(bpy.types.PropertyGroup):
 
 
 
+class TrackItem(bpy.types.UIList):
+	'''Item to display tracks in a list template'''
+	
+	def draw_item( 
+				self, 
+				context, 
+				layout, 
+				data, 
+				item, 
+				icon, 
+				active_data, 
+				active_propname, 
+				index ):
+		'''draw item row'''
+		split = layout.split(0.3)
+		split.label("Index: %d" % (index))
+		split.prop(item, "name", text="", emboss=False, translate=False, icon='CLIP')
+	
+	
+	
+	
+	def invoke(self, context, event):
+		'''I don't even know why I do that!'''
+		pass
+
+
+
+
 def add_track( self, context ):
 	'''add the selected tracks in tracks list'''
 	# get new track name
