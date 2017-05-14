@@ -476,6 +476,15 @@ class TracksActions(bpy.types.Operator):
 	bl_label = "Tracks List Action"
 	bl_options = {'INTERNAL'}
 	
+	
+	action = bpy.props.EnumProperty(
+		items=(
+			('UP', "Up", ""),
+			('DOWN', "Down", ""),
+			('REMOVE', "Remove", ""),
+			('CHECK', "Check", ""),
+		)
+	)
 
 
 
