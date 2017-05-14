@@ -458,9 +458,7 @@ class TrackItem(bpy.types.UIList):
 				active_propname, 
 				index ):
 		'''draw item row'''
-		split = layout.split(0.3)
-		split.label("Index: %d" % (index))
-		split.prop(item, "name", text="", emboss=False, translate=False, icon='CLIP')
+		layout.label(item.name, icon='CLIP')
 	
 	
 	
@@ -1817,7 +1815,11 @@ class CtF(bpy.types.PropertyGroup):
 		'''draw the tracks panel content'''
 		# track adding field
 		row = layout.row()
-		row.prop_search(self, "track_add", bpy.data, "movieclips")
+		col = row.column()
+		col.prop_search(self, "track_add", bpy.data, "movieclips")
+		col = row.column()
+		col.operator(
+				"clip.open", text='', icon='FILESEL')
 		
 		# error message if unvalid track
 		if self.track_add != '':
