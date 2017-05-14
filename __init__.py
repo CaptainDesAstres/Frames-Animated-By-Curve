@@ -1889,6 +1889,10 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# track list action button
 		col = row.column( align=True )
+		col.operator("ctf.tracks_action", icon='TRIA_UP', text="").action = 'UP'
+		col.operator("ctf.tracks_action", icon='FILE_TICK', text="").action = 'CHECK'
+		col.operator("ctf.tracks_action", icon='X', text="").action = 'REMOVE'
+		col.operator("ctf.tracks_action", icon='TRIA_DOWN', text="").action = 'DOWN'
 
 
 
@@ -2065,6 +2069,7 @@ class TracksPanel(bpy.types.Panel):
 
 def register():
 	'''addon register'''
+	bpy.utils.register_class(TracksActions)
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(Track)
 	bpy.utils.register_class(TrackItem)
@@ -2084,6 +2089,7 @@ def register():
 
 def unregister():
 	'''addon unregister'''
+	bpy.utils.unregister_class(TracksActions)
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(Track)
 	bpy.utils.unregister_class(TrackItem)
