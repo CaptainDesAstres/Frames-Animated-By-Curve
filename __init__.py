@@ -485,6 +485,31 @@ class TracksActions(bpy.types.Operator):
 			('CHECK', "Check", ""),
 		)
 	)
+	
+	
+	def invoke(self, context, event):
+		scn = context.scene
+		i = scn.CtF.selected_track
+		
+		try:
+			item = scn.CtF.tracks[i]
+		except IndexError:
+			self.report({'ERROR'}, 'Error: bad selection')
+			return {"FINISHED"}
+		
+		if self.action == 'DOWN':
+			self.report({'INFO'}, 'down')
+			
+		elif self.action == 'UP':
+			self.report({'INFO'}, 'up')
+			
+		elif self.action == 'REMOVE':
+			self.report({'INFO'}, 'remove')
+			
+		elif self.action == 'CHECK':
+			self.report({'INFO'}, 'check')
+			
+		return {"FINISHED"}
 
 
 
