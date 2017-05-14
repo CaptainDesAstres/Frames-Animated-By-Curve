@@ -470,6 +470,17 @@ class TrackItem(bpy.types.UIList):
 
 
 
+class TracksActions(bpy.types.Operator):
+	'''Tacks list action operator'''
+	bl_idname = "ctf.tracks_action"
+	bl_label = "Tracks List Action"
+	bl_options = {'INTERNAL'}
+	
+
+
+
+
+
 def add_track( self, context ):
 	'''add the selected tracks in tracks list'''
 	# get new track name
@@ -1844,6 +1855,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# track list action button
 		col = row.column( align=True )
+
 
 
 
