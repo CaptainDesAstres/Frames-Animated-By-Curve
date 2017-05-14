@@ -1832,7 +1832,8 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# display Tracks list
 		row = layout.row()
-		row.template_list(
+		col = row.column()
+		col.template_list(
 				"TrackItem",
 				"",
 				self,
@@ -1840,6 +1841,9 @@ class CtF(bpy.types.PropertyGroup):
 				self,
 				"selected_track",
 				rows=5)
+		
+		# track list action button
+		col = row.column( align=True )
 
 
 
