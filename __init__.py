@@ -495,7 +495,7 @@ class TracksActions(bpy.types.Operator):
 			item = scn.CtF.tracks[i]
 		except IndexError:
 			self.report({'ERROR'}, 'Error: bad selection')
-			return {"FINISHED"}
+			return {"CANCELLED"}
 		
 		if self.action == 'DOWN':
 			self.report({'INFO'}, 'down')
