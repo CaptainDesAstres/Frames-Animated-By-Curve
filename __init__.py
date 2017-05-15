@@ -545,6 +545,7 @@ class TracksActions(bpy.types.Operator):
 					track.CtF.initialize()
 				
 				# check all image of the sequence exist
+				track.CtF.checkImageFile()
 		
 		return {"FINISHED"}
 
@@ -1051,6 +1052,17 @@ class CtF(bpy.types.PropertyGroup):
 		return	(	self.prefix +
 					str(int(n)).rjust(self.numberSize, '0')+
 					self.suffix + self.ext	)
+	
+	
+	
+	
+	def checkImageFile( self ):
+		'''check in all the movieclip sequence image exists'''
+		for fr in range( self.first,
+					self.last+1 ):
+			if not os.path.exists( self.path + self.getFrameName( fr ) ):
+				return False
+		return True
 	
 	
 	
