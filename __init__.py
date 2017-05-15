@@ -545,7 +545,8 @@ class TracksActions(bpy.types.Operator):
 					track.CtF.initialize()
 				
 				# check all image of the sequence exist
-				track.CtF.checkImageFile()
+				if not track.CtF.checkImageFile():
+					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
 		
 		return {"FINISHED"}
 
