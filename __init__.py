@@ -522,8 +522,9 @@ class TracksActions(bpy.types.Operator):
 			
 		elif self.action == 'CHECK':
 			# check if all tracks in the list are OK
+			index = -1
 			for key in scn.CtF.tracks.keys():
-				index = scn.CtF.tracks.find(key)
+				index += 1
 				
 				# check the corresponding movieclip exist
 				track = scn.CtF.tracks[index].get(scn, True)
