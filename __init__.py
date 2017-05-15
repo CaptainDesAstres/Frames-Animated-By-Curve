@@ -424,11 +424,14 @@ class Track(bpy.types.PropertyGroup):
 	
 	def get( self, scene, rename = False):
 		'''return the movie clip corresponding to this track'''
-		track = bpy.data.movieclips[ self.name ]
-		if track.CtF.uid == self.uid:
-			return track
+		try:
+			track = bpy.data.movieclips[ self.name ]
+			if track.CtF.uid == self.uid:
+				return track
+		except KeyError:
+			pass
 		
-		for track in scene.movieclips:
+		for track in bpy.data.movieclips:
 			if track.CtF.uid == self.uid:
 				
 				if rename:
