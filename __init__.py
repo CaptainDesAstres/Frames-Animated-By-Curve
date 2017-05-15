@@ -548,6 +548,13 @@ class TracksActions(bpy.types.Operator):
 				if not track.CtF.checkImageFile():
 					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
 		
+		# update track id
+		index = -1
+		for key in scn.CtF.tracks.keys():
+			index +=1
+			scn.CtF.tracks[index].track_id = index
+		
+		
 		return {"FINISHED"}
 
 
