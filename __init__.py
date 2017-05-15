@@ -526,7 +526,7 @@ class TracksActions(bpy.types.Operator):
 				index = scn.CtF.tracks.find(key)
 				
 				# check the corresponding movieclip exist
-				track = scn.CtF.tracks[index].get(scn)
+				track = scn.CtF.tracks[index].get(scn, True)
 				if track is None:
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
 					scn.CtF.tracks.remove(index)
