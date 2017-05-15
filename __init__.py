@@ -505,7 +505,11 @@ class TracksActions(bpy.types.Operator):
 			self.report({'INFO'}, 'up')
 			
 		elif self.action == 'REMOVE':
-			self.report({'INFO'}, 'remove')
+			# remove selected track
+			scn.CtF.tracks.remove(i)
+			
+			if i > len(scn.CtF.tracks)-1:
+				scn.CtF.selected_track = len(scn.CtF.tracks)-1
 			
 		elif self.action == 'CHECK':
 			self.report({'INFO'}, 'check')
