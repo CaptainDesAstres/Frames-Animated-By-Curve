@@ -499,10 +499,16 @@ class TracksActions(bpy.types.Operator):
 			return {"CANCELLED"}
 		
 		if self.action == 'DOWN':
-			self.report({'INFO'}, 'down')
+			# move selected track down
+			if( i < len(scn.CtF.tracks)-1 ):
+				scn.CtF.tracks.move( i, i+1 )
+				scn.CtF.selected_track = i+1
 			
 		elif self.action == 'UP':
-			self.report({'INFO'}, 'up')
+			# move selected track up
+			if( i > 0 ):
+				scn.CtF.tracks.move( i, i-1 )
+				scn.CtF.selected_track = i-1
 			
 		elif self.action == 'REMOVE':
 			# remove selected track
