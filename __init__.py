@@ -521,8 +521,31 @@ class TracksActions(bpy.types.Operator):
 				scn.CtF.selected_track = len(scn.CtF.tracks)-1
 			
 		elif self.action == 'CHECK':
-			self.report({'INFO'}, 'check')
-			
+			# check if all tracks in the list are OK
+			for key in scn.CtF.tracks.keys():
+				index = scn.CtF.tracks.find(key)
+				
+				# check the corresponding movieclip exist
+				track = scn.CtF.tracks[index].get(scn)
+				if track is None:
+					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
+					scn.CtF.tracks.remove(index)
+					continue
+				
+				
+				# check the corresponding movieclip is a SEQUENCE
+				if track.source != 'SEQUENCE':
+					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip is not a sequence. the corresponding track have been removed.')
+					scn.CtF.tracks.remove(index)
+					continue
+				
+				
+				# initialize corresponding movieclip if necessary
+				if track.CtF.uid == '':
+					track.CtF.initialize()
+				
+				# check all image of the sequence exist
+		
 		return {"FINISHED"}
 
 
