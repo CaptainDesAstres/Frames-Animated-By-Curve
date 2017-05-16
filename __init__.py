@@ -701,7 +701,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	# max value associated to the last frames
 	maxi = bpy.props.FloatProperty(
-		name = 'maxi',
+		name = 'Maxi',
 		description = 'the maximal value of the amplitude\
 						 curve. All bigger value will display \
 						the last frame. This property is useless \
@@ -2069,7 +2069,7 @@ class OneTrackPanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Frames Animated By Curve"
+	bl_label = "One track feature"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
@@ -2102,7 +2102,7 @@ class MultiTracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Multi Track Amplitude & Peaks Settings"
+	bl_label = "Multi track features: Amplitude & Peaks Settings"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
@@ -2119,7 +2119,7 @@ class TracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Tracks"
+	bl_label = "Multi track features: Tracks list"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
@@ -2144,8 +2144,8 @@ def register():
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(OneTrackPanel)
-	bpy.utils.register_class(MultiTracksPanel)
 	bpy.utils.register_class(TracksPanel)
+	bpy.utils.register_class(MultiTracksPanel)
 	print("Frames Animated By Curve is enabled")
 
 
