@@ -1646,10 +1646,7 @@ class CtF(bpy.types.PropertyGroup):
 								left, right )
 						
 						# next frame
-						if amplitude_net == 0:
-							frame += clip.CtF.accuracy
-						else:
-							frame += interval
+						frame += interval
 						
 						# invert value
 						if value == 0:
