@@ -1729,67 +1729,51 @@ class CtF(bpy.types.PropertyGroup):
 		# get ppm curve
 		ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
 		
-		if ppm_curve is None and clip.CtF.ppm <= 0:
-			if clip.CtF.ppm < 0:# peak == 1 (constant)
-				for keyframe in amplitude_net_curve.keyframe_points:
-					combination_curve.keyframe_points.insert(
-												keyframe.co[0],
-												keyframe.co[1]
-												)
-			else:# peak == 0 (constant)
-				for keyframe in amplitude_net_curve.keyframe_points:
-					combination_curve.keyframe_points.insert(
-												keyframe.co[0],
-												0
-												)
-		else:
-			# loop only on peak curve keyframe
-			for keyframe in peaks_curve.keyframe_points:
-				# get peaks keyframe value and frame
-				frame = keyframe.co[0]
-				value = keyframe.co[1]
-				
-				# get combination_mode at this frame
-				if combination_mode_curve is not None:
-					combination_mode = combination_mode_curve.evaluate(frame)
-				
-				# generate keyframe
-				if combination_mode != 3 : # «combination mode == multiply or clamp
-					value = value * amplitude_net_curve.evaluate(frame)
-				
-				if combination_mode != 4 :
-					combination_curve.keyframe_points.insert(frame, value)
+		# loop only on peak curve keyframe
+		for keyframe in peaks_curve.keyframe_points:
+			# get peaks keyframe value and frame
+			frame = keyframe.co[0]
+			value = keyframe.co[1]
 			
+			# get combination_mode at this frame
+			if combination_mode_curve is not None:
+				combination_mode = combination_mode_curve.evaluate(frame)
 			
-			# loop for all frame
-			end = max(	peaks_curve.keyframe_points[-1].co[0], 
-						context.scene.frame_end )
-			frame = start = context.scene.frame_start
-			while frame <= end:
-				# get combination_mode at this frame
-				if combination_mode_curve is not None:
-					combination_mode = combination_mode_curve.evaluate(frame)
-				
-				if combination_mode == 0 : # combination mode is «multiply»
-					value = peaks_curve.evaluate(frame)\
-							* amplitude_net_curve.evaluate(frame)
-					combination_curve.keyframe_points.insert(frame, value)
-				elif combination_mode == 2: # combination mode is «clamp_curve»
-					if( combination_curve.evaluate(frame) 
-						> amplitude_net_curve.evaluate(frame) ):
-						combination_curve.keyframe_points.insert(
-								frame,
-								amplitude_net_curve.evaluate(frame)
-								)
-				elif combination_mode == 4: 
-					# combination mode is «ignore peaks»
-					combination_curve.keyframe_points.insert(
-								frame,
-								amplitude_net_curve.evaluate(frame)
-								)
-				
-				# next frame
-				frame += 1
+			# generate keyframe
+			if combination_mode != 3 : # «combination mode == multiply or clamp
+				value = value * amplitude_net_curve.evaluate(frame)
+			
+			if combination_mode != 4 :
+				combination_curve.keyframe_points.insert(frame, value)
+		
+		
+		# loop for all frame
+		end = max(	peaks_curve.keyframe_points[-1].co[0], 
+					context.scene.frame_end )
+		frame = start = context.scene.frame_start
+		while frame <= end:
+			# get combination_mode at this frame
+			if combination_mode_curve is not None:
+				combination_mode = combination_mode_curve.evaluate(frame)
+			
+			if combination_mode == 0 : # combination mode is «multiply»
+				value = peaks_curve.evaluate(frame)\
+						* amplitude_net_curve.evaluate(frame)
+				combination_curve.keyframe_points.insert(frame, value)
+			elif combination_mode == 2: # combination mode is «clamp_curve»
+				combination_curve.keyframe_points.insert(
+							frame,
+							amplitude_net_curve.evaluate(frame)
+							)
+			elif combination_mode == 4: 
+				# combination mode is «ignore peaks»
+				combination_curve.keyframe_points.insert(
+							frame,
+							amplitude_net_curve.evaluate(frame)
+							)
+			
+			# next frame
+			frame += 1
 		
 		
 		# prevent curve edition
