@@ -1762,9 +1762,12 @@ class CtF(bpy.types.PropertyGroup):
 				combination_curve.keyframe_points.insert(frame, value)
 			elif combination_mode == 2: # combination mode is «clamp_curve»
 				combination_curve.keyframe_points.insert(
-							frame,
-							amplitude_net_curve.evaluate(frame)
-							)
+						frame,
+						min (
+								amplitude_net_curve.evaluate(frame),
+								peaks_curve.evaluate(frame)
+								)
+						)
 			elif combination_mode == 4: 
 				# combination mode is «ignore peaks»
 				combination_curve.keyframe_points.insert(
