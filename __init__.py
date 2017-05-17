@@ -1538,13 +1538,9 @@ class CtF(bpy.types.PropertyGroup):
 		anticipate_curve = getFCurveByDataPath(clip, 'CtF.anticipate')
 		anticipate_value = clip.CtF.anticipate
 		value = 0
-		if ppm_curve is None and clip.CtF.ppm <= 0:
-			if clip.CtF.ppm == 0:
-				# ppm isn't animate and is equal to 0, peaks always equal 0
-				peaks_curve.keyframe_points.insert(0, 0)
-			else:
-				# ppm isn't animate and is equal to 0, peaks always equal 1
-				peaks_curve.keyframe_points.insert(0, 1)
+		if ppm_curve is None and ppm_value <= 0:
+			# ppm isn't animate and is equal to 0, peaks always equal 1
+			peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# convert all ppm keyframe into constant keyframe
 			if ppm_curve is not None and clip.CtF.auto_constant:
