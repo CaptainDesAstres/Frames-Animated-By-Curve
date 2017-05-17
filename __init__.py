@@ -664,7 +664,7 @@ class CtF(bpy.types.PropertyGroup):
 	combination_mode = bpy.props.EnumProperty(
 		name = 'combination mode',
 		description = 'the way to combine amplitude and peaks curve',
-		default = 'multiply',
+		default = 'ignore_peaks',
 		items = [
 #			(identifier,			name,
 #				description, number)
