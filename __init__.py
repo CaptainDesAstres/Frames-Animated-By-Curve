@@ -741,7 +741,7 @@ class CtF(bpy.types.PropertyGroup):
 		description = "gap between two evaluation of ppm to check if ppm<=0",
 		options = {'LIBRARY_EDITABLE'},
 		default = 0.1,
-		min = 0.00001,
+		min = 0.0001,
 		max = 1)
 	
 	# anticipate amplitude rebounce when synchronized
@@ -1745,6 +1745,7 @@ class CtF(bpy.types.PropertyGroup):
 			
 			if combination_mode != 4 :
 				combination_curve.keyframe_points.insert(frame, value)
+				combination_curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		
 		# loop for all frame
@@ -1774,6 +1775,8 @@ class CtF(bpy.types.PropertyGroup):
 							frame,
 							amplitude_net_curve.evaluate(frame)
 							)
+			
+			combination_curve.keyframe_points[-1].interpolation = 'LINEAR'
 			
 			# next frame
 			frame += 1
