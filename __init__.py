@@ -634,7 +634,8 @@ class CtF(bpy.types.PropertyGroup):
 	peaks_shape_range_end = bpy.props.IntProperty(
 		name = "End",
 		description = "Use to set the peaks shape ending frame",
-		min = 1)
+		min = 1,
+		default = 2)
 	
 	
 	
@@ -734,6 +735,23 @@ class CtF(bpy.types.PropertyGroup):
 		if(clip.CtF.uid == '' ):
 			clip.CtF.uid = str(uuid4())
 		
+		# initialize peaks shape curve and settings
+		clip.animation_data_create()
+		clip.animation_data.action = bpy.data.actions.new( 
+									name= clip.name+'Action')
+		
+		clip.animation_data.action.fcurves.new(
+									'CtF.peaks_shape')
+		curve = getFCurveByDataPath(clip, 
+									'CtF.peaks_shape')
+		
+		# set default profile
+		curve.keyframe_points.insert( 0 , 0 )
+		curve.keyframe_points[-1].interpolation = 'LINEAR'
+		curve.keyframe_points.insert( 1 , 1 )
+		curve.keyframe_points[-1].interpolation = 'LINEAR'
+		curve.keyframe_points.insert( 2 , 0 )
+		curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		return {'FINISHED'}
 	
