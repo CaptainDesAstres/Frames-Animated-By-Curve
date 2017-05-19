@@ -905,10 +905,26 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_peaks_profile( self, layout ):
+	def draw_peaks_profile( self, layout, refresh_curve ):
 		'''draw peaks profile settings'''
-		return
-	
+		layout.separator()
+		row = layout.row()
+		
+		# display peaks shapes settings
+		col = row.column()
+		col.prop(self, "peaks_shape")
+		col = row.column()
+		col.prop(self, "peaks_shape_range_start")
+		col = row.column()
+		col.prop(self, "peaks_shape_range_end")
+		
+		
+		# refresh curve
+		col = row.column()
+		col.operator(
+			refresh_curve,
+			text='',
+			icon='FILE_REFRESH')
 	
 	
 	def draw_combination_and_output( 
@@ -1018,7 +1034,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_peaks(layout, refresh_curve )
 			
 			# draw peaks profile settings
-			self.draw_peaks_profile( layout )
+			self.draw_peaks_profile( layout, refresh_curve )
 			
 			# draw combination node settings and combination and output value
 			self.draw_combination_and_output( layout, refresh_curve )
