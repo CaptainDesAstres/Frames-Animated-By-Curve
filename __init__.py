@@ -618,8 +618,23 @@ class CtF(bpy.types.PropertyGroup):
 	##     peaks settings                          ##
 	##       peaks profile                          ##
 	#################################################
+	# a property to use as shape to make the peaks
+	peaks_shape = bpy.props.FloatProperty(
+		name = "Peaks shapes",
+		description = "Use to edit the peaks shapes",
+		min = 0,
+		max = 1)
 	
+	# a property to change the part of peaks_shapes to use
+	peaks_shape_range_start = bpy.props.IntProperty(
+		name = "Start",
+		description = "Use to set the peaks shape starting frame",
+		min = 0)
 	
+	peaks_shape_range_end = bpy.props.IntProperty(
+		name = "End",
+		description = "Use to set the peaks shape ending frame",
+		min = 1)
 	
 	
 	
