@@ -254,156 +254,9 @@ def update_curves(self, context):
 
 
 
-def set_peak_interpolation(keyframe, clip, left_ref, right_ref):
-	'''set peaks keyframe interpolation depending on settings'''
-	# get keyframe frame
-	frame = keyframe.co[0]
-	
-	# get top «same» settings
-	curve = getFCurveByDataPath(clip, 'CtF.top_interpolation_same')
-	if curve is None:
-		same = clip.CtF.top_interpolation_same
-	else:
-		same = curve.evaluate(frame)
-	
-	# determine wich interpolation settings to use
-	if (keyframe.co[1] != 1 or same):
-		kind = 'main'
-	else:
-		kind = 'top'
-	
-	
-	# get interpolation mode:
-	curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_interpolation')
-	if curve is None:
-		enum = clip.CtF.bl_rna.properties[kind+'_interpolation'].enum_items
-		interpolation = enum.find( clip.CtF.path_resolve(kind+'_interpolation') )
-	else:
-		interpolation = curve.evaluate(frame)
-	
-	if interpolation == 0:
-		# linear interpolation
-		keyframe.interpolation = 'LINEAR'
-	elif interpolation >=3:
-		# easing interpolation
-		if interpolation == 3:
-			keyframe.interpolation = 'SINE'
-		elif interpolation == 4:
-			keyframe.interpolation = 'QUAD'
-		elif interpolation == 5:
-			keyframe.interpolation = 'CUBIC'
-		elif interpolation == 6:
-			keyframe.interpolation = 'QUART'
-		elif interpolation == 7:
-			keyframe.interpolation = 'QUINT'
-		elif interpolation == 8:
-			keyframe.interpolation = 'EXPO'
-		elif interpolation == 9:
-			keyframe.interpolation = 'CIRC'
-		
-		# get easing setting
-		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_easing')
-		if curve is None:
-			enum = clip.CtF.bl_rna.properties[kind+'_easing'].enum_items
-			easing = enum.find( clip.CtF.path_resolve(kind+'_easing') )
-		else:
-			easing = curve.evaluate(frame)
-		
-		# set keyframe easing mode
-		if easing == 0:
-			keyframe.easing = 'AUTO'
-		elif easing == 1:
-			keyframe.easing = 'EASE_IN_OUT'
-		elif easing == 2:
-			keyframe.easing = 'EASE_IN'
-		elif easing == 3:
-			keyframe.easing = 'EASE_OUT'
-		
-	else:
-		# Bezier interpolation
-		keyframe.interpolation = 'BEZIER'
-		
-		if interpolation == 1:
-			# interpolation Bezier Auto
-			keyframe.handle_left_type = 'AUTO_CLAMPED'
-			keyframe.handle_right_type = 'AUTO_CLAMPED'
-		else:
-			# interpolation Bezier Free handle
-			keyframe.handle_left_type = 'FREE'
-			keyframe.handle_right_type = 'FREE'
-		
-		
-		# get left handle length
-		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_left_length')
-		if curve is None:
-			left_length =  clip.CtF.path_resolve(kind+'_left_length')
-		else:
-			left_length = curve.evaluate(frame)
-		
-		# get left handle angle
-		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_left_angle')
-		if curve is None:
-			left_angle = clip.CtF.path_resolve(kind+'_left_angle')
-		else:
-			left_angle = curve.evaluate(frame)
-		
-		
-		# get right auto setting
-		curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_auto')
-		if curve is None:
-			right_auto = clip.CtF.path_resolve(kind+'_right_auto')
-		else:
-			right_auto = curve.evaluate(frame)
-		
-		
-		if right_auto:
-			# auto set right length and angle
-			right_length = left_length
-			right_angle = left_angle
-		else:
-			# get right handle length
-			curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_length')
-			if curve is None:
-				right_length = clip.CtF.path_resolve(kind+'_right_length')
-			else:
-				right_length = curve.evaluate(frame)
-			
-			# get right handle angle
-			curve = getFCurveByDataPath(clip, 'CtF.'+kind+'_right_angle')
-			if curve is None:
-				right_angle = clip.CtF.path_resolve(kind+'_right_angle')
-			else:
-				right_angle = curve.evaluate(frame)
-		
-		# apply reference length
-		left_length *= -left_ref
-		right_length *= right_ref
-		
-		# convert angle to radians
-		if (keyframe.co[1] == 1 ):
-			left_angle = radians(left_angle)
-			right_angle = -radians(right_angle) # invert rotation
-		else:
-			left_angle = -radians(left_angle) # invert rotation
-			right_angle = radians(right_angle)
-		
-		
-		# compute and set left handle vector
-		vector = Vector( ( left_length, 0, 0 ) )
-		vector.rotate( Euler( ( 0, 0, left_angle ) ) )
-		vector.resize(2)
-		vector.x += frame
-		vector.y += keyframe.co[1]
-		keyframe.handle_left = vector
-		
-		# compute and set right handle vector
-		vector = Vector( ( right_length, 0, 0 ) )
-		vector.rotate( Euler( ( 0, 0, right_angle ) ) )
-		vector.resize(2)
-		vector.x += frame
-		vector.y += keyframe.co[1]
-		keyframe.handle_right = vector
-		
+def mold_peaks(  ):
+	'''mold peaks shape'''
+	return
 
 
 
@@ -1600,10 +1453,7 @@ class CtF(bpy.types.PropertyGroup):
 												peaks_curve.keyframe_points[-2].co[0] ) / 2
 								else:
 									left = right
-								set_peak_interpolation(
-										peaks_curve.keyframe_points[-1],
-										clip,
-										left, right)
+								mold_peaks(  )
 							else:
 								frame = starting_frame
 							
@@ -1611,10 +1461,7 @@ class CtF(bpy.types.PropertyGroup):
 							
 							# set keyframe interpolation
 							left = right = interval / 2
-							set_peak_interpolation(
-									peaks_curve.keyframe_points[-1],
-									clip,
-									left, right)
+							mold_peaks()
 							
 							# next frame
 							frame += interval
@@ -1636,10 +1483,7 @@ class CtF(bpy.types.PropertyGroup):
 							left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
 						else:
 							left = right
-						set_peak_interpolation(
-								peaks_curve.keyframe_points[-1], 
-								clip,
-								left, right )
+						mold_peaks()
 						
 						# next frame
 						frame += interval
@@ -1686,10 +1530,7 @@ class CtF(bpy.types.PropertyGroup):
 			else:
 				left = interval / 2
 			right = left
-			set_peak_interpolation( 
-					peaks_curve.keyframe_points[-1], 
-					clip,
-					left, right )
+			mold_peaks()
 		
 		# prevent curve edition
 		peaks_curve.lock = True
