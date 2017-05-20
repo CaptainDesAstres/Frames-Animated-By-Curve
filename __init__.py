@@ -822,10 +822,12 @@ class CtF(bpy.types.PropertyGroup):
 		if start_curve is not None:
 			for k in start_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
+				keys.append(k.co[0])
 		
 		if end_curve is not None:
 			for k in end_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
+				keys.append(k.co[0])
 		
 	
 	
