@@ -109,7 +109,7 @@ class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
 
 
 class CtFRestoreDefaultPeakShape(bpy.types.Operator):
-	'''operator to restore default peak shape settings'''
+	'''Restore default peak shape settings'''
 	bl_idname = "ctf.restore_default_peak_shape"
 	bl_label= "restore default peak shape settings"
 	bl_options = {'INTERNAL'}
@@ -955,6 +955,13 @@ class CtF(bpy.types.PropertyGroup):
 		'''draw peaks profile settings'''
 		layout.separator()
 		row = layout.row()
+		
+		# restore default shape button
+		col = row.column()
+		col.operator(
+			'ctf.restore_default_peak_shape',
+			text='',
+			icon='LOAD_FACTORY')
 		
 		# display peaks shapes settings
 		col = row.column()
