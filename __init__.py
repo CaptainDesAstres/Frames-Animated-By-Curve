@@ -932,8 +932,14 @@ class CtF(bpy.types.PropertyGroup):
 					KF['easing'] = k.easing
 					
 					# get left X and Y
+					y = k.handle_left[1]
+					x = ( k.handle_left[0] - k.co[0] ) / length
+					KF['left'] = ( x, y )
 					
 					# get right X and Y
+					y = k.handle_right[1]
+					x = ( k.handle_right[0] - k.co[0] ) / length
+					KF['right'] = ( x, y )
 					
 					KFInfoList.append(KF)
 				
