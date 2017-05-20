@@ -837,46 +837,47 @@ class CtF(bpy.types.PropertyGroup):
 		if shape_curve is None:
 			return 'Error: There is not «Peaks Shapes» curve!'
 		
-		# get shape start end range settings/curve
+		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
 		start_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape_range_start' )
 		
-		
+		# get shape range end settings/curve
 		end = self.peaks_shape_range_end
 		end_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape_range_end' )
 		
-		# get all keyframe time
+		# get all keyframe time for start curve
 		keys = [0]
 		if start_curve is not None:
 			for k in start_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
 				keys.append(k.co[0])
-		
+		# get all keyframe time for end curve
 		if end_curve is not None:
 			for k in end_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
 				keys.append(k.co[0])
 		
+		# avoid useless double and sort
 		keys.sort()
-		
-		#avoid double
 		for k in list(keys):
 			if keys.count(k) > 1:
 				keys.remove(k)
 		
 		ranges = []
 		for fr in keys:
+			# get end and start value at this frame
 			if start_curve is not None:
 				start = start_curve.evaluate(fr)
-			
 			if end_curve is not None:
 				end = end_curve.evaluate(fr)
 			
+			# avoid end greater than start situation
 			if end <= start:
 				return 'Error at frame '+str(fr)+': peaks shape range is set to start at frame '+str(start)+' and end at frame '+str(end)+': end frame MUST BE GREATER than start frame!'
 			
+			# add to range list
 			r = (start, end)
 			if r not in ranges:
 				ranges.append(r)
