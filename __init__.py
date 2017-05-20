@@ -823,6 +823,17 @@ class CtF(bpy.types.PropertyGroup):
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
 		curve.keyframe_points.insert( 2 , 0 )
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
+		
+		# erase range start/end curve
+		curve = getFCurveByDataPath( clip, 'CtF.peaks_shape_range_start' )
+		if curve is not None:
+			clip.animation_data.action.fcurves.remove(curve)
+		clip.CtF.peaks_shape_range_start = 0
+		
+		curve = getFCurveByDataPath( clip, 'CtF.peaks_shape_range_end' )
+		if curve is not None:
+			clip.animation_data.action.fcurves.remove(curve)
+		clip.CtF.peaks_shape_range_end = 2
 	
 	
 	
