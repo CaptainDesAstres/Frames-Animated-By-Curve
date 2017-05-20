@@ -261,6 +261,9 @@ def update_curves(self, context):## self correspond to clip.CtF
 	# update amplitude net curve
 	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
 	
+	# check and get peaks shapes
+	peak_shapes = self.checkAndGetPeaksShapes()
+	
 	# update peaks curve
 	peaks_curve = self.update_peaks_curve(ob, context, amplitude_net_curve)
 	
@@ -815,7 +818,7 @@ class CtF(bpy.types.PropertyGroup):
 				'CtF.peaks_shape_range_end' )
 		
 		# get all keyframe time
-		keys = array('f')
+		keys = []
 		if start_curve is not None:
 			for k in start_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
