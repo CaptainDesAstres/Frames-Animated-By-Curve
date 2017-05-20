@@ -93,11 +93,15 @@ class CtFRefresh(bpy.types.Operator):
 	def execute(self, context):
 		'''refresh CtF info of a movie clip'''
 		bpy.ops.clip.reload()# reload source file
-		if context.space_data.clip is None:
+		clip = context.space_data.clip
+		if clip is None:
 			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
 			return {'CANCELLED'}
 		else:
-			return context.space_data.clip.CtF.initialize()
+			if getFCurveByDataPath(clip, 'CtF.peaks_shape') is None:
+					clip.CtF.init_peaks_shape_curve()
+			return clip.CtF.initialize()
+			
 
 
 
@@ -448,6 +452,9 @@ class TracksActions(bpy.types.Operator):
 				if track.CtF.uid == '':
 					track.CtF.initialize()
 				
+				if getFCurveByDataPath(track, 'CtF.peaks_shape') is None:
+					track.CtF.init_peaks_shape_curve()
+				
 				# check all image of the sequence exist
 				if not track.CtF.checkImageFile():
 					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
@@ -489,6 +496,9 @@ def add_track( self, context ):
 	# load tracks if necessary
 	if track.CtF.uid == '':
 		track.CtF.initialize()
+	
+	if getFCurveByDataPath(track, 'CtF.peaks_shape') is None:
+		track.CtF.init_peaks_shape_curve()
 	
 	# add to the list
 	new = context.scene.CtF.tracks.add()
@@ -780,8 +790,6 @@ class CtF(bpy.types.PropertyGroup):
 		# allocate an uid to the clip
 		if(clip.CtF.uid == '' ):
 			clip.CtF.uid = str(uuid4())
-		
-		self.init_peaks_shape_curve()
 		
 		return {'FINISHED'}
 	
