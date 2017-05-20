@@ -919,7 +919,7 @@ class CtF(bpy.types.PropertyGroup):
 				for k in keyframes:
 					KF = {}
 					# get frame
-					KF('frame') = (k.co[0]-prev) / length
+					KF['frame'] = (k.co[0]-prev) / length
 					prev = KF('frame')
 					
 					# get value
