@@ -121,6 +121,19 @@ class CtFRestoreDefaultPeakShape(bpy.types.Operator):
 
 
 
+class CtFRestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
+	'''Restore default peak shape settings for multi track'''
+	bl_idname = "ctf.multi_track_restore_default_peak_shape"
+	bl_label= "restore default peak shape settings for multi track"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''restore default peak shape settings for multi track'''
+		#ob.init_peaks_shape_curve(context.space_data.clip.CtF)
+		return {'FINISHED'}
+
+
+
 
 class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of the scene'''
@@ -1756,6 +1769,7 @@ class TracksPanel(bpy.types.Panel):
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRestoreDefaultPeakShape)
+	bpy.utils.register_class(CtFRestoreMultiTrackDefaultPeakShape)
 	bpy.utils.register_class(TracksActions)
 	bpy.utils.register_class(CtFRefresh)
 	bpy.utils.register_class(Track)
@@ -1777,6 +1791,7 @@ def register():
 def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(CtFRestoreDefaultPeakShape)
+	bpy.utils.unregister_class(CtFRestoreMultiTrackDefaultPeakShape)
 	bpy.utils.unregister_class(TracksActions)
 	bpy.utils.unregister_class(CtFRefresh)
 	bpy.utils.unregister_class(Track)
