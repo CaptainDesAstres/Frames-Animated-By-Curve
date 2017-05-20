@@ -876,7 +876,6 @@ class CtF(bpy.types.PropertyGroup):
 			if keys.count(k) > 1:
 				keys.remove(k)
 		
-		ranges = []
 		shapes = {}
 		for fr in keys:
 			# get end and start value at this frame
@@ -891,9 +890,8 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# do needed operation if it's a new range
 			r = (start, end)
-			if r not in ranges:
+			if r not in shapes.keys():
 				# add to range list
-				ranges.append(r)
 				keyframes = []
 				length = end - start
 				
