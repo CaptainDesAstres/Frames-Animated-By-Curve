@@ -799,6 +799,23 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
+	def checkAndGetPeaksShapes( self ):
+		'''get all peaks shape and check them'''
+		ob = self.id_data
+		
+		# get shape start end range settings/curve
+		start = self.peaks_shape_range_start
+		start_curve = getFCurveByDataPath( ob, 
+				'CtF.peaks_shape_range_start' )
+		
+		end = self.peaks_shape_range_end
+		end_curve = getFCurveByDataPath( ob, 
+				'CtF.peaks_shape_range_end' )
+	
+	
+	
+	
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
