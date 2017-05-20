@@ -964,7 +964,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_peaks_profile( self, layout, refresh_curve ):
+	def draw_peaks_profile( self, layout, refresh_curve, restore_shape ):
 		'''draw peaks profile settings'''
 		layout.separator()
 		row = layout.row()
@@ -972,7 +972,7 @@ class CtF(bpy.types.PropertyGroup):
 		# restore default shape button
 		col = row.column()
 		col.operator(
-			'ctf.restore_default_peak_shape',
+			restore_shape,
 			text='',
 			icon='LOAD_FACTORY')
 		
@@ -1088,6 +1088,8 @@ class CtF(bpy.types.PropertyGroup):
 		error = self.draw_clip_load_error( layout, clip )
 		refresh_curve = "ctf.simple_track_curves_refresh"
 		refresh_mini_maxi = "ctf.refresh_movieclip_mini_maxi"
+		restore_peak_shape = "ctf.restore_default_peak_shape"
+		
 		if not error:
 			# draw Movie info & settings
 			self.draw_movieclip_settings( layout )
@@ -1100,7 +1102,8 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_peaks(layout, refresh_curve )
 			
 			# draw peaks profile settings
-			self.draw_peaks_profile( layout, refresh_curve )
+			self.draw_peaks_profile( layout, refresh_curve,
+						restore_peak_shape )
 			
 			# draw combination node settings and combination and output value
 			self.draw_combination_and_output( layout, refresh_curve )
@@ -1532,6 +1535,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
 		refresh_mini_maxi = "ctf.refresh_scene_mini_maxi"
+		restore_peak_shape = "ctf.multi_track_restore_default_peak_shape"
 		
 		# draw amplitude settings
 		self.draw_amplitude( layout, context.scene, 
@@ -1541,7 +1545,8 @@ class CtF(bpy.types.PropertyGroup):
 		self.draw_peaks(layout, refresh_curve )
 		
 		# draw peaks profile settings
-		self.draw_peaks_profile( layout, refresh_curve )
+		self.draw_peaks_profile( layout, refresh_curve,
+					restore_peak_shape )
 		
 		# draw combination node settings and combination and output value
 		self.draw_combination_and_output( layout, refresh_curve, True )
