@@ -874,6 +874,9 @@ class CtF(bpy.types.PropertyGroup):
 			if end_curve is not None:
 				end = end_curve.evaluate(fr)
 			
+			if end <= start:
+				return 'Error at frame '+str(fr)+': peaks shape range is set to start at frame '+str(start)+' and end at frame '+str(end)+': end frame MUST BE GREATER than start frame!'
+			
 			r = (start, end)
 			if r not in ranges:
 				ranges.append(r)
