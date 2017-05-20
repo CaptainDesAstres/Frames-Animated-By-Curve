@@ -923,12 +923,18 @@ class CtF(bpy.types.PropertyGroup):
 					prev = KF('frame')
 					
 					# get value
+					KF['value'] = k.co[1]
+					
 					# get interpolation
+					KF['interpolation'] = k.interpolation
+					
 					# get easing
-					# get left X
-					# get left Y
-					# get right X
-					# get right Y
+					KF['easing'] = k.easing
+					
+					# get left X and Y
+					
+					# get right X and Y
+					
 					KFInfoList.append(KF)
 				
 				
