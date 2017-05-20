@@ -368,7 +368,6 @@ class TrackItem(bpy.types.UIList):
 		col.label(item.name, icon='CLIP')
 		col = layout.column()
 		col.label('id:'+str(item.track_id))
-		print(dir(col))
 	
 	
 	
@@ -915,8 +914,21 @@ class CtF(bpy.types.PropertyGroup):
 					return 'Error at frame '+str(int(fr))+':\nPeaks Shape range is set to start at frame '+str(int(start.co[0]))+' and end at frame '+str(int(end.co[0]))+' \nbut corresponding peaks shape curve keyframe at those positions didn\'t have the same value \n(respectivly '+str(start.co[1])+' and '+str(end.co[1])+').'
 				
 				# copy keyframe and normalize settings
+				KFInfoList = []
+				for k in keyframes:
+					KF = {}
+					# get frame
+					# get value
+					# get interpolation
+					# get easing
+					# get left X
+					# get left Y
+					# get right X
+					# get right Y
+					KFInfoList.append(KF)
 				
-				shapes[r] = keyframes
+				
+				shapes[r] = KFInfoList
 		
 		return shapes
 	
