@@ -735,6 +735,17 @@ class CtF(bpy.types.PropertyGroup):
 		if(clip.CtF.uid == '' ):
 			clip.CtF.uid = str(uuid4())
 		
+		self.init_peaks_shape_curve()
+		
+		return {'FINISHED'}
+	
+	
+	
+	
+	def init_peaks_shape_curve( self ):
+		'''restore default peaks shape curve'''
+		clip = self.id_data
+		
 		# initialize peaks shape curve and settings
 		clip.animation_data_create()
 		clip.animation_data.action = bpy.data.actions.new( 
@@ -752,8 +763,6 @@ class CtF(bpy.types.PropertyGroup):
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
 		curve.keyframe_points.insert( 2 , 0 )
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
-		
-		return {'FINISHED'}
 	
 	
 	
