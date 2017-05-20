@@ -846,7 +846,7 @@ class CtF(bpy.types.PropertyGroup):
 		shape_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape' )
 		if shape_curve is None:
-			return 'Error: There is not «Peaks Shapes» curve!'
+			return 'Peaks Shape Error: \nThere is not «Peaks Shapes» curve!'
 		
 		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
@@ -886,7 +886,7 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# avoid end greater than start situation
 			if end <= start:
-				return 'Error at frame '+str(fr)+': peaks shape range is set to start at frame '+str(start)+' and end at frame '+str(end)+': end frame MUST BE GREATER than start frame!'
+				return 'Error at frame '+str(fr)+': \nPeaks shape range is set to start at frame '+str(start)+' and end at frame '+str(end)+': \nend frame MUST BE GREATER than start frame!'
 			
 			# do needed operation if it's a new range
 			r = (start, end)
@@ -903,16 +903,16 @@ class CtF(bpy.types.PropertyGroup):
 				
 				# check there is a keyframe corresponding to start/end frame
 				if keyframes[0].co[0] != start:
-					return 'Error at frame '+str(fr)+': Peaks Shape range is set to start at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
+					return 'Error at frame '+str(fr)+': \nPeaks Shape range is set to start at frame '+str(start)+' \nbut peaks shape curve have no keyframe at this position.'
 				start = keyframes[0]
 				
 				if keyframes[-1].co[0] != end:
-					return 'Error at frame '+str(fr)+': Peaks Shape range is set to end at frame '+str(end)+' but peaks shape curve have no keyframe at this position.'
+					return 'Error at frame '+str(fr)+': \nPeaks Shape range is set to end at frame '+str(end)+' \nbut peaks shape curve have no keyframe at this position.'
 				end = keyframes[-1]
 				
 				# check if first and last keyframe have the same value
 				if end.co[1] != start.co[1]:
-					return 'Error at frame '+str(fr)+': Peaks Shape range is set to start at frame '+str(start.co[0])+' and end at frame '+str(end.co[0])+' but corresponding peaks shape curve keyframe at those positions didn\'t have the same value (respectivly '+str(start.co[1])+' and '+str(end.co[1])+').'
+					return 'Error at frame '+str(int(fr))+':\nPeaks Shape range is set to start at frame '+str(int(start.co[0]))+' and end at frame '+str(int(end.co[0]))+' \nbut corresponding peaks shape curve keyframe at those positions didn\'t have the same value \n(respectivly '+str(start.co[1])+' and '+str(end.co[1])+').'
 				
 				# copy keyframe and normalize settings
 				
