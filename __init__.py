@@ -49,9 +49,12 @@ class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		update_curves(clip.CtF, context)
-		
-		return {'FINISHED'}
+		status = update_curves(clip.CtF, context)
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
 
 
 
@@ -72,9 +75,12 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		update_curves(scene.CtF, context)
-		
-		return {'FINISHED'}
+		status = update_curves(clip.CtF, context)
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
 
 
 
@@ -103,8 +109,12 @@ class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh clip curves'''
-		update_curves(context.space_data.clip.CtF, context)
-		return {'FINISHED'}
+		status = update_curves(context.space_data.clip.CtF, context)
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
 
 
 
@@ -143,8 +153,12 @@ class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh scene curves'''
-		update_curves(context.scene.CtF, context)
-		return {'FINISHED'}
+		status = update_curves(context.scene.CtF, context)
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
 
 
 def getFCurveByDataPath(ob, path):
@@ -263,6 +277,8 @@ def update_curves(self, context):## self correspond to clip.CtF
 	
 	# check and get peaks shapes
 	peak_shapes = self.checkAndGetPeaksShapes()
+	if type(peak_shapes) is str:
+		return peak_shapes
 	
 	# update peaks curve
 	peaks_curve = self.update_peaks_curve(ob, context, amplitude_net_curve)
@@ -279,6 +295,7 @@ def update_curves(self, context):## self correspond to clip.CtF
 		# update output curve
 		self.update_output_curve(ob, context, combination_curve)
 	
+	return True
 
 
 
@@ -1698,7 +1715,12 @@ class CurveToFrame(bpy.types.Operator):
 		bpy.ops.ctf.refresh()
 		clip = context.space_data.clip
 		settings = clip.CtF
-		update_curves(settings, context)
+		status = update_curves(settings, context)
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
 		
 		# check output method
 		if(context.scene.CtFRealCopy):
