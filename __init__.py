@@ -915,12 +915,12 @@ class CtF(bpy.types.PropertyGroup):
 				
 				# copy keyframe and normalize settings
 				KFInfoList = []
-				prev = start
+				prev = start.co[0]
 				for k in keyframes:
 					KF = {}
 					# get frame
 					KF['frame'] = (k.co[0]-prev) / length
-					prev = KF('frame')
+					prev = KF['frame']
 					
 					# get value
 					KF['value'] = k.co[1]
