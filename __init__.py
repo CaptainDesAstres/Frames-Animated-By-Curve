@@ -818,7 +818,7 @@ class CtF(bpy.types.PropertyGroup):
 				'CtF.peaks_shape_range_end' )
 		
 		# get all keyframe time
-		keys = []
+		keys = [0]
 		if start_curve is not None:
 			for k in start_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
@@ -829,14 +829,13 @@ class CtF(bpy.types.PropertyGroup):
 				k.interpolation = 'CONSTANT'
 				keys.append(k.co[0])
 		
-		if len(keys)>0:
-			keys.sort()
-			
-			#avoid double
-			for k in list(keys):
-				if keys.count(k) > 1:
-					keys.remove(k)
-			
+		keys.sort()
+		
+		#avoid double
+		for k in list(keys):
+			if keys.count(k) > 1:
+				keys.remove(k)
+		
 	
 	
 	
