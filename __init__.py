@@ -914,6 +914,10 @@ class CtF(bpy.types.PropertyGroup):
 			if keyframes[-1].co[0] != end:
 				return 'Error: You\'ve set a shape peaks range to end at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
 			
+			# check if first and last keyframe have the same settings
+			
+			# copy keyframe and normalize settings
+			
 			shapes[r] = keyframes
 		return shapes
 	
