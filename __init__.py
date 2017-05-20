@@ -809,9 +809,21 @@ class CtF(bpy.types.PropertyGroup):
 		start_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape_range_start' )
 		
+		
 		end = self.peaks_shape_range_end
 		end_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape_range_end' )
+		
+		# get all keyframe time
+		keys = array('f')
+		if start_curve is not None:
+			for k in start_curve.keyframe_points:
+				k.interpolation = 'CONSTANT'
+		
+		if end_curve is not None:
+			for k in end_curve.keyframe_points:
+				k.interpolation = 'CONSTANT'
+		
 	
 	
 	
