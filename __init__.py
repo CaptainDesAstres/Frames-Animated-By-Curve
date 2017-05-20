@@ -882,6 +882,20 @@ class CtF(bpy.types.PropertyGroup):
 			if r not in ranges:
 				ranges.append(r)
 		
+		# get all shapes settings
+		shapes = {}
+		for r in ranges:
+			keyframes = []
+			start = r[0]
+			end = r[1]
+			
+			# get keyframe between this range
+			for k in shape_curve.keyframe_points:
+				fr = k.co[0]
+				if fr >= start and fr <= end:
+					keyframes.append(k)
+			
+		return shapes
 	
 	
 	
