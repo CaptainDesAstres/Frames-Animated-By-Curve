@@ -899,6 +899,7 @@ class CtF(bpy.types.PropertyGroup):
 			keyframes = []
 			start = r[0]
 			end = r[1]
+			length = end - start
 			
 			# get keyframe between this range
 			for k in shape_curve.keyframe_points:
@@ -913,6 +914,7 @@ class CtF(bpy.types.PropertyGroup):
 			if keyframes[-1].co[0] != end:
 				return 'Error: You\'ve set a shape peaks range to end at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
 			
+			shapes[r] = keyframes
 		return shapes
 	
 	
