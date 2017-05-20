@@ -836,6 +836,18 @@ class CtF(bpy.types.PropertyGroup):
 			if keys.count(k) > 1:
 				keys.remove(k)
 		
+		ranges = []
+		for fr in keys:
+			if start_curve is not None:
+				start = start_curve.evaluate(fr)
+			
+			if end_curve is not None:
+				end = end_curve.evaluate(fr)
+			
+			r = (start, end)
+			if r not in ranges:
+				ranges.append(r)
+		
 	
 	
 	
