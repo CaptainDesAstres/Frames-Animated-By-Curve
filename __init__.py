@@ -1720,8 +1720,14 @@ class CurveToFrame(bpy.types.Operator):
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
-		bpy.ops.ctf.refresh()
+		bpy.ops.clip.reload()# reload source file
 		clip = context.space_data.clip
+		if clip is None:
+			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
+			return {'CANCELLED'}
+		else:
+			clip.CtF.initialize()
+		
 		settings = clip.CtF
 		status = update_curves(settings, context)
 		if status is True:
