@@ -220,7 +220,7 @@ def set_maxi(self, context):
 
 
 
-def update_curves(self, context):
+def update_curves(self, context):## self correspond to clip.CtF
 	'''update curve when settings have been changed'''
 	ob = self.id_data
 	
