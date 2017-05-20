@@ -877,6 +877,7 @@ class CtF(bpy.types.PropertyGroup):
 				keys.remove(k)
 		
 		ranges = []
+		shapes = {}
 		for fr in keys:
 			# get end and start value at this frame
 			if start_curve is not None:
@@ -888,37 +889,35 @@ class CtF(bpy.types.PropertyGroup):
 			if end <= start:
 				return 'Error at frame '+str(fr)+': peaks shape range is set to start at frame '+str(start)+' and end at frame '+str(end)+': end frame MUST BE GREATER than start frame!'
 			
-			# add to range list
+			# do needed operation if it's a new range
 			r = (start, end)
 			if r not in ranges:
+				# add to range list
 				ranges.append(r)
+				keyframes = []
+				length = end - start
+				
+				# get keyframe between this range
+				for k in shape_curve.keyframe_points:
+					fr = k.co[0]
+					if fr >= start and fr <= end:
+						keyframes.append(k)
+				
+				# check there is a keyframe corresponding to start/end frame
+				if keyframes[0].co[0] != start:
+					return 'Error: You\'ve set a shape peaks range to start at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
+				start = keyframes[0]
+				
+				if keyframes[-1].co[0] != end:
+					return 'Error: You\'ve set a shape peaks range to end at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
+				end = keyframes[-1]
+				
+				# check if first and last keyframe have the same settings
+				
+				# copy keyframe and normalize settings
+				
+				shapes[r] = keyframes
 		
-		# get all shapes settings
-		shapes = {}
-		for r in ranges:
-			keyframes = []
-			start = r[0]
-			end = r[1]
-			length = end - start
-			
-			# get keyframe between this range
-			for k in shape_curve.keyframe_points:
-				fr = k.co[0]
-				if fr >= start and fr <= end:
-					keyframes.append(k)
-			
-			# check there is a keyframe corresponding to start/end frame
-			if keyframes[0].co[0] != start:
-				return 'Error: You\'ve set a shape peaks range to start at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
-			
-			if keyframes[-1].co[0] != end:
-				return 'Error: You\'ve set a shape peaks range to end at frame '+str(start)+' but peaks shape curve have no keyframe at this position.'
-			
-			# check if first and last keyframe have the same settings
-			
-			# copy keyframe and normalize settings
-			
-			shapes[r] = keyframes
 		return shapes
 	
 	
