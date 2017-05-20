@@ -746,15 +746,21 @@ class CtF(bpy.types.PropertyGroup):
 		'''restore default peaks shape curve'''
 		clip = self.id_data
 		
-		# initialize peaks shape curve and settings
-		clip.animation_data_create()
-		clip.animation_data.action = bpy.data.actions.new( 
-									name= clip.name+'Action')
+		# erase previous curve
+		curve = getFCurveByDataPath( clip, 'CtF.peaks_shape' )
+		if curve is not None:
+			clip.animation_data.action.fcurves.remove(curve)
 		
-		clip.animation_data.action.fcurves.new(
-									'CtF.peaks_shape')
-		curve = getFCurveByDataPath(clip, 
-									'CtF.peaks_shape')
+		# initialize peaks shape curve and settings
+		if clip.animation_data is None:
+			clip.animation_data_create()
+		
+		if clip.animation_data.action is None:
+			clip.animation_data.action = bpy.data.actions.new( 
+						name= clip.name+'Action')
+		
+		clip.animation_data.action.fcurves.new( 'CtF.peaks_shape' )
+		curve = getFCurveByDataPath( clip, 'CtF.peaks_shape' )
 		
 		# set default profile
 		curve.keyframe_points.insert( 0 , 0 )
