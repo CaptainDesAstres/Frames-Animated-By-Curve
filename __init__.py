@@ -1527,11 +1527,8 @@ class CtF(bpy.types.PropertyGroup):
 		# draw peaks rythm settings
 		self.draw_peaks(layout, refresh_curve )
 		
-		# draw peaks interpolation main settings
-		self.draw_interpolation_main( layout )
-		
-		# draw peaks interpolation top settings
-		self.draw_interpolation_top( layout )
+		# draw peaks profile settings
+		self.draw_peaks_profile( layout, refresh_curve )
 		
 		# draw combination node settings and combination and output value
 		self.draw_combination_and_output( layout, refresh_curve, True )
