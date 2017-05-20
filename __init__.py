@@ -116,7 +116,7 @@ class CtFRestoreDefaultPeakShape(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''restore default peak shape settings'''
-		#ob.init_peaks_shape_curve(context.space_data.clip.CtF)
+		context.space_data.clip.CtF.init_peaks_shape_curve()
 		return {'FINISHED'}
 
 
@@ -129,7 +129,7 @@ class CtFRestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''restore default peak shape settings for multi track'''
-		#ob.init_peaks_shape_curve(context.space_data.clip.CtF)
+		context.scene.CtF.init_peaks_shape_curve()
 		return {'FINISHED'}
 
 
