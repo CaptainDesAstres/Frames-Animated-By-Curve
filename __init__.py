@@ -286,7 +286,8 @@ def update_curves(self, context):## self correspond to clip.CtF
 	
 	
 	# update peaks curve
-	peaks_curve = self.update_peaks_curve(ob, context, amplitude_net_curve)
+	peaks_curve = self.update_peaks_curve(ob, context,
+						amplitude_net_curve, peak_shapes )
 	
 	#update combination curve
 	combination_curve = self.update_combination_curve(
@@ -1343,7 +1344,11 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def update_peaks_curve(self, clip, context, amplitude_net_curve):
+	def update_peaks_curve(self, 
+					clip, 
+					context, 
+					amplitude_net_curve, 
+					shapes ):
 		'''update clip peaks curve'''
 		# remove old peaks
 		peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
