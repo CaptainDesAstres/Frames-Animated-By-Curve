@@ -943,6 +943,11 @@ class CtF(bpy.types.PropertyGroup):
 					
 					KFInfoList.append(KF)
 				
+				# copy first keyframe into last keyframe
+				last = KFInfoList[0].copy()
+				last['frame'] = KFInfoList[-1]['frame']
+				last['left'] = KFInfoList[-1]['left']
+				KFInfoList[-1] = last
 				
 				shapes[r] = KFInfoList
 		
