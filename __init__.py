@@ -648,6 +648,7 @@ class CtF(bpy.types.PropertyGroup):
 				of peaks per minute.',		1),
 			
 			],
+		options = {'LIBRARY_EDITABLE'},
 		update = update_curves
 		)
 	
