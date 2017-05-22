@@ -1370,13 +1370,16 @@ class CtF(bpy.types.PropertyGroup):
 		# get ppm curve and default value
 		ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
 		ppm_value = clip.CtF.ppm
+		
 		# get anticipate curve and default value
 		anticipate_curve = getFCurveByDataPath(clip, 'CtF.anticipate')
 		anticipate_value = clip.CtF.anticipate
 		value = 0
+		
 		if ppm_curve is None and ppm_value <= 0:
 			# ppm isn't animate and is equal to 0, peaks always equal 1
 			peaks_curve.keyframe_points.insert(0, 1)
+			
 		else:
 			# convert all ppm keyframe into constant keyframe
 			if ppm_curve is not None and clip.CtF.auto_constant:
@@ -1394,17 +1397,22 @@ class CtF(bpy.types.PropertyGroup):
 					ppm_value = ppm_curve.evaluate(frame)
 				
 				if ppm_value > 0:
+					
 					if( clip.CtF.synchronized and no_amplitude):
+						
 						if(amplitude_net == 0):
+							
 							# finish last peak if needed
 							if(peaks_curve.keyframe_points[-1].co[1] == 1):
 								peaks_curve.keyframe_points.insert(frame, value)
 								peaks_curve.keyframe_points[-1]\
 										.interpolation = 'CONSTANT'
 								peak = False
+							
 							#continue loop
 							value = 0
 							frame += clip.CtF.accuracy
+							
 						else:
 							# get anticipate value at this frame
 							if anticipate_curve is not None:
@@ -1424,6 +1432,7 @@ class CtF(bpy.types.PropertyGroup):
 							# keyframe is considered as starting keyframe
 							if( last_KF > starting_frame ):
 								value = peaks_curve.keyframe_points[-1].co[1]
+								
 								if value == 0:
 									value = 1
 								else:
@@ -1431,12 +1440,16 @@ class CtF(bpy.types.PropertyGroup):
 								
 								# set keyframe interpolation
 								right = interval / 2
+								
 								if len(peaks_curve.keyframe_points) > 1:
 									left = (last_KF - 
 												peaks_curve.keyframe_points[-2].co[0] ) / 2
+									
 								else:
 									left = right
+									
 								mold_peaks(  )
+								
 							else:
 								frame = starting_frame
 							
@@ -1454,7 +1467,9 @@ class CtF(bpy.types.PropertyGroup):
 								value = 1
 							else:
 								value = 0
+							
 							peak = True
+							
 					else:# ppm<=0
 						# add keyframe
 						peaks_curve.keyframe_points.insert(frame, value)
@@ -1462,10 +1477,13 @@ class CtF(bpy.types.PropertyGroup):
 						# set keyframe interpolation
 						interval = 60 / ppm_value * fps / 2
 						right = interval / 2
+						
 						if len(peaks_curve.keyframe_points) > 1:
 							left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
+							
 						else:
 							left = right
+							
 						mold_peaks()
 						
 						# next frame
@@ -1476,42 +1494,55 @@ class CtF(bpy.types.PropertyGroup):
 							value = 1
 						else:
 							value = 0
+						
 						peak = True
+						
 				elif(peak):# ppm<=0 but peak == True
 					# add keyframe
 					if ppm_value == 0:
+						
 						if value == 0:
 							peaks_curve.keyframe_points.insert(frame, 0)
+						
 						value = 0
+						
 					else: # (ppm<0)
 						if value == 1:
 							peaks_curve.keyframe_points.insert(frame, 1)
+							
 						value = 1
+						
 					
 					peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
 					
 					# next frame
 					frame += clip.CtF.accuracy
 					peak = False
+					
 				else:# ppm<=0 and not in a peak
 					if ppm_value == 0 and value == 1:
 						peaks_curve.keyframe_points.insert(frame, 0)
 						peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
 						value = 0
+					
 					if ppm_value < 0 and value == 0:
 						peaks_curve.keyframe_points.insert(frame, 1)
 						peaks_curve.keyframe_points[-1].interpolation = 'CONSTANT'
 						value = 1
+					
 					frame += clip.CtF.accuracy
+					
 				no_amplitude = (amplitude_net == 0)
 			
 			# add last keyframe
 			peaks_curve.keyframe_points.insert(frame, value)
+			
 			# set keyframe interpolation
 			if len(peaks_curve.keyframe_points) > 1:
 				left = (frame - peaks_curve.keyframe_points[-2].co[0]) / 2
 			else:
 				left = interval / 2
+			
 			right = left
 			mold_peaks()
 		
