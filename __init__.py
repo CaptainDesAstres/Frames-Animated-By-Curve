@@ -631,10 +631,30 @@ class CtF(bpy.types.PropertyGroup):
 		description = "peaks rate",
 		default = 0)
 	
+	rate_unit = bpy.props.EnumProperty(
+		name = 'Peaks rate unit',
+		description = 'which unit is usedd to define Peaks Rate',
+		default = 'frame',
+		items = [
+#			(identifier,			name,
+#				description, number)
+			
+			('frame',		'Frames',
+				'Peaks rate is define in terms of \
+				peaks frame length.',				0),
+			
+			('ppm',		'Peaks Per Minute',
+				'Peaks rate is define in terms of number \
+				of peaks per minute.',		1),
+			
+			],
+		update = update_curves
+		)
+	
 	# automatically use constant for rate curve interpolation
 	auto_constant = bpy.props.BoolProperty(
 		name="constant", 
-		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
+		description="While animating rate value in «Peaks Per Minute» rate unit, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
 		options = {'LIBRARY_EDITABLE'},
 		default = True)
 	
