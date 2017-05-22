@@ -1122,6 +1122,8 @@ class CtF(bpy.types.PropertyGroup):
 		col = row.column()
 		col.prop(self, "rate")
 		col = row.column()
+		col.prop(self, "rate_unit", text='')
+		col = row.column()
 		col.prop(self, "auto_constant")
 		col = row.column()
 		col.prop(self, "accuracy")
