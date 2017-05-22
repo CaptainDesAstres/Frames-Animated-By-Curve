@@ -1455,7 +1455,7 @@ class CtF(bpy.types.PropertyGroup):
 							else:
 								value = 0
 							peak = True
-					else:
+					else:# ppm<=0
 						# add keyframe
 						peaks_curve.keyframe_points.insert(frame, value)
 						
