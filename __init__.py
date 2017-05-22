@@ -846,7 +846,8 @@ class CtF(bpy.types.PropertyGroup):
 		shape_curve = getFCurveByDataPath( ob, 
 				'CtF.peaks_shape' )
 		if shape_curve is None:
-			return 'Peaks Shape Error: \nThere is not «Peaks Shapes» curve!'
+			self.init_peaks_shape_curve()
+			shape_curve = getFCurveByDataPath( ob, 'CtF.peaks_shape' )
 		
 		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
