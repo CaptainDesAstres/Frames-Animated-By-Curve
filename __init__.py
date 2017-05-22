@@ -626,12 +626,12 @@ class CtF(bpy.types.PropertyGroup):
 	#################################################
 	
 	# peaks per minute settings
-	ppm = bpy.props.FloatProperty(
-		name = "ppm",
-		description = "peaks per minute",
+	rate = bpy.props.FloatProperty(
+		name = "rate",
+		description = "peaks rate",
 		default = 0)
 	
-	# automatically use constant for ppm curve interpolation
+	# automatically use constant for rate curve interpolation
 	auto_constant = bpy.props.BoolProperty(
 		name="constant", 
 		description="While animating pmm value, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
@@ -648,7 +648,7 @@ class CtF(bpy.types.PropertyGroup):
 	# accuracy of peak synchronisation
 	accuracy = bpy.props.FloatProperty(
 		name = "accuracy",
-		description = "gap between two evaluation of ppm to check if ppm<=0",
+		description = "gap between two evaluation when rate is less or equal to 0",
 		options = {'LIBRARY_EDITABLE'},
 		default = 0.1,
 		min = 0.0001,
@@ -666,7 +666,7 @@ class CtF(bpy.types.PropertyGroup):
 	peaks = bpy.props.FloatProperty(
 		name = "peaks",
 		description = "Only to visualize the peaks curve. \
-					Can't be edit manually: use ppm settings.",
+					Can't be edit manually: use rate settings.",
 		default = 1,
 		min = 0,
 		max = 1)
@@ -705,7 +705,7 @@ class CtF(bpy.types.PropertyGroup):
 		name = "combination",
 		description = "Only to visualize the combination of \
 					peaks and amplitude curve curve. Can't \
-					be edit manually: use ppm and amplitude settings.",
+					be edit manually: use rate and amplitude settings.",
 		default = 0,
 		min = 0,
 		max = 1)
@@ -1100,7 +1100,7 @@ class CtF(bpy.types.PropertyGroup):
 		layout.separator()
 		row = layout.row()
 		col = row.column()
-		col.prop(self, "ppm")
+		col.prop(self, "rate")
 		col = row.column()
 		col.prop(self, "auto_constant")
 		col = row.column()
@@ -1367,13 +1367,13 @@ class CtF(bpy.types.PropertyGroup):
 		frame = start = context.scene.frame_start
 		end = context.scene.frame_end
 		
-		# get ppm curve and default value
-		ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
-		ppm_value = clip.CtF.ppm
+		# get rate curve and default value
+		rate_curve = getFCurveByDataPath(clip, 'CtF.rate')
+		rate_value = clip.CtF.rate
 		
 		
-		if ppm_curve is None and ppm_value <= 0:
-			# ppm isn't animate and is equal to 0, peaks always equal 1
+		if rate_curve is None and rate_value <= 0:
+			# rate isn't animate and is equal to 0, peaks always equal 1
 			peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			peaks_curve.keyframe_points.insert(0, 0)
@@ -1413,8 +1413,8 @@ class CtF(bpy.types.PropertyGroup):
 		combination_curve = getFCurveByDataPath(clip, 
 									'CtF.combination')
 		
-		# get ppm curve
-		ppm_curve = getFCurveByDataPath(clip, 'CtF.ppm')
+		# get rate curve
+		rate_curve = getFCurveByDataPath(clip, 'CtF.rate')
 		
 		# loop only on peak curve keyframe
 		for keyframe in peaks_curve.keyframe_points:
