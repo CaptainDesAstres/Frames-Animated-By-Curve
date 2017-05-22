@@ -276,13 +276,14 @@ def update_curves(self, context):## self correspond to clip.CtF
 		ob.animation_data.action = bpy.data.actions.new( 
 									name= ob.name+'Action')
 	
-	# update amplitude net curve
-	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
-	
 	# check and get peaks shapes
 	peak_shapes = self.checkAndGetPeaksShapes()
 	if type(peak_shapes) is str:
 		return peak_shapes
+	
+	# update amplitude net curve
+	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
+	
 	
 	# update peaks curve
 	peaks_curve = self.update_peaks_curve(ob, context, amplitude_net_curve)
