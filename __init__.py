@@ -920,7 +920,7 @@ class CtF(bpy.types.PropertyGroup):
 					KF = {}
 					# get frame
 					KF['frame'] = (k.co[0]-prev) / length
-					prev = KF['frame']
+					prev = k.co[0]
 					
 					# get value
 					KF['value'] = k.co[1]
