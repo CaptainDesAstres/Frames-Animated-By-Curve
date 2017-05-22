@@ -1470,7 +1470,7 @@ class CtF(bpy.types.PropertyGroup):
 							
 							peak = True
 							
-					else:# ppm<=0
+					else:# not( clip.CtF.synchronized and no_amplitude)
 						# add keyframe
 						peaks_curve.keyframe_points.insert(frame, value)
 						
