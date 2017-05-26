@@ -1555,11 +1555,14 @@ class CtF(bpy.types.PropertyGroup):
 				
 				if rate > 0 and clip.CtF.rate_unit == 'ppm':
 					rate = fps * 60 / rate
-			
-			
-			# get next shape keyframe
-			shape_KF = shapes[current_shape][shape_key]
-			frame += shape_KF['frame'] * rate
+				
+				# start a new peaks
+				shape_key = 0
+				hape_KF = shapes[current_shape][shape_key]
+			else:
+				# get next shape keyframe
+				shape_KF = shapes[current_shape][shape_key]
+				frame += shape_KF['frame'] * rate
 			
 	
 	
