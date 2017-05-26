@@ -1634,8 +1634,25 @@ class CtF(bpy.types.PropertyGroup):
 		l = len(shape)-1
 		while(shape_key < l):
 			# insert anticipated keyframe
-			peaks_curve.keyframe_points.insert( frame, KF['value'])
+			keyframe = peaks_curve.keyframe_points.insert( frame, KF['value'])
 			
+			# set handle and interpolation settings
+			keyframe.handle_left_type = 'FREE'
+			keyframe.handle_left[0] = keyframe.co[0] \
+																+ KF['left'][0] * rate
+			keyframe.handle_left[1] = keyframe.co[1] \
+																+ KF['left'][1]
+			
+			keyframe.handle_right_type = 'FREE'
+			keyframe.handle_right[0] = keyframe.co[0] \
+																+ KF['right'][0] * rate
+			keyframe.handle_right[1] = keyframe.co[1] \
+																+ KF['right'][1]
+			
+			keyframe.interpolation = KF['interpolation']
+			keyframe.easing = KF['easing']
+			
+			# next keyframe
 			shape_key += 1
 			KF = shape[shape_key]
 			frame += KF['frame'] * rate
