@@ -1506,11 +1506,51 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# get default rate
 		rate = clip.CtF.rate
+		if rate_curve is not None:
+			rate = rate_curve.evaluate( start )
+		
+		# get real starting frame
+		frame = start
+		while rate <= 0:
+			frame += clip.CtF.accuracy
+			
+			if rate == 0:
+				keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
+				test = True
+			else:
+				keyframe = peaks_curve.keyframe_points.insert( frame, 1 )
+				test = False
+			
+			keyframe.interpolation = 'CONSTANT'
+			
+			rate = rate_curve.evaluate( frame )
+			while( rate <= 0 and ((rate == 0) == test) and frame <= end ):
+				frame += clip.CtF.accuracy
+				rate = rate_curve.evaluate( frame )
+			
+			if frame >= end:
+				return frame
+			
+			if rate > 0 and clip.CtF.rate_unit == 'ppm':
+				rate = fps * 60 / rate
+			
+			# start a new peaks
+			shape_key = 0
+			
+			# get new range
+			if shape_start_curve is not None:
+				shape_start = shape_start_curve.evaluate( frame )
+			if shape_end_curve is not None:
+				shape_end = shape_end_curve.evaluate( frame )
+			current_shape = ( shape_start, shape_end )
+			
+			shape_KF = shapes[current_shape][shape_key]
+		
+		# convert rate if in ppm
 		if clip.CtF.rate_unit == 'ppm':
 			rate = fps * 60 / rate
 		
 		# generate the segment
-		frame = start
 		while( True ):
 			# insert keyframe
 			keyframe = peaks_curve.keyframe_points.insert( frame,
@@ -1597,7 +1637,7 @@ class CtF(bpy.types.PropertyGroup):
 					shape_end = shape_end_curve.evaluate( frame )
 				current_shape = ( shape_start, shape_end )
 				
-				hape_KF = shapes[current_shape][shape_key]
+				shape_KF = shapes[current_shape][shape_key]
 			else:
 				# get next shape keyframe
 				shape_KF = shapes[current_shape][shape_key]
