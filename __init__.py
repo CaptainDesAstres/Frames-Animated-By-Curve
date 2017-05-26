@@ -1402,7 +1402,8 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# rate_curve is animated
-			self.generate_peaks_curve_segment(
+			CtF.generate_peaks_curve_segment(
+						context,
 						clip,
 						peaks_curve,
 						shapes,
@@ -1421,6 +1422,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def generate_sync_peaks_curve(
+				context,
 				clip,
 				peaks_curve,
 				shapes,
@@ -1435,6 +1437,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def generate_peaks_curve_segment(
+						context,
 						clip,
 						peaks_curve,
 						shapes,
