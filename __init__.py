@@ -1465,10 +1465,10 @@ class CtF(bpy.types.PropertyGroup):
 			while amplitude != 0 and seg_end <= end:
 				seg_end += clip.CtF.accuracy
 				amplitude = amplitude_net_curve.evaluate(seg_end)
-		
-		CtF.generate_peaks_curve_segment( context, clip,
-				peaks_curve, shapes, rate_curve, seg_start, end
-				)
+			
+			seg_start = CtF.generate_peaks_curve_segment( 
+							context, clip, peaks_curve, shapes, rate_curve,
+							seg_start, seg_end )
 	
 	
 	
