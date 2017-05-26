@@ -1614,6 +1614,15 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve
 				):
 		'''generate anticipated peaks keyframe'''
+		# get anticipate settings
+		anticipate_curve = getFCurveByDataPath( clip, 
+				'CtF.anticipate' )
+		if anticipate_curve is None:
+			anticipate = clip.CtF.anticipate
+		else:
+			anticipate = anticipate_curve.evaluate(start)
+		
+		
 		shape_key = 0
 		
 		
