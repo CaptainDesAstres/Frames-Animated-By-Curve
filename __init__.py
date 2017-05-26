@@ -1520,9 +1520,18 @@ class CtF(bpy.types.PropertyGroup):
 		else:
 			shape_end = shape_end_curve.evaluate( start )
 		
-		# initial range and key frame and get shape keyframe
+		# initial range and key frame
 		current_shape = ( shape_start, shape_end )
 		shape_key = 0
+		
+		# generate anticipated keyframe
+		if anticipate:
+			frame, shape_key = CtF.generate_anticipated_peaks(
+							clip, shapes[current_shape],
+							frame, peaks_curve
+							)
+		
+		# get shape keyframe
 		shape_KF = shapes[current_shape][shape_key]
 		
 		# generate the segment
@@ -1591,6 +1600,22 @@ class CtF(bpy.types.PropertyGroup):
 				shape_KF = shapes[current_shape][shape_key]
 				frame += shape_KF['frame'] * rate
 		return frame
+	
+	
+	
+	
+	
+	def generate_anticipated_peaks(
+				clip,
+				shape,
+				frame,
+				peaks_curve
+				):
+		'''generate anticipated peaks keyframe'''
+		shape_key = 0
+		
+		
+		return frame, shape_key
 	
 	
 	
