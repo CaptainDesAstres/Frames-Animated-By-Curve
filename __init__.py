@@ -1389,7 +1389,7 @@ class CtF(bpy.types.PropertyGroup):
 		rate_value = clip.CtF.rate
 		
 		# convert rate_curve to constant interpolation
-		if clip.CtF.auto_constant:
+		if clip.CtF.auto_constant and rate_curve is not None:
 			for k in rate_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
 		
