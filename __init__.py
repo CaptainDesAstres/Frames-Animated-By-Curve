@@ -1477,7 +1477,7 @@ class CtF(bpy.types.PropertyGroup):
 		if clip.CtF.rate_unit == 'ppm':
 			rate = fps * 60 / rate
 		
-		#generate the segment
+		# generate the segment
 		frame = start
 		while(frame <= end or shape_key !=1 ):
 			# get shape keyframe
@@ -1487,6 +1487,7 @@ class CtF(bpy.types.PropertyGroup):
 			peaks_curve.keyframe_points.insert( frame,
 					shape_KF['value'] )
 			
+			# get rate value
 			if rate_curve is not None:
 				rate = rate_curve.evaluate( frame )
 				if clip.CtF.rate_unit == 'ppm':
@@ -1494,7 +1495,11 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# increment shape_key
 			shape_key += 1
-
+			if shape_key > len(shapes[current_shape]):
+				# peaks end
+			else:
+				# peaks continuation
+	
 	
 	
 	
