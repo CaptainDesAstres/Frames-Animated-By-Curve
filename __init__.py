@@ -678,9 +678,10 @@ class CtF(bpy.types.PropertyGroup):
 	# anticipate amplitude rebounce when synchronized
 	anticipate = bpy.props.FloatProperty(
 		name = "anticipate",
-		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks zenit will be exactly when amplitude start to be over 0.",
+		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks end exactly when amplitude start to be over 0.",
 		default = 0,
-		min = 0)
+		min = 0,
+		max=1)
 	
 	# peaks curve obtain by applying settings
 	peaks = bpy.props.FloatProperty(
