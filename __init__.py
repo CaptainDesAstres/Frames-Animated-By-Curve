@@ -1513,7 +1513,14 @@ class CtF(bpy.types.PropertyGroup):
 				current_shape = ( shape_start, shape_end )
 				shape_KF = shapes[current_shape][shape_key]
 				
-				
+				# add a keyframe if new peaks keyframe value different 
+				#    from the last of the previous peaks
+				if( shape_KF['value'] != keyframe.co[1] ):
+					frame += 0.0001
+					keyframe.interpolation = 'LINEAR'
+					
+					keyframe = peaks_curve.keyframe_points.insert(
+							frame, shape_KF['value'] )
 				
 			else:
 				# peaks continuation
@@ -1527,7 +1534,8 @@ class CtF(bpy.types.PropertyGroup):
 				# set right interpolation and easing
 				keyframe.interpolation = shape_KF['interpolation']
 				keyframe.easing = shape_KF['easing']
-				
+			
+			
 	
 	
 	
