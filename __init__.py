@@ -1630,6 +1630,15 @@ class CtF(bpy.types.PropertyGroup):
 		# don't start peaks before last peaks_curve keyframe
 		frame = max(frame, peaks_curve.keyframe_points[-1].co[0] + 0.01 )
 		
+		KF = shape[shape_key]
+		l = len(shape)-1
+		while(shape_key < l):
+			# insert anticipated keyframe
+			peaks_curve.keyframe_points.insert( frame, KF['value'])
+			
+			shape_key += 1
+			KF = shape[shape_key]
+			frame += KF['frame'] * rate
 		
 		return frame, shape_key
 	
