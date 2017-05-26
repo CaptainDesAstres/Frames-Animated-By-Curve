@@ -1455,11 +1455,17 @@ class CtF(bpy.types.PropertyGroup):
 		# get peaks shape settings
 		shape_start_curve =  getFCurveByDataPath( clip, 
 				'CtF.peaks_shape_range_start' )
-		shape_start = clip.CtF.peaks_shape_range_start
+		if shape_start_curve is None:
+			shape_start = clip.CtF.peaks_shape_range_start
+		else:
+			shape_start = shape_start_curve.evaluate( start )
 		
 		shape_end_curve = getFCurveByDataPath( clip, 
 				'CtF.peaks_shape_range_end' )
-		shape_end = clip.CtF.peaks_shape_range_end
+		if shape_end_curve is None:
+			shape_end = clip.CtF.peaks_shape_range_end
+		else:
+			shape_end = shape_end_curve.evaluate( start )
 		
 		current_shape = ( shape_start, shape_end )
 		shape_key = 0
