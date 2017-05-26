@@ -1627,6 +1627,9 @@ class CtF(bpy.types.PropertyGroup):
 		frame = start
 		frame -= anticipate * rate
 		
+		# don't start peaks before last peaks_curve keyframe
+		frame = max(frame, peaks_curve.keyframe_points[-1].co[0] + 0.01 )
+		
 		
 		return frame, shape_key
 	
