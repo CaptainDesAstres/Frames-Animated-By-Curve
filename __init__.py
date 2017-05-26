@@ -1609,7 +1609,7 @@ class CtF(bpy.types.PropertyGroup):
 	def generate_anticipated_peaks(
 				clip,
 				shape,
-				frame,
+				start,
 				rate,
 				peaks_curve
 				):
@@ -1622,8 +1622,10 @@ class CtF(bpy.types.PropertyGroup):
 		else:
 			anticipate = anticipate_curve.evaluate(start)
 		
-		
+		# init frame and shape key
 		shape_key = 0
+		frame = start
+		frame -= anticipate * rate
 		
 		
 		return frame, shape_key
