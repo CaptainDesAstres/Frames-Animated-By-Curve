@@ -1549,7 +1549,7 @@ class CtF(bpy.types.PropertyGroup):
 				keyframe.interpolation = 'CONSTANT'
 				
 				rate = rate_curve.evaluate( frame )
-				while( ((rate == 0) == test) and frame <= end ):
+				while( rate <= 0 and ((rate == 0) == test) and frame <= end ):
 					frame += clip.CtF.accuracy
 					rate = rate_curve.evaluate( frame )
 				
