@@ -1515,7 +1515,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# generate the segment
 		frame = start
-		while(frame <= end or shape_key != 1 ):
+		while( True ):
 			# insert keyframe
 			keyframe = peaks_curve.keyframe_points.insert( frame,
 					shape_KF['value'] )
@@ -1526,6 +1526,9 @@ class CtF(bpy.types.PropertyGroup):
 																+ shape_KF['left'][0] * rate
 			keyframe.handle_left[1] = keyframe.co[1] \
 																+ shape_KF['left'][1]
+			
+			if frame >= end :
+				return frame
 			
 			# get rate value
 			if rate_curve is not None:
