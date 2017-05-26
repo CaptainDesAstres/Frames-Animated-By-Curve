@@ -1452,6 +1452,17 @@ class CtF(bpy.types.PropertyGroup):
 		# get frame rate and start/end frame
 		fps = context.scene.render.fps
 		
+		# get peaks shape settings
+		shape_start_curve =  getFCurveByDataPath( clip, 
+				'CtF.peaks_shape_range_start' )
+		shape_start = clip.CtF.peaks_shape_range_start
+		
+		shape_end_curve = getFCurveByDataPath( clip, 
+				'CtF.peaks_shape_range_end' )
+		shape_end = clip.CtF.peaks_shape_range_end
+		
+		current_shape = ( shape_start, shape_end )
+		shape_key = 0
 	
 	
 	
