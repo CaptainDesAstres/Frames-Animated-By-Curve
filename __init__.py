@@ -1519,7 +1519,7 @@ class CtF(bpy.types.PropertyGroup):
 				# add a keyframe if new peaks keyframe value different 
 				#    from the last of the previous peaks
 				if( shape_KF['value'] != keyframe.co[1] ):
-					frame += 0.0001
+					frame += 0.01
 					keyframe.interpolation = 'LINEAR'
 					
 					keyframe = peaks_curve.keyframe_points.insert(
