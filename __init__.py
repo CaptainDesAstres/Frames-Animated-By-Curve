@@ -1482,27 +1482,11 @@ class CtF(bpy.types.PropertyGroup):
 		# get frame rate and start/end frame
 		fps = context.scene.render.fps
 		
-		# get peaks shape start range
+		# get peaks shape range start/end curve
 		shape_start_curve =  getFCurveByDataPath( clip, 
 				'CtF.peaks_shape_range_start' )
-		if shape_start_curve is None:
-			shape_start = clip.CtF.peaks_shape_range_start
-		else:
-			shape_start = shape_start_curve.evaluate( start )
-		
-		# get peaks shape end range
 		shape_end_curve = getFCurveByDataPath( clip, 
 				'CtF.peaks_shape_range_end' )
-		if shape_end_curve is None:
-			shape_end = clip.CtF.peaks_shape_range_end
-		else:
-			shape_end = shape_end_curve.evaluate( start )
-		
-		# initial range and key frame
-		current_shape = ( shape_start, shape_end )
-		shape_key = 0
-		# get shape keyframe
-		shape_KF = shapes[current_shape][shape_key]
 		
 		# get default rate
 		rate = clip.CtF.rate
@@ -1522,6 +1506,23 @@ class CtF(bpy.types.PropertyGroup):
 		# convert rate if in ppm
 		if clip.CtF.rate_unit == 'ppm':
 			rate = fps * 60 / rate
+		
+		# get peaks shape start range
+		if shape_start_curve is None:
+			shape_start = clip.CtF.peaks_shape_range_start
+		else:
+			shape_start = shape_start_curve.evaluate( start )
+		
+		# get peaks shape end range
+		if shape_end_curve is None:
+			shape_end = clip.CtF.peaks_shape_range_end
+		else:
+			shape_end = shape_end_curve.evaluate( start )
+		
+		# initial range and key frame and get shape keyframe
+		current_shape = ( shape_start, shape_end )
+		shape_key = 0
+		shape_KF = shapes[current_shape][shape_key]
 		
 		# generate the segment
 		while( True ):
