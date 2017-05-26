@@ -1558,6 +1558,14 @@ class CtF(bpy.types.PropertyGroup):
 				
 				# start a new peaks
 				shape_key = 0
+				
+				# get new range
+				if shape_start_curve is not None:
+					shape_start = shape_start_curve.evaluate( frame )
+				if shape_end_curve is not None:
+					shape_end = shape_end_curve.evaluate( frame )
+				current_shape = ( shape_start, shape_end )
+				
 				hape_KF = shapes[current_shape][shape_key]
 			else:
 				# get next shape keyframe
