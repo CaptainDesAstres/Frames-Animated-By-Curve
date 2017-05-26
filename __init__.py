@@ -1437,8 +1437,20 @@ class CtF(bpy.types.PropertyGroup):
 				end
 				):
 		'''generate the peaks curve when synchronized with amplitude'''
+		# get first segment starting frame
+		seg_start = start
+		amplitude = amplitude_net_curve.evaluate(seg_start)
+		if amplitude == 0:
+			peaks_curve.keyframe_points.insert( seg_start, 0 )
+			while amplitude == 0 and seg_start <= end:
+				seg_start += clip.CtF.accuracy
+				amplitude = amplitude_net_curve.evaluate(seg_start)
+			anticipate = True
+		else:
+			anticipate = False
+		
 		CtF.generate_peaks_curve_segment( context, clip,
-				peaks_curve, shapes, rate_curve, start, end
+				peaks_curve, shapes, rate_curve, seg_start, end
 				)
 	
 	
