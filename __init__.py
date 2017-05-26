@@ -2146,6 +2146,22 @@ class TracksPanel(bpy.types.Panel):
 
 
 
+def avoid_useless_keyframe( curve ):
+	'''erase useless keyframe of a curve'''
+	k = 1
+	while(k < len(curve.keyframe_points)-1 ):
+		prev = curve.keyframe_points[ k-1 ]
+		cur = curve.keyframe_points[ k ]
+		next = curve.keyframe_points[ k+1 ]
+		if( prev.co[1] == cur.co[1] and cur.co[1] == next.co[1] ):
+			curve.keyframe_points.remove( cur )
+		else:
+			k += 1
+
+
+
+
+
 def register():
 	'''addon register'''
 	bpy.utils.register_class(CtFRestoreDefaultPeakShape)
