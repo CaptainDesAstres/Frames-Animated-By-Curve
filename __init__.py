@@ -1541,15 +1541,15 @@ class CtF(bpy.types.PropertyGroup):
 				
 				if rate == 0:
 					keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
-					test = 0
+					test = True
 				else:
 					keyframe = peaks_curve.keyframe_points.insert( frame, 1 )
-					test = 1
+					test = False
 				
 				keyframe.interpolation = 'CONSTANT'
 				
 				rate = rate_curve.evaluate( frame )
-				while( rate == test and frame <= end ):
+				while( ((rate == 0) == test) and frame <= end ):
 					frame += clip.CtF.accuracy
 					rate = rate_curve.evaluate( frame )
 				
