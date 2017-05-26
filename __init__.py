@@ -1529,7 +1529,7 @@ class CtF(bpy.types.PropertyGroup):
 		if anticipate:
 			frame, shape_key = CtF.generate_anticipated_peaks(
 							clip, shapes[current_shape],
-							frame, peaks_curve
+							frame, rate, peaks_curve
 							)
 		
 		# get shape keyframe
@@ -1610,6 +1610,7 @@ class CtF(bpy.types.PropertyGroup):
 				clip,
 				shape,
 				frame,
+				rate,
 				peaks_curve
 				):
 		'''generate anticipated peaks keyframe'''
