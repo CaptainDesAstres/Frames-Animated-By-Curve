@@ -1358,6 +1358,18 @@ class CtF(bpy.types.PropertyGroup):
 			
 			frame += 1
 		
+		#erase keyframe on flat section
+		k = 1
+		while(k < len(amplitude_net_curve.keyframe_points)-1 ):
+			prev = amplitude_net_curve.keyframe_points[ k-1 ]
+			cur = amplitude_net_curve.keyframe_points[ k ]
+			next = amplitude_net_curve.keyframe_points[ k+1 ]
+			if( prev.co[1] == cur.co[1] and cur.co[1] == next.co[1] ):
+				amplitude_net_curve.keyframe_points.remove( cur )
+			else:
+				k += 1
+		
+		
 		# prevent curve edition
 		amplitude_net_curve.lock = True
 		amplitude_net_curve.hide = hide
