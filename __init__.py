@@ -1395,10 +1395,15 @@ class CtF(bpy.types.PropertyGroup):
 		
 		
 		if rate_curve is None and rate_value <= 0:
-			# rate isn't animate and is equal to 0, peaks always equal 1
-			peaks_curve.keyframe_points.insert(0, 1)
+			if rate_value == 0:
+				# 0 valued flat peaks curve
+				peaks_curve.keyframe_points.insert(0, 0)
+			else:
+				# 1 valued flat peaks curve
+				peaks_curve.keyframe_points.insert(0, 1)
 		else:
-			peaks_curve.keyframe_points.insert(0, 0)
+			# rate_curve is animated
+			peaks_curve.keyframe_points.insert(0, 1)
 		
 		# prevent curve edition
 		peaks_curve.lock = True
