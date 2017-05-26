@@ -1505,6 +1505,17 @@ class CtF(bpy.types.PropertyGroup):
 				# peaks end
 			else:
 				# peaks continuation
+				
+				# set right handle of keyframe
+				keyframe.handle_right[0] = keyframe.co[0] \
+																	+ shape_KF['right'][0] * rate
+				keyframe.handle_right[1] = keyframe.co[1] \
+																	+ shape_KF['right'][1]
+				
+				# set right interpolation and easing
+				keyframe.interpolation = shape_KF['interpolation']
+				keyframe.easing = shape_KF['easing']
+				
 	
 	
 	
