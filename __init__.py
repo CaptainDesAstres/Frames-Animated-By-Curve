@@ -1420,6 +1420,20 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def generate_sync_peaks_curve(
+				clip,
+				peaks_curve,
+				shapes,
+				rate_curve,
+				start,
+				end
+				):
+		'''generate the peaks curve when synchronized with amplitude'''
+		
+	
+	
+	
+	
 	def generate_peaks_curve_segment(
 						clip,
 						peaks_curve,
