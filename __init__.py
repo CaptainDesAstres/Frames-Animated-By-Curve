@@ -1496,6 +1496,7 @@ class CtF(bpy.types.PropertyGroup):
 		# get real starting frame
 		frame = start
 		if rate <= 0:
+			anticipate = False
 			frame, current_shape, shape_KF, rate =\
 						CtF.generate_no_peaks_segment( clip, rate_curve,
 								peaks_curve, shape_start_curve, shape_end_curve,
