@@ -1531,6 +1531,15 @@ class CtF(bpy.types.PropertyGroup):
 			keyframe.interpolation = shape_KF['interpolation']
 			keyframe.easing = shape_KF['easing']
 			
+			if rate <= 0:
+				frame += clip.CtF.accuracy
+				if rate == 0:
+					keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
+				else:
+					keyframe = peaks_curve.keyframe_points.insert( frame, 1 )
+				keyframe.interpolation = 'CONSTANT'
+			
+			
 			# get next shape keyframe
 			shape_KF = shapes[current_shape][shape_key]
 			frame += shape_KF['frame'] * rate
