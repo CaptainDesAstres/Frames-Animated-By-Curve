@@ -1496,7 +1496,7 @@ class CtF(bpy.types.PropertyGroup):
 			# get rate value
 			if rate_curve is not None:
 				rate = rate_curve.evaluate( frame )
-				if clip.CtF.rate_unit == 'ppm':
+				if rate > 0 and clip.CtF.rate_unit == 'ppm':
 					rate = fps * 60 / rate
 			
 			# peaks end instructions
@@ -1531,13 +1531,25 @@ class CtF(bpy.types.PropertyGroup):
 			keyframe.interpolation = shape_KF['interpolation']
 			keyframe.easing = shape_KF['easing']
 			
-			if rate <= 0:
+			while rate <= 0:
 				frame += clip.CtF.accuracy
+				
 				if rate == 0:
 					keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
+					test = 0
 				else:
 					keyframe = peaks_curve.keyframe_points.insert( frame, 1 )
+					test = 1
+				
 				keyframe.interpolation = 'CONSTANT'
+				
+				rate = rate_curve.evaluate( frame )
+				while( rate == test and frame <= end ):
+					frame += clip.CtF.accuracy
+					rate = rate_curve.evaluate( frame )
+				
+				if rate > 0 and clip.CtF.rate_unit == 'ppm':
+					rate = fps * 60 / rate
 			
 			
 			# get next shape keyframe
