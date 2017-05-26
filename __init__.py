@@ -1537,7 +1537,7 @@ class CtF(bpy.types.PropertyGroup):
 																+ shape_KF['left'][1]
 			
 			if frame >= end :
-				return frame
+				return frame + 0.01
 			
 			# get rate value
 			if rate_curve is not None:
