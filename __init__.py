@@ -955,12 +955,12 @@ class CtF(bpy.types.PropertyGroup):
 					KF['easing'] = k.easing
 					
 					# get left X and Y
-					y = k.handle_left[1]
+					y = k.handle_left[1] - k.co[1]
 					x = ( k.handle_left[0] - k.co[0] ) / length
 					KF['left'] = ( x, y )
 					
 					# get right X and Y
-					y = k.handle_right[1]
+					y = k.handle_right[1] - k.co[1]
 					x = ( k.handle_right[0] - k.co[0] ) / length
 					KF['right'] = ( x, y )
 					
@@ -1487,6 +1487,7 @@ class CtF(bpy.types.PropertyGroup):
 					shape_KF['value'] )
 			
 			# set left handle of keyframe
+			keyframe.handle_left_type = 'FREE'
 			keyframe.handle_left[0] = keyframe.co[0] \
 																+ shape_KF['left'][0] * rate
 			keyframe.handle_left[1] = keyframe.co[1] \
@@ -1520,6 +1521,7 @@ class CtF(bpy.types.PropertyGroup):
 							frame, shape_KF['value'] )
 			
 			# set right handle of keyframe
+			keyframe.handle_right_type = 'FREE'
 			keyframe.handle_right[0] = keyframe.co[0] \
 																+ shape_KF['right'][0] * rate
 			keyframe.handle_right[1] = keyframe.co[1] \
