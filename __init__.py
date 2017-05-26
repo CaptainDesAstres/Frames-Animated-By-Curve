@@ -1384,11 +1384,6 @@ class CtF(bpy.types.PropertyGroup):
 		clip.animation_data.action.fcurves.new('CtF.peaks')
 		peaks_curve = getFCurveByDataPath(clip, 'CtF.peaks')
 		
-		# get frame rate and start/end frame
-		fps = context.scene.render.fps
-		frame = start = context.scene.frame_start
-		end = context.scene.frame_end
-		
 		# get rate curve and default value
 		rate_curve = getFCurveByDataPath(clip, 'CtF.rate')
 		rate_value = clip.CtF.rate
@@ -1410,6 +1405,25 @@ class CtF(bpy.types.PropertyGroup):
 		peaks_curve.hide = hide
 		
 		return peaks_curve
+	
+	
+	
+	
+	def generate_peaks_curve_segment(
+						clip,
+						peaks_curve,
+						shapes,
+						rate_curve,
+						start,
+						end
+						):
+		'''generate a segment of peaks curve'''
+		# get frame rate and start/end frame
+		fps = context.scene.render.fps
+		start = context.scene.frame_start
+		end = context.scene.frame_end
+		
+	
 	
 	
 	
