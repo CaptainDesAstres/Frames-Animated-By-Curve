@@ -1521,19 +1521,16 @@ class CtF(bpy.types.PropertyGroup):
 					
 					keyframe = peaks_curve.keyframe_points.insert(
 							frame, shape_KF['value'] )
-				
-			else:
-				# peaks continuation
-				
-				# set right handle of keyframe
-				keyframe.handle_right[0] = keyframe.co[0] \
-																	+ shape_KF['right'][0] * rate
-				keyframe.handle_right[1] = keyframe.co[1] \
-																	+ shape_KF['right'][1]
-				
-				# set right interpolation and easing
-				keyframe.interpolation = shape_KF['interpolation']
-				keyframe.easing = shape_KF['easing']
+			
+			# set right handle of keyframe
+			keyframe.handle_right[0] = keyframe.co[0] \
+																+ shape_KF['right'][0] * rate
+			keyframe.handle_right[1] = keyframe.co[1] \
+																+ shape_KF['right'][1]
+			
+			# set right interpolation and easing
+			keyframe.interpolation = shape_KF['interpolation']
+			keyframe.easing = shape_KF['easing']
 			
 			
 	
