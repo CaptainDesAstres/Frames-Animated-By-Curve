@@ -1388,6 +1388,10 @@ class CtF(bpy.types.PropertyGroup):
 		rate_curve = getFCurveByDataPath(clip, 'CtF.rate')
 		rate_value = clip.CtF.rate
 		
+		# get scene start/end frame
+		start = context.scene.frame_start
+		end = context.scene.frame_end
+		
 		
 		if rate_curve is None and rate_value <= 0:
 			if rate_value == 0:
@@ -1398,7 +1402,14 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# rate_curve is animated
-			peaks_curve.keyframe_points.insert(0, 1)
+			self.generate_peaks_curve_segment(
+						clip,
+						peaks_curve,
+						shapes,
+						rate_curve,
+						start,
+						end
+						)
 		
 		# prevent curve edition
 		peaks_curve.lock = True
@@ -1420,8 +1431,6 @@ class CtF(bpy.types.PropertyGroup):
 		'''generate a segment of peaks curve'''
 		# get frame rate and start/end frame
 		fps = context.scene.render.fps
-		start = context.scene.frame_start
-		end = context.scene.frame_end
 		
 	
 	
