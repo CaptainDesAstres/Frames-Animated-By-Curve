@@ -1359,16 +1359,7 @@ class CtF(bpy.types.PropertyGroup):
 			frame += 1
 		
 		#erase keyframe on flat section
-		k = 1
-		while(k < len(amplitude_net_curve.keyframe_points)-1 ):
-			prev = amplitude_net_curve.keyframe_points[ k-1 ]
-			cur = amplitude_net_curve.keyframe_points[ k ]
-			next = amplitude_net_curve.keyframe_points[ k+1 ]
-			if( prev.co[1] == cur.co[1] and cur.co[1] == next.co[1] ):
-				amplitude_net_curve.keyframe_points.remove( cur )
-			else:
-				k += 1
-		
+		avoid_useless_keyframe( amplitude_net_curve )
 		
 		# prevent curve edition
 		amplitude_net_curve.lock = True
@@ -1805,6 +1796,8 @@ class CtF(bpy.types.PropertyGroup):
 			# next frame
 			frame += 1
 		
+		#erase keyframe on flat section
+		avoid_useless_keyframe( combination_curve )
 		
 		# prevent curve edition
 		combination_curve.lock = True
@@ -1886,6 +1879,9 @@ class CtF(bpy.types.PropertyGroup):
 		# generate last keyframe
 		output_curve.keyframe_points.insert( frame , 0 )
 		output_curve.keyframe_points[-1].interpolation = 'LINEAR'
+		
+		#erase keyframe on flat section
+		avoid_useless_keyframe( output_curve )
 		
 		# prevent curve edition
 		output_curve.lock = True
