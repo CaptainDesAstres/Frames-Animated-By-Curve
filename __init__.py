@@ -1388,6 +1388,11 @@ class CtF(bpy.types.PropertyGroup):
 		rate_curve = getFCurveByDataPath(clip, 'CtF.rate')
 		rate_value = clip.CtF.rate
 		
+		# convert rate_curve to constant interpolation
+		if clip.CtF.auto_constant:
+			for k in rate_curve.keyframe_points:
+				k.interpolation = 'CONSTANT'
+		
 		# get scene start/end frame
 		start = context.scene.frame_start
 		end = context.scene.frame_end
