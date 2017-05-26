@@ -1484,8 +1484,14 @@ class CtF(bpy.types.PropertyGroup):
 			shape_KF = shapes[current_shape][shape_key]
 			
 			# insert keyframe
-			peaks_curve.keyframe_points.insert( frame,
+			keyframe = peaks_curve.keyframe_points.insert( frame,
 					shape_KF['value'] )
+			
+			# set left handle of keyframe
+			keyframe.handle_left[0] = keyframe.co[0] \
+																+ shape_KF['left'][0] * rate
+			keyframe.handle_left[1] = keyframe.co[1] \
+																+ shape_KF['left'][1]
 			
 			# get rate value
 			if rate_curve is not None:
