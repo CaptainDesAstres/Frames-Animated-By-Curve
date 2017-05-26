@@ -1469,6 +1469,20 @@ class CtF(bpy.types.PropertyGroup):
 		
 		current_shape = ( shape_start, shape_end )
 		shape_key = 0
+		
+		#generate the segment
+		frame = start
+		while(frame <= end or shape_key !=1 ):
+			# get shape keyframe
+			shape_KF = shapes[current_shape][shape_key]
+			
+			# insert keyframe
+			peaks_curve.keyframe_points.insert( frame,
+					shape_KF['value'] )
+			
+			# increment shape_key
+			shape_key += 1
+
 	
 	
 	
