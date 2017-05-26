@@ -1510,9 +1510,9 @@ class CtF(bpy.types.PropertyGroup):
 				shape_key = 1
 				# get new range
 				if shape_start_curve is not None:
-					shape_start = clip.CtF.peaks_shape_range_start
+					shape_start = shape_start_curve.evaluate( frame )
 				if shape_end_curve is not None:
-					shape_end = clip.CtF.peaks_shape_range_end
+					shape_end = shape_end_curve.evaluate( frame )
 				current_shape = ( shape_start, shape_end )
 				shape_KF = shapes[current_shape][0]
 				
