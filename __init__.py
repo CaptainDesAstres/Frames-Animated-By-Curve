@@ -1402,14 +1402,13 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# rate_curve is animated
-			CtF.generate_peaks_curve_segment(
-						context,
-						clip,
-						peaks_curve,
-						shapes,
-						rate_curve,
-						start,
-						end
+			if clip.CtF.synchronized:
+				CtF.generate_sync_peaks_curve( context, clip,
+						peaks_curve, shapes, rate_curve, start, end
+						)
+			else:
+				CtF.generate_peaks_curve_segment( context, clip,
+						peaks_curve, shapes, rate_curve, start, end
 						)
 		
 		# prevent curve edition
@@ -1431,7 +1430,9 @@ class CtF(bpy.types.PropertyGroup):
 				end
 				):
 		'''generate the peaks curve when synchronized with amplitude'''
-		
+		CtF.generate_peaks_curve_segment( context, clip,
+				peaks_curve, shapes, rate_curve, start, end
+				)
 	
 	
 	
