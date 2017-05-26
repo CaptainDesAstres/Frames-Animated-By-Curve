@@ -1404,7 +1404,8 @@ class CtF(bpy.types.PropertyGroup):
 			# rate_curve is animated
 			if clip.CtF.synchronized:
 				CtF.generate_sync_peaks_curve( context, clip,
-						peaks_curve, shapes, rate_curve, start, end
+						peaks_curve, shapes, rate_curve, amplitude_net_curve,
+						start, end
 						)
 			else:
 				CtF.generate_peaks_curve_segment( context, clip,
@@ -1426,6 +1427,7 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve,
 				shapes,
 				rate_curve,
+				amplitude_net_curve,
 				start,
 				end
 				):
