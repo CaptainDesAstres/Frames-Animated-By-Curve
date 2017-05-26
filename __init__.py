@@ -1499,7 +1499,9 @@ class CtF(bpy.types.PropertyGroup):
 					rate = fps * 60 / rate
 			
 			# peaks end instructions
+			shape_key += 1
 			if shape_key == len(shapes[current_shape]):
+				shape_key = 1
 				# get new range
 				if shape_start_curve is not None:
 					shape_start = clip.CtF.peaks_shape_range_start
@@ -1526,11 +1528,6 @@ class CtF(bpy.types.PropertyGroup):
 			# set right interpolation and easing
 			keyframe.interpolation = shape_KF['interpolation']
 			keyframe.easing = shape_KF['easing']
-			
-			if shape_key == len(shapes[current_shape]):
-				shape_key = 1
-			else:
-				shape_key += 1
 			
 			# get next shape keyframe
 			shape_KF = shapes[current_shape][shape_key]
