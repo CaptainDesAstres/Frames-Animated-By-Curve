@@ -1468,7 +1468,7 @@ class CtF(bpy.types.PropertyGroup):
 			
 			seg_start = CtF.generate_peaks_curve_segment( 
 							context, clip, peaks_curve, shapes, rate_curve,
-							seg_start, seg_end )
+							seg_start, seg_end, anticipate )
 	
 	
 	
@@ -1480,7 +1480,8 @@ class CtF(bpy.types.PropertyGroup):
 						shapes,
 						rate_curve,
 						start,
-						end
+						end,
+						anticipate = False
 						):
 		'''generate a segment of peaks curve'''
 		# get frame rate and start/end frame
