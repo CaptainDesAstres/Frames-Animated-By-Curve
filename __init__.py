@@ -1553,6 +1553,9 @@ class CtF(bpy.types.PropertyGroup):
 					frame += clip.CtF.accuracy
 					rate = rate_curve.evaluate( frame )
 				
+				if frame >= end:
+					return frame
+				
 				if rate > 0 and clip.CtF.rate_unit == 'ppm':
 					rate = fps * 60 / rate
 				
@@ -1571,7 +1574,7 @@ class CtF(bpy.types.PropertyGroup):
 				# get next shape keyframe
 				shape_KF = shapes[current_shape][shape_key]
 				frame += shape_KF['frame'] * rate
-			
+		return frame
 	
 	
 	
