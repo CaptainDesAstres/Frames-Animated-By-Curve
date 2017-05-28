@@ -1277,14 +1277,14 @@ class CtF(bpy.types.PropertyGroup):
 			# check there is no warning
 			row = layout.row()
 			row.operator(
-				"curve.toframe",
+				"single_track.curve_to_frame",
 				text="ignore warning and run at my one risk",
 				icon = 'ERROR')
 		else:
 			# draw standart run button
 			row = layout.row()
 			row.operator(
-				"curve.toframe",
+				"single_track.curve_to_frame",
 				text="run")
 	
 	
@@ -2041,9 +2041,9 @@ def backup_output( path, level, maximum ):
 
 
 
-class CurveToFrame(bpy.types.Operator):
+class SingleTrackCurveToFrame(bpy.types.Operator):
 	'''the operaton to execute add on function'''
-	bl_idname = "curve.toframe"
+	bl_idname = "single_track.curve_to_frame"
 	bl_label= "Frames Animated By Curve"
 	bl_options = {'INTERNAL'}
 	
@@ -2243,7 +2243,7 @@ def register():
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
-	bpy.utils.register_class(CurveToFrame)
+	bpy.utils.register_class(SingleTrackCurveToFrame)
 	bpy.utils.register_class(SingleTrackPanel)
 	bpy.utils.register_class(MultiTrackTracksPanel)
 	bpy.utils.register_class(MultiTrackAmplitudePanel)
@@ -2266,7 +2266,7 @@ def unregister():
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(SingleTrackPanel)
 	bpy.utils.unregister_class(MultiTrackAmplitudePanel)
-	bpy.utils.unregister_class(CurveToFrame)
+	bpy.utils.unregister_class(SingleTrackCurveToFrame)
 	bpy.utils.unregister_class(MultiTrackTracksPanel)
 	bpy.utils.unregister_class(MultiTrackOutputPanel)
 	print("Frames Animated By Curve is disabled")
