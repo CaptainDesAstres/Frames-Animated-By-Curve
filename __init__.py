@@ -1774,7 +1774,7 @@ class CtF(bpy.types.PropertyGroup):
 		for keyframe in peaks_curve.keyframe_points:
 			# get peaks keyframe value and frame
 			frame = keyframe.co[0]
-			value = keyframe.co[1]
+			value = min(1, keyframe.co[1])
 			
 			# get combination_mode at this frame
 			if combination_mode_curve is not None:
@@ -1799,7 +1799,7 @@ class CtF(bpy.types.PropertyGroup):
 				combination_mode = combination_mode_curve.evaluate(frame)
 			
 			if combination_mode == 0 : # combination mode is «multiply»
-				value = peaks_curve.evaluate(frame)\
+				value = min( 1, peaks_curve.evaluate(frame))\
 						* amplitude_net_curve.evaluate(frame)
 				combination_curve.keyframe_points.insert(frame, value)
 			elif combination_mode == 2: # combination mode is «clamp_curve»
@@ -1807,7 +1807,8 @@ class CtF(bpy.types.PropertyGroup):
 						frame,
 						min (
 								amplitude_net_curve.evaluate(frame),
-								peaks_curve.evaluate(frame)
+								peaks_curve.evaluate(frame),
+								1
 								)
 						)
 			elif combination_mode == 4: 
