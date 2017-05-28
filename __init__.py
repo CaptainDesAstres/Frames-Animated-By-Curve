@@ -1211,7 +1211,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_output( self, layout, scene, clip ):
+	
+	def draw_simple_track_output( self, layout, scene, clip ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
 		# A field to choose between Round Floor and 
@@ -1238,6 +1239,28 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "output_path")
 		path = bpy.path.abspath(self.output_path )
 		
+		
+		return warning
+	
+	
+	
+	
+	def draw_multi_track_output( self, layout, scene ):
+		'''draw rounding & output settings into the panel'''
+		warning = False
+		# A field to set the output path
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "output_path")
+		
+		# A checkbox to get real frame file copy
+		col = row.column()
+		if(not scene.CtFRealCopy \
+				and platform.system().lower() not in ['linux', 'unix']):
+			col.prop( scene, "CtFRealCopy", icon='ERROR' )
+			warning = True
+		else:
+			col.prop( scene, "CtFRealCopy" )
 		
 		return warning
 	
@@ -1295,7 +1318,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_combination_and_output( layout, refresh_curve )
 			
 			# draw output and rounding settings
-			warning = self.draw_output( layout, context.scene, clip )
+			warning = self.draw_simple_track_output( layout, context.scene, clip )
 			
 			# draw run button or error message
 			self.draw_run_button( layout, clip, warning )
@@ -1915,7 +1938,7 @@ class CtF(bpy.types.PropertyGroup):
 		self.draw_combination_and_output( layout, refresh_curve, True )
 		
 		# draw output and rounding settings
-		#warning = self.draw_output( layout, context.scene )
+		warning = self.draw_multi_track_output( layout, context.scene )
 		
 		# draw run button or error message
 		#self.draw_run_button( layout, clip, warning )
