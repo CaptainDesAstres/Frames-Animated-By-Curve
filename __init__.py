@@ -1101,8 +1101,7 @@ class CtF(bpy.types.PropertyGroup):
 		# A button to get curve min max value
 		col = row.column()
 		col.operator(refresh_mini_maxi,
-					icon='FILE_REFRESH',
-					text = '')
+					text = 'auto')
 		# display net amplitude value
 		col = row.column()
 		col.enabled = False
