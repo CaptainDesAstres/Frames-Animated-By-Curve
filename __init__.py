@@ -1194,7 +1194,10 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "combination")
 		
 		# visualize output frame
-		if not no_output:
+		if no_output:
+			col = row.column()
+			col.prop(self, "rounding")
+		else:
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "output")
