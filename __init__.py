@@ -1916,7 +1916,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def panel_multi_track(self, context, layout):
+	def panel_multi_track_amplitude_and_peaks(self, context, layout):
 		'''draw the CtF panel'''
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
@@ -2168,7 +2168,7 @@ class SingleTrackPanel(bpy.types.Panel):
 
 
 
-class MultiTracksAmplitudePanel(bpy.types.Panel):
+class MultiTrackAmplitudePanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
@@ -2178,14 +2178,14 @@ class MultiTracksAmplitudePanel(bpy.types.Panel):
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
-		context.scene.CtF.panel_multi_track( context, layout)
+		context.scene.CtF.panel_multi_track_amplitude_and_peaks( context, layout)
 		
 
 
 
 
 
-class TracksPanel(bpy.types.Panel):
+class MultiTrackTracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
@@ -2232,8 +2232,8 @@ def register():
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(SingleTrackPanel)
-	bpy.utils.register_class(TracksPanel)
-	bpy.utils.register_class(MultiTracksAmplitudePanel)
+	bpy.utils.register_class(MultiTrackTracksPanel)
+	bpy.utils.register_class(MultiTrackAmplitudePanel)
 	print("Frames Animated By Curve is enabled")
 
 
@@ -2251,8 +2251,8 @@ def unregister():
 	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(SingleTrackPanel)
-	bpy.utils.unregister_class(MultiTracksAmplitudePanel)
+	bpy.utils.unregister_class(MultiTrackAmplitudePanel)
 	bpy.utils.unregister_class(CurveToFrame)
-	bpy.utils.unregister_class(TracksPanel)
+	bpy.utils.unregister_class(MultiTrackTracksPanel)
 	print("Frames Animated By Curve is disabled")
 
