@@ -1936,12 +1936,6 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# draw combination node settings and combination and output value
 		self.draw_combination_and_output( layout, refresh_curve, True )
-		
-		# draw output and rounding settings
-		warning = self.draw_multi_track_output( layout, context.scene )
-		
-		# draw run button or error message
-		#self.draw_run_button( layout, clip, warning )
 	
 	
 	
@@ -2169,7 +2163,7 @@ class SingleTrackPanel(bpy.types.Panel):
 
 
 class MultiTrackAmplitudePanel(bpy.types.Panel):
-	'''class of the panel who contains addon multi track control'''
+	'''class of the panel who contains amplitude and peaks settings control for multi track feature'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
 	bl_label = "Multi track: Amplitude & Peaks Settings"
@@ -2180,6 +2174,27 @@ class MultiTrackAmplitudePanel(bpy.types.Panel):
 		layout = self.layout
 		context.scene.CtF.panel_multi_track_amplitude_and_peaks( context, layout)
 		
+
+
+
+
+
+class MultiTrackOutputPanel(bpy.types.Panel):
+	'''class of the panel who contains output settings control for multi track feature'''
+	bl_space_type = "CLIP_EDITOR"
+	bl_region_type = "TOOLS"
+	bl_label = "Multi track: Output Settings"
+	bl_category = "Curve Anim"
+	
+	def draw(self, context):
+		'''the function that draw the panel'''
+		layout = self.layout
+		scene = context.scene
+		
+		warning = scene.CtF.draw_multi_track_output( layout, scene )
+		
+		# draw run button or error message
+		#scene.CtF.draw_run_button( layout, scene, warning )
 
 
 
@@ -2234,6 +2249,7 @@ def register():
 	bpy.utils.register_class(SingleTrackPanel)
 	bpy.utils.register_class(MultiTrackTracksPanel)
 	bpy.utils.register_class(MultiTrackAmplitudePanel)
+	bpy.utils.register_class(MultiTrackOutputPanel)
 	print("Frames Animated By Curve is enabled")
 
 
@@ -2254,5 +2270,6 @@ def unregister():
 	bpy.utils.unregister_class(MultiTrackAmplitudePanel)
 	bpy.utils.unregister_class(CurveToFrame)
 	bpy.utils.unregister_class(MultiTrackTracksPanel)
+	bpy.utils.unregister_class(MultiTrackOutputPanel)
 	print("Frames Animated By Curve is disabled")
 
