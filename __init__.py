@@ -75,7 +75,7 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		status = update_curves(clip.CtF, context)
+		status = update_curves(scene.CtF, context)
 		if status is True:
 			return {'FINISHED'}
 		else:
