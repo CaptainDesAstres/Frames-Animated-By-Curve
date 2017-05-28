@@ -105,9 +105,9 @@ class CtFRefresh(bpy.types.Operator):
 
 
 
-class CtFSimpleTrackCurvesRefresh(bpy.types.Operator):
+class CtFSingleTrackCurvesRefresh(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.simple_track_curves_refresh"
+	bl_idname = "ctf.single_track_curves_refresh"
 	bl_label= "refresh movieclip curves"
 	bl_options = {'INTERNAL'}
 	
@@ -1117,7 +1117,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def draw_peaks(self, layout, refresh_curve):
 		'''draw peaks rythm settings into the panel'''
-		# a button to activate and set peaks per minute feature
+		# a button to activate and set peaks per minute
 		layout.separator()
 		row = layout.row()
 		col = row.column()
@@ -1212,7 +1212,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_simple_track_output( self, layout, scene, clip ):
+	def draw_single_track_output( self, layout, scene, clip ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
 		# A field to choose between Round Floor and 
@@ -1291,11 +1291,11 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def panel_simple(self, context, layout, clip):
+	def panel_single_track(self, context, layout, clip):
 		'''draw the CtF panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
-		refresh_curve = "ctf.simple_track_curves_refresh"
+		refresh_curve = "ctf.single_track_curves_refresh"
 		refresh_mini_maxi = "ctf.refresh_movieclip_mini_maxi"
 		restore_peak_shape = "ctf.restore_default_peak_shape"
 		
@@ -1318,7 +1318,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_combination_and_output( layout, refresh_curve )
 			
 			# draw output and rounding settings
-			warning = self.draw_simple_track_output( layout, context.scene, clip )
+			warning = self.draw_single_track_output( layout, context.scene, clip )
 			
 			# draw run button or error message
 			self.draw_run_button( layout, clip, warning )
@@ -1916,7 +1916,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def panel_multi(self, context, layout):
+	def panel_multi_track(self, context, layout):
 		'''draw the CtF panel'''
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
@@ -2048,7 +2048,7 @@ def backup_output( path, level, maximum ):
 
 
 class CurveToFrame(bpy.types.Operator):
-	'''the operaton to execute add on feature'''
+	'''the operaton to execute add on function'''
 	bl_idname = "curve.toframe"
 	bl_label= "Frames Animated By Curve"
 	bl_options = {'INTERNAL'}
@@ -2135,11 +2135,11 @@ class CurveToFrame(bpy.types.Operator):
 
 
 
-class OneTrackPanel(bpy.types.Panel):
+class SingleTrackPanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "One track feature"
+	bl_label = "Single track"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
@@ -2151,7 +2151,7 @@ class OneTrackPanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.CtF.panel_simple(context, layout, clip)
+			clip.CtF.panel_single_track(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
@@ -2168,17 +2168,17 @@ class OneTrackPanel(bpy.types.Panel):
 
 
 
-class MultiTracksPanel(bpy.types.Panel):
+class MultiTracksAmplitudePanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Multi track features: Amplitude & Peaks Settings"
+	bl_label = "Multi track: Amplitude & Peaks Settings"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
-		context.scene.CtF.panel_multi( context, layout)
+		context.scene.CtF.panel_multi_track( context, layout)
 		
 
 
@@ -2189,7 +2189,7 @@ class TracksPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
-	bl_label = "Multi track features: Tracks list"
+	bl_label = "Multi track: Tracks list"
 	bl_category = "Curve Anim"
 	
 	def draw(self, context):
@@ -2225,15 +2225,15 @@ def register():
 	bpy.utils.register_class(TrackItem)
 	bpy.utils.register_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.register_class(CtFRefreshSceneMiniMaxi)
-	bpy.utils.register_class(CtFSimpleTrackCurvesRefresh)
+	bpy.utils.register_class(CtFSingleTrackCurvesRefresh)
 	bpy.utils.register_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	bpy.utils.register_class(CurveToFrame)
-	bpy.utils.register_class(OneTrackPanel)
+	bpy.utils.register_class(SingleTrackPanel)
 	bpy.utils.register_class(TracksPanel)
-	bpy.utils.register_class(MultiTracksPanel)
+	bpy.utils.register_class(MultiTracksAmplitudePanel)
 	print("Frames Animated By Curve is enabled")
 
 
@@ -2247,11 +2247,11 @@ def unregister():
 	bpy.utils.unregister_class(TrackItem)
 	bpy.utils.unregister_class(CtFRefreshClipMiniMaxi)
 	bpy.utils.unregister_class(CtFRefreshSceneMiniMaxi)
-	bpy.utils.unregister_class(CtFSimpleTrackCurvesRefresh)
+	bpy.utils.unregister_class(CtFSingleTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
-	bpy.utils.unregister_class(OneTrackPanel)
-	bpy.utils.unregister_class(MultiTracksPanel)
+	bpy.utils.unregister_class(SingleTrackPanel)
+	bpy.utils.unregister_class(MultiTracksAmplitudePanel)
 	bpy.utils.unregister_class(CurveToFrame)
 	bpy.utils.unregister_class(TracksPanel)
 	print("Frames Animated By Curve is disabled")
