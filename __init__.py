@@ -506,6 +506,7 @@ def add_track( self, context ):
 	new.name = track.name
 	new.uid = track.CtF.uid
 	new.track_id = len(context.scene.CtF.tracks)-1
+	self.id_data.CtF.selected_track = new.track_id
 	
 	# clear the add field
 	self.id_data.CtF.track_add=''
