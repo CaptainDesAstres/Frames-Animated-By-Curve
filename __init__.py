@@ -2058,9 +2058,7 @@ class CurveToFrame(bpy.types.Operator):
 		
 		settings = clip.CtF
 		status = update_curves(settings, context)
-		if status is True:
-			return {'FINISHED'}
-		else:
+		if status is not True:
 			self.report( {'ERROR'}, status )
 			return {'CANCELLED'}
 		
