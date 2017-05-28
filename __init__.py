@@ -1957,6 +1957,37 @@ class CtF(bpy.types.PropertyGroup):
 		col.operator("ctf.tracks_action", icon='FILE_TICK', text="").action = 'CHECK'
 		col.operator("ctf.tracks_action", icon='X', text="").action = 'REMOVE'
 		col.operator("ctf.tracks_action", icon='TRIA_DOWN', text="").action = 'DOWN'
+		
+		# display selected track settings
+		if (self.selected_track >= 0 
+				and self.selected_track < len(self.tracks) ):
+			track = self.tracks[self.selected_track].get(context.scene).CtF
+			
+			# Display selected track directory path
+			layout.separator()
+			row = layout.row()
+			row.label( text = "Frame Directory path:" )
+			row = layout.row()
+			row.label( text= track.path )
+			
+			# Display selected track source file extension
+			row = layout.row()
+			col = row.column()
+			col.label( text="File type: "+track.ext )
+			
+			# Display first to last accepted frame name range
+			col = row.column()
+			col.label( text="Valid frames: "\
+				+track.getFrameName(track.first)+' to '\
+				+track.getFrameName(track.last) )
+			
+			# Display Start/End settings
+			layout.separator()
+			row = layout.row()
+			col = row.column()
+			col.prop(track, "start")
+			col = row.column()
+			col.prop(track, "end")
 
 
 
