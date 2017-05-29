@@ -766,7 +766,6 @@ class CtF(bpy.types.PropertyGroup):
 	def draw_amplitude( 
 						self,
 						layout, 
-						ob, 
 						refresh_curve, 
 						refresh_mini_maxi):
 		'''draw amplitude settings into the panel'''
@@ -777,7 +776,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "amplitude")
 		
 		# A field to remind F-Curve min and max value
-		fCurve = getFCurveByDataPath(ob, 'CtF.amplitude')
+		fCurve = getFCurveByDataPath(self.id_data, 'CtF.amplitude')
 		if(fCurve is None):
 			m = M = self.amplitude
 		else:
@@ -979,7 +978,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	def draw_run_button( self, layout, ob, warning ):
+	def draw_run_button( self, layout, warning ):
 		'''check situation and draw run button into panel'''
 		if( self.checkCtFDriver() ):
 			# check no driver is use on CtF property
@@ -1017,7 +1016,7 @@ class CtF(bpy.types.PropertyGroup):
 			self.draw_movieclip_settings( layout )
 			
 			# draw amplitude settings
-			self.draw_amplitude( layout, clip, 
+			self.draw_amplitude( layout, 
 								refresh_curve, refresh_mini_maxi )
 			
 			# draw peaks rythm settings
@@ -1034,7 +1033,7 @@ class CtF(bpy.types.PropertyGroup):
 			warning = self.draw_single_track_output( layout, context.scene, clip )
 			
 			# draw run button or error message
-			self.draw_run_button( layout, clip, warning )
+			self.draw_run_button( layout, warning )
 	
 	
 	
@@ -1646,7 +1645,7 @@ class CtF(bpy.types.PropertyGroup):
 		restore_peak_shape = "ctf.multi_track_restore_default_peak_shape"
 		
 		# draw amplitude settings
-		self.draw_amplitude( layout, context.scene, 
+		self.draw_amplitude( layout,
 							refresh_curve, refresh_mini_maxi )
 		
 		# draw peaks rythm settings
@@ -2165,7 +2164,7 @@ class MultiTrackOutputPanel(bpy.types.Panel):
 		warning = scene.CtF.draw_multi_track_output( layout, scene )
 		
 		# draw run button or error message
-		#scene.CtF.draw_run_button( layout, scene, warning )
+		#scene.CtF.draw_run_button( layout, warning )
 
 
 
