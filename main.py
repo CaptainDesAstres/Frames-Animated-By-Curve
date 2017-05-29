@@ -421,257 +421,6 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	
-	# flag to know if CtF have been initialize on this MovieClip
-	init = bpy.props.BoolProperty(default = False)
-	uid = bpy.props.StringProperty( default = '' )
-	
-	#################################################
-	##     clip settings                           ##
-	#################################################
-	
-	path = bpy.props.StringProperty() # The sources directory path
-	prefix = bpy.props.StringProperty() # the source name prefix
-	suffix = bpy.props.StringProperty() # the source name suffix
-	numberSize = bpy.props.IntProperty() # the source name frame number size in char
-	first = bpy.props.IntProperty() # the first frame number (in source file name)
-	last = bpy.props.IntProperty() # the last frame number (in source file name)
-	
-	# first frame of the clip to use
-	start = bpy.props.IntProperty(
-		name = "First frame",
-		description = "first frame that Frames Animated \
-					By Curve add-on must take in count",
-		default = 1,
-		min = 1,
-		update = set_start_frame)
-	
-	# last frame of the clip to use
-	end = bpy.props.IntProperty(
-		name = "Last frame",
-		description = "last frame that Frames Animated \
-					By Curve add-on must take in count",
-		update = set_end_frame)
-	
-	
-	size = bpy.props.IntProperty() # number of frame of the sequence
-	ext = bpy.props.StringProperty() # extension of source file
-	
-	#################################################
-	##     amplitude settings                      ##
-	#################################################
-	# amplitude property
-	amplitude = bpy.props.FloatProperty(
-		name = 'amplitude (raw)',
-		description = 'Determined the frame of the Movie \
-								clip to use at each frame',
-		default = 0.0
-		)
-	
-	# amplitude after applying min and max value
-	amplitude_net = bpy.props.FloatProperty(
-		name = 'amplitude (net)',
-		description = 'show the apply of mini and maxi to \
-							amplitude raw. Can\'t be edit.',
-		)
-	
-	# method used to combine amplitude and peaks curve
-	combination_mode = bpy.props.EnumProperty(
-		name = 'combination mode',
-		description = 'the way to combine amplitude and peaks curve',
-		default = 'ignore_peaks',
-		items = [
-#			(identifier,			name,
-#				description, number)
-			
-			('multiply',		'Peaks Curve Multiplied by amplitude',
-				'peaks is multiplied by \
-				amplitude percentage of maxi',				0),
-			
-			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
-				'peaks keyframe is clamped by amplitude',		1),
-			
-			('clamp_curve',		'Peaks Curve Clamped to amplitude',
-				'all peaks value is clamped by amplitude',		2),
-			
-			('ignore_amplitude',			'Only use peaks curve',
-				'Only use peaks curve',			3),
-			
-			('ignore_peaks',			'Only use amplitude curve',
-				'Only use amplitude curve',			4)
-			
-			],
-		update = update_curves
-		)
-	
-	# min value associated to the first frames
-	mini = bpy.props.FloatProperty(
-		name = 'Mini',
-		description = 'the minimal value of the \
-						amplitude curve, all smaller\
-						 value will display the first frame',
-		default = 0.0,
-		update = set_mini
-		)
-	
-	# max value associated to the last frames
-	maxi = bpy.props.FloatProperty(
-		name = 'Maxi',
-		description = 'the maximal value of the amplitude\
-						 curve. All bigger value will display \
-						the last frame. This property is useless \
-						when amplitude is ignored.',
-		default = 1.0,
-		update = set_maxi
-		)
-	
-	#################################################
-	##     peaks settings                          ##
-	##       count and synchronization             ##
-	#################################################
-	
-	# peaks per minute settings
-	rate = bpy.props.FloatProperty(
-		name = "rate",
-		description = "peaks rate",
-		default = 0)
-	
-	rate_unit = bpy.props.EnumProperty(
-		name = 'Peaks rate unit',
-		description = 'which unit is usedd to define Peaks Rate',
-		default = 'frame',
-		items = [
-#			(identifier,			name,
-#				description, number)
-			
-			('frame',		'Frames',
-				'Peaks rate is define in terms of \
-				peaks frame length.',				0),
-			
-			('ppm',		'Peaks Per Minute',
-				'Peaks rate is define in terms of number \
-				of peaks per minute.',		1),
-			
-			],
-		options = {'LIBRARY_EDITABLE'},
-		update = update_curves
-		)
-	
-	# automatically use constant for rate curve interpolation
-	auto_constant = bpy.props.BoolProperty(
-		name="constant", 
-		description="While animating rate value in «Peaks Per Minute» rate unit, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
-		options = {'LIBRARY_EDITABLE'},
-		default = True)
-	
-	# synchronize peak with amplitude bounce
-	synchronized = bpy.props.BoolProperty(
-		name="Sync to amplitude", 
-		description="Peaks timing are synchronized with amplitude varying around 0.",
-		options = {'LIBRARY_EDITABLE'},
-		default = False)
-	
-	# accuracy of peak synchronisation
-	accuracy = bpy.props.FloatProperty(
-		name = "accuracy",
-		description = "gap between two evaluation when rate is less or equal to 0",
-		options = {'LIBRARY_EDITABLE'},
-		default = 0.1,
-		min = 0.0001,
-		max = 1)
-	
-	# anticipate amplitude rebounce when synchronized
-	anticipate = bpy.props.FloatProperty(
-		name = "anticipate",
-		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks end exactly when amplitude start to be over 0.",
-		default = 0,
-		min = 0,
-		max=1)
-	
-	# peaks curve obtain by applying settings
-	peaks = bpy.props.FloatProperty(
-		name = "peaks",
-		description = "Only to visualize the peaks curve. \
-					Can't be edit manually: use rate settings.",
-		default = 1,
-		min = 0,
-		max = 1)
-	
-	#################################################
-	##     peaks settings                          ##
-	##       peaks profile                          ##
-	#################################################
-	# a property to use as shape to make the peaks
-	peaks_shape = bpy.props.FloatProperty(
-		name = "Peaks shapes",
-		description = "Use to edit the peaks shapes",
-		min = 0,
-		max = 1)
-	
-	# a property to change the part of peaks_shapes to use
-	peaks_shape_range_start = bpy.props.IntProperty(
-		name = "Start",
-		description = "Use to set the peaks shape starting frame",
-		min = 0)
-	
-	peaks_shape_range_end = bpy.props.IntProperty(
-		name = "End",
-		description = "Use to set the peaks shape ending frame",
-		min = 1,
-		default = 2)
-	
-	
-	
-	
-	#################################################
-	##     output settings                         ##
-	#################################################
-	# combination of net amplitude and peaks curves
-	combination = bpy.props.FloatProperty(
-		name = "combination",
-		description = "Only to visualize the combination of \
-					peaks and amplitude curve curve. Can't \
-					be edit manually: use rate and amplitude settings.",
-		default = 0,
-		min = 0,
-		max = 1)
-	
-	# output frame curve
-	output = bpy.props.IntProperty(
-		name = "output frame",
-		description = "Only to visualize the output frames. \
-						Can't be edit manually.")
-	
-	# Rounding method
-	rounding = bpy.props.EnumProperty(
-		name = 'Rounding method',
-		description = 'the rounding method use by the \
-						script to round the float computed \
-						value into a integer value corresponding \
-						to a frame',
-		options = {'LIBRARY_EDITABLE'},
-		default = 'round',
-		items = [
-			#(identifier,	name, 		description )
-			('round',		'round',	'the closest integer.'),
-			('ceil',		'ceil',		'the closest greater integer'),
-			('floor',		'floor',		'the closest smaller integer')
-			]
-		)
-	
-	# output path
-	output_path = bpy.props.StringProperty(
-		name = "output",
-		description = "Output directory path.",
-		default = '//',
-		subtype = 'DIR_PATH')
-	
-	
-	
-	#################################################
-	##     Tracks managing                         ##
-	#################################################
-	
 	def add_track( self, context ):
 		'''add the selected tracks in tracks list'''
 		# get new track name
@@ -714,21 +463,6 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	track_add = bpy.props.StringProperty(
-		name = "Add",
-		description = "Add tracks to the list",
-		default = '',
-		update = add_track )
-	
-	tracks = bpy.props.CollectionProperty(
-		type=Track,
-		options = {'LIBRARY_EDITABLE'} )
-	
-	selected_track = bpy.props.IntProperty( default = -1 )
-	
-	
-	
-	
 	def initialize( self ):
 		'''init or reload movieclip info'''
 		clip = self.id_data
@@ -762,6 +496,7 @@ class CtF(bpy.types.PropertyGroup):
 			clip.CtF.uid = str(uuid4())
 		
 		return {'FINISHED'}
+	
 	
 	
 	
@@ -928,11 +663,13 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def getFrameName(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
 					str(int(n)).rjust(self.numberSize, '0')+
 					self.suffix + self.ext	)
+	
 	
 	
 	
@@ -944,6 +681,8 @@ class CtF(bpy.types.PropertyGroup):
 			if not os.path.exists( self.path + self.getFrameName( fr ) ):
 				return False
 		return True
+	
+	
 	
 	
 	
@@ -969,7 +708,8 @@ class CtF(bpy.types.PropertyGroup):
 			return True
 			
 		return False
-		
+	
+	
 	
 	
 	
@@ -1005,6 +745,8 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "start")
 		col = row.column()
 		col.prop(self, "end")
+	
+	
 	
 	
 	
@@ -1062,6 +804,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
+	
 	def draw_peaks(self, layout, refresh_curve):
 		'''draw peaks rythm settings into the panel'''
 		# a button to activate and set peaks per minute
@@ -1094,6 +838,8 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
+	
 	def draw_peaks_profile( self, layout, refresh_curve, restore_shape ):
 		'''draw peaks profile settings'''
 		layout.separator()
@@ -1121,6 +867,9 @@ class CtF(bpy.types.PropertyGroup):
 			refresh_curve,
 			text='',
 			icon='FILE_REFRESH')
+	
+	
+	
 	
 	
 	def draw_combination_and_output( 
@@ -1159,6 +908,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def draw_single_track_output( self, layout, scene, clip ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
@@ -1192,6 +942,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def draw_multi_track_output( self, layout, scene ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
@@ -1210,6 +961,8 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop( scene, "CtFRealCopy" )
 		
 		return warning
+	
+	
 	
 	
 	
@@ -1269,8 +1022,8 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# draw run button or error message
 			self.draw_run_button( layout, clip, warning )
-			
-			
+	
+	
 	
 	
 	
@@ -1343,6 +1096,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def update_peaks_curve(self, 
 					clip, 
 					context, 
@@ -1403,6 +1157,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def generate_sync_peaks_curve(
 				context,
 				clip,
@@ -1441,6 +1196,7 @@ class CtF(bpy.types.PropertyGroup):
 							context, clip, peaks_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
+	
 	
 	
 	
@@ -1785,6 +1541,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def update_output_curve(self, clip, context, combination_curve):
 		'''update output curve'''
 		# get and initialize output curve
@@ -1867,6 +1624,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	
 	def panel_multi_track_amplitude_and_peaks(self, context, layout):
 		'''draw the CtF panel'''
 		
@@ -1887,6 +1645,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# draw combination node settings and combination and output value
 		self.draw_combination_and_output( layout, refresh_curve, True )
+	
 	
 	
 	
@@ -1959,6 +1718,282 @@ class CtF(bpy.types.PropertyGroup):
 			col.prop(track, "start")
 			col = row.column()
 			col.prop(track, "end")
+	
+	
+	
+	
+	
+	
+	
+	# flag to know if CtF have been initialize on this MovieClip
+	init = bpy.props.BoolProperty(default = False)
+	uid = bpy.props.StringProperty( default = '' )
+	
+	#################################################
+	##     clip settings                           ##
+	#################################################
+	
+	path = bpy.props.StringProperty() # The sources directory path
+	prefix = bpy.props.StringProperty() # the source name prefix
+	suffix = bpy.props.StringProperty() # the source name suffix
+	numberSize = bpy.props.IntProperty() # the source name frame number size in char
+	first = bpy.props.IntProperty() # the first frame number (in source file name)
+	last = bpy.props.IntProperty() # the last frame number (in source file name)
+	
+	# first frame of the clip to use
+	start = bpy.props.IntProperty(
+		name = "First frame",
+		description = "first frame that Frames Animated \
+					By Curve add-on must take in count",
+		default = 1,
+		min = 1,
+		update = set_start_frame)
+	
+	# last frame of the clip to use
+	end = bpy.props.IntProperty(
+		name = "Last frame",
+		description = "last frame that Frames Animated \
+					By Curve add-on must take in count",
+		update = set_end_frame)
+	
+	
+	size = bpy.props.IntProperty() # number of frame of the sequence
+	ext = bpy.props.StringProperty() # extension of source file
+	
+	#################################################
+	##     amplitude settings                      ##
+	#################################################
+	# amplitude property
+	amplitude = bpy.props.FloatProperty(
+		name = 'amplitude (raw)',
+		description = 'Determined the frame of the Movie \
+								clip to use at each frame',
+		default = 0.0
+		)
+	
+	# amplitude after applying min and max value
+	amplitude_net = bpy.props.FloatProperty(
+		name = 'amplitude (net)',
+		description = 'show the apply of mini and maxi to \
+							amplitude raw. Can\'t be edit.',
+		)
+	
+	# method used to combine amplitude and peaks curve
+	combination_mode = bpy.props.EnumProperty(
+		name = 'combination mode',
+		description = 'the way to combine amplitude and peaks curve',
+		default = 'ignore_peaks',
+		items = [
+#			(identifier,			name,
+#				description, number)
+			
+			('multiply',		'Peaks Curve Multiplied by amplitude',
+				'peaks is multiplied by \
+				amplitude percentage of maxi',				0),
+			
+			('clamp_key',		'Peaks Keyframe Clamped to amplitude',
+				'peaks keyframe is clamped by amplitude',		1),
+			
+			('clamp_curve',		'Peaks Curve Clamped to amplitude',
+				'all peaks value is clamped by amplitude',		2),
+			
+			('ignore_amplitude',			'Only use peaks curve',
+				'Only use peaks curve',			3),
+			
+			('ignore_peaks',			'Only use amplitude curve',
+				'Only use amplitude curve',			4)
+			
+			],
+		update = update_curves
+		)
+	
+	# min value associated to the first frames
+	mini = bpy.props.FloatProperty(
+		name = 'Mini',
+		description = 'the minimal value of the \
+						amplitude curve, all smaller\
+						 value will display the first frame',
+		default = 0.0,
+		update = set_mini
+		)
+	
+	# max value associated to the last frames
+	maxi = bpy.props.FloatProperty(
+		name = 'Maxi',
+		description = 'the maximal value of the amplitude\
+						 curve. All bigger value will display \
+						the last frame. This property is useless \
+						when amplitude is ignored.',
+		default = 1.0,
+		update = set_maxi
+		)
+	
+	#################################################
+	##     peaks settings                          ##
+	##       count and synchronization             ##
+	#################################################
+	
+	# peaks per minute settings
+	rate = bpy.props.FloatProperty(
+		name = "rate",
+		description = "peaks rate",
+		default = 0)
+	
+	rate_unit = bpy.props.EnumProperty(
+		name = 'Peaks rate unit',
+		description = 'which unit is usedd to define Peaks Rate',
+		default = 'frame',
+		items = [
+#			(identifier,			name,
+#				description, number)
+			
+			('frame',		'Frames',
+				'Peaks rate is define in terms of \
+				peaks frame length.',				0),
+			
+			('ppm',		'Peaks Per Minute',
+				'Peaks rate is define in terms of number \
+				of peaks per minute.',		1),
+			
+			],
+		options = {'LIBRARY_EDITABLE'},
+		update = update_curves
+		)
+	
+	# automatically use constant for rate curve interpolation
+	auto_constant = bpy.props.BoolProperty(
+		name="constant", 
+		description="While animating rate value in «Peaks Per Minute» rate unit, it's highly recommanded to use constant interpolation for all keyframe. This option automatically do the convertion.",
+		options = {'LIBRARY_EDITABLE'},
+		default = True)
+	
+	# synchronize peak with amplitude bounce
+	synchronized = bpy.props.BoolProperty(
+		name="Sync to amplitude", 
+		description="Peaks timing are synchronized with amplitude varying around 0.",
+		options = {'LIBRARY_EDITABLE'},
+		default = False)
+	
+	# accuracy of peak synchronisation
+	accuracy = bpy.props.FloatProperty(
+		name = "accuracy",
+		description = "gap between two evaluation when rate is less or equal to 0",
+		options = {'LIBRARY_EDITABLE'},
+		default = 0.1,
+		min = 0.0001,
+		max = 1)
+	
+	# anticipate amplitude rebounce when synchronized
+	anticipate = bpy.props.FloatProperty(
+		name = "anticipate",
+		description = "With sync to amplitude, start peaks a little before amplitude rise over 0. \n0 mean the peaks will start exactly when amplitude start to be over 0.\n1 mean the peaks end exactly when amplitude start to be over 0.",
+		default = 0,
+		min = 0,
+		max=1)
+	
+	# peaks curve obtain by applying settings
+	peaks = bpy.props.FloatProperty(
+		name = "peaks",
+		description = "Only to visualize the peaks curve. \
+					Can't be edit manually: use rate settings.",
+		default = 1,
+		min = 0,
+		max = 1)
+	
+	#################################################
+	##     peaks settings                          ##
+	##       peaks profile                          ##
+	#################################################
+	# a property to use as shape to make the peaks
+	peaks_shape = bpy.props.FloatProperty(
+		name = "Peaks shapes",
+		description = "Use to edit the peaks shapes",
+		min = 0,
+		max = 1)
+	
+	# a property to change the part of peaks_shapes to use
+	peaks_shape_range_start = bpy.props.IntProperty(
+		name = "Start",
+		description = "Use to set the peaks shape starting frame",
+		min = 0)
+	
+	peaks_shape_range_end = bpy.props.IntProperty(
+		name = "End",
+		description = "Use to set the peaks shape ending frame",
+		min = 1,
+		default = 2)
+	
+	
+	
+	
+	#################################################
+	##     output settings                         ##
+	#################################################
+	# combination of net amplitude and peaks curves
+	combination = bpy.props.FloatProperty(
+		name = "combination",
+		description = "Only to visualize the combination of \
+					peaks and amplitude curve curve. Can't \
+					be edit manually: use rate and amplitude settings.",
+		default = 0,
+		min = 0,
+		max = 1)
+	
+	# output frame curve
+	output = bpy.props.IntProperty(
+		name = "output frame",
+		description = "Only to visualize the output frames. \
+						Can't be edit manually.")
+	
+	# Rounding method
+	rounding = bpy.props.EnumProperty(
+		name = 'Rounding method',
+		description = 'the rounding method use by the \
+						script to round the float computed \
+						value into a integer value corresponding \
+						to a frame',
+		options = {'LIBRARY_EDITABLE'},
+		default = 'round',
+		items = [
+			#(identifier,	name, 		description )
+			('round',		'round',	'the closest integer.'),
+			('ceil',		'ceil',		'the closest greater integer'),
+			('floor',		'floor',		'the closest smaller integer')
+			]
+		)
+	
+	# output path
+	output_path = bpy.props.StringProperty(
+		name = "output",
+		description = "Output directory path.",
+		default = '//',
+		subtype = 'DIR_PATH')
+	
+	
+	
+	#################################################
+	##     Tracks managing                         ##
+	#################################################
+	
+	
+	
+	
+	
+	track_add = bpy.props.StringProperty(
+		name = "Add",
+		description = "Add tracks to the list",
+		default = '',
+		update = add_track )
+	
+	tracks = bpy.props.CollectionProperty(
+		type=Track,
+		options = {'LIBRARY_EDITABLE'} )
+	
+	selected_track = bpy.props.IntProperty( default = -1 )
+	
+	
+	
+	
 
 
 
