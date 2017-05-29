@@ -19,16 +19,16 @@ import bpy, platform
 
 def register():
 	'''addon register'''
-	bpy.utils.register_class(CtFRestoreDefaultPeakShape)
-	bpy.utils.register_class(CtFRestoreMultiTrackDefaultPeakShape)
+	bpy.utils.register_class(CtF.RestoreDefaultPeakShape)
+	bpy.utils.register_class(CtF.RestoreMultiTrackDefaultPeakShape)
 	bpy.utils.register_class(TracksActions)
-	bpy.utils.register_class( CtFInitMovieClip)
+	bpy.utils.register_class(CtF.InitMovieClip)
 	bpy.utils.register_class(Track)
 	bpy.utils.register_class(TrackItem)
-	bpy.utils.register_class(CtFRefreshClipMiniMaxi)
-	bpy.utils.register_class(CtFRefreshSceneMiniMaxi)
-	bpy.utils.register_class(CtFSingleTrackCurvesRefresh)
-	bpy.utils.register_class(CtFMultiTrackCurvesRefresh)
+	bpy.utils.register_class(CtF.RefreshClipMiniMaxi)
+	bpy.utils.register_class(CtF.RefreshSceneMiniMaxi)
+	bpy.utils.register_class(CtF.SingleTrackCurvesRefresh)
+	bpy.utils.register_class(CtF.MultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
 	
 	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
@@ -63,16 +63,16 @@ def register():
 
 def unregister():
 	'''addon unregister'''
-	bpy.utils.unregister_class(CtFRestoreDefaultPeakShape)
-	bpy.utils.unregister_class(CtFRestoreMultiTrackDefaultPeakShape)
+	bpy.utils.unregister_class(CtF.RestoreDefaultPeakShape)
+	bpy.utils.unregister_class(CtF.RestoreMultiTrackDefaultPeakShape)
 	bpy.utils.unregister_class(TracksActions)
-	bpy.utils.unregister_class(CtFInitMovieClip)
+	bpy.utils.unregister_class(CtF.InitMovieClip)
 	bpy.utils.unregister_class(Track)
 	bpy.utils.unregister_class(TrackItem)
-	bpy.utils.unregister_class(CtFRefreshClipMiniMaxi)
-	bpy.utils.unregister_class(CtFRefreshSceneMiniMaxi)
-	bpy.utils.unregister_class(CtFSingleTrackCurvesRefresh)
-	bpy.utils.unregister_class(CtFMultiTrackCurvesRefresh)
+	bpy.utils.unregister_class(CtF.RefreshClipMiniMaxi)
+	bpy.utils.unregister_class(CtF.RefreshSceneMiniMaxi)
+	bpy.utils.unregister_class(CtF.SingleTrackCurvesRefresh)
+	bpy.utils.unregister_class(CtF.MultiTrackCurvesRefresh)
 	bpy.utils.unregister_class(CtF)
 	bpy.utils.unregister_class(SingleTrackPanel)
 	bpy.utils.unregister_class(MultiTrackAmplitudePanel)

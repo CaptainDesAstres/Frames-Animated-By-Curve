@@ -6,143 +6,6 @@ from uuid import uuid4
 
 
 
-class CtFRefreshClipMiniMaxi(bpy.types.Operator):
-	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.refresh_movieclip_mini_maxi"
-	bl_label= "get movieclip amplitude curve mini and maxi value"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''get movieclip amplitude curve mini and maxi value'''
-		clip = context.space_data.clip
-		
-		fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
-		if(fCurve is None):
-			m = M = clip.CtF.amplitude
-		else:
-			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
-		
-		# update curves
-		status = clip.CtF.update_curves( context )
-		if status is True:
-			return {'FINISHED'}
-		else:
-			self.report( {'ERROR'}, status )
-			return {'CANCELLED'}
-
-
-
-class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
-	'''operator to initialize or refresh CtF info of the scene'''
-	bl_idname = "ctf.refresh_scene_mini_maxi"
-	bl_label= "get scene amplitude curve mini and maxi value"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''get scene amplitude curve mini and maxi value'''
-		scene = context.scene
-		
-		fCurve = getFCurveByDataPath(scene, 'CtF.amplitude')
-		if(fCurve is None):
-			m = M = scene.CtF.amplitude
-		else:
-			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
-		
-		# update curves
-		status = scene.CtF.update_curves( context )
-		if status is True:
-			return {'FINISHED'}
-		else:
-			self.report( {'ERROR'}, status )
-			return {'CANCELLED'}
-
-
-
-class  CtFInitMovieClip(bpy.types.Operator):
-	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.init_movie_clip"
-	bl_label= "refresh MovieClip CtF Attribute"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''refresh CtF info of a movie clip'''
-		bpy.ops.clip.reload()# reload source file
-		clip = context.space_data.clip
-		if clip is None:
-			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
-			return {'CANCELLED'}
-		else:
-			if getFCurveByDataPath(clip, 'CtF.peaks_shape') is None:
-					clip.CtF.init_peaks_shape_curve()
-			return clip.CtF.initialize()
-			
-
-
-
-class CtFSingleTrackCurvesRefresh(bpy.types.Operator):
-	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.single_track_curves_refresh"
-	bl_label= "refresh movieclip curves"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''refresh clip curves'''
-		status = context.space_data.clip.CtF.update_curves( context )
-		if status is True:
-			return {'FINISHED'}
-		else:
-			self.report( {'ERROR'}, status )
-			return {'CANCELLED'}
-
-
-
-class CtFRestoreDefaultPeakShape(bpy.types.Operator):
-	'''Restore default peak shape settings'''
-	bl_idname = "ctf.restore_default_peak_shape"
-	bl_label= "restore default peak shape settings"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''restore default peak shape settings'''
-		context.space_data.clip.CtF.init_peaks_shape_curve()
-		return {'FINISHED'}
-
-
-
-class CtFRestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
-	'''Restore default peak shape settings for multi track'''
-	bl_idname = "ctf.multi_track_restore_default_peak_shape"
-	bl_label= "restore default peak shape settings for multi track"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''restore default peak shape settings for multi track'''
-		context.scene.CtF.init_peaks_shape_curve()
-		return {'FINISHED'}
-
-
-
-
-class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
-	'''operator to initialize or refresh CtF info of the scene'''
-	bl_idname = "ctf.multi_track_curves_refresh"
-	bl_label= "refresh multi track curves"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		'''refresh scene curves'''
-		status = context.scene.CtF.update_curves( context )
-		if status is True:
-			return {'FINISHED'}
-		else:
-			self.report( {'ERROR'}, status )
-			return {'CANCELLED'}
-
-
-
-
-
-
 def checkCtFDriver(ob):
 	'''check the object have no driver on property used by the addon'''
 	if(		ob.animation_data is None
@@ -321,6 +184,152 @@ class TracksActions(bpy.types.Operator):
 class CtF(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form CtF addon'''
+	
+	class RefreshClipMiniMaxi(bpy.types.Operator):
+		'''operator to initialize or refresh CtF info of a movie clip'''
+		bl_idname = "ctf.refresh_movieclip_mini_maxi"
+		bl_label= "get movieclip amplitude curve mini and maxi value"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''get movieclip amplitude curve mini and maxi value'''
+			clip = context.space_data.clip
+			
+			fCurve = getFCurveByDataPath(clip, 'CtF.amplitude')
+			if(fCurve is None):
+				m = M = clip.CtF.amplitude
+			else:
+				clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
+			
+			# update curves
+			status = clip.CtF.update_curves( context )
+			if status is True:
+				return {'FINISHED'}
+			else:
+				self.report( {'ERROR'}, status )
+				return {'CANCELLED'}
+	
+	
+	
+	
+	
+	class RestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
+		'''Restore default peak shape settings for multi track'''
+		bl_idname = "ctf.multi_track_restore_default_peak_shape"
+		bl_label= "restore default peak shape settings for multi track"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''restore default peak shape settings for multi track'''
+			context.scene.CtF.init_peaks_shape_curve()
+			return {'FINISHED'}
+	
+	
+	
+	
+	
+	class SingleTrackCurvesRefresh(bpy.types.Operator):
+		'''operator to initialize or refresh CtF info of a movie clip'''
+		bl_idname = "ctf.single_track_curves_refresh"
+		bl_label= "refresh movieclip curves"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''refresh clip curves'''
+			status = context.space_data.clip.CtF.update_curves( context )
+			if status is True:
+				return {'FINISHED'}
+			else:
+				self.report( {'ERROR'}, status )
+				return {'CANCELLED'}
+	
+	
+	
+	
+	
+	class RestoreDefaultPeakShape(bpy.types.Operator):
+		'''Restore default peak shape settings'''
+		bl_idname = "ctf.restore_default_peak_shape"
+		bl_label= "restore default peak shape settings"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''restore default peak shape settings'''
+			context.space_data.clip.CtF.init_peaks_shape_curve()
+			return {'FINISHED'}
+	
+	
+	
+	
+	
+	class MultiTrackCurvesRefresh(bpy.types.Operator):
+		'''operator to initialize or refresh CtF info of the scene'''
+		bl_idname = "ctf.multi_track_curves_refresh"
+		bl_label= "refresh multi track curves"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''refresh scene curves'''
+			status = context.scene.CtF.update_curves( context )
+			if status is True:
+				return {'FINISHED'}
+			else:
+				self.report( {'ERROR'}, status )
+				return {'CANCELLED'}
+	
+	
+	
+	
+	
+	class InitMovieClip(bpy.types.Operator):
+		'''operator to initialize or refresh CtF info of a movie clip'''
+		bl_idname = "ctf.init_movie_clip"
+		bl_label= "refresh MovieClip CtF Attribute"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''refresh CtF info of a movie clip'''
+			bpy.ops.clip.reload()# reload source file
+			clip = context.space_data.clip
+			if clip is None:
+				self.report({'ERROR'}, 'can\'t find the selected movieclip.')
+				return {'CANCELLED'}
+			else:
+				if getFCurveByDataPath(clip, 'CtF.peaks_shape') is None:
+						clip.CtF.init_peaks_shape_curve()
+				return clip.CtF.initialize()
+	
+	
+	
+	
+	
+	class RefreshSceneMiniMaxi(bpy.types.Operator):
+		'''operator to initialize or refresh CtF info of the scene'''
+		bl_idname = "ctf.refresh_scene_mini_maxi"
+		bl_label= "get scene amplitude curve mini and maxi value"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			'''get scene amplitude curve mini and maxi value'''
+			scene = context.scene
+			
+			fCurve = getFCurveByDataPath(scene, 'CtF.amplitude')
+			if(fCurve is None):
+				m = M = scene.CtF.amplitude
+			else:
+				scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
+			
+			# update curves
+			status = scene.CtF.update_curves( context )
+			if status is True:
+				return {'FINISHED'}
+			else:
+				self.report( {'ERROR'}, status )
+				return {'CANCELLED'}
+	
+	
+	
+	
 	
 	def set_end_frame(self, context):
 		'''check that start and end frame are valid when 
