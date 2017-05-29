@@ -10,6 +10,7 @@ bl_info = {
 
 from .functions import *
 from .single_track import single_track
+from .multi_track import multi_track
 import bpy, platform
 
 
