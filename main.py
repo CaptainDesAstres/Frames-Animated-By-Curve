@@ -6,17 +6,6 @@ from uuid import uuid4
 
 
 
-def checkCtFDriver(ob):
-	'''check the object have no driver on property used by the addon'''
-	if(		ob.animation_data is None
-			or ob.animation_data.drivers is None):
-		return False
-	
-	for driver in ob.animation_data.drivers:
-		if( driver.data_path.startswith('CtF.') ):
-			return True
-	
-	return False
 
 
 
@@ -331,6 +320,22 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
+	def checkCtFDriver( self ):
+		'''check the object have no driver on property used by the addon'''
+		if(		self.id_data.animation_data is None
+				or self.id_data.animation_data.drivers is None):
+			return False
+		
+		for driver in self.id_data.animation_data.drivers:
+			if( driver.data_path.startswith('CtF.') ):
+				return True
+		
+		return False
+	
+	
+	
+	
+	
 	def set_end_frame(self, context):
 		'''check that start and end frame are valid when 
 				changing end frame settings'''
@@ -391,15 +396,13 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def update_curves( self, context ):
 		'''update curve when settings have been changed'''
-		ob = self.id_data
-		
 		# initialize animation data if required
-		if ob.animation_data is None:
-			ob.animation_data_create()
+		if self.id_data.animation_data is None:
+			self.id_data.animation_data_create()
 		
-		if ob.animation_data.action is None:
-			ob.animation_data.action = bpy.data.actions.new( 
-										name= ob.name+'Action')
+		if self.id_data.animation_data.action is None:
+			self.id_data.animation_data.action = bpy.data.actions.new( 
+										name= self.id_data.name+'Action')
 		
 		# check and get peaks shapes
 		peak_shapes = self.checkAndGetPeaksShapes()
@@ -407,24 +410,24 @@ class CtF(bpy.types.PropertyGroup):
 			return peak_shapes
 		
 		# update amplitude net curve
-		amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
+		amplitude_net_curve = self.update_net_amplitude_curve( self.id_data, context )
 		
 		
 		# update peaks curve
-		peaks_curve = self.update_peaks_curve(ob, context,
+		peaks_curve = self.update_peaks_curve(self.id_data, context,
 							amplitude_net_curve, peak_shapes )
 		
 		#update combination curve
 		combination_curve = self.update_combination_curve(
-												ob, 
+												self.id_data, 
 												context, 
 												amplitude_net_curve,
 												peaks_curve
 												)
 		
-		if(type(ob) is bpy.types.MovieClip ):
+		if(type(self.id_data) is bpy.types.MovieClip ):
 			# update output curve
-			self.update_output_curve(ob, context, combination_curve)
+			self.update_output_curve(self.id_data, context, combination_curve)
 		
 		return True
 	
@@ -557,22 +560,21 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def checkAndGetPeaksShapes( self ):
 		'''get all peaks shape and check them'''
-		ob = self.id_data
 		# get shape curve
-		shape_curve = getFCurveByDataPath( ob, 
+		shape_curve = getFCurveByDataPath( self.id_data, 
 				'CtF.peaks_shape' )
 		if shape_curve is None:
 			self.init_peaks_shape_curve()
-			shape_curve = getFCurveByDataPath( ob, 'CtF.peaks_shape' )
+			shape_curve = getFCurveByDataPath( self.id_data, 'CtF.peaks_shape' )
 		
 		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
-		start_curve = getFCurveByDataPath( ob, 
+		start_curve = getFCurveByDataPath( self.id_data, 
 				'CtF.peaks_shape_range_start' )
 		
 		# get shape range end settings/curve
 		end = self.peaks_shape_range_end
-		end_curve = getFCurveByDataPath( ob, 
+		end_curve = getFCurveByDataPath( self.id_data, 
 				'CtF.peaks_shape_range_end' )
 		
 		# get all keyframe time for start curve
@@ -979,7 +981,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	def draw_run_button( self, layout, ob, warning ):
 		'''check situation and draw run button into panel'''
-		if(checkCtFDriver(ob)):
+		if( self.checkCtFDriver() ):
 			# check no driver is use on CtF property
 			row = layout.row()
 			row.label(text='This function can\'t be used with driver!', 
