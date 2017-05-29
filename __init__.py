@@ -9,7 +9,7 @@ bl_info = {
     "category": "Animation"}
 
 from .functions import *
-from .main import *
+from .single_track import single_track
 import bpy, platform
 
 
@@ -19,25 +19,25 @@ import bpy, platform
 
 def register():
 	'''addon register'''
-	bpy.utils.register_class(CurveToFrame.RestoreDefaultPeakShape)
-	bpy.utils.register_class(CurveToFrame.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.register_class(CurveToFrame.TracksActions)
-	bpy.utils.register_class(CurveToFrame.InitMovieClip)
-	bpy.utils.register_class(CurveToFrame.Track)
-	bpy.utils.register_class(CurveToFrame.TrackItem)
-	bpy.utils.register_class(CurveToFrame.RefreshClipMiniMaxi)
-	bpy.utils.register_class(CurveToFrame.RefreshSceneMiniMaxi)
-	bpy.utils.register_class(CurveToFrame.SingleTrackCurvesRefresh)
-	bpy.utils.register_class(CurveToFrame.MultiTrackCurvesRefresh)
-	bpy.utils.register_class(CurveToFrame)
-	bpy.utils.register_class(CurveToFrame.SingleTrackCurveToFrame)
-	bpy.utils.register_class(CurveToFrame.SingleTrackPanel)
-	bpy.utils.register_class(CurveToFrame.MultiTrackTracksPanel)
-	bpy.utils.register_class(CurveToFrame.MultiTrackAmplitudePanel)
-	bpy.utils.register_class(CurveToFrame.MultiTrackOutputPanel)
+	bpy.utils.register_class(single_track.CurveToFrame.RestoreDefaultPeakShape)
+	bpy.utils.register_class(single_track.CurveToFrame.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.register_class(single_track.CurveToFrame.TracksActions)
+	bpy.utils.register_class(single_track.CurveToFrame.InitMovieClip)
+	bpy.utils.register_class(single_track.CurveToFrame.Track)
+	bpy.utils.register_class(single_track.CurveToFrame.TrackItem)
+	bpy.utils.register_class(single_track.CurveToFrame.RefreshClipMiniMaxi)
+	bpy.utils.register_class(single_track.CurveToFrame.RefreshSceneMiniMaxi)
+	bpy.utils.register_class(single_track.CurveToFrame.SingleTrackCurvesRefresh)
+	bpy.utils.register_class(single_track.CurveToFrame.MultiTrackCurvesRefresh)
+	bpy.utils.register_class(single_track.CurveToFrame)
+	bpy.utils.register_class(single_track.CurveToFrame.SingleTrackCurveToFrame)
+	bpy.utils.register_class(single_track.CurveToFrame.SingleTrackPanel)
+	bpy.utils.register_class(single_track.CurveToFrame.MultiTrackTracksPanel)
+	bpy.utils.register_class(single_track.CurveToFrame.MultiTrackAmplitudePanel)
+	bpy.utils.register_class(single_track.CurveToFrame.MultiTrackOutputPanel)
 	
-	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=CurveToFrame)
-	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=CurveToFrame)
+	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=single_track.CurveToFrame)
+	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=single_track.CurveToFrame)
 	
 	# Add to scene type a property to define if script does real file copy
 	if platform.system().lower() in ['linux', 'unix']:
@@ -62,21 +62,21 @@ def register():
 
 def unregister():
 	'''addon unregister'''
-	bpy.utils.unregister_class(CurveToFrame.RestoreDefaultPeakShape)
-	bpy.utils.unregister_class(CurveToFrame.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.unregister_class(CurveToFrame.TracksActions)
-	bpy.utils.unregister_class(CurveToFrame.InitMovieClip)
-	bpy.utils.unregister_class(CurveToFrame.Track)
-	bpy.utils.unregister_class(CurveToFrame.TrackItem)
-	bpy.utils.unregister_class(CurveToFrame.RefreshClipMiniMaxi)
-	bpy.utils.unregister_class(CurveToFrame.RefreshSceneMiniMaxi)
-	bpy.utils.unregister_class(CurveToFrame.SingleTrackCurvesRefresh)
-	bpy.utils.unregister_class(CurveToFrame.MultiTrackCurvesRefresh)
-	bpy.utils.unregister_class(CurveToFrame)
-	bpy.utils.unregister_class(CurveToFrame.SingleTrackPanel)
-	bpy.utils.unregister_class(CurveToFrame.MultiTrackAmplitudePanel)
-	bpy.utils.unregister_class(CurveToFrame.SingleTrackCurveToFrame)
-	bpy.utils.unregister_class(CurveToFrame.MultiTrackTracksPanel)
-	bpy.utils.unregister_class(CurveToFrame.MultiTrackOutputPanel)
+	bpy.utils.unregister_class(single_track.CurveToFrame.RestoreDefaultPeakShape)
+	bpy.utils.unregister_class(single_track.CurveToFrame.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.unregister_class(single_track.CurveToFrame.TracksActions)
+	bpy.utils.unregister_class(single_track.CurveToFrame.InitMovieClip)
+	bpy.utils.unregister_class(single_track.CurveToFrame.Track)
+	bpy.utils.unregister_class(single_track.CurveToFrame.TrackItem)
+	bpy.utils.unregister_class(single_track.CurveToFrame.RefreshClipMiniMaxi)
+	bpy.utils.unregister_class(single_track.CurveToFrame.RefreshSceneMiniMaxi)
+	bpy.utils.unregister_class(single_track.CurveToFrame.SingleTrackCurvesRefresh)
+	bpy.utils.unregister_class(single_track.CurveToFrame.MultiTrackCurvesRefresh)
+	bpy.utils.unregister_class(single_track.CurveToFrame)
+	bpy.utils.unregister_class(single_track.CurveToFrame.SingleTrackPanel)
+	bpy.utils.unregister_class(single_track.CurveToFrame.MultiTrackAmplitudePanel)
+	bpy.utils.unregister_class(single_track.CurveToFrame.SingleTrackCurveToFrame)
+	bpy.utils.unregister_class(single_track.CurveToFrame.MultiTrackTracksPanel)
+	bpy.utils.unregister_class(single_track.CurveToFrame.MultiTrackOutputPanel)
 	print("Frames Animated By Curve is disabled")
 
