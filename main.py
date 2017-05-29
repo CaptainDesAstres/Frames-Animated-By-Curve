@@ -23,7 +23,7 @@ class CtFRefreshClipMiniMaxi(bpy.types.Operator):
 			clip.CtF.mini, clip.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		status = update_curves(clip.CtF, context)
+		status = clip.CtF.update_curves( context )
 		if status is True:
 			return {'FINISHED'}
 		else:
@@ -49,7 +49,7 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 			scene.CtF.mini, scene.CtF.maxi = getCurveLimit(fCurve)
 		
 		# update curves
-		status = update_curves(scene.CtF, context)
+		status = scene.CtF.update_curves( context )
 		if status is True:
 			return {'FINISHED'}
 		else:
@@ -87,7 +87,7 @@ class CtFSingleTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh clip curves'''
-		status = update_curves(context.space_data.clip.CtF, context)
+		status = context.space_data.clip.CtF.update_curves( context )
 		if status is True:
 			return {'FINISHED'}
 		else:
@@ -131,7 +131,7 @@ class CtFMultiTrackCurvesRefresh(bpy.types.Operator):
 	
 	def execute(self, context):
 		'''refresh scene curves'''
-		status = update_curves(context.scene.CtF, context)
+		status = context.scene.CtF.update_curves( context )
 		if status is True:
 			return {'FINISHED'}
 		else:
@@ -210,48 +210,6 @@ def set_maxi(self, context):
 	if self.mini > self.maxi:
 		self['mini'] = self.maxi
 	
-
-
-
-
-def update_curves(self, context):## self correspond to clip.CtF
-	'''update curve when settings have been changed'''
-	ob = self.id_data
-	
-	# initialize animation data if required
-	if ob.animation_data is None:
-		ob.animation_data_create()
-	
-	if ob.animation_data.action is None:
-		ob.animation_data.action = bpy.data.actions.new( 
-									name= ob.name+'Action')
-	
-	# check and get peaks shapes
-	peak_shapes = self.checkAndGetPeaksShapes()
-	if type(peak_shapes) is str:
-		return peak_shapes
-	
-	# update amplitude net curve
-	amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
-	
-	
-	# update peaks curve
-	peaks_curve = self.update_peaks_curve(ob, context,
-						amplitude_net_curve, peak_shapes )
-	
-	#update combination curve
-	combination_curve = self.update_combination_curve(
-											ob, 
-											context, 
-											amplitude_net_curve,
-											peaks_curve
-											)
-	
-	if(type(ob) is bpy.types.MovieClip ):
-		# update output curve
-		self.update_output_curve(ob, context, combination_curve)
-	
-	return True
 
 
 
@@ -419,6 +377,50 @@ class TracksActions(bpy.types.Operator):
 class CtF(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form CtF addon'''
+	
+	def update_curves( self, context ):
+		'''update curve when settings have been changed'''
+		ob = self.id_data
+		
+		# initialize animation data if required
+		if ob.animation_data is None:
+			ob.animation_data_create()
+		
+		if ob.animation_data.action is None:
+			ob.animation_data.action = bpy.data.actions.new( 
+										name= ob.name+'Action')
+		
+		# check and get peaks shapes
+		peak_shapes = self.checkAndGetPeaksShapes()
+		if type(peak_shapes) is str:
+			return peak_shapes
+		
+		# update amplitude net curve
+		amplitude_net_curve = self.update_net_amplitude_curve( ob, context )
+		
+		
+		# update peaks curve
+		peaks_curve = self.update_peaks_curve(ob, context,
+							amplitude_net_curve, peak_shapes )
+		
+		#update combination curve
+		combination_curve = self.update_combination_curve(
+												ob, 
+												context, 
+												amplitude_net_curve,
+												peaks_curve
+												)
+		
+		if(type(ob) is bpy.types.MovieClip ):
+			# update output curve
+			self.update_output_curve(ob, context, combination_curve)
+		
+		return True
+	
+	
+	
+	
+	
 	
 	# flag to know if CtF have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
@@ -1980,8 +1982,7 @@ class SingleTrackCurveToFrame(bpy.types.Operator):
 		else:
 			clip.CtF.initialize()
 		
-		settings = clip.CtF
-		status = update_curves(settings, context)
+		status = clip.CtF.update_curves( context )
 		if status is not True:
 			self.report( {'ERROR'}, status )
 			return {'CANCELLED'}
@@ -1993,7 +1994,7 @@ class SingleTrackCurveToFrame(bpy.types.Operator):
 			output = os.symlink
 		
 		# get output path
-		dst = bpy.path.abspath( settings.output_path )
+		dst = bpy.path.abspath( clip.CtF.output_path )
 		if(dst[-1] != '/'):
 			dst += '/'
 		dst += clip.name+'.CtF_output'
@@ -2034,7 +2035,7 @@ class SingleTrackCurveToFrame(bpy.types.Operator):
 			# copy (or symlink) the corresponding 
 			# frame into the output path
 			try:
-				output( settings.path + clip.CtF.getFrameName(fr),
+				output( clip.CtF.path + clip.CtF.getFrameName(fr),
 						dst + clip.CtF.getFrameName(context.scene.frame_current)
 						)
 			except OSError as e:
