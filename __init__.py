@@ -472,48 +472,6 @@ class TracksActions(bpy.types.Operator):
 
 
 
-
-def add_track( self, context ):
-	'''add the selected tracks in tracks list'''
-	# get new track name
-	track = self.id_data.CtF.track_add
-	
-	# avoid recursive call
-	if track == '':
-		return
-	
-	# get the corresponding movieclip
-	try:
-		track = bpy.data.movieclips[ track ]
-	except KeyError:
-		return
-	
-	
-	# check the source is compatible
-	if track.source != 'SEQUENCE':
-		return
-	
-	
-	# load tracks if necessary
-	if track.CtF.uid == '':
-		track.CtF.initialize()
-	
-	if getFCurveByDataPath(track, 'CtF.peaks_shape') is None:
-		track.CtF.init_peaks_shape_curve()
-	
-	# add to the list
-	new = context.scene.CtF.tracks.add()
-	new.name = track.name
-	new.uid = track.CtF.uid
-	new.track_id = len(context.scene.CtF.tracks)-1
-	self.id_data.CtF.selected_track = new.track_id
-	
-	# clear the add field
-	self.id_data.CtF.track_add=''
-
-
-
-
 class CtF(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form CtF addon'''
@@ -767,6 +725,49 @@ class CtF(bpy.types.PropertyGroup):
 	#################################################
 	##     Tracks managing                         ##
 	#################################################
+	
+	def add_track( self, context ):
+		'''add the selected tracks in tracks list'''
+		# get new track name
+		track = self.track_add
+		
+		# avoid recursive call
+		if track == '':
+			return
+		
+		# get the corresponding movieclip
+		try:
+			track = bpy.data.movieclips[ track ]
+		except KeyError:
+			return
+		
+		
+		# check the source is compatible
+		if track.source != 'SEQUENCE':
+			return
+		
+		
+		# load tracks if necessary
+		if track.CtF.uid == '':
+			track.CtF.initialize()
+		
+		if getFCurveByDataPath(track, 'CtF.peaks_shape') is None:
+			track.CtF.init_peaks_shape_curve()
+		
+		# add to the list
+		new = self.tracks.add()
+		new.name = track.name
+		new.uid = track.CtF.uid
+		new.track_id = len(self.tracks)-1
+		self.selected_track = new.track_id
+		
+		# clear the add field
+		self.track_add=''
+	
+	
+	
+	
+	
 	track_add = bpy.props.StringProperty(
 		name = "Add",
 		description = "Add tracks to the list",
