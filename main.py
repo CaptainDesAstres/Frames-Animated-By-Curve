@@ -5,14 +5,8 @@ from uuid import uuid4
 
 
 
-
-
-
-
-
-
 class Track(bpy.types.PropertyGroup):
-	''' managing CtF track Identification'''
+	''' managing curve to frame track Identification'''
 	name = bpy.props.StringProperty()
 	uid = bpy.props.StringProperty()
 	track_id = bpy.props.IntProperty()
@@ -29,13 +23,13 @@ class Track(bpy.types.PropertyGroup):
 		'''return the movie clip corresponding to this track'''
 		try:
 			track = bpy.data.movieclips[ self.name ]
-			if track.CtF.uid == self.uid:
+			if track.curve_to_frame.uid == self.uid:
 				return track
 		except KeyError:
 			pass
 		
 		for track in bpy.data.movieclips:
-			if track.CtF.uid == self.uid:
+			if track.curve_to_frame.uid == self.uid:
 				
 				if rename:
 					try:
@@ -99,70 +93,70 @@ class TracksActions(bpy.types.Operator):
 	
 	def invoke(self, context, event):
 		scn = context.scene
-		i = scn.CtF.selected_track
+		i = scn.curve_to_frame.selected_track
 		
 		try:
-			item = scn.CtF.tracks[i]
+			item = scn.curve_to_frame.tracks[i]
 		except IndexError:
 			self.report({'ERROR'}, 'Error: bad selection')
 			return {"CANCELLED"}
 		
 		if self.action == 'DOWN':
 			# move selected track down
-			if( i < len(scn.CtF.tracks)-1 ):
-				scn.CtF.tracks.move( i, i+1 )
-				scn.CtF.selected_track = i+1
+			if( i < len(scn.curve_to_frame.tracks)-1 ):
+				scn.curve_to_frame.tracks.move( i, i+1 )
+				scn.curve_to_frame.selected_track = i+1
 			
 		elif self.action == 'UP':
 			# move selected track up
 			if( i > 0 ):
-				scn.CtF.tracks.move( i, i-1 )
-				scn.CtF.selected_track = i-1
+				scn.curve_to_frame.tracks.move( i, i-1 )
+				scn.curve_to_frame.selected_track = i-1
 			
 		elif self.action == 'REMOVE':
 			# remove selected track
-			scn.CtF.tracks.remove(i)
+			scn.curve_to_frame.tracks.remove(i)
 			
-			if i > len(scn.CtF.tracks)-1:
-				scn.CtF.selected_track = len(scn.CtF.tracks)-1
+			if i > len(scn.curve_to_frame.tracks)-1:
+				scn.curve_to_frame.selected_track = len(scn.curve_to_frame.tracks)-1
 			
 		elif self.action == 'CHECK':
 			# check if all tracks in the list are OK
 			index = -1
-			for key in scn.CtF.tracks.keys():
+			for key in scn.curve_to_frame.tracks.keys():
 				index += 1
 				
 				# check the corresponding movieclip exist
-				track = scn.CtF.tracks[index].get(scn, True)
+				track = scn.curve_to_frame.tracks[index].get(scn, True)
 				if track is None:
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
-					scn.CtF.tracks.remove(index)
+					scn.curve_to_frame.tracks.remove(index)
 					continue
 				
 				
 				# check the corresponding movieclip is a SEQUENCE
 				if track.source != 'SEQUENCE':
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip is not a sequence. the corresponding track have been removed.')
-					scn.CtF.tracks.remove(index)
+					scn.curve_to_frame.tracks.remove(index)
 					continue
 				
 				
 				# initialize corresponding movieclip if necessary
-				if track.CtF.uid == '':
-					track.CtF.initialize()
+				if track.curve_to_frame.uid == '':
+					track.curve_to_frame.initialize()
 				
-				if get_fcurve_by_data_path(track, 'CtF.peaks_shape') is None:
-					track.CtF.init_peaks_shape_curve()
+				if get_fcurve_by_data_path(track, 'curve_to_frame.peaks_shape') is None:
+					track.curve_to_frame.init_peaks_shape_curve()
 				
 				# check all image of the sequence exist
-				if not track.CtF.check_image_file():
+				if not track.curve_to_frame.check_image_file():
 					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
 		
 		# update track id
 		index = -1
-		for key in scn.CtF.tracks.keys():
+		for key in scn.curve_to_frame.tracks.keys():
 			index +=1
-			scn.CtF.tracks[index].track_id = index
+			scn.curve_to_frame.tracks[index].track_id = index
 		
 		
 		return {"FINISHED"}
@@ -170,12 +164,12 @@ class TracksActions(bpy.types.Operator):
 
 
 
-class CtF(bpy.types.PropertyGroup):
+class CurveToFrame(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
-			design form CtF addon'''
+			design form curve to frame addon'''
 	
 	class RefreshClipMiniMaxi(bpy.types.Operator):
-		'''operator to initialize or refresh CtF info of a movie clip'''
+		'''operator to initialize or refresh curve to frame info of a movie clip'''
 		bl_idname = "ctf.refresh_movieclip_mini_maxi"
 		bl_label= "get movieclip amplitude curve mini and maxi value"
 		bl_options = {'INTERNAL'}
@@ -184,14 +178,14 @@ class CtF(bpy.types.PropertyGroup):
 			'''get movieclip amplitude curve mini and maxi value'''
 			clip = context.space_data.clip
 			
-			fCurve = get_fcurve_by_data_path(clip, 'CtF.amplitude')
+			fCurve = get_fcurve_by_data_path(clip, 'curve_to_frame.amplitude')
 			if(fCurve is None):
-				m = M = clip.CtF.amplitude
+				m = M = clip.curve_to_frame.amplitude
 			else:
-				clip.CtF.mini, clip.CtF.maxi = get_curve_limit(fCurve)
+				clip.curve_to_frame.mini, clip.curve_to_frame.maxi = get_curve_limit(fCurve)
 			
 			# update curves
-			status = clip.CtF.update_curves( context )
+			status = clip.curve_to_frame.update_curves( context )
 			if status is True:
 				return {'FINISHED'}
 			else:
@@ -210,7 +204,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		def execute(self, context):
 			'''restore default peak shape settings for multi track'''
-			context.scene.CtF.init_peaks_shape_curve()
+			context.scene.curve_to_frame.init_peaks_shape_curve()
 			return {'FINISHED'}
 	
 	
@@ -218,14 +212,14 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	class SingleTrackCurvesRefresh(bpy.types.Operator):
-		'''operator to initialize or refresh CtF info of a movie clip'''
+		'''operator to initialize or refresh curve to frame info of a movie clip'''
 		bl_idname = "ctf.single_track_curves_refresh"
 		bl_label= "refresh movieclip curves"
 		bl_options = {'INTERNAL'}
 		
 		def execute(self, context):
 			'''refresh clip curves'''
-			status = context.space_data.clip.CtF.update_curves( context )
+			status = context.space_data.clip.curve_to_frame.update_curves( context )
 			if status is True:
 				return {'FINISHED'}
 			else:
@@ -244,7 +238,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		def execute(self, context):
 			'''restore default peak shape settings'''
-			context.space_data.clip.CtF.init_peaks_shape_curve()
+			context.space_data.clip.curve_to_frame.init_peaks_shape_curve()
 			return {'FINISHED'}
 	
 	
@@ -252,14 +246,14 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	class MultiTrackCurvesRefresh(bpy.types.Operator):
-		'''operator to initialize or refresh CtF info of the scene'''
+		'''operator to initialize or refresh curve to frame info of the scene'''
 		bl_idname = "ctf.multi_track_curves_refresh"
 		bl_label= "refresh multi track curves"
 		bl_options = {'INTERNAL'}
 		
 		def execute(self, context):
 			'''refresh scene curves'''
-			status = context.scene.CtF.update_curves( context )
+			status = context.scene.curve_to_frame.update_curves( context )
 			if status is True:
 				return {'FINISHED'}
 			else:
@@ -271,29 +265,29 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	class InitMovieClip(bpy.types.Operator):
-		'''operator to initialize or refresh CtF info of a movie clip'''
+		'''operator to initialize or refresh curve to frame info of a movie clip'''
 		bl_idname = "ctf.init_movie_clip"
-		bl_label= "refresh MovieClip CtF Attribute"
+		bl_label= "refresh MovieClip curve to frame Attribute"
 		bl_options = {'INTERNAL'}
 		
 		def execute(self, context):
-			'''refresh CtF info of a movie clip'''
+			'''refresh curve to frame info of a movie clip'''
 			bpy.ops.clip.reload()# reload source file
 			clip = context.space_data.clip
 			if clip is None:
 				self.report({'ERROR'}, 'can\'t find the selected movieclip.')
 				return {'CANCELLED'}
 			else:
-				if get_fcurve_by_data_path(clip, 'CtF.peaks_shape') is None:
-						clip.CtF.init_peaks_shape_curve()
-				return clip.CtF.initialize()
+				if get_fcurve_by_data_path(clip, 'curve_to_frame.peaks_shape') is None:
+						clip.curve_to_frame.init_peaks_shape_curve()
+				return clip.curve_to_frame.initialize()
 	
 	
 	
 	
 	
 	class RefreshSceneMiniMaxi(bpy.types.Operator):
-		'''operator to initialize or refresh CtF info of the scene'''
+		'''operator to initialize or refresh curve to frame info of the scene'''
 		bl_idname = "ctf.refresh_scene_mini_maxi"
 		bl_label= "get scene amplitude curve mini and maxi value"
 		bl_options = {'INTERNAL'}
@@ -302,14 +296,14 @@ class CtF(bpy.types.PropertyGroup):
 			'''get scene amplitude curve mini and maxi value'''
 			scene = context.scene
 			
-			fCurve = get_fcurve_by_data_path(scene, 'CtF.amplitude')
+			fCurve = get_fcurve_by_data_path(scene, 'curve_to_frame.amplitude')
 			if(fCurve is None):
-				m = M = scene.CtF.amplitude
+				m = M = scene.curve_to_frame.amplitude
 			else:
-				scene.CtF.mini, scene.CtF.maxi = get_curve_limit(fCurve)
+				scene.curve_to_frame.mini, scene.curve_to_frame.maxi = get_curve_limit(fCurve)
 			
 			# update curves
-			status = scene.CtF.update_curves( context )
+			status = scene.curve_to_frame.update_curves( context )
 			if status is True:
 				return {'FINISHED'}
 			else:
@@ -327,7 +321,7 @@ class CtF(bpy.types.PropertyGroup):
 			return False
 		
 		for driver in self.id_data.animation_data.drivers:
-			if( driver.data_path.startswith('CtF.') ):
+			if( driver.data_path.startswith('curve_to_frame.') ):
 				return True
 		
 		return False
@@ -457,16 +451,16 @@ class CtF(bpy.types.PropertyGroup):
 		
 		
 		# load tracks if necessary
-		if track.CtF.uid == '':
-			track.CtF.initialize()
+		if track.curve_to_frame.uid == '':
+			track.curve_to_frame.initialize()
 		
-		if get_fcurve_by_data_path(track, 'CtF.peaks_shape') is None:
-			track.CtF.init_peaks_shape_curve()
+		if get_fcurve_by_data_path(track, 'curve_to_frame.peaks_shape') is None:
+			track.curve_to_frame.init_peaks_shape_curve()
 		
 		# add to the list
 		new = self.tracks.add()
 		new.name = track.name
-		new.uid = track.CtF.uid
+		new.uid = track.curve_to_frame.uid
 		new.track_id = len(self.tracks)-1
 		self.selected_track = new.track_id
 		
@@ -482,32 +476,32 @@ class CtF(bpy.types.PropertyGroup):
 		clip = self.id_data
 		
 		# get source path and extension
-		clip.CtF.path, name = os.path.split(bpy.path.abspath(clip.filepath))
-		clip.CtF.path += '/'
-		name, clip.CtF.ext = os.path.splitext( name )
+		clip.curve_to_frame.path, name = os.path.split(bpy.path.abspath(clip.filepath))
+		clip.curve_to_frame.path += '/'
+		name, clip.curve_to_frame.ext = os.path.splitext( name )
 		
 		# get file naming prefix, suffix and length
 		l = len(name)
 		n = l-1
 		while ( not name[n].isdigit() and n > 0 ):
 			n -= 1
-		clip.CtF.suffix = name[n+1:l]
-		clip.CtF.prefix = name[0:n].rstrip('0123456789')
-		clip.CtF.number_size = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
+		clip.curve_to_frame.suffix = name[n+1:l]
+		clip.curve_to_frame.prefix = name[0:n].rstrip('0123456789')
+		clip.curve_to_frame.number_size = l - len(clip.curve_to_frame.suffix)-len(clip.curve_to_frame.prefix)
 		
 		# Get clip length and first and last frame number
-		clip.CtF.first = int(name[len(clip.CtF.suffix):n+1])
-		clip.CtF.size = clip.frame_duration
-		clip.CtF.last = clip.CtF.first + clip.CtF.size -1
+		clip.curve_to_frame.first = int(name[len(clip.curve_to_frame.suffix):n+1])
+		clip.curve_to_frame.size = clip.frame_duration
+		clip.curve_to_frame.last = clip.curve_to_frame.first + clip.curve_to_frame.size -1
 		
-		# adapt CtF.end property if needed
-		if(not clip.CtF.init or clip.CtF.end > clip.CtF.size):
-			clip.CtF.end = clip.CtF.size
-			clip.CtF.init = True
+		# adapt curve_to_frame.end property if needed
+		if(not clip.curve_to_frame.init or clip.curve_to_frame.end > clip.curve_to_frame.size):
+			clip.curve_to_frame.end = clip.curve_to_frame.size
+			clip.curve_to_frame.init = True
 		
 		# allocate an uid to the clip
-		if(clip.CtF.uid == '' ):
-			clip.CtF.uid = str(uuid4())
+		if(clip.curve_to_frame.uid == '' ):
+			clip.curve_to_frame.uid = str(uuid4())
 		
 		return {'FINISHED'}
 	
@@ -520,7 +514,7 @@ class CtF(bpy.types.PropertyGroup):
 		clip = self.id_data
 		
 		# erase previous curve
-		curve = get_fcurve_by_data_path( clip, 'CtF.peaks_shape' )
+		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape' )
 		if curve is not None:
 			clip.animation_data.action.fcurves.remove(curve)
 		
@@ -532,8 +526,8 @@ class CtF(bpy.types.PropertyGroup):
 			clip.animation_data.action = bpy.data.actions.new( 
 						name= clip.name+'Action')
 		
-		clip.animation_data.action.fcurves.new( 'CtF.peaks_shape' )
-		curve = get_fcurve_by_data_path( clip, 'CtF.peaks_shape' )
+		clip.animation_data.action.fcurves.new( 'curve_to_frame.peaks_shape' )
+		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape' )
 		
 		# set default profile
 		curve.keyframe_points.insert( 0 , 0 )
@@ -544,15 +538,15 @@ class CtF(bpy.types.PropertyGroup):
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		# erase range start/end curve
-		curve = get_fcurve_by_data_path( clip, 'CtF.peaks_shape_range_start' )
+		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_start' )
 		if curve is not None:
 			clip.animation_data.action.fcurves.remove(curve)
-		clip.CtF.peaks_shape_range_start = 0
+		clip.curve_to_frame.peaks_shape_range_start = 0
 		
-		curve = get_fcurve_by_data_path( clip, 'CtF.peaks_shape_range_end' )
+		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_end' )
 		if curve is not None:
 			clip.animation_data.action.fcurves.remove(curve)
-		clip.CtF.peaks_shape_range_end = 2
+		clip.curve_to_frame.peaks_shape_range_end = 2
 	
 	
 	
@@ -562,20 +556,20 @@ class CtF(bpy.types.PropertyGroup):
 		'''get all peaks shape and check them'''
 		# get shape curve
 		shape_curve = get_fcurve_by_data_path( self.id_data, 
-				'CtF.peaks_shape' )
+				'curve_to_frame.peaks_shape' )
 		if shape_curve is None:
 			self.init_peaks_shape_curve()
-			shape_curve = get_fcurve_by_data_path( self.id_data, 'CtF.peaks_shape' )
+			shape_curve = get_fcurve_by_data_path( self.id_data, 'curve_to_frame.peaks_shape' )
 		
 		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
 		start_curve = get_fcurve_by_data_path( self.id_data, 
-				'CtF.peaks_shape_range_start' )
+				'curve_to_frame.peaks_shape_range_start' )
 		
 		# get shape range end settings/curve
 		end = self.peaks_shape_range_end
 		end_curve = get_fcurve_by_data_path( self.id_data, 
-				'CtF.peaks_shape_range_end' )
+				'curve_to_frame.peaks_shape_range_end' )
 		
 		# get all keyframe time for start curve
 		keys = [0]
@@ -712,7 +706,7 @@ class CtF(bpy.types.PropertyGroup):
 			return True
 			
 		elif(not self.init):
-			# ask to initialize CtF on thes MovieClip
+			# ask to initialize curve to frame on thes MovieClip
 			row = layout.row()
 			row.operator(
 				"ctf.init_movie_clip",
@@ -776,7 +770,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.prop(self, "amplitude")
 		
 		# A field to remind F-Curve min and max value
-		fCurve = get_fcurve_by_data_path(self.id_data, 'CtF.amplitude')
+		fCurve = get_fcurve_by_data_path(self.id_data, 'curve_to_frame.amplitude')
 		if(fCurve is None):
 			m = M = self.amplitude
 		else:
@@ -934,13 +928,13 @@ class CtF(bpy.types.PropertyGroup):
 		# A checkbox to get real frame file copy
 		col = row.column()
 		
-		if(not scene.CtFRealCopy \
+		if(not scene.ctf_real_copy \
 				and platform.system().lower() not in ['linux', 'unix']):
-			col.prop( scene, "CtFRealCopy", icon='ERROR' )
+			col.prop( scene, "ctf_real_copy", icon='ERROR' )
 			warning = True
 			
 		else:
-			col.prop( scene, "CtFRealCopy" )
+			col.prop( scene, "ctf_real_copy" )
 		
 		# A field to set the output path
 		row = layout.row()
@@ -965,12 +959,12 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# A checkbox to get real frame file copy
 		col = row.column()
-		if(not scene.CtFRealCopy \
+		if(not scene.ctf_real_copy \
 				and platform.system().lower() not in ['linux', 'unix']):
-			col.prop( scene, "CtFRealCopy", icon='ERROR' )
+			col.prop( scene, "ctf_real_copy", icon='ERROR' )
 			warning = True
 		else:
-			col.prop( scene, "CtFRealCopy" )
+			col.prop( scene, "ctf_real_copy" )
 		
 		return warning
 	
@@ -981,7 +975,7 @@ class CtF(bpy.types.PropertyGroup):
 	def draw_run_button( self, layout, warning ):
 		'''check situation and draw run button into panel'''
 		if( self.check_driver() ):
-			# check no driver is use on CtF property
+			# check no driver is use on curve to frame property
 			row = layout.row()
 			row.label(text='This function can\'t be used with driver!', 
 						icon='ERROR')
@@ -1004,7 +998,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def panel_single_track(self, context, layout, clip):
-		'''draw the CtF panel'''
+		'''draw the curve to frame panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
 		refresh_curve = "ctf.single_track_curves_refresh"
@@ -1047,25 +1041,25 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# get and erase amplitude_net fcurve
 		amplitude_net_curve = get_fcurve_by_data_path(clip, 
-										'CtF.amplitude_net')
+										'curve_to_frame.amplitude_net')
 		if amplitude_net_curve is not None:
 			hide = amplitude_net_curve.hide
 			clip.animation_data.action.fcurves.remove(amplitude_net_curve)
 		else:
 			hide = True
-		clip.animation_data.action.fcurves.new('CtF.amplitude_net')
+		clip.animation_data.action.fcurves.new('curve_to_frame.amplitude_net')
 		amplitude_net_curve = get_fcurve_by_data_path(clip,
-										'CtF.amplitude_net')
+										'curve_to_frame.amplitude_net')
 		
 		# get amplitude fcurve
-		raw_curve = get_fcurve_by_data_path(clip, 'CtF.amplitude')
-		raw_value = clip.CtF.amplitude
+		raw_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.amplitude')
+		raw_value = clip.curve_to_frame.amplitude
 		
 		# get mini and maxi fcurve
-		mini_curve = get_fcurve_by_data_path(clip, 'CtF.mini')
-		mini_value = clip.CtF.mini
-		maxi_curve = get_fcurve_by_data_path(clip, 'CtF.maxi')
-		maxi_value = clip.CtF.maxi
+		mini_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.mini')
+		mini_value = clip.curve_to_frame.mini
+		maxi_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.maxi')
+		maxi_value = clip.curve_to_frame.maxi
 		
 		# generate amplitude_net curve
 		while( frame <= end ):
@@ -1116,7 +1110,7 @@ class CtF(bpy.types.PropertyGroup):
 					shapes ):
 		'''update clip peaks curve'''
 		# remove old peaks
-		peaks_curve = get_fcurve_by_data_path(clip, 'CtF.peaks')
+		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
 		if peaks_curve is not None:
 			hide = peaks_curve.hide
 			clip.animation_data.action.fcurves.remove(peaks_curve)
@@ -1124,15 +1118,15 @@ class CtF(bpy.types.PropertyGroup):
 			hide = True
 		
 		# create new peaks
-		clip.animation_data.action.fcurves.new('CtF.peaks')
-		peaks_curve = get_fcurve_by_data_path(clip, 'CtF.peaks')
+		clip.animation_data.action.fcurves.new('curve_to_frame.peaks')
+		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
 		
 		# get rate curve and default value
-		rate_curve = get_fcurve_by_data_path(clip, 'CtF.rate')
-		rate_value = clip.CtF.rate
+		rate_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.rate')
+		rate_value = clip.curve_to_frame.rate
 		
 		# convert rate_curve to constant interpolation
-		if clip.CtF.auto_constant and rate_curve is not None:
+		if clip.curve_to_frame.auto_constant and rate_curve is not None:
 			for k in rate_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
 		
@@ -1150,13 +1144,13 @@ class CtF(bpy.types.PropertyGroup):
 				peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# rate_curve is animated
-			if clip.CtF.synchronized:
-				CtF.generate_sync_peaks_curve( context, clip,
+			if clip.curve_to_frame.synchronized:
+				curve_to_frame.generate_sync_peaks_curve( context, clip,
 						peaks_curve, shapes, rate_curve, amplitude_net_curve,
 						start, end
 						)
 			else:
-				CtF.generate_peaks_curve_segment( context, clip,
+				curve_to_frame.generate_peaks_curve_segment( context, clip,
 						peaks_curve, shapes, rate_curve, start, end
 						)
 		
@@ -1196,15 +1190,15 @@ class CtF(bpy.types.PropertyGroup):
 				k = peaks_curve.keyframe_points.insert( seg_start, 0 )
 				k.interpolation = 'CONSTANT'
 				while amplitude == 0 and seg_start <= end:
-					seg_start += clip.CtF.accuracy
+					seg_start += clip.curve_to_frame.accuracy
 					amplitude = amplitude_net_curve.evaluate(seg_start)
 			
 			seg_end = seg_start
 			while amplitude != 0 and seg_end <= end:
-				seg_end += clip.CtF.accuracy
+				seg_end += clip.curve_to_frame.accuracy
 				amplitude = amplitude_net_curve.evaluate(seg_end)
 			
-			seg_start = CtF.generate_peaks_curve_segment( 
+			seg_start = curve_to_frame.generate_peaks_curve_segment( 
 							context, clip, peaks_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
@@ -1229,12 +1223,12 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# get peaks shape range start/end curve
 		shape_start_curve =  get_fcurve_by_data_path( clip, 
-				'CtF.peaks_shape_range_start' )
+				'curve_to_frame.peaks_shape_range_start' )
 		shape_end_curve = get_fcurve_by_data_path( clip, 
-				'CtF.peaks_shape_range_end' )
+				'curve_to_frame.peaks_shape_range_end' )
 		
 		# get default rate
-		rate = clip.CtF.rate
+		rate = clip.curve_to_frame.rate
 		if rate_curve is not None:
 			rate = rate_curve.evaluate( start )
 		
@@ -1243,25 +1237,25 @@ class CtF(bpy.types.PropertyGroup):
 		if rate <= 0:
 			anticipate = False
 			frame, current_shape, shape_KF, rate =\
-						CtF.generate_no_peaks_segment( clip, rate_curve,
+						curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
 								peaks_curve, shape_start_curve, shape_end_curve,
 								shapes, frame, end )
 			if frame >= end:
 				return frame
 		
 		# convert rate if in ppm
-		if clip.CtF.rate_unit == 'ppm':
+		if clip.curve_to_frame.rate_unit == 'ppm':
 			rate = fps * 60 / rate
 		
 		# get peaks shape start range
 		if shape_start_curve is None:
-			shape_start = clip.CtF.peaks_shape_range_start
+			shape_start = clip.curve_to_frame.peaks_shape_range_start
 		else:
 			shape_start = shape_start_curve.evaluate( start )
 		
 		# get peaks shape end range
 		if shape_end_curve is None:
-			shape_end = clip.CtF.peaks_shape_range_end
+			shape_end = clip.curve_to_frame.peaks_shape_range_end
 		else:
 			shape_end = shape_end_curve.evaluate( start )
 		
@@ -1271,7 +1265,7 @@ class CtF(bpy.types.PropertyGroup):
 		
 		# generate anticipated keyframe
 		if anticipate:
-			frame, shape_key = CtF.generate_anticipated_peaks(
+			frame, shape_key = curve_to_frame.generate_anticipated_peaks(
 							clip, shapes[current_shape],
 							frame, rate, peaks_curve
 							)
@@ -1298,7 +1292,7 @@ class CtF(bpy.types.PropertyGroup):
 			# get rate value
 			if rate_curve is not None:
 				rate = rate_curve.evaluate( frame )
-				if rate > 0 and clip.CtF.rate_unit == 'ppm':
+				if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
 					rate = fps * 60 / rate
 			
 			# peaks end instructions
@@ -1335,7 +1329,7 @@ class CtF(bpy.types.PropertyGroup):
 			
 			if rate <= 0:
 				frame, current_shape, shape_KF, rate =\
-							CtF.generate_no_peaks_segment( clip, rate_curve,
+							curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
 									peaks_curve, shape_start_curve, shape_end_curve,
 									shapes, frame, end )
 				if frame >= end:
@@ -1360,9 +1354,9 @@ class CtF(bpy.types.PropertyGroup):
 		'''generate anticipated peaks keyframe'''
 		# get anticipate settings
 		anticipate_curve = get_fcurve_by_data_path( clip, 
-				'CtF.anticipate' )
+				'curve_to_frame.anticipate' )
 		if anticipate_curve is None:
-			anticipate = clip.CtF.anticipate
+			anticipate = clip.curve_to_frame.anticipate
 		else:
 			anticipate = anticipate_curve.evaluate(start)
 		
@@ -1418,7 +1412,7 @@ class CtF(bpy.types.PropertyGroup):
 		'''generate flat peaks curve segment when rate <= 0'''
 		rate = rate_curve.evaluate( frame )
 		while rate <= 0:
-			frame += clip.CtF.accuracy
+			frame += clip.curve_to_frame.accuracy
 			
 			if rate == 0:
 				keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
@@ -1431,10 +1425,10 @@ class CtF(bpy.types.PropertyGroup):
 			
 			rate = rate_curve.evaluate( frame )
 			while( rate <= 0 and ((rate == 0) == test) and frame <= end ):
-				frame += clip.CtF.accuracy
+				frame += clip.curve_to_frame.accuracy
 				rate = rate_curve.evaluate( frame )
 			
-			if rate > 0 and clip.CtF.rate_unit == 'ppm':
+			if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
 				rate = fps * 60 / rate
 			
 			# start a new peaks
@@ -1463,27 +1457,27 @@ class CtF(bpy.types.PropertyGroup):
 						peaks_curve):
 		'''update clip combination curve'''
 		# get combination mode curve
-		combination_enum = clip.CtF.bl_rna.\
+		combination_enum = clip.curve_to_frame.bl_rna.\
 													properties['combination_mode'].enum_items
-		combination_mode = combination_enum.find( clip.CtF.combination_mode )
+		combination_mode = combination_enum.find( clip.curve_to_frame.combination_mode )
 		combination_mode_curve = get_fcurve_by_data_path(clip, 
-								'CtF.combination_mode')
+								'curve_to_frame.combination_mode')
 		
 		# get and initialize combination curve
 		combination_curve = get_fcurve_by_data_path(clip, 
-								'CtF.combination')
+								'curve_to_frame.combination')
 		if combination_curve is not None:
 			hide = combination_curve.hide
 			clip.animation_data.action.fcurves.remove(combination_curve)
 		else:
 			hide = True
 		clip.animation_data.action.fcurves.new(
-									'CtF.combination')
+									'curve_to_frame.combination')
 		combination_curve = get_fcurve_by_data_path(clip, 
-									'CtF.combination')
+									'curve_to_frame.combination')
 		
 		# get rate curve
-		rate_curve = get_fcurve_by_data_path(clip, 'CtF.rate')
+		rate_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.rate')
 		
 		# loop only on peak curve keyframe
 		for keyframe in peaks_curve.keyframe_points:
@@ -1557,18 +1551,18 @@ class CtF(bpy.types.PropertyGroup):
 	def update_output_curve(self, clip, context, combination_curve):
 		'''update output curve'''
 		# get and initialize output curve
-		output_curve = get_fcurve_by_data_path(clip, 'CtF.output')
+		output_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.output')
 		if output_curve is not None:
 			hide = output_curve.hide
 			clip.animation_data.action.fcurves.remove(output_curve)
 		else:
 			hide = True
-		clip.animation_data.action.fcurves.new('CtF.output')
-		output_curve = get_fcurve_by_data_path(clip, 'CtF.output')
+		clip.animation_data.action.fcurves.new('curve_to_frame.output')
+		output_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.output')
 		
 		# get start and end curve
-		start_curve = get_fcurve_by_data_path(clip, 'CtF.start')
-		end_curve = get_fcurve_by_data_path(clip, 'CtF.end')
+		start_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.start')
+		end_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.end')
 		
 		# generate first keyframe
 		start = context.scene.frame_start
@@ -1576,9 +1570,9 @@ class CtF(bpy.types.PropertyGroup):
 		output_curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		# get rounding method
-		if(clip.CtF.rounding == 'round'):
+		if(clip.curve_to_frame.rounding == 'round'):
 			rounding = round
-		elif(clip.CtF.rounding == 'floor'):
+		elif(clip.curve_to_frame.rounding == 'floor'):
 			rounding = floor
 		else:
 			rounding = ceil
@@ -1591,29 +1585,29 @@ class CtF(bpy.types.PropertyGroup):
 			if start_curve is not None:
 				start_value = start_curve.evaluate(frame)
 			else:
-				start_value = clip.CtF.start
+				start_value = clip.curve_to_frame.start
 			
 			# check start_value
 			if start_value < 1 :
 				start_value = 1
-			elif start_value > clip.CtF.size:
-				start_value = clip.CtF.size
+			elif start_value > clip.curve_to_frame.size:
+				start_value = clip.curve_to_frame.size
 			
 			# get end value at this frame
 			if end_curve is not None:
 				end_value = end_curve.evaluate(frame)
 			else:
-				end_value = clip.CtF.end
+				end_value = clip.curve_to_frame.end
 			
 			# check end_value
 			if end_value < start_value :
 				end_value = start_value
-			elif end_value > clip.CtF.size:
-				end_value = clip.CtF.size
+			elif end_value > clip.curve_to_frame.size:
+				end_value = clip.curve_to_frame.size
 			
 			# generate keyframe
 			output_frame = rounding(
-					clip.CtF.first + start_value - 1 
+					clip.curve_to_frame.first + start_value - 1 
 					+ combination_curve.evaluate(frame)
 					* (end_value - start_value)
 					)
@@ -1638,7 +1632,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	def panel_multi_track_amplitude_and_peaks(self, context, layout):
-		'''draw the CtF panel'''
+		'''draw the curve to frame panel'''
 		
 		refresh_curve = "ctf.multi_track_curves_refresh"
 		refresh_mini_maxi = "ctf.refresh_scene_mini_maxi"
@@ -1703,7 +1697,7 @@ class CtF(bpy.types.PropertyGroup):
 		# display selected track settings
 		if (self.selected_track >= 0 
 				and self.selected_track < len(self.tracks) ):
-			track = self.tracks[self.selected_track].get(context.scene).CtF
+			track = self.tracks[self.selected_track].get(context.scene).curve_to_frame
 			
 			# Display selected track directory path
 			layout.separator()
@@ -1737,7 +1731,7 @@ class CtF(bpy.types.PropertyGroup):
 	
 	
 	
-	# flag to know if CtF have been initialize on this MovieClip
+	# flag to know if curve to frame have been initialize on this MovieClip
 	init = bpy.props.BoolProperty(default = False)
 	uid = bpy.props.StringProperty( default = '' )
 	
@@ -2022,24 +2016,24 @@ class SingleTrackCurveToFrame(bpy.types.Operator):
 			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
 			return {'CANCELLED'}
 		else:
-			clip.CtF.initialize()
+			clip.curve_to_frame.initialize()
 		
-		status = clip.CtF.update_curves( context )
+		status = clip.curve_to_frame.update_curves( context )
 		if status is not True:
 			self.report( {'ERROR'}, status )
 			return {'CANCELLED'}
 		
 		# check output method
-		if(context.scene.CtFRealCopy):
+		if(context.scene.ctf_real_copy):
 			output = shutil.copyfile
 		else:
 			output = os.symlink
 		
 		# get output path
-		dst = bpy.path.abspath( clip.CtF.output_path )
+		dst = bpy.path.abspath( clip.curve_to_frame.output_path )
 		if(dst[-1] != '/'):
 			dst += '/'
-		dst += clip.name+'.CtF_output'
+		dst += clip.name+'.curve_to_frame_output'
 		
 		# check output path exist, is writable and empty
 		if( os.path.exists( dst ) ):
@@ -2072,13 +2066,13 @@ class SingleTrackCurveToFrame(bpy.types.Operator):
 			context.scene.frame_set(frame)
 			
 			# get output frame
-			fr = clip.CtF.output
+			fr = clip.curve_to_frame.output
 			
 			# copy (or symlink) the corresponding 
 			# frame into the output path
 			try:
-				output( clip.CtF.path + clip.CtF.get_frame_name(fr),
-						dst + clip.CtF.get_frame_name(context.scene.frame_current)
+				output( clip.curve_to_frame.path + clip.curve_to_frame.get_frame_name(fr),
+						dst + clip.curve_to_frame.get_frame_name(context.scene.frame_current)
 						)
 			except OSError as e:
 				self.report({'ERROR'}, 
@@ -2110,7 +2104,7 @@ class SingleTrackPanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.CtF.panel_single_track(context, layout, clip)
+			clip.curve_to_frame.panel_single_track(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
@@ -2137,7 +2131,7 @@ class MultiTrackAmplitudePanel(bpy.types.Panel):
 	def draw(self, context):
 		'''the function that draw the addon UI'''
 		layout = self.layout
-		context.scene.CtF.panel_multi_track_amplitude_and_peaks( context, layout)
+		context.scene.curve_to_frame.panel_multi_track_amplitude_and_peaks( context, layout)
 		
 
 
@@ -2156,10 +2150,10 @@ class MultiTrackOutputPanel(bpy.types.Panel):
 		layout = self.layout
 		scene = context.scene
 		
-		warning = scene.CtF.draw_multi_track_output( layout, scene )
+		warning = scene.curve_to_frame.draw_multi_track_output( layout, scene )
 		
 		# draw run button or error message
-		#scene.CtF.draw_run_button( layout, warning )
+		#scene.curve_to_frame.draw_run_button( layout, warning )
 
 
 
@@ -2174,7 +2168,7 @@ class MultiTrackTracksPanel(bpy.types.Panel):
 	
 	def draw(self, context):
 		'''the function that draw the addon UI'''
-		context.scene.CtF.panel_tracks( self.layout, context )
+		context.scene.curve_to_frame.panel_tracks( self.layout, context )
 		
 
 

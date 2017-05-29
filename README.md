@@ -82,9 +82,9 @@ By default, this curve is hidden in the graph editor but can be visuallize by pr
 
 ### path
 
-In the bottom of the «Single track» part of the panel, you'll find a output field to choose the path where output animation will be saved. By default, it's the same directory than the blender file. Remember that no matter this settings, the script will always create a sub directory for the output animation, named with the Movie Clip name concatenate with '.CtF_output'. You can find and change the Movie Clip name in the bottom of the Movie Clip Editor. If you name it "chatty.png", then the output directory will be named "chatty.png.CtF_output"
+In the bottom of the «Single track» part of the panel, you'll find a output field to choose the path where output animation will be saved. By default, it's the same directory than the blender file. Remember that no matter this settings, the script will always create a sub directory for the output animation, named with the Movie Clip name concatenate with '.curve_to_frame_output'. You can find and change the Movie Clip name in the bottom of the Movie Clip Editor. If you name it "chatty.png", then the output directory will be named "chatty.png.curve_to_frame_output"
 
-You should know that the addon script take count of user preferences «Save Versions» settings to keep backup of old output. So, if you run script multiple time, old output will be moved to «chatty.png.CtF_output.backup1», then «chatty.png.CtF_output.backup2» and so on…
+You should know that the addon script take count of user preferences «Save Versions» settings to keep backup of old output. So, if you run script multiple time, old output will be moved to «chatty.png.curve_to_frame_output.backup1», then «chatty.png.curve_to_frame_output.backup2» and so on…
 
 
 ### animation frame length

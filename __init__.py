@@ -19,36 +19,36 @@ import bpy, platform
 
 def register():
 	'''addon register'''
-	bpy.utils.register_class(CtF.RestoreDefaultPeakShape)
-	bpy.utils.register_class(CtF.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.register_class(CurveToFrame.RestoreDefaultPeakShape)
+	bpy.utils.register_class(CurveToFrame.RestoreMultiTrackDefaultPeakShape)
 	bpy.utils.register_class(TracksActions)
-	bpy.utils.register_class(CtF.InitMovieClip)
+	bpy.utils.register_class(CurveToFrame.InitMovieClip)
 	bpy.utils.register_class(Track)
 	bpy.utils.register_class(TrackItem)
-	bpy.utils.register_class(CtF.RefreshClipMiniMaxi)
-	bpy.utils.register_class(CtF.RefreshSceneMiniMaxi)
-	bpy.utils.register_class(CtF.SingleTrackCurvesRefresh)
-	bpy.utils.register_class(CtF.MultiTrackCurvesRefresh)
-	bpy.utils.register_class(CtF)
+	bpy.utils.register_class(CurveToFrame.RefreshClipMiniMaxi)
+	bpy.utils.register_class(CurveToFrame.RefreshSceneMiniMaxi)
+	bpy.utils.register_class(CurveToFrame.SingleTrackCurvesRefresh)
+	bpy.utils.register_class(CurveToFrame.MultiTrackCurvesRefresh)
+	bpy.utils.register_class(CurveToFrame)
 	bpy.utils.register_class(SingleTrackCurveToFrame)
 	bpy.utils.register_class(SingleTrackPanel)
 	bpy.utils.register_class(MultiTrackTracksPanel)
 	bpy.utils.register_class(MultiTrackAmplitudePanel)
 	bpy.utils.register_class(MultiTrackOutputPanel)
 	
-	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
-	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
+	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=CurveToFrame)
+	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=CurveToFrame)
 	
 	# Add to scene type a property to define if script does real file copy
 	if platform.system().lower() in ['linux', 'unix']:
-		bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+		bpy.types.Scene.ctf_real_copy = bpy.props.BoolProperty(
 			name="Make real copy file", 
 			description="Do Frames Animated By Curve add-on make \
 					real file copy rather than symbolic link.",
 			options = {'LIBRARY_EDITABLE'},
 			default = False)
 	else:
-		bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+		bpy.types.Scene.ctf_real_copy = bpy.props.BoolProperty(
 			name="Make real copy file", 
 			description="You must keep this enable as your system \
 					don't implement symbolic link. disable at your one risk!",
@@ -62,17 +62,17 @@ def register():
 
 def unregister():
 	'''addon unregister'''
-	bpy.utils.unregister_class(CtF.RestoreDefaultPeakShape)
-	bpy.utils.unregister_class(CtF.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.unregister_class(CurveToFrame.RestoreDefaultPeakShape)
+	bpy.utils.unregister_class(CurveToFrame.RestoreMultiTrackDefaultPeakShape)
 	bpy.utils.unregister_class(TracksActions)
-	bpy.utils.unregister_class(CtF.InitMovieClip)
+	bpy.utils.unregister_class(CurveToFrame.InitMovieClip)
 	bpy.utils.unregister_class(Track)
 	bpy.utils.unregister_class(TrackItem)
-	bpy.utils.unregister_class(CtF.RefreshClipMiniMaxi)
-	bpy.utils.unregister_class(CtF.RefreshSceneMiniMaxi)
-	bpy.utils.unregister_class(CtF.SingleTrackCurvesRefresh)
-	bpy.utils.unregister_class(CtF.MultiTrackCurvesRefresh)
-	bpy.utils.unregister_class(CtF)
+	bpy.utils.unregister_class(CurveToFrame.RefreshClipMiniMaxi)
+	bpy.utils.unregister_class(CurveToFrame.RefreshSceneMiniMaxi)
+	bpy.utils.unregister_class(CurveToFrame.SingleTrackCurvesRefresh)
+	bpy.utils.unregister_class(CurveToFrame.MultiTrackCurvesRefresh)
+	bpy.utils.unregister_class(CurveToFrame)
 	bpy.utils.unregister_class(SingleTrackPanel)
 	bpy.utils.unregister_class(MultiTrackAmplitudePanel)
 	bpy.utils.unregister_class(SingleTrackCurveToFrame)
