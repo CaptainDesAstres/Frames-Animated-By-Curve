@@ -29,7 +29,7 @@ def backup_output( path, level, maximum ):
 
 
 
-def getFCurveByDataPath(ob, path):
+def get_fcurve_by_data_path(ob, path):
 	'''Return object fcurve corresponding to datapath or None'''
 	
 	if(ob.animation_data is None or ob.animation_data.action is None):
@@ -44,7 +44,7 @@ def getFCurveByDataPath(ob, path):
 
 
 
-def getCurveLimit( curve ):
+def get_curve_limit( curve ):
 	'''return curve min and max values'''
 	m = M = curve.evaluate(1)
 	s, e = curve.range()
