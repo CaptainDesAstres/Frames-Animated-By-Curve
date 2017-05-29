@@ -1363,17 +1363,17 @@ class CtF(bpy.types.PropertyGroup):
 			
 			# get maxi value at thes frame
 			if maxi_curve is not None:
-				maxi_value = maxi_curve.evaluate(frame)
+				maxi_value = max ( maxi_curve.evaluate(frame), mini_value )
 			
 			# get amplitude raw value
 			if raw_curve is not None:
 				raw_value = raw_curve.evaluate(frame)
 			
 			#compute net value
-			if raw_value <= mini_value:
-				net_amplitude_value = 0
-			elif raw_value >= maxi_value:
+			if raw_value >= maxi_value:
 				net_amplitude_value = 1
+			elif raw_value <= mini_value:
+				net_amplitude_value = 0
 			else:
 				net_amplitude_value = ( raw_value - mini_value )\
 										/( maxi_value - mini_value )
