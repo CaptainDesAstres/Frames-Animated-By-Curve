@@ -30,15 +30,14 @@ def register():
 	bpy.utils.register_class(CtF.SingleTrackCurvesRefresh)
 	bpy.utils.register_class(CtF.MultiTrackCurvesRefresh)
 	bpy.utils.register_class(CtF)
-	
-	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
-	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
-	
 	bpy.utils.register_class(SingleTrackCurveToFrame)
 	bpy.utils.register_class(SingleTrackPanel)
 	bpy.utils.register_class(MultiTrackTracksPanel)
 	bpy.utils.register_class(MultiTrackAmplitudePanel)
 	bpy.utils.register_class(MultiTrackOutputPanel)
+	
+	bpy.types.MovieClip.CtF = bpy.props.PointerProperty(type=CtF)
+	bpy.types.Scene.CtF = bpy.props.PointerProperty(type=CtF)
 	
 	# Add to scene type a property to define if script does real file copy
 	if platform.system().lower() in ['linux', 'unix']:
