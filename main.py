@@ -159,62 +159,6 @@ def checkCtFDriver(ob):
 
 
 
-
-def set_end_frame(self, context):
-	'''check that start and end frame are valid when 
-			changing end frame settings'''
-	# check end isn't over clip size
-	if self.end > self.size:
-		self.end = self.size
-	
-	# check start isn't over end
-	if self.start >= self.end:
-		if self.end > 1:
-			self['start'] = self.end - 1
-		else:
-			self['start'] = 1
-			self['end'] = 2
-	
-
-
-def set_start_frame(self, context):
-	'''check that start and end frame are valid 
-			when changing start frame settings'''
-	# check start isn't under 0
-	if self.start < 1:
-		self.start = 1
-	
-	# check start isn't over end
-	if self.start >= self.end:
-		if self.start < self.size:
-			self['end'] = self.start + 1
-		else:
-			self['start'] = self.size - 1
-			self['end'] = self.size
-	
-
-
-
-def set_mini(self, context):
-	'''check that maxi value are greater than maxi value 
-			when editing mini value'''
-	if self.mini > self.maxi:
-		self['maxi'] = self.mini
-	
-
-
-
-def set_maxi(self, context):
-	'''check that maxi value are greater than maxi value
-			when editing maxi value'''
-	if self.mini > self.maxi:
-		self['mini'] = self.maxi
-	
-
-
-
-
-
 class Track(bpy.types.PropertyGroup):
 	''' managing CtF track Identification'''
 	name = bpy.props.StringProperty()
@@ -377,6 +321,64 @@ class TracksActions(bpy.types.Operator):
 class CtF(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form CtF addon'''
+	
+	def set_end_frame(self, context):
+		'''check that start and end frame are valid when 
+				changing end frame settings'''
+		# check end isn't over clip size
+		if self.end > self.size:
+			self.end = self.size
+		
+		# check start isn't over end
+		if self.start >= self.end:
+			if self.end > 1:
+				self['start'] = self.end - 1
+			else:
+				self['start'] = 1
+				self['end'] = 2
+	
+	
+	
+	
+	
+	def set_start_frame(self, context):
+		'''check that start and end frame are valid 
+				when changing start frame settings'''
+		# check start isn't under 0
+		if self.start < 1:
+			self.start = 1
+		
+		# check start isn't over end
+		if self.start >= self.end:
+			if self.start < self.size:
+				self['end'] = self.start + 1
+			else:
+				self['start'] = self.size - 1
+				self['end'] = self.size
+	
+	
+	
+	
+	
+	def set_mini(self, context):
+		'''check that maxi value are greater than maxi value 
+				when editing mini value'''
+		if self.mini > self.maxi:
+			self['maxi'] = self.mini
+	
+	
+	
+	
+	
+	def set_maxi(self, context):
+		'''check that maxi value are greater than maxi value
+				when editing maxi value'''
+		if self.mini > self.maxi:
+			self['mini'] = self.maxi
+	
+	
+	
+	
 	
 	def update_curves( self, context ):
 		'''update curve when settings have been changed'''
