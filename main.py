@@ -5,147 +5,7 @@ from uuid import uuid4
 
 
 
-class Track(bpy.types.PropertyGroup):
-	''' managing curve to frame track Identification'''
-	name = bpy.props.StringProperty()
-	uid = bpy.props.StringProperty()
-	track_id = bpy.props.IntProperty()
-	
-	
-	def get( self, scene, rename = False):
-		'''return the movie clip corresponding to this track'''
-		try:
-			track = bpy.data.movieclips[ self.name ]
-			if track.curve_to_frame.uid == self.uid:
-				return track
-		except KeyError:
-			pass
-		
-		for track in bpy.data.movieclips:
-			if track.curve_to_frame.uid == self.uid:
-				
-				if rename:
-					try:
-						self.name = track.name
-					except AttributeError:
-						print('Track renaming error on '+self.name)
-				
-				return track
-		
-		return None
 
-
-
-
-class TrackItem(bpy.types.UIList):
-	'''Item to display tracks in a list template'''
-	
-	def draw_item( 
-				self, 
-				context, 
-				layout, 
-				data, 
-				item, 
-				icon, 
-				active_data, 
-				active_propname, 
-				index ):
-		'''draw item row'''
-		col = layout.column()
-		col.label(item.name, icon='CLIP')
-		col = layout.column()
-		col.label( 'id:'+str(item.track_id) )
-
-
-
-
-class TracksActions(bpy.types.Operator):
-	'''Tacks list action operator'''
-	bl_idname = "ctf.tracks_action"
-	bl_label = "Track Action"
-	bl_description = "Track Action:\n- Move up selected track.\n- Check all Tracks.\n- Delete selected track.\n- Move down selected track."
-	bl_options = {'INTERNAL'}
-	
-	
-	action = bpy.props.EnumProperty(
-		items=(
-			('UP', "Up", ""),
-			('DOWN', "Down", ""),
-			('REMOVE', "Remove", ""),
-			('CHECK', "Check", ""),
-		)
-	)
-	
-	
-	def invoke(self, context, event):
-		scn = context.scene
-		i = scn.curve_to_frame.selected_track
-		
-		try:
-			item = scn.curve_to_frame.tracks[i]
-		except IndexError:
-			self.report({'ERROR'}, 'Error: bad selection')
-			return {"CANCELLED"}
-		
-		if self.action == 'DOWN':
-			# move selected track down
-			if( i < len(scn.curve_to_frame.tracks)-1 ):
-				scn.curve_to_frame.tracks.move( i, i+1 )
-				scn.curve_to_frame.selected_track = i+1
-			
-		elif self.action == 'UP':
-			# move selected track up
-			if( i > 0 ):
-				scn.curve_to_frame.tracks.move( i, i-1 )
-				scn.curve_to_frame.selected_track = i-1
-			
-		elif self.action == 'REMOVE':
-			# remove selected track
-			scn.curve_to_frame.tracks.remove(i)
-			
-			if i > len(scn.curve_to_frame.tracks)-1:
-				scn.curve_to_frame.selected_track = len(scn.curve_to_frame.tracks)-1
-			
-		elif self.action == 'CHECK':
-			# check if all tracks in the list are OK
-			index = -1
-			for key in scn.curve_to_frame.tracks.keys():
-				index += 1
-				
-				# check the corresponding movieclip exist
-				track = scn.curve_to_frame.tracks[index].get(scn, True)
-				if track is None:
-					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
-					scn.curve_to_frame.tracks.remove(index)
-					continue
-				
-				
-				# check the corresponding movieclip is a SEQUENCE
-				if track.source != 'SEQUENCE':
-					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip is not a sequence. the corresponding track have been removed.')
-					scn.curve_to_frame.tracks.remove(index)
-					continue
-				
-				
-				# initialize corresponding movieclip if necessary
-				if track.curve_to_frame.uid == '':
-					track.curve_to_frame.initialize()
-				
-				if get_fcurve_by_data_path(track, 'curve_to_frame.peaks_shape') is None:
-					track.curve_to_frame.init_peaks_shape_curve()
-				
-				# check all image of the sequence exist
-				if not track.curve_to_frame.check_image_file():
-					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
-		
-		# update track id
-		index = -1
-		for key in scn.curve_to_frame.tracks.keys():
-			index +=1
-			scn.curve_to_frame.tracks[index].track_id = index
-		
-		
-		return {"FINISHED"}
 
 
 
@@ -153,6 +13,318 @@ class TracksActions(bpy.types.Operator):
 class CurveToFrame(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form curve to frame addon'''
+	
+	class SingleTrackCurveToFrame(bpy.types.Operator):
+		'''the operaton to execute add on function'''
+		bl_idname = "single_track.curve_to_frame"
+		bl_label= "Frames Animated By Curve"
+		bl_options = {'INTERNAL'}
+		
+		def execute(self, context):
+			bpy.ops.clip.reload()# reload source file
+			clip = context.space_data.clip
+			if clip is None:
+				self.report({'ERROR'}, 'can\'t find the selected movieclip.')
+				return {'CANCELLED'}
+			else:
+				clip.curve_to_frame.initialize()
+			
+			status = clip.curve_to_frame.update_curves( context )
+			if status is not True:
+				self.report( {'ERROR'}, status )
+				return {'CANCELLED'}
+			
+			# check output method
+			if(context.scene.ctf_real_copy):
+				output = shutil.copyfile
+			else:
+				output = os.symlink
+			
+			# get output path
+			dst = bpy.path.abspath( clip.curve_to_frame.output_path )
+			if(dst[-1] != '/'):
+				dst += '/'
+			dst += clip.name+'.curve_to_frame_output'
+			
+			# check output path exist, is writable and empty
+			if( os.path.exists( dst ) ):
+				# check path access
+				if(os.access(dst, os.W_OK)):
+					# backup old output
+					backup_n = context.user_preferences.filepaths.save_version
+					backup_output( dst, 0, backup_n )
+				else:
+					# report error then quit 
+					self.report(	{'ERROR'},
+									'Output path : no write permission' )
+					return {'CANCELLED'}
+			dst += '/'
+			# create new output directory
+			try:
+				os.mkdir(dst)
+			except OSError as e:
+				self.report({'ERROR'}, 
+						'Unable to create the output path directory:'+e.strerror)
+				return {'CANCELLED'}
+			
+			# loop from start frame to end frame
+			current = context.scene.frame_current
+			for frame in range(
+							context.scene.frame_start, 
+							context.scene.frame_end + 1):
+				# set current frame and update property value
+				context.scene.frame_set(frame)
+				
+				# get output frame
+				fr = clip.curve_to_frame.output
+				
+				# copy (or symlink) the corresponding 
+				# frame into the output path
+				try:
+					output( clip.curve_to_frame.path + clip.curve_to_frame.get_frame_name(fr),
+							dst + clip.curve_to_frame.get_frame_name(context.scene.frame_current)
+							)
+				except OSError as e:
+					self.report({'ERROR'}, 
+							'error while copying file: '\
+								+e.strerror+'. Abort action.')
+					context.scene.frame_set(current)
+					return {'CANCELLED'}
+			
+			context.scene.frame_set(current)
+			
+			print("Frames Animated By Curve have been executed")
+			return {'FINISHED'}
+	
+	
+	
+	
+	
+	class SingleTrackPanel(bpy.types.Panel):
+		'''class of the panel who contains addon control'''
+		bl_space_type = "CLIP_EDITOR"
+		bl_region_type = "TOOLS"
+		bl_label = "Single track"
+		bl_category = "Curve Anim"
+		
+		def draw(self, context):
+			'''the function that draw the addon UI'''
+			layout = self.layout
+			
+			# check if there is a movie clip set
+			if(context.space_data.clip is not None):
+				clip = context.space_data.clip
+				
+				# draw panel
+				clip.curve_to_frame.panel_single_track(context, layout, clip)
+				
+			else:
+				# Display a request for a movie clip
+				row = layout.row()
+				row.label( text="select/load an images sequence \
+						in Movie Editor.", icon="ERROR" )
+				row = layout.row()
+				row.operator(
+					"ctf.init_movie_clip",
+					text="Refresh MovieClip info")
+	
+	
+	
+	
+	
+	class MultiTrackAmplitudePanel(bpy.types.Panel):
+		'''class of the panel who contains amplitude and peaks settings control for multi track feature'''
+		bl_space_type = "CLIP_EDITOR"
+		bl_region_type = "TOOLS"
+		bl_label = "Multi track: Amplitude & Peaks Settings"
+		bl_category = "Curve Anim"
+		
+		def draw(self, context):
+			'''the function that draw the addon UI'''
+			layout = self.layout
+			context.scene.curve_to_frame.panel_multi_track_amplitude_and_peaks( context, layout)
+	
+	
+	
+	
+	
+	class MultiTrackOutputPanel(bpy.types.Panel):
+		'''class of the panel who contains output settings control for multi track feature'''
+		bl_space_type = "CLIP_EDITOR"
+		bl_region_type = "TOOLS"
+		bl_label = "Multi track: Output Settings"
+		bl_category = "Curve Anim"
+		
+		def draw(self, context):
+			'''the function that draw the panel'''
+			layout = self.layout
+			scene = context.scene
+			
+			warning = scene.curve_to_frame.draw_multi_track_output( layout, scene )
+			
+			# draw run button or error message
+			#scene.curve_to_frame.draw_run_button( layout, warning )
+	
+	
+	
+	
+	
+	class MultiTrackTracksPanel(bpy.types.Panel):
+		'''class of the panel who contains addon multi track control'''
+		bl_space_type = "CLIP_EDITOR"
+		bl_region_type = "TOOLS"
+		bl_label = "Multi track: Tracks list"
+		bl_category = "Curve Anim"
+		
+		def draw(self, context):
+			'''the function that draw the addon UI'''
+			context.scene.curve_to_frame.panel_tracks( self.layout, context )
+	
+	
+	
+	
+	
+	class Track(bpy.types.PropertyGroup):
+		''' managing curve to frame track Identification'''
+		name = bpy.props.StringProperty()
+		uid = bpy.props.StringProperty()
+		track_id = bpy.props.IntProperty()
+		
+		def get( self, scene, rename = False):
+			'''return the movie clip corresponding to this track'''
+			try:
+				track = bpy.data.movieclips[ self.name ]
+				if track.curve_to_frame.uid == self.uid:
+					return track
+			except KeyError:
+				pass
+			
+			for track in bpy.data.movieclips:
+				if track.curve_to_frame.uid == self.uid:
+					
+					if rename:
+						try:
+							self.name = track.name
+						except AttributeError:
+							print('Track renaming error on '+self.name)
+					
+					return track
+			
+			return None
+	
+	
+	
+	
+	
+	class TrackItem(bpy.types.UIList):
+		'''Item to display tracks in a list template'''
+		
+		def draw_item( 
+					self, 
+					context, 
+					layout, 
+					data, 
+					item, 
+					icon, 
+					active_data, 
+					active_propname, 
+					index ):
+			'''draw item row'''
+			col = layout.column()
+			col.label(item.name, icon='CLIP')
+			col = layout.column()
+			col.label( 'id:'+str(item.track_id) )
+	
+	
+	
+	
+	
+	class TracksActions(bpy.types.Operator):
+		'''Tacks list action operator'''
+		bl_idname = "ctf.tracks_action"
+		bl_label = "Track Action"
+		bl_description = "Track Action:\n- Move up selected track.\n- Check all Tracks.\n- Delete selected track.\n- Move down selected track."
+		bl_options = {'INTERNAL'}
+		
+		action = bpy.props.EnumProperty(
+			items=(
+				('UP', "Up", ""),
+				('DOWN', "Down", ""),
+				('REMOVE', "Remove", ""),
+				('CHECK', "Check", ""),
+			)
+		)
+		
+		def invoke(self, context, event):
+			scn = context.scene
+			i = scn.curve_to_frame.selected_track
+			
+			try:
+				item = scn.curve_to_frame.tracks[i]
+			except IndexError:
+				self.report({'ERROR'}, 'Error: bad selection')
+				return {"CANCELLED"}
+			
+			if self.action == 'DOWN':
+				# move selected track down
+				if( i < len(scn.curve_to_frame.tracks)-1 ):
+					scn.curve_to_frame.tracks.move( i, i+1 )
+					scn.curve_to_frame.selected_track = i+1
+				
+			elif self.action == 'UP':
+				# move selected track up
+				if( i > 0 ):
+					scn.curve_to_frame.tracks.move( i, i-1 )
+					scn.curve_to_frame.selected_track = i-1
+				
+			elif self.action == 'REMOVE':
+				# remove selected track
+				scn.curve_to_frame.tracks.remove(i)
+				
+				if i > len(scn.curve_to_frame.tracks)-1:
+					scn.curve_to_frame.selected_track = len(scn.curve_to_frame.tracks)-1
+				
+			elif self.action == 'CHECK':
+				# check if all tracks in the list are OK
+				index = -1
+				for key in scn.curve_to_frame.tracks.keys():
+					index += 1
+					
+					# check the corresponding movieclip exist
+					track = scn.curve_to_frame.tracks[index].get(scn, True)
+					if track is None:
+						self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
+						scn.curve_to_frame.tracks.remove(index)
+						continue
+					
+					# check the corresponding movieclip is a SEQUENCE
+					if track.source != 'SEQUENCE':
+						self.report({'ERROR'}, 'Error: \''+key+'\' movieclip is not a sequence. the corresponding track have been removed.')
+						scn.curve_to_frame.tracks.remove(index)
+						continue
+					
+					# initialize corresponding movieclip if necessary
+					if track.curve_to_frame.uid == '':
+						track.curve_to_frame.initialize()
+					
+					if get_fcurve_by_data_path(track, 'curve_to_frame.peaks_shape') is None:
+						track.curve_to_frame.init_peaks_shape_curve()
+					
+					# check all image of the sequence exist
+					if not track.curve_to_frame.check_image_file():
+						self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
+			
+			# update track id
+			index = -1
+			for key in scn.curve_to_frame.tracks.keys():
+				index +=1
+				scn.curve_to_frame.tracks[index].track_id = index
+			
+			return {"FINISHED"}
+	
+	
+	
+	
 	
 	class RefreshClipMiniMaxi(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of a movie clip'''
@@ -1977,184 +2149,6 @@ class CurveToFrame(bpy.types.PropertyGroup):
 		options = {'LIBRARY_EDITABLE'} )
 	
 	selected_track = bpy.props.IntProperty( default = -1 )
-	
-	
-	
-	
 
-
-
-
-
-
-
-
-class SingleTrackCurveToFrame(bpy.types.Operator):
-	'''the operaton to execute add on function'''
-	bl_idname = "single_track.curve_to_frame"
-	bl_label= "Frames Animated By Curve"
-	bl_options = {'INTERNAL'}
-	
-	def execute(self, context):
-		bpy.ops.clip.reload()# reload source file
-		clip = context.space_data.clip
-		if clip is None:
-			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
-			return {'CANCELLED'}
-		else:
-			clip.curve_to_frame.initialize()
-		
-		status = clip.curve_to_frame.update_curves( context )
-		if status is not True:
-			self.report( {'ERROR'}, status )
-			return {'CANCELLED'}
-		
-		# check output method
-		if(context.scene.ctf_real_copy):
-			output = shutil.copyfile
-		else:
-			output = os.symlink
-		
-		# get output path
-		dst = bpy.path.abspath( clip.curve_to_frame.output_path )
-		if(dst[-1] != '/'):
-			dst += '/'
-		dst += clip.name+'.curve_to_frame_output'
-		
-		# check output path exist, is writable and empty
-		if( os.path.exists( dst ) ):
-			# check path access
-			if(os.access(dst, os.W_OK)):
-				# backup old output
-				backup_n = context.user_preferences.filepaths.save_version
-				backup_output( dst, 0, backup_n )
-			else:
-				# report error then quit 
-				self.report(	{'ERROR'},
-								'Output path : no write permission' )
-				return {'CANCELLED'}
-		dst += '/'
-		# create new output directory
-		try:
-			os.mkdir(dst)
-		except OSError as e:
-			self.report({'ERROR'}, 
-					'Unable to create the output path directory:'+e.strerror)
-			return {'CANCELLED'}
-		
-		
-		# loop from start frame to end frame
-		current = context.scene.frame_current
-		for frame in range(
-						context.scene.frame_start, 
-						context.scene.frame_end + 1):
-			# set current frame and update property value
-			context.scene.frame_set(frame)
-			
-			# get output frame
-			fr = clip.curve_to_frame.output
-			
-			# copy (or symlink) the corresponding 
-			# frame into the output path
-			try:
-				output( clip.curve_to_frame.path + clip.curve_to_frame.get_frame_name(fr),
-						dst + clip.curve_to_frame.get_frame_name(context.scene.frame_current)
-						)
-			except OSError as e:
-				self.report({'ERROR'}, 
-						'error while copying file: '\
-							+e.strerror+'. Abort action.')
-				context.scene.frame_set(current)
-				return {'CANCELLED'}
-		
-		context.scene.frame_set(current)
-		
-		print("Frames Animated By Curve have been executed")
-		return {'FINISHED'}
-
-
-
-class SingleTrackPanel(bpy.types.Panel):
-	'''class of the panel who contains addon control'''
-	bl_space_type = "CLIP_EDITOR"
-	bl_region_type = "TOOLS"
-	bl_label = "Single track"
-	bl_category = "Curve Anim"
-	
-	def draw(self, context):
-		'''the function that draw the addon UI'''
-		layout = self.layout
-		
-		# check if there is a movie clip set
-		if(context.space_data.clip is not None):
-			clip = context.space_data.clip
-			
-			# draw panel
-			clip.curve_to_frame.panel_single_track(context, layout, clip)
-			
-		else:
-			# Display a request for a movie clip
-			row = layout.row()
-			row.label( text="select/load an images sequence \
-					in Movie Editor.", icon="ERROR" )
-			row = layout.row()
-			row.operator(
-				"ctf.init_movie_clip",
-				text="Refresh MovieClip info")
-		
-
-
-
-
-
-class MultiTrackAmplitudePanel(bpy.types.Panel):
-	'''class of the panel who contains amplitude and peaks settings control for multi track feature'''
-	bl_space_type = "CLIP_EDITOR"
-	bl_region_type = "TOOLS"
-	bl_label = "Multi track: Amplitude & Peaks Settings"
-	bl_category = "Curve Anim"
-	
-	def draw(self, context):
-		'''the function that draw the addon UI'''
-		layout = self.layout
-		context.scene.curve_to_frame.panel_multi_track_amplitude_and_peaks( context, layout)
-		
-
-
-
-
-
-class MultiTrackOutputPanel(bpy.types.Panel):
-	'''class of the panel who contains output settings control for multi track feature'''
-	bl_space_type = "CLIP_EDITOR"
-	bl_region_type = "TOOLS"
-	bl_label = "Multi track: Output Settings"
-	bl_category = "Curve Anim"
-	
-	def draw(self, context):
-		'''the function that draw the panel'''
-		layout = self.layout
-		scene = context.scene
-		
-		warning = scene.curve_to_frame.draw_multi_track_output( layout, scene )
-		
-		# draw run button or error message
-		#scene.curve_to_frame.draw_run_button( layout, warning )
-
-
-
-
-
-class MultiTrackTracksPanel(bpy.types.Panel):
-	'''class of the panel who contains addon multi track control'''
-	bl_space_type = "CLIP_EDITOR"
-	bl_region_type = "TOOLS"
-	bl_label = "Multi track: Tracks list"
-	bl_category = "Curve Anim"
-	
-	def draw(self, context):
-		'''the function that draw the addon UI'''
-		context.scene.curve_to_frame.panel_tracks( self.layout, context )
-		
 
 
