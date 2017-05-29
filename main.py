@@ -493,7 +493,7 @@ class CtF(bpy.types.PropertyGroup):
 			n -= 1
 		clip.CtF.suffix = name[n+1:l]
 		clip.CtF.prefix = name[0:n].rstrip('0123456789')
-		clip.CtF.numberSize = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
+		clip.CtF.number_size = l - len(clip.CtF.suffix)-len(clip.CtF.prefix)
 		
 		# Get clip length and first and last frame number
 		clip.CtF.first = int(name[len(clip.CtF.suffix):n+1])
@@ -680,7 +680,7 @@ class CtF(bpy.types.PropertyGroup):
 	def get_frame_name(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
-					str(int(n)).rjust(self.numberSize, '0')+
+					str(int(n)).rjust(self.number_size, '0')+
 					self.suffix + self.ext	)
 	
 	
@@ -1748,7 +1748,7 @@ class CtF(bpy.types.PropertyGroup):
 	path = bpy.props.StringProperty() # The sources directory path
 	prefix = bpy.props.StringProperty() # the source name prefix
 	suffix = bpy.props.StringProperty() # the source name suffix
-	numberSize = bpy.props.IntProperty() # the source name frame number size in char
+	number_size = bpy.props.IntProperty() # the source name frame number size in char
 	first = bpy.props.IntProperty() # the first frame number (in source file name)
 	last = bpy.props.IntProperty() # the last frame number (in source file name)
 	
@@ -1986,11 +1986,6 @@ class CtF(bpy.types.PropertyGroup):
 	#################################################
 	##     Tracks managing                         ##
 	#################################################
-	
-	
-	
-	
-	
 	track_add = bpy.props.StringProperty(
 		name = "Add",
 		description = "Add tracks to the list",
