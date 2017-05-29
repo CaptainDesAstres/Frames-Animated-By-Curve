@@ -13,21 +13,6 @@ from .main import *
 import bpy, platform
 
 
-# Add to scene type a property to define if script does real file copy
-if platform.system().lower() in ['linux', 'unix']:
-	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
-		name="Make real copy file", 
-		description="Do Frames Animated By Curve add-on make \
-				real file copy rather than symbolic link.",
-		options = {'LIBRARY_EDITABLE'},
-		default = False)
-else:
-	bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
-		name="Make real copy file", 
-		description="You must keep this enable as your system \
-				don't implement symbolic link. disable at your one risk!",
-		options = {'LIBRARY_EDITABLE'},
-		default = True)
 
 
 
@@ -54,6 +39,23 @@ def register():
 	bpy.utils.register_class(MultiTrackTracksPanel)
 	bpy.utils.register_class(MultiTrackAmplitudePanel)
 	bpy.utils.register_class(MultiTrackOutputPanel)
+	
+	# Add to scene type a property to define if script does real file copy
+	if platform.system().lower() in ['linux', 'unix']:
+		bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+			name="Make real copy file", 
+			description="Do Frames Animated By Curve add-on make \
+					real file copy rather than symbolic link.",
+			options = {'LIBRARY_EDITABLE'},
+			default = False)
+	else:
+		bpy.types.Scene.CtFRealCopy = bpy.props.BoolProperty(
+			name="Make real copy file", 
+			description="You must keep this enable as your system \
+					don't implement symbolic link. disable at your one risk!",
+			options = {'LIBRARY_EDITABLE'},
+			default = True)
+	
 	print("Frames Animated By Curve is enabled")
 
 
