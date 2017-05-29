@@ -62,13 +62,6 @@ class TrackItem(bpy.types.UIList):
 		col.label(item.name, icon='CLIP')
 		col = layout.column()
 		col.label('id:'+str(item.track_id))
-	
-	
-	
-	
-	def invoke(self, context, event):
-		'''I don't even know why I do that!'''
-		pass
 
 
 
