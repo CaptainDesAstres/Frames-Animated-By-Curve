@@ -256,12 +256,6 @@ def update_curves(self, context):## self correspond to clip.CtF
 
 
 
-def mold_peaks(  ):
-	'''mold peaks shape'''
-	return
-
-
-
 
 class Track(bpy.types.PropertyGroup):
 	''' managing CtF track Identification'''
