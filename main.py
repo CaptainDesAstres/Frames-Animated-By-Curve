@@ -58,9 +58,9 @@ class CtFRefreshSceneMiniMaxi(bpy.types.Operator):
 
 
 
-class CtFRefresh(bpy.types.Operator):
+class  CtFInitMovieClip(bpy.types.Operator):
 	'''operator to initialize or refresh CtF info of a movie clip'''
-	bl_idname = "ctf.refresh"
+	bl_idname = "ctf.init_movie_clip"
 	bl_label= "refresh MovieClip CtF Attribute"
 	bl_options = {'INTERNAL'}
 	
@@ -704,7 +704,7 @@ class CtF(bpy.types.PropertyGroup):
 			# ask to initialize CtF on thes MovieClip
 			row = layout.row()
 			row.operator(
-				"ctf.refresh",
+				"ctf.init_movie_clip",
 				text="initialize MovieClip info")
 			
 			return True
@@ -723,7 +723,7 @@ class CtF(bpy.types.PropertyGroup):
 		col.label( text = "Frame Directory path:" )
 		col = row.column()
 		col.operator(
-			"ctf.refresh",
+			"ctf.init_movie_clip",
 			icon = 'FILE_REFRESH',
 			text = '')
 		row = layout.row()
@@ -2114,7 +2114,7 @@ class SingleTrackPanel(bpy.types.Panel):
 					in Movie Editor.", icon="ERROR" )
 			row = layout.row()
 			row.operator(
-				"ctf.refresh",
+				"ctf.init_movie_clip",
 				text="Refresh MovieClip info")
 		
 
