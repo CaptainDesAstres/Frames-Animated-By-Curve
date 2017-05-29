@@ -12,13 +12,6 @@ class Track(bpy.types.PropertyGroup):
 	track_id = bpy.props.IntProperty()
 	
 	
-	
-	def draw ( self, layout ):
-		'''draw Track info and settings'''
-		return
-	
-	
-	
 	def get( self, scene, rename = False):
 		'''return the movie clip corresponding to this track'''
 		try:
@@ -61,7 +54,7 @@ class TrackItem(bpy.types.UIList):
 		col = layout.column()
 		col.label(item.name, icon='CLIP')
 		col = layout.column()
-		col.label('id:'+str(item.track_id))
+		col.label( 'id:'+str(item.track_id) )
 
 
 
