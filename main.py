@@ -1,7 +1,6 @@
 from .functions import *
 import bpy, os, shutil, platform
-from math import ceil, floor, radians
-from mathutils import Euler, Vector
+from math import ceil, floor
 from uuid import uuid4
 
 
