@@ -12,6 +12,6 @@ from uuid import uuid4
 
 
 class MultiTrack(SingleTrack, bpy.types.PropertyGroup):
-	''' class containing all multi track Property 
-			design form curve to frame addon'''
-	
+	''' class containing all Curve to frame 
+			Properties, methods and operators 
+			for multi track feature'''

@@ -6,13 +6,8 @@ from uuid import uuid4
 
 
 
-
-
-
-
-class SingleTrack(bpy.types.PropertyGroup):
-	''' class containing all MovieClip Property 
-			design form curve to frame addon'''
+class CurveToFrameProperty():
+	'''class containing all the property usefull for track settings'''
 	
 	class SingleTrackCurveToFrame(bpy.types.Operator):
 		'''the operaton to execute add on function'''
@@ -2149,6 +2144,12 @@ class SingleTrack(bpy.types.PropertyGroup):
 		options = {'LIBRARY_EDITABLE'} )
 	
 	selected_track = bpy.props.IntProperty( default = -1 )
+
+
+class SingleTrack(bpy.types.PropertyGroup, CurveToFrameProperty):
+	''' class containing all Curve to frame 
+			Properties, methods and operators 
+			for single track feature'''
 
 
 
