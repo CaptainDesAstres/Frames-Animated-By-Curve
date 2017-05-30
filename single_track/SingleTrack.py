@@ -10,7 +10,7 @@ from uuid import uuid4
 
 
 
-class CurveToFrame(bpy.types.PropertyGroup):
+class SingleTrack(bpy.types.PropertyGroup):
 	''' class containing all MovieClip Property 
 			design form curve to frame addon'''
 	
