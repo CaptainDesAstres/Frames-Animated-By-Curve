@@ -32,6 +32,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.MultiTrackCurvesRefresh)
 	
 	bpy.utils.register_class(SingleTrack)
+	bpy.utils.register_class(MultiTrack)
 	
 	
 	bpy.utils.register_class(SingleTrack.SingleTrackCurveToFrame)
@@ -41,7 +42,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.MultiTrackOutputPanel)
 	
 	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=SingleTrack)
-	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=SingleTrack)
+	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=MultiTrack)
 	
 	# Add to scene type a property to define if script does real file copy
 	if platform.system().lower() in ['linux', 'unix']:
@@ -78,6 +79,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack.MultiTrackCurvesRefresh)
 	
 	bpy.utils.unregister_class(SingleTrack)
+	bpy.utils.register_class(MultiTrack)
 	
 	
 	bpy.utils.unregister_class(SingleTrack.SingleTrackPanel)
