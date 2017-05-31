@@ -9,6 +9,9 @@ from uuid import uuid4
 class CurveToFrameProperty():
 	'''class containing all the property usefull for track settings'''
 	
+	def update_curves( self, context ):
+		'''method that must be over ride: update curve when settings have been changed'''
+	
 	class SingleTrackCurveToFrame(bpy.types.Operator):
 		'''the operaton to execute add on function'''
 		bl_idname = "curve_to_frame.render_single_track"
@@ -536,47 +539,6 @@ class CurveToFrameProperty():
 				when editing maxi value'''
 		if self.mini > self.maxi:
 			self['mini'] = self.maxi
-	
-	
-	
-	
-	
-	def update_curves( self, context ):
-		'''update curve when settings have been changed'''
-		# initialize animation data if required
-		if self.id_data.animation_data is None:
-			self.id_data.animation_data_create()
-		
-		if self.id_data.animation_data.action is None:
-			self.id_data.animation_data.action = bpy.data.actions.new( 
-										name= self.id_data.name+'Action')
-		
-		# check and get peaks shapes
-		peak_shapes = self.check_and_get_peaks_shapes()
-		if type(peak_shapes) is str:
-			return peak_shapes
-		
-		# update amplitude net curve
-		amplitude_net_curve = self.update_net_amplitude_curve( self.id_data, context )
-		
-		
-		# update peaks curve
-		peaks_curve = self.update_peaks_curve(self.id_data, context,
-							amplitude_net_curve, peak_shapes )
-		
-		#update combination curve
-		combination_curve = self.update_combination_curve(
-												self.id_data, 
-												context, 
-												amplitude_net_curve,
-												peaks_curve
-												)
-		
-		if(type(self.id_data) is bpy.types.MovieClip ):
-			# update output curve
-			self.update_output_curve(self.id_data, context, combination_curve)
-		
-		return True
 	
 	
 	
