@@ -108,8 +108,9 @@ class TracksActions(bpy.types.Operator):
 			# remove selected track
 			scn.curve_to_frame.tracks.remove(i)
 			
-			if i > len(scn.curve_to_frame.tracks)-1:
-				scn.curve_to_frame.selected_track = len(scn.curve_to_frame.tracks)-1
+			length = len(scn.curve_to_frame.tracks)-1
+			if i > length:
+				scn.curve_to_frame.selected_track = length
 			
 		elif self.action == 'CHECK':
 			# check if all tracks in the list are OK
