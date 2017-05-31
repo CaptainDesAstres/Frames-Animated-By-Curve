@@ -118,14 +118,14 @@ class TracksActions(bpy.types.Operator):
 			for key in scn.curve_to_frame.tracks.keys():
 				index += 1
 				
-				# check the corresponding movieclip exist
+				# report and remove inexistant Track
 				track = scn.curve_to_frame.tracks[index].get(scn, True)
 				if track is None:
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
 					scn.curve_to_frame.tracks.remove(index)
 					continue
 				
-				# check the corresponding movieclip is a SEQUENCE
+				# report and remove Track which isn't SEQUENCE
 				if track.source != 'SEQUENCE':
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip is not a sequence. the corresponding track have been removed.')
 					scn.curve_to_frame.tracks.remove(index)
@@ -140,7 +140,7 @@ class TracksActions(bpy.types.Operator):
 				
 				# check all image of the sequence exist
 				if not track.curve_to_frame.check_image_file():
-					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are massing.')
+					self.report({'ERROR'}, 'Error: some images source file of \''+key+'\' movieclip are missing.')
 		
 		# update track id
 		index = -1
