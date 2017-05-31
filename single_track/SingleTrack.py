@@ -40,8 +40,7 @@ class SingleTrack(bpy.types.PropertyGroup, Peaks, CurveToFrameProperty):
 												peaks_curve
 												)
 		
-		if(type(clip) is bpy.types.MovieClip ):
-			# update output curve
-			self.update_output_curve(clip, context, combination_curve)
+		# update output curve
+		self.update_output_curve(clip, context, combination_curve)
 		
 		return True

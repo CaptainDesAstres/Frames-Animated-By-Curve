@@ -49,8 +49,4 @@ class MultiTrack(bpy.types.PropertyGroup, Peaks, CurveToFrameProperty):
 												peaks_curve
 												)
 		
-		if(type(scene) is bpy.types.MovieClip ):
-			# update output curve
-			self.update_output_curve(scene, context, combination_curve)
-		
 		return True
