@@ -11,6 +11,7 @@ bl_info = {
 from .functions import *
 from .single_track.SingleTrack import SingleTrack
 from .multi_track.MultiTrack import MultiTrack
+from .multi_track.TracksList import *
 import bpy, platform
 
 
@@ -22,16 +23,17 @@ def register():
 	'''addon register'''
 	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.register_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.register_class(SingleTrack.TracksActions)
 	bpy.utils.register_class(SingleTrack.InitMovieClip)
-	bpy.utils.register_class(SingleTrack.Track)
-	bpy.utils.register_class(SingleTrack.TrackItem)
 	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
 	bpy.utils.register_class(SingleTrack.RefreshSceneMiniMaxi)
 	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
 	bpy.utils.register_class(SingleTrack.MultiTrackCurvesRefresh)
 	
 	bpy.utils.register_class(SingleTrack)
+	
+	bpy.utils.register_class(Track)
+	bpy.utils.register_class(TrackItem)
+	bpy.utils.register_class(TracksActions)
 	bpy.utils.register_class(MultiTrack)
 	
 	
@@ -69,17 +71,18 @@ def unregister():
 	'''addon unregister'''
 	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.unregister_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.unregister_class(SingleTrack.TracksActions)
 	bpy.utils.unregister_class(SingleTrack.InitMovieClip)
-	bpy.utils.unregister_class(SingleTrack.Track)
-	bpy.utils.unregister_class(SingleTrack.TrackItem)
 	bpy.utils.unregister_class(SingleTrack.RefreshClipMiniMaxi)
 	bpy.utils.unregister_class(SingleTrack.RefreshSceneMiniMaxi)
 	bpy.utils.unregister_class(SingleTrack.SingleTrackCurvesRefresh)
 	bpy.utils.unregister_class(SingleTrack.MultiTrackCurvesRefresh)
 	
 	bpy.utils.unregister_class(SingleTrack)
-	bpy.utils.register_class(MultiTrack)
+	
+	bpy.utils.unregister_class(Track)
+	bpy.utils.unregister_class(TrackItem)
+	bpy.utils.unregister_class(TracksActions)
+	bpy.utils.unregister_class(MultiTrack)
 	
 	
 	bpy.utils.unregister_class(SingleTrack.SingleTrackPanel)
