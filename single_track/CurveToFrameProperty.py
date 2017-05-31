@@ -663,24 +663,24 @@ class CurveToFrameProperty():
 	
 	
 	def init_peaks_shape_curve( self ):
-		'''restore default peaks shape curve'''
-		clip = self.id_data
+		'''restore object default peaks shape curve'''
+		ob = self.id_data
 		
 		# erase previous curve
-		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape' )
+		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape' )
 		if curve is not None:
-			clip.animation_data.action.fcurves.remove(curve)
+			ob.animation_data.action.fcurves.remove(curve)
 		
 		# initialize peaks shape curve and settings
-		if clip.animation_data is None:
-			clip.animation_data_create()
+		if ob.animation_data is None:
+			ob.animation_data_create()
 		
-		if clip.animation_data.action is None:
-			clip.animation_data.action = bpy.data.actions.new( 
-						name= clip.name+'Action')
+		if ob.animation_data.action is None:
+			ob.animation_data.action = bpy.data.actions.new( 
+						name= ob.name+'Action')
 		
-		clip.animation_data.action.fcurves.new( 'curve_to_frame.peaks_shape' )
-		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape' )
+		ob.animation_data.action.fcurves.new( 'curve_to_frame.peaks_shape' )
+		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape' )
 		
 		# set default profile
 		curve.keyframe_points.insert( 0 , 0 )
@@ -691,14 +691,14 @@ class CurveToFrameProperty():
 		curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
 		# erase range start/end curve
-		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_start' )
+		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape_range_start' )
 		if curve is not None:
-			clip.animation_data.action.fcurves.remove(curve)
+			ob.animation_data.action.fcurves.remove(curve)
 		self.peaks_shape_range_start = 0
 		
-		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_end' )
+		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape_range_end' )
 		if curve is not None:
-			clip.animation_data.action.fcurves.remove(curve)
+			ob.animation_data.action.fcurves.remove(curve)
 		self.peaks_shape_range_end = 2
 	
 	
