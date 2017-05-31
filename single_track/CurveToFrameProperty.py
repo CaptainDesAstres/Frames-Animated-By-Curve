@@ -11,7 +11,7 @@ class CurveToFrameProperty():
 	
 	class SingleTrackCurveToFrame(bpy.types.Operator):
 		'''the operaton to execute add on function'''
-		bl_idname = "single_track.curve_to_frame"
+		bl_idname = "curve_to_frame.render_single_track"
 		bl_label= "Frames Animated By Curve"
 		bl_options = {'INTERNAL'}
 		
@@ -120,7 +120,7 @@ class CurveToFrameProperty():
 						in Movie Editor.", icon="ERROR" )
 				row = layout.row()
 				row.operator(
-					"ctf.init_movie_clip",
+					"curve_to_frame.init_track",
 					text="Refresh MovieClip info")
 	
 	
@@ -236,7 +236,7 @@ class CurveToFrameProperty():
 	
 	class TracksActions(bpy.types.Operator):
 		'''Tacks list action operator'''
-		bl_idname = "ctf.tracks_action"
+		bl_idname = "curve_to_frame.tracks_list_action"
 		bl_label = "Track Action"
 		bl_description = "Track Action:\n- Move up selected track.\n- Check all Tracks.\n- Delete selected track.\n- Move down selected track."
 		bl_options = {'INTERNAL'}
@@ -323,7 +323,7 @@ class CurveToFrameProperty():
 	
 	class RefreshClipMiniMaxi(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of a movie clip'''
-		bl_idname = "ctf.refresh_movieclip_mini_maxi"
+		bl_idname = "curve_to_frame.single_track_get_amplitude_range"
 		bl_label= "get movieclip amplitude curve mini and maxi value"
 		bl_options = {'INTERNAL'}
 		
@@ -351,7 +351,7 @@ class CurveToFrameProperty():
 	
 	class RestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
 		'''Restore default peak shape settings for multi track'''
-		bl_idname = "ctf.multi_track_restore_default_peak_shape"
+		bl_idname = "curve_to_frame.multi_track_default_peak_shape"
 		bl_label= "restore default peak shape settings for multi track"
 		bl_options = {'INTERNAL'}
 		
@@ -366,7 +366,7 @@ class CurveToFrameProperty():
 	
 	class SingleTrackCurvesRefresh(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of a movie clip'''
-		bl_idname = "ctf.single_track_curves_refresh"
+		bl_idname = "curve_to_frame.generate_single_track_curves"
 		bl_label= "refresh movieclip curves"
 		bl_options = {'INTERNAL'}
 		
@@ -385,7 +385,7 @@ class CurveToFrameProperty():
 	
 	class RestoreDefaultPeakShape(bpy.types.Operator):
 		'''Restore default peak shape settings'''
-		bl_idname = "ctf.restore_default_peak_shape"
+		bl_idname = "curve_to_frame.single_track_default_peak_shape"
 		bl_label= "restore default peak shape settings"
 		bl_options = {'INTERNAL'}
 		
@@ -400,7 +400,7 @@ class CurveToFrameProperty():
 	
 	class MultiTrackCurvesRefresh(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of the scene'''
-		bl_idname = "ctf.multi_track_curves_refresh"
+		bl_idname = "curve_to_frame.generate_multi_track_curves"
 		bl_label= "refresh multi track curves"
 		bl_options = {'INTERNAL'}
 		
@@ -419,7 +419,7 @@ class CurveToFrameProperty():
 	
 	class InitMovieClip(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of a movie clip'''
-		bl_idname = "ctf.init_movie_clip"
+		bl_idname = "curve_to_frame.init_track"
 		bl_label= "refresh MovieClip curve to frame Attribute"
 		bl_options = {'INTERNAL'}
 		
@@ -441,7 +441,7 @@ class CurveToFrameProperty():
 	
 	class RefreshSceneMiniMaxi(bpy.types.Operator):
 		'''operator to initialize or refresh curve to frame info of the scene'''
-		bl_idname = "ctf.refresh_scene_mini_maxi"
+		bl_idname = "curve_to_frame.multi_track_get_amplitude_range"
 		bl_label= "get scene amplitude curve mini and maxi value"
 		bl_options = {'INTERNAL'}
 		
@@ -862,7 +862,7 @@ class CurveToFrameProperty():
 			# ask to initialize curve to frame on thes MovieClip
 			row = layout.row()
 			row.operator(
-				"ctf.init_movie_clip",
+				"curve_to_frame.init_track",
 				text="initialize MovieClip info")
 			
 			return True
@@ -881,7 +881,7 @@ class CurveToFrameProperty():
 		col.label( text = "Frame Directory path:" )
 		col = row.column()
 		col.operator(
-			"ctf.init_movie_clip",
+			"curve_to_frame.init_track",
 			icon = 'FILE_REFRESH',
 			text = '')
 		row = layout.row()
@@ -1136,14 +1136,14 @@ class CurveToFrameProperty():
 			# check there is no warning
 			row = layout.row()
 			row.operator(
-				"single_track.curve_to_frame",
+				"curve_to_frame.render_single_track",
 				text="ignore warning and run at my one risk",
 				icon = 'ERROR')
 		else:
 			# draw standart run button
 			row = layout.row()
 			row.operator(
-				"single_track.curve_to_frame",
+				"curve_to_frame.render_single_track",
 				text="run")
 	
 	
@@ -1154,9 +1154,9 @@ class CurveToFrameProperty():
 		'''draw the curve to frame panel'''
 		# draw movieclip load error if required
 		error = self.draw_clip_load_error( layout, clip )
-		refresh_curve = "ctf.single_track_curves_refresh"
-		refresh_mini_maxi = "ctf.refresh_movieclip_mini_maxi"
-		restore_peak_shape = "ctf.restore_default_peak_shape"
+		refresh_curve = "curve_to_frame.generate_single_track_curves"
+		refresh_mini_maxi = "curve_to_frame.single_track_get_amplitude_range"
+		restore_peak_shape = "curve_to_frame.single_track_default_peak_shape"
 		
 		if not error:
 			# draw Movie info & settings
@@ -1787,9 +1787,9 @@ class CurveToFrameProperty():
 	def panel_multi_track_amplitude_and_peaks(self, context, layout):
 		'''draw the curve to frame panel'''
 		
-		refresh_curve = "ctf.multi_track_curves_refresh"
-		refresh_mini_maxi = "ctf.refresh_scene_mini_maxi"
-		restore_peak_shape = "ctf.multi_track_restore_default_peak_shape"
+		refresh_curve = "curve_to_frame.generate_multi_track_curves"
+		refresh_mini_maxi = "curve_to_frame.multi_track_get_amplitude_range"
+		restore_peak_shape = "curve_to_frame.multi_track_default_peak_shape"
 		
 		# draw amplitude settings
 		self.draw_amplitude( layout,
@@ -1842,10 +1842,10 @@ class CurveToFrameProperty():
 		
 		# track list action button
 		col = row.column( align=True )
-		col.operator("ctf.tracks_action", icon='TRIA_UP', text="").action = 'UP'
-		col.operator("ctf.tracks_action", icon='FILE_TICK', text="").action = 'CHECK'
-		col.operator("ctf.tracks_action", icon='X', text="").action = 'REMOVE'
-		col.operator("ctf.tracks_action", icon='TRIA_DOWN', text="").action = 'DOWN'
+		col.operator("curve_to_frame.tracks_list_action", icon='TRIA_UP', text="").action = 'UP'
+		col.operator("curve_to_frame.tracks_list_action", icon='FILE_TICK', text="").action = 'CHECK'
+		col.operator("curve_to_frame.tracks_list_action", icon='X', text="").action = 'REMOVE'
+		col.operator("curve_to_frame.tracks_list_action", icon='TRIA_DOWN', text="").action = 'DOWN'
 		
 		# display selected track settings
 		if (self.selected_track >= 0 
