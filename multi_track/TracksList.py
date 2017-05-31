@@ -51,10 +51,12 @@ class TrackItem(bpy.types.UIList):
 				active_propname, 
 				index ):
 		'''draw item row'''
-		col = layout.column()
+		# display name and index in list
+		sp = layout.split(0.8)
+		col = sp.column()
+		col.label( str(item.track_id) )
+		col = sp.column()
 		col.label(item.name, icon='CLIP')
-		col = layout.column()
-		col.label( 'id:'+str(item.track_id) )
 
 
 
