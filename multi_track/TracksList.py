@@ -3,13 +3,15 @@ import bpy
 
 
 class Track(bpy.types.PropertyGroup):
-	''' managing curve to frame track Identification'''
+	'''object use to be listed as track in tracks list'''
+	# all properties
 	name = bpy.props.StringProperty()
 	uid = bpy.props.StringProperty()
 	track_id = bpy.props.IntProperty()
 	
 	def get( self, scene, rename = False):
 		'''return the movie clip corresponding to this track'''
+		# get movieclip by name
 		try:
 			track = bpy.data.movieclips[ self.name ]
 			if track.curve_to_frame.uid == self.uid:
@@ -17,10 +19,12 @@ class Track(bpy.types.PropertyGroup):
 		except KeyError:
 			pass
 		
+		# get it by uid in case name have been changed
 		for track in bpy.data.movieclips:
 			if track.curve_to_frame.uid == self.uid:
 				
 				if rename:
+					# update with new name 
 					try:
 						self.name = track.name
 					except AttributeError:
@@ -28,6 +32,7 @@ class Track(bpy.types.PropertyGroup):
 				
 				return track
 		
+		# if none corresponding movieclip finded
 		return None
 
 
