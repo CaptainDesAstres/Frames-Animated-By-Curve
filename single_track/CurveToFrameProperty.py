@@ -629,32 +629,32 @@ class CurveToFrameProperty():
 		clip = self.id_data
 		
 		# get source path and extension
-		clip.curve_to_frame.path, name = os.path.split(bpy.path.abspath(clip.filepath))
-		clip.curve_to_frame.path += '/'
-		name, clip.curve_to_frame.ext = os.path.splitext( name )
+		self.path, name = os.path.split(bpy.path.abspath(clip.filepath))
+		self.path += '/'
+		name, self.ext = os.path.splitext( name )
 		
 		# get file naming prefix, suffix and length
 		l = len(name)
 		n = l-1
 		while ( not name[n].isdigit() and n > 0 ):
 			n -= 1
-		clip.curve_to_frame.suffix = name[n+1:l]
-		clip.curve_to_frame.prefix = name[0:n].rstrip('0123456789')
-		clip.curve_to_frame.number_size = l - len(clip.curve_to_frame.suffix)-len(clip.curve_to_frame.prefix)
+		self.suffix = name[n+1:l]
+		self.prefix = name[0:n].rstrip('0123456789')
+		self.number_size = l - len(self.suffix)-len(self.prefix)
 		
 		# Get clip length and first and last frame number
-		clip.curve_to_frame.first = int(name[len(clip.curve_to_frame.suffix):n+1])
-		clip.curve_to_frame.size = clip.frame_duration
-		clip.curve_to_frame.last = clip.curve_to_frame.first + clip.curve_to_frame.size -1
+		self.first = int(name[len(self.suffix):n+1])
+		self.size = clip.frame_duration
+		self.last = self.first + self.size -1
 		
 		# adapt curve_to_frame.end property if needed
-		if(not clip.curve_to_frame.init or clip.curve_to_frame.end > clip.curve_to_frame.size):
-			clip.curve_to_frame.end = clip.curve_to_frame.size
-			clip.curve_to_frame.init = True
+		if(not self.init or self.end > self.size):
+			self.end = self.size
+			self.init = True
 		
 		# allocate an uid to the clip
-		if(clip.curve_to_frame.uid == '' ):
-			clip.curve_to_frame.uid = str(uuid4())
+		if(self.uid == '' ):
+			self.uid = str(uuid4())
 		
 		return {'FINISHED'}
 	
@@ -694,12 +694,12 @@ class CurveToFrameProperty():
 		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_start' )
 		if curve is not None:
 			clip.animation_data.action.fcurves.remove(curve)
-		clip.curve_to_frame.peaks_shape_range_start = 0
+		self.peaks_shape_range_start = 0
 		
 		curve = get_fcurve_by_data_path( clip, 'curve_to_frame.peaks_shape_range_end' )
 		if curve is not None:
 			clip.animation_data.action.fcurves.remove(curve)
-		clip.curve_to_frame.peaks_shape_range_end = 2
+		self.peaks_shape_range_end = 2
 	
 	
 	
