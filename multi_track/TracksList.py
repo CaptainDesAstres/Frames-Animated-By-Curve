@@ -66,7 +66,11 @@ class TracksActions(bpy.types.Operator):
 	'''Tacks list action operator'''
 	bl_idname = "curve_to_frame.tracks_list_action"
 	bl_label = "Track Action"
-	bl_description = "Track Action:\n- Move up selected track.\n- Check all Tracks.\n- Delete selected track.\n- Move down selected track."
+	bl_description = "Track Action:\n\
+			- Move up selected track.\n\
+			- Check all Tracks.\n\
+			- Delete selected track.\n\
+			- Move down selected track."
 	bl_options = {'INTERNAL'}
 	
 	action = bpy.props.EnumProperty(
