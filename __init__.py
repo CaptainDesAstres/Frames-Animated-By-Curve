@@ -21,27 +21,36 @@ import bpy, platform
 
 def register():
 	'''addon register'''
-	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
-	bpy.utils.register_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.register_class(SingleTrack.InitMovieClip)
-	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
-	bpy.utils.register_class(SingleTrack.RefreshSceneMiniMaxi)
-	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
-	bpy.utils.register_class(SingleTrack.MultiTrackCurvesRefresh)
-	
+	# single track feature settings
 	bpy.utils.register_class(SingleTrack)
 	
+	# single track feature Panel
+	bpy.utils.register_class(SingleTrack.SingleTrackPanel)
+	
+	# single track feature Operator
+	bpy.utils.register_class(SingleTrack.InitMovieClip)
+	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
+	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
+	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
+	bpy.utils.register_class(SingleTrack.SingleTrackCurveToFrame)
+	
+	# track object and operator
 	bpy.utils.register_class(Track)
 	bpy.utils.register_class(TrackItem)
 	bpy.utils.register_class(TracksActions)
+	
+	# multi track feature settings
 	bpy.utils.register_class(MultiTrack)
 	
-	
-	bpy.utils.register_class(SingleTrack.SingleTrackCurveToFrame)
-	bpy.utils.register_class(SingleTrack.SingleTrackPanel)
+	# multi track feature Panel
 	bpy.utils.register_class(SingleTrack.MultiTrackTracksPanel)
 	bpy.utils.register_class(SingleTrack.MultiTrackAmplitudePanel)
 	bpy.utils.register_class(SingleTrack.MultiTrackOutputPanel)
+	
+	# multi track feature Operator
+	bpy.utils.register_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.register_class(SingleTrack.RefreshSceneMiniMaxi)
+	bpy.utils.register_class(SingleTrack.MultiTrackCurvesRefresh)
 	
 	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=SingleTrack)
 	bpy.types.Scene.curve_to_frame = bpy.props.PointerProperty(type=MultiTrack)
@@ -69,26 +78,35 @@ def register():
 
 def unregister():
 	'''addon unregister'''
-	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
-	bpy.utils.unregister_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.unregister_class(SingleTrack.InitMovieClip)
-	bpy.utils.unregister_class(SingleTrack.RefreshClipMiniMaxi)
-	bpy.utils.unregister_class(SingleTrack.RefreshSceneMiniMaxi)
-	bpy.utils.unregister_class(SingleTrack.SingleTrackCurvesRefresh)
-	bpy.utils.unregister_class(SingleTrack.MultiTrackCurvesRefresh)
-	
+	# single track feature settings
 	bpy.utils.unregister_class(SingleTrack)
 	
+	# single track feature Panel
+	bpy.utils.unregister_class(SingleTrack.SingleTrackPanel)
+	
+	# single track feature Operator
+	bpy.utils.unregister_class(SingleTrack.InitMovieClip)
+	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
+	bpy.utils.unregister_class(SingleTrack.RefreshClipMiniMaxi)
+	bpy.utils.unregister_class(SingleTrack.SingleTrackCurvesRefresh)
+	bpy.utils.unregister_class(SingleTrack.SingleTrackCurveToFrame)
+	
+	# track object and operator
 	bpy.utils.unregister_class(Track)
 	bpy.utils.unregister_class(TrackItem)
 	bpy.utils.unregister_class(TracksActions)
+	
+	# multi track feature settings
 	bpy.utils.unregister_class(MultiTrack)
 	
-	
-	bpy.utils.unregister_class(SingleTrack.SingleTrackPanel)
-	bpy.utils.unregister_class(SingleTrack.MultiTrackAmplitudePanel)
-	bpy.utils.unregister_class(SingleTrack.SingleTrackCurveToFrame)
+	# multi track feature Panel
 	bpy.utils.unregister_class(SingleTrack.MultiTrackTracksPanel)
+	bpy.utils.unregister_class(SingleTrack.MultiTrackAmplitudePanel)
 	bpy.utils.unregister_class(SingleTrack.MultiTrackOutputPanel)
+	
+	# multi track feature Operator
+	bpy.utils.unregister_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.unregister_class(SingleTrack.RefreshSceneMiniMaxi)
+	bpy.utils.unregister_class(SingleTrack.MultiTrackCurvesRefresh)
 	print("Frames Animated By Curve is disabled")
 
