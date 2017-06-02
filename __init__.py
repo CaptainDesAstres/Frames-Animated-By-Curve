@@ -13,10 +13,12 @@ sys.path.append( os.path.abspath(__file__+'/..') )
 
 from functions import *
 from single_track.SingleTrack import SingleTrack
-from multi_track.MultiTrack import MultiTrack
-from multi_track.TracksList import *
 import single_track.operators
+import single_track.panel
+from multi_track.TracksList import *
+from multi_track.MultiTrack import MultiTrack
 import multi_track.operators
+import multi_track.panel
 import bpy, platform
 
 
