@@ -16,27 +16,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	class MultiTrackOutputPanel(bpy.types.Panel):
-		'''class of the panel who contains output settings control for multi track feature'''
-		bl_space_type = "CLIP_EDITOR"
-		bl_region_type = "TOOLS"
-		bl_label = "Multi track: Output Settings"
-		bl_category = "Curve Anim"
-		
-		def draw(self, context):
-			'''the function that draw the panel'''
-			layout = self.layout
-			scene = context.scene
-			
-			warning = scene.curve_to_frame.draw_multi_track_output( layout, scene )
-			
-			# draw run button or error message
-			#scene.curve_to_frame.draw_run_button( layout, warning )
-	
-	
-	
-	
-	
 	def check_driver( self ):
 		'''check the object have no driver on property used by the addon'''
 		if(		self.id_data.animation_data is None
