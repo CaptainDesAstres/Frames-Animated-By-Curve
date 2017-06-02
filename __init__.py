@@ -53,7 +53,7 @@ def register():
 	
 	# multi track feature Operator
 	bpy.utils.register_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.register_class(SingleTrack.RefreshSceneMiniMaxi)
+	bpy.utils.register_class(multi_track.operators.AmplitudeMinMax)
 	bpy.utils.register_class(multi_track.operators.CurvesRefresh)
 	
 	bpy.types.MovieClip.curve_to_frame = bpy.props.PointerProperty(type=SingleTrack)
@@ -110,7 +110,7 @@ def unregister():
 	
 	# multi track feature Operator
 	bpy.utils.unregister_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
-	bpy.utils.unregister_class(SingleTrack.RefreshSceneMiniMaxi)
+	bpy.utils.unregister_class(multi_track.operators.AmplitudeMinMax)
 	bpy.utils.unregister_class(multi_track.operators.CurvesRefresh)
 	print("Frames Animated By Curve is disabled")
 
