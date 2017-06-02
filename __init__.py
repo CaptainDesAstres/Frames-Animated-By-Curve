@@ -12,6 +12,8 @@ from .functions import *
 from .single_track.SingleTrack import SingleTrack
 from .multi_track.MultiTrack import MultiTrack
 from .multi_track.TracksList import *
+from .single_track.operators import *
+from .multi_track.operators import *
 import bpy, platform
 
 
