@@ -35,7 +35,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.InitMovieClip)
 	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
-	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
+	bpy.utils.register_class(single_track.operators.CurvesRefresh)
 	bpy.utils.register_class(single_track.operators.CurveToFrame)
 	
 	# track object and operator
@@ -92,7 +92,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack.InitMovieClip)
 	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.unregister_class(SingleTrack.RefreshClipMiniMaxi)
-	bpy.utils.unregister_class(SingleTrack.SingleTrackCurvesRefresh)
+	bpy.utils.unregister_class(single_track.operators.CurvesRefresh)
 	bpy.utils.unregister_class(single_track.operators.CurveToFrame)
 	
 	# track object and operator

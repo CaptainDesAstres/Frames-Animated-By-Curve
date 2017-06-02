@@ -141,25 +141,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	class SingleTrackCurvesRefresh(bpy.types.Operator):
-		'''operator to initialize or refresh curve to frame info of a movie clip'''
-		bl_idname = "curve_to_frame.generate_single_track_curves"
-		bl_label= "refresh movieclip curves"
-		bl_options = {'INTERNAL'}
-		
-		def execute(self, context):
-			'''refresh clip curves'''
-			status = context.space_data.clip.curve_to_frame.update_curves( context )
-			if status is True:
-				return {'FINISHED'}
-			else:
-				self.report( {'ERROR'}, status )
-				return {'CANCELLED'}
-	
-	
-	
-	
-	
 	class RestoreDefaultPeakShape(bpy.types.Operator):
 		'''Restore default peak shape settings'''
 		bl_idname = "curve_to_frame.single_track_default_peak_shape"
