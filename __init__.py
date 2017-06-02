@@ -34,7 +34,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
 	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
-	bpy.utils.register_class(SingleTrack.SingleTrackCurveToFrame)
+	bpy.utils.register_class(CurveToFrame)
 	
 	# track object and operator
 	bpy.utils.register_class(Track)
