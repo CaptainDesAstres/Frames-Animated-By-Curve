@@ -33,3 +33,10 @@ class TrackPanel(bpy.types.Panel):
 
 
 
+class Panel():
+	'''class containing all needed method to draw panel'''
+	
+
+
+
+

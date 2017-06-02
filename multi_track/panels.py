@@ -1,4 +1,5 @@
 import bpy
+from single_track.panels import Panel as SingleTrackPanel
 
 class ListPanel(bpy.types.Panel):
 	'''class of the panel who contains addon multi track control'''
@@ -50,6 +51,11 @@ class OutputPanel(bpy.types.Panel):
 
 
 
+
+
+class Panel(SingleTrackPanel):
+	'''class containing all needed method to draw panel'''
+	
 
 
 

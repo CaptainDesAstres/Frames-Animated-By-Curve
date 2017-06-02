@@ -1,5 +1,6 @@
 from .TracksList import *
 from .Peaks import Peaks
+from .panels import Panel
 from single_track.CurveToFrameProperty import CurveToFrameProperty
 from functions import *
 import bpy, os, shutil, platform
@@ -13,7 +14,13 @@ from uuid import uuid4
 
 
 
-class MultiTrack(bpy.types.PropertyGroup, TracksList, Peaks, CurveToFrameProperty):
+class MultiTrack(
+		bpy.types.PropertyGroup,
+		Panel,
+		TracksList,
+		Peaks,
+		CurveToFrameProperty
+		):
 	''' class containing all Curve to frame 
 			Properties, methods and operators 
 			for multi track feature'''

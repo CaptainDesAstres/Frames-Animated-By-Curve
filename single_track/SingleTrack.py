@@ -1,8 +1,14 @@
 from .Peaks import Peaks
 from .CurveToFrameProperty import CurveToFrameProperty
+from .panels import Panel
 import bpy
 
-class SingleTrack(bpy.types.PropertyGroup, Peaks, CurveToFrameProperty):
+class SingleTrack(
+		bpy.types.PropertyGroup,
+		Panel,
+		Peaks,
+		CurveToFrameProperty
+		):
 	''' class containing all Curve to frame 
 			Properties, methods and operators 
 			for single track feature'''
