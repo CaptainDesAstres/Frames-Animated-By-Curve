@@ -2,6 +2,34 @@ from functions import *
 import bpy, os, shutil
 
 
+class AmplitudeMinMax(bpy.types.Operator):
+	'''operator to initialize or refresh curve to frame info of a movie clip'''
+	bl_idname = "curve_to_frame.single_track_get_amplitude_range"
+	bl_label= "get movieclip amplitude curve mini and maxi value"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''get movieclip amplitude curve mini and maxi value'''
+		clip = context.space_data.clip
+		
+		fCurve = get_fcurve_by_data_path(clip, 'curve_to_frame.amplitude')
+		if(fCurve is None):
+			m = M = clip.curve_to_frame.amplitude
+		else:
+			clip.curve_to_frame.mini, clip.curve_to_frame.maxi = get_curve_limit(fCurve)
+		
+		# update curves
+		status = clip.curve_to_frame.update_curves( context )
+		if status is True:
+			return {'FINISHED'}
+		else:
+			self.report( {'ERROR'}, status )
+			return {'CANCELLED'}
+
+
+
+
+
 class InitTrack(bpy.types.Operator):
 	'''operator to initialize or refresh curve to frame info of a movie clip'''
 	bl_idname = "curve_to_frame.init_track"
