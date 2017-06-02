@@ -14,11 +14,11 @@ sys.path.append( os.path.abspath(__file__+'/..') )
 from functions import *
 from single_track.SingleTrack import SingleTrack
 import single_track.operators
-import single_track.panel
+import single_track.panels
 from multi_track.TracksList import *
 from multi_track.MultiTrack import MultiTrack
 import multi_track.operators
-import multi_track.panel
+import multi_track.panels
 import bpy, platform
 
 
@@ -32,7 +32,7 @@ def register():
 	bpy.utils.register_class(SingleTrack)
 	
 	# single track feature Panel
-	bpy.utils.register_class(single_track.panel.Panel)
+	bpy.utils.register_class(single_track.panels.Panel)
 	
 	# single track feature Operator
 	bpy.utils.register_class(single_track.operators.InitTrack)
@@ -89,7 +89,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack)
 	
 	# single track feature Panel
-	bpy.utils.unregister_class(single_track.panel.Panel)
+	bpy.utils.unregister_class(single_track.panels.Panel)
 	
 	# single track feature Operator
 	bpy.utils.unregister_class(single_track.operators.InitTrack)
