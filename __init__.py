@@ -32,7 +32,7 @@ def register():
 	bpy.utils.register_class(SingleTrack)
 	
 	# single track feature Panel
-	bpy.utils.register_class(SingleTrack.SingleTrackPanel)
+	bpy.utils.register_class(single_track.panel.Panel)
 	
 	# single track feature Operator
 	bpy.utils.register_class(single_track.operators.InitTrack)
@@ -89,7 +89,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack)
 	
 	# single track feature Panel
-	bpy.utils.unregister_class(SingleTrack.SingleTrackPanel)
+	bpy.utils.unregister_class(single_track.panel.Panel)
 	
 	# single track feature Operator
 	bpy.utils.unregister_class(single_track.operators.InitTrack)
