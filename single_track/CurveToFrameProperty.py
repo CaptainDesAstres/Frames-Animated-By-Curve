@@ -373,6 +373,8 @@ class CurveToFrameProperty():
 				 icon="ERROR"  )
 			row = layout.row()
 			row.label( text="Only images sequence are accept." )
+			row = layout.row()
+			row.template_ID(bpy.context.space_data, 'clip', open='clip.open' )
 			
 			return True
 			

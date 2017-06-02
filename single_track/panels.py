@@ -22,9 +22,14 @@ class Panel(bpy.types.Panel):
 		else:
 			# Display a request for a movie clip
 			row = layout.row()
-			row.label( text="select/load an images sequence \
-					in Movie Editor.", icon="ERROR" )
+			row.label( 
+					text="select/load an images sequence in Movie Editor.",
+					icon="ERROR" )
 			row = layout.row()
-			row.operator(
-				"curve_to_frame.init_track",
-				text="Refresh MovieClip info")
+			row.template_ID(context.space_data, 'clip', open='clip.open' )
+			
+
+
+
+
+
