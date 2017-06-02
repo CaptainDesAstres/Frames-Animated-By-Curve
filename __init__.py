@@ -9,7 +9,8 @@ bl_info = {
     "category": "Animation"}
 
 import os, sys
-sys.path.append( os.path.abspath('.') )
+sys.path.append( os.path.abspath(__file__+'/..') )
+
 from functions import *
 from single_track.SingleTrack import SingleTrack
 from multi_track.MultiTrack import MultiTrack
