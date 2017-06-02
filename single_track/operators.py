@@ -2,7 +2,7 @@ from functions import *
 import bpy, os, shutil
 
 
-class InitMovieClip(bpy.types.Operator):
+class InitTrack(bpy.types.Operator):
 	'''operator to initialize or refresh curve to frame info of a movie clip'''
 	bl_idname = "curve_to_frame.init_track"
 	bl_label= "refresh MovieClip curve to frame Attribute"
