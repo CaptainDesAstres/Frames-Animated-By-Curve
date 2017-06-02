@@ -1,7 +1,7 @@
 import bpy
 
 
-class Panel(bpy.types.Panel):
+class TrackPanel(bpy.types.Panel):
 	'''class of the panel who contains addon control'''
 	bl_space_type = "CLIP_EDITOR"
 	bl_region_type = "TOOLS"
