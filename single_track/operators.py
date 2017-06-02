@@ -2,6 +2,28 @@ from functions import *
 import bpy, os, shutil
 
 
+class InitMovieClip(bpy.types.Operator):
+	'''operator to initialize or refresh curve to frame info of a movie clip'''
+	bl_idname = "curve_to_frame.init_track"
+	bl_label= "refresh MovieClip curve to frame Attribute"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''refresh curve to frame info of a movie clip'''
+		bpy.ops.clip.reload()# reload source file
+		clip = context.space_data.clip
+		if clip is None:
+			self.report({'ERROR'}, 'can\'t find the selected movieclip.')
+			return {'CANCELLED'}
+		else:
+			if get_fcurve_by_data_path(clip, 'curve_to_frame.peaks_shape') is None:
+					clip.curve_to_frame.init_peaks_shape_curve()
+			return clip.curve_to_frame.initialize()
+
+
+
+
+
 class CurveToFrame(bpy.types.Operator):
 	'''the operaton to execute add on function'''
 	bl_idname = "curve_to_frame.render_single_track"
