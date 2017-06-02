@@ -8,12 +8,14 @@ bl_info = {
     "wiki_url": "https://github.com/CaptainDesAstres/Frames-Animated-By-Curve",
     "category": "Animation"}
 
-from .functions import *
-from .single_track.SingleTrack import SingleTrack
-from .multi_track.MultiTrack import MultiTrack
-from .multi_track.TracksList import *
-from .single_track.operators import *
-from .multi_track.operators import *
+import os, sys
+sys.path.append( os.path.abspath('.') )
+from functions import *
+from single_track.SingleTrack import SingleTrack
+from multi_track.MultiTrack import MultiTrack
+from multi_track.TracksList import *
+import single_track.operators
+import multi_track.operators
 import bpy, platform
 
 
@@ -34,7 +36,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.register_class(SingleTrack.RefreshClipMiniMaxi)
 	bpy.utils.register_class(SingleTrack.SingleTrackCurvesRefresh)
-	bpy.utils.register_class(CurveToFrame)
+	bpy.utils.register_class(single_track.operators.CurveToFrame)
 	
 	# track object and operator
 	bpy.utils.register_class(Track)
@@ -91,7 +93,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
 	bpy.utils.unregister_class(SingleTrack.RefreshClipMiniMaxi)
 	bpy.utils.unregister_class(SingleTrack.SingleTrackCurvesRefresh)
-	bpy.utils.unregister_class(SingleTrack.SingleTrackCurveToFrame)
+	bpy.utils.unregister_class(single_track.operators.CurveToFrame)
 	
 	# track object and operator
 	bpy.utils.unregister_class(Track)

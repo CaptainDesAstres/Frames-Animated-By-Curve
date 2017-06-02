@@ -1,4 +1,4 @@
-from ..functions import *
+from functions import *
 import bpy, os, shutil, platform
 from math import ceil, floor
 from uuid import uuid4

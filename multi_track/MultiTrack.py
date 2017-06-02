@@ -1,7 +1,7 @@
 from .TracksList import *
 from .Peaks import Peaks
-from ..single_track.CurveToFrameProperty import CurveToFrameProperty
-from ..functions import *
+from single_track.CurveToFrameProperty import CurveToFrameProperty
+from functions import *
 import bpy, os, shutil, platform
 from math import ceil, floor
 from uuid import uuid4
