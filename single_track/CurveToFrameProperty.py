@@ -113,21 +113,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	class RestoreDefaultPeakShape(bpy.types.Operator):
-		'''Restore default peak shape settings'''
-		bl_idname = "curve_to_frame.single_track_default_peak_shape"
-		bl_label= "restore default peak shape settings"
-		bl_options = {'INTERNAL'}
-		
-		def execute(self, context):
-			'''restore default peak shape settings'''
-			context.space_data.clip.curve_to_frame.init_peaks_shape_curve()
-			return {'FINISHED'}
-	
-	
-	
-	
-	
 	def check_driver( self ):
 		'''check the object have no driver on property used by the addon'''
 		if(		self.id_data.animation_data is None

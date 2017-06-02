@@ -33,7 +33,7 @@ def register():
 	
 	# single track feature Operator
 	bpy.utils.register_class(single_track.operators.InitTrack)
-	bpy.utils.register_class(SingleTrack.RestoreDefaultPeakShape)
+	bpy.utils.register_class(single_track.operators.RestoreDefaultPeakShape)
 	bpy.utils.register_class(single_track.operators.AmplitudeMinMax)
 	bpy.utils.register_class(single_track.operators.CurvesRefresh)
 	bpy.utils.register_class(single_track.operators.CurveToFrame)
@@ -90,7 +90,7 @@ def unregister():
 	
 	# single track feature Operator
 	bpy.utils.unregister_class(single_track.operators.InitTrack)
-	bpy.utils.unregister_class(SingleTrack.RestoreDefaultPeakShape)
+	bpy.utils.unregister_class(single_track.operators.RestoreDefaultPeakShape)
 	bpy.utils.unregister_class(single_track.operators.AmplitudeMinMax)
 	bpy.utils.unregister_class(single_track.operators.CurvesRefresh)
 	bpy.utils.unregister_class(single_track.operators.CurveToFrame)

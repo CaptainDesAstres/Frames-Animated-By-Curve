@@ -30,6 +30,22 @@ class AmplitudeMinMax(bpy.types.Operator):
 
 
 
+
+class RestoreDefaultPeakShape(bpy.types.Operator):
+	'''Restore default peak shape settings'''
+	bl_idname = "curve_to_frame.single_track_default_peak_shape"
+	bl_label= "restore default peak shape settings"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''restore default peak shape settings'''
+		context.space_data.clip.curve_to_frame.init_peaks_shape_curve()
+		return {'FINISHED'}
+
+
+
+
+
 class InitTrack(bpy.types.Operator):
 	'''operator to initialize or refresh curve to frame info of a movie clip'''
 	bl_idname = "curve_to_frame.init_track"
