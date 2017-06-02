@@ -52,7 +52,7 @@ def register():
 	bpy.utils.register_class(SingleTrack.MultiTrackOutputPanel)
 	
 	# multi track feature Operator
-	bpy.utils.register_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.register_class(multi_track.operators.RestoreDefaultPeakShape)
 	bpy.utils.register_class(multi_track.operators.AmplitudeMinMax)
 	bpy.utils.register_class(multi_track.operators.CurvesRefresh)
 	
@@ -109,7 +109,7 @@ def unregister():
 	bpy.utils.unregister_class(SingleTrack.MultiTrackOutputPanel)
 	
 	# multi track feature Operator
-	bpy.utils.unregister_class(SingleTrack.RestoreMultiTrackDefaultPeakShape)
+	bpy.utils.unregister_class(multi_track.operators.RestoreDefaultPeakShape)
 	bpy.utils.unregister_class(multi_track.operators.AmplitudeMinMax)
 	bpy.utils.unregister_class(multi_track.operators.CurvesRefresh)
 	print("Frames Animated By Curve is disabled")

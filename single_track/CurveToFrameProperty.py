@@ -98,21 +98,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	class RestoreMultiTrackDefaultPeakShape(bpy.types.Operator):
-		'''Restore default peak shape settings for multi track'''
-		bl_idname = "curve_to_frame.multi_track_default_peak_shape"
-		bl_label= "restore default peak shape settings for multi track"
-		bl_options = {'INTERNAL'}
-		
-		def execute(self, context):
-			'''restore default peak shape settings for multi track'''
-			context.scene.curve_to_frame.init_peaks_shape_curve()
-			return {'FINISHED'}
-	
-	
-	
-	
-	
 	def check_driver( self ):
 		'''check the object have no driver on property used by the addon'''
 		if(		self.id_data.animation_data is None
