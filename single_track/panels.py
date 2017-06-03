@@ -67,7 +67,7 @@ class Panel():
 			self.draw_combination( layout, refresh_curve )
 			
 			# draw output and rounding settings
-			warning = self.draw_single_track_output( layout, context.scene, clip )
+			warning = self.draw_output( layout, context.scene, clip )
 			
 			# draw run button or error message
 			self.draw_run_button( layout, warning )
@@ -311,7 +311,7 @@ class Panel():
 	
 	
 	
-	def draw_single_track_output( self, layout, scene, clip ):
+	def draw_output( self, layout, scene, clip ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
 		# A field to choose between Round Floor and 

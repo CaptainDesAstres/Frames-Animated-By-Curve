@@ -44,7 +44,7 @@ class OutputPanel(bpy.types.Panel):
 		layout = self.layout
 		scene = context.scene
 		
-		warning = scene.curve_to_frame.draw_multi_track_output( layout, scene )
+		warning = scene.curve_to_frame.draw_output( layout, scene )
 		
 		# draw run button or error message
 		#scene.curve_to_frame.draw_run_button( layout, warning )
@@ -62,7 +62,7 @@ class Panel(SingleTrackPanel):
 	
 	
 	
-	def draw_multi_track_output( self, layout, scene ):
+	def draw_output( self, layout, scene ):
 		'''draw rounding & output settings into the panel'''
 		warning = False
 		# A field to set the output path
