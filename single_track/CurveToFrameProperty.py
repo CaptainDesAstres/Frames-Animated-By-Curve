@@ -25,67 +25,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	
-	def initialize( self ):
-		'''init or reload movieclip info'''
-		clip = self.id_data
-		
-		# get source path and extension
-		self.path, name = os.path.split(bpy.path.abspath(clip.filepath))
-		self.path += '/'
-		name, self.ext = os.path.splitext( name )
-		
-		# get file naming prefix, suffix and length
-		l = len(name)
-		n = l-1
-		while ( not name[n].isdigit() and n > 0 ):
-			n -= 1
-		self.suffix = name[n+1:l]
-		self.prefix = name[0:n].rstrip('0123456789')
-		self.number_size = l - len(self.suffix)-len(self.prefix)
-		
-		# Get clip length and first and last frame number
-		self.first = int(name[len(self.suffix):n+1])
-		self.size = clip.frame_duration
-		self.last = self.first + self.size -1
-		
-		# adapt curve_to_frame.end property if needed
-		if(not self.init or self.end > self.size):
-			self.end = self.size
-			self.init = True
-		
-		# allocate an uid to the clip
-		if(self.uid == '' ):
-			self.uid = str(uuid4())
-		
-		return {'FINISHED'}
-	
-	
-	
-	
-	
-	def get_frame_name(self, n):
-		'''return the file name of a frame'''
-		return	(	self.prefix +
-					str(int(n)).rjust(self.number_size, '0')+
-					self.suffix + self.ext	)
-	
-	
-	
-	
-	
-	def check_image_file( self ):
-		'''check in all the movieclip sequence image exists'''
-		for fr in range( self.first,
-					self.last+1 ):
-			if not os.path.exists( self.path + self.get_frame_name( fr ) ):
-				return False
-		return True
-	
-	
-	
-	
-	
 	def update_combination_curve(
 						self,
 						clip, 
