@@ -236,6 +236,42 @@ class Panel():
 	
 	
 	
+	
+	def draw_peaks_profile(
+				self,
+				layout,
+				refresh_curve,
+				restore_shape
+				):
+		'''Draw peak shape settings part of single and multi track panels'''
+		layout.separator()
+		row = layout.row()
+		
+		# restore default shape button
+		col = row.column()
+		col.operator(
+			restore_shape,
+			text='',
+			icon='LOAD_FACTORY')
+		
+		# display peaks shapes settings
+		col = row.column()
+		col.prop(self, "peaks_shape")
+		col = row.column()
+		col.prop(self, "peaks_shape_range_start")
+		col = row.column()
+		col.prop(self, "peaks_shape_range_end")
+		
+		
+		# refresh curve
+		col = row.column()
+		col.operator(
+			refresh_curve,
+			text='',
+			icon='FILE_REFRESH')
+	
+	
+	
 
 
 
