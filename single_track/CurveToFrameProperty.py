@@ -312,35 +312,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def draw_clip_load_error(self, layout, clip):
-		'''draw movieclip load error if required'''
-		if(clip.source != 'SEQUENCE'):
-			# Display an error message, requesting for a sequence of images
-			row = layout.row()
-			row.label( text="Current movie can't be use by addon.",
-				 icon="ERROR"  )
-			row = layout.row()
-			row.label( text="Only images sequence are accept." )
-			row = layout.row()
-			row.template_ID(bpy.context.space_data, 'clip', open='clip.open' )
-			
-			return True
-			
-		elif(not self.init):
-			# ask to initialize curve to frame on thes MovieClip
-			row = layout.row()
-			row.operator(
-				"curve_to_frame.init_track",
-				text="initialize MovieClip info")
-			
-			return True
-			
-		return False
-	
-	
-	
-	
-	
 	def draw_movieclip_settings(self, layout):
 		'''draw Movie info & settings in the panel'''
 		# Display the directory path
