@@ -534,42 +534,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def panel_single_track(self, context, layout, clip):
-		'''draw the curve to frame panel'''
-		# draw movieclip load error if required
-		error = self.draw_clip_load_error( layout, clip )
-		refresh_curve = "curve_to_frame.generate_single_track_curves"
-		refresh_mini_maxi = "curve_to_frame.single_track_get_amplitude_range"
-		restore_peak_shape = "curve_to_frame.single_track_default_peak_shape"
-		
-		if not error:
-			# draw Movie info & settings
-			self.draw_movieclip_settings( layout )
-			
-			# draw amplitude settings
-			self.draw_amplitude( layout, 
-								refresh_curve, refresh_mini_maxi )
-			
-			# draw peaks rythm settings
-			self.draw_peaks(layout, refresh_curve )
-			
-			# draw peaks profile settings
-			self.draw_peaks_profile( layout, refresh_curve,
-						restore_peak_shape )
-			
-			# draw combination node settings and combination and output value
-			self.draw_combination_and_output( layout, refresh_curve )
-			
-			# draw output and rounding settings
-			warning = self.draw_single_track_output( layout, context.scene, clip )
-			
-			# draw run button or error message
-			self.draw_run_button( layout, warning )
-	
-	
-	
-	
-	
 	def update_net_amplitude_curve( self, clip, context ):
 		'''update clip amplitude net curve'''
 		# determine frame working space and frame step
