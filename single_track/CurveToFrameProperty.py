@@ -910,31 +910,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def panel_multi_track_amplitude_and_peaks(self, context, layout):
-		'''draw the curve to frame panel'''
-		
-		refresh_curve = "curve_to_frame.generate_multi_track_curves"
-		refresh_mini_maxi = "curve_to_frame.multi_track_get_amplitude_range"
-		restore_peak_shape = "curve_to_frame.multi_track_default_peak_shape"
-		
-		# draw amplitude settings
-		self.draw_amplitude( layout,
-							refresh_curve, refresh_mini_maxi )
-		
-		# draw peaks rythm settings
-		self.draw_peak(layout, refresh_curve )
-		
-		# draw peaks profile settings
-		self.draw_peak_shape( layout, refresh_curve,
-					restore_peak_shape )
-		
-		# draw combination node settings and combination and output value
-		self.draw_combination( layout, refresh_curve, True )
-	
-	
-	
-	
-	
 	def panel_tracks( self, layout, context ):
 		'''draw the tracks panel content'''
 		# track adding field
