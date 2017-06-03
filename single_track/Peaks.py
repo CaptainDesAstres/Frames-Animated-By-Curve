@@ -447,6 +447,143 @@ class Peaks():
 			frame += KF['frame'] * rate
 		
 		return frame, shape_key
+	
+	
+	
+	
+	
+	def generate_peaks_curve_segment(
+						context,
+						clip,
+						peaks_curve,
+						shapes,
+						rate_curve,
+						start,
+						end,
+						anticipate = False
+						):
+		'''generate a segment of peaks curve'''
+		# get frame rate and start/end frame
+		fps = context.scene.render.fps
+		
+		# get peaks shape range start/end curve
+		shape_start_curve =  get_fcurve_by_data_path( clip, 
+				'curve_to_frame.peaks_shape_range_start' )
+		shape_end_curve = get_fcurve_by_data_path( clip, 
+				'curve_to_frame.peaks_shape_range_end' )
+		
+		# get default rate
+		rate = clip.curve_to_frame.rate
+		if rate_curve is not None:
+			rate = rate_curve.evaluate( start )
+		
+		# get real starting frame
+		frame = start
+		if rate <= 0:
+			anticipate = False
+			frame, current_shape, shape_KF, rate =\
+						curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
+								peaks_curve, shape_start_curve, shape_end_curve,
+								shapes, frame, end )
+			if frame >= end:
+				return frame
+		
+		# convert rate if in ppm
+		if clip.curve_to_frame.rate_unit == 'ppm':
+			rate = fps * 60 / rate
+		
+		# get peaks shape start range
+		if shape_start_curve is None:
+			shape_start = clip.curve_to_frame.peaks_shape_range_start
+		else:
+			shape_start = shape_start_curve.evaluate( start )
+		
+		# get peaks shape end range
+		if shape_end_curve is None:
+			shape_end = clip.curve_to_frame.peaks_shape_range_end
+		else:
+			shape_end = shape_end_curve.evaluate( start )
+		
+		# initial range and key frame
+		current_shape = ( shape_start, shape_end )
+		shape_key = 0
+		
+		# generate anticipated keyframe
+		if anticipate:
+			frame, shape_key = curve_to_frame.generate_anticipated_peaks(
+							clip, shapes[current_shape],
+							frame, rate, peaks_curve
+							)
+		
+		# get shape keyframe
+		shape_KF = shapes[current_shape][shape_key]
+		
+		# generate the segment
+		while( True ):
+			# insert keyframe
+			keyframe = peaks_curve.keyframe_points.insert( frame,
+					shape_KF['value'] )
+			
+			# set left handle of keyframe
+			keyframe.handle_left_type = 'FREE'
+			keyframe.handle_left[0] = keyframe.co[0] \
+																+ shape_KF['left'][0] * rate
+			keyframe.handle_left[1] = keyframe.co[1] \
+																+ shape_KF['left'][1]
+			
+			if frame >= end :
+				return frame + 0.01
+			
+			# get rate value
+			if rate_curve is not None:
+				rate = rate_curve.evaluate( frame )
+				if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
+					rate = fps * 60 / rate
+			
+			# peaks end instructions
+			shape_key += 1
+			if shape_key == len(shapes[current_shape]):
+				shape_key = 1
+				# get new range
+				if shape_start_curve is not None:
+					shape_start = shape_start_curve.evaluate( frame )
+				if shape_end_curve is not None:
+					shape_end = shape_end_curve.evaluate( frame )
+				current_shape = ( shape_start, shape_end )
+				shape_KF = shapes[current_shape][0]
+				
+				# add a keyframe if new peaks keyframe value different 
+				#    from the last of the previous peaks
+				if( shape_KF['value'] != keyframe.co[1] ):
+					frame += 0.01
+					keyframe.interpolation = 'LINEAR'
+					
+					keyframe = peaks_curve.keyframe_points.insert(
+							frame, shape_KF['value'] )
+			
+			# set right handle of keyframe
+			keyframe.handle_right_type = 'FREE'
+			keyframe.handle_right[0] = keyframe.co[0] \
+																+ shape_KF['right'][0] * rate
+			keyframe.handle_right[1] = keyframe.co[1] \
+																+ shape_KF['right'][1]
+			
+			# set right interpolation and easing
+			keyframe.interpolation = shape_KF['interpolation']
+			keyframe.easing = shape_KF['easing']
+			
+			if rate <= 0:
+				frame, current_shape, shape_KF, rate =\
+							curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
+									peaks_curve, shape_start_curve, shape_end_curve,
+									shapes, frame, end )
+				if frame >= end:
+					return frame
+			else:
+				# get next shape keyframe
+				shape_KF = shapes[current_shape][shape_key]
+				frame += shape_KF['frame'] * rate
+		return frame
 
 
 
