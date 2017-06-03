@@ -1011,7 +1011,7 @@ class CurveToFrameProperty():
 					restore_peak_shape )
 		
 		# draw combination node settings and combination and output value
-		self.draw_combination_and_output( layout, refresh_curve, True )
+		self.draw_combination( layout, refresh_curve, True )
 	
 	
 	
