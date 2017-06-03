@@ -128,49 +128,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def init_peaks_shape_curve( self ):
-		'''restore object default peaks shape curve'''
-		ob = self.id_data
-		
-		# erase previous curve
-		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape' )
-		if curve is not None:
-			ob.animation_data.action.fcurves.remove(curve)
-		
-		# initialize peaks shape curve and settings
-		if ob.animation_data is None:
-			ob.animation_data_create()
-		
-		if ob.animation_data.action is None:
-			ob.animation_data.action = bpy.data.actions.new( 
-						name= ob.name+'Action')
-		
-		ob.animation_data.action.fcurves.new( 'curve_to_frame.peaks_shape' )
-		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape' )
-		
-		# set default profile
-		curve.keyframe_points.insert( 0 , 0 )
-		curve.keyframe_points[-1].interpolation = 'LINEAR'
-		curve.keyframe_points.insert( 1 , 1 )
-		curve.keyframe_points[-1].interpolation = 'LINEAR'
-		curve.keyframe_points.insert( 2 , 0 )
-		curve.keyframe_points[-1].interpolation = 'LINEAR'
-		
-		# erase range start/end curve
-		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape_range_start' )
-		if curve is not None:
-			ob.animation_data.action.fcurves.remove(curve)
-		self.peaks_shape_range_start = 0
-		
-		curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape_range_end' )
-		if curve is not None:
-			ob.animation_data.action.fcurves.remove(curve)
-		self.peaks_shape_range_end = 2
-	
-	
-	
-	
-	
 	def get_frame_name(self, n):
 		'''return the file name of a frame'''
 		return	(	self.prefix +
