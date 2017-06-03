@@ -312,43 +312,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def draw_movieclip_settings(self, layout):
-		'''draw Movie info & settings in the panel'''
-		# Display the directory path
-		row = layout.row()
-		col = row.column()
-		col.label( text = "Frame Directory path:" )
-		col = row.column()
-		col.operator(
-			"curve_to_frame.init_track",
-			icon = 'FILE_REFRESH',
-			text = '')
-		row = layout.row()
-		row.label( text= self.path )
-		
-		# Display frame extension
-		row = layout.row()
-		col = row.column()
-		col.label( text="File type: "+self.ext )
-		
-		# Display first to last accepted frame name range
-		col = row.column()
-		col.label( text="Valid frames: "\
-			+self.get_frame_name(self.first)+' to '\
-			+self.get_frame_name(self.last) )
-		
-		# Display Start/End settings
-		layout.separator()
-		row = layout.row()
-		col = row.column()
-		col.prop(self, "start")
-		col = row.column()
-		col.prop(self, "end")
-	
-	
-	
-	
-	
 	def draw_peaks(self, layout, refresh_curve):
 		'''draw peaks rythm settings into the panel'''
 		# a button to activate and set peaks per minute
