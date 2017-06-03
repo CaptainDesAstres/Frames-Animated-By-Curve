@@ -338,9 +338,32 @@ class Panel():
 		col.prop(self, "output_path")
 		path = bpy.path.abspath(self.output_path )
 		
-		
 		return warning
 	
+	
+	
+	
+	
+	def draw_run_button( self, layout, warning ):
+		'''check situation and draw run button into panel'''
+		if( self.check_driver() ):
+			# check no driver is use on curve to frame property
+			row = layout.row()
+			row.label(text='This function can\'t be used with driver!', 
+						icon='ERROR')
+		elif(warning):
+			# check there is no warning
+			row = layout.row()
+			row.operator(
+				"curve_to_frame.render_single_track",
+				text="ignore warning and run at my one risk",
+				icon = 'ERROR')
+		else:
+			# draw standart run button
+			row = layout.row()
+			row.operator(
+				"curve_to_frame.render_single_track",
+				text="run")
 
 
 
