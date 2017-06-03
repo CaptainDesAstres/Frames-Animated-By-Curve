@@ -357,63 +357,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def generate_anticipated_peaks(
-				clip,
-				shape,
-				start,
-				rate,
-				peaks_curve
-				):
-		'''generate anticipated peaks keyframe'''
-		# get anticipate settings
-		anticipate_curve = get_fcurve_by_data_path( clip, 
-				'curve_to_frame.anticipate' )
-		if anticipate_curve is None:
-			anticipate = clip.curve_to_frame.anticipate
-		else:
-			anticipate = anticipate_curve.evaluate(start)
-		
-		# init frame and shape key
-		shape_key = 0
-		frame = start
-		frame -= anticipate * rate
-		
-		# don't start peaks before last peaks_curve keyframe
-		frame = max(frame, peaks_curve.keyframe_points[-1].co[0] + 0.01 )
-		
-		KF = shape[shape_key]
-		l = len(shape)-1
-		while(shape_key < l):
-			# insert anticipated keyframe
-			keyframe = peaks_curve.keyframe_points.insert( frame, KF['value'])
-			
-			# set handle and interpolation settings
-			keyframe.handle_left_type = 'FREE'
-			keyframe.handle_left[0] = keyframe.co[0] \
-																+ KF['left'][0] * rate
-			keyframe.handle_left[1] = keyframe.co[1] \
-																+ KF['left'][1]
-			
-			keyframe.handle_right_type = 'FREE'
-			keyframe.handle_right[0] = keyframe.co[0] \
-																+ KF['right'][0] * rate
-			keyframe.handle_right[1] = keyframe.co[1] \
-																+ KF['right'][1]
-			
-			keyframe.interpolation = KF['interpolation']
-			keyframe.easing = KF['easing']
-			
-			# next keyframe
-			shape_key += 1
-			KF = shape[shape_key]
-			frame += KF['frame'] * rate
-		
-		return frame, shape_key
-	
-	
-	
-	
-	
 	def generate_no_peaks_segment( clip,
 					rate_curve,
 					peaks_curve,
