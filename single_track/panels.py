@@ -196,6 +196,40 @@ class Panel():
 	
 	
 	
+	
+	def draw_peaks(self, layout, refresh_curve):
+		'''draw peaks rythm settings into the panel'''
+		# a button to activate and set peaks per minute
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "rate")
+		col = row.column()
+		col.prop(self, "rate_unit", text='')
+		col = row.column()
+		col.prop(self, "auto_constant")
+		col = row.column()
+		col.prop(self, "accuracy")
+		
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "synchronized")
+		col = row.column()
+		if (not self.synchronized):
+			col.enabled = False
+		col.prop(self, "anticipate")
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "peaks")
+		col = row.column()
+		col.operator(
+			refresh_curve,
+			text='',
+			icon='FILE_REFRESH')
+	
+	
+	
+	
 
 
 
