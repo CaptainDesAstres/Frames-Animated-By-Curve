@@ -57,7 +57,7 @@ class Panel(SingleTrackPanel):
 	'''class containing all needed method to draw panel'''
 	
 	def draw_amplitude_panel(self, context, layout):
-		'''draw the curve to frame panel'''
+		'''Draw the amplitude panel for multi track'''
 		
 		refresh_curve = "curve_to_frame.generate_multi_track_curves"
 		refresh_mini_maxi = "curve_to_frame.multi_track_get_amplitude_range"
