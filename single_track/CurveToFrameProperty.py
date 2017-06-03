@@ -1,5 +1,5 @@
 from functions import *
-import bpy, os, shutil, platform
+import bpy, os
 from math import ceil, floor
 from uuid import uuid4
 
@@ -118,76 +118,6 @@ class CurveToFrameProperty():
 			if not os.path.exists( self.path + self.get_frame_name( fr ) ):
 				return False
 		return True
-	
-	
-	
-	
-	
-	def update_net_amplitude_curve( self, clip, context ):
-		'''update clip amplitude net curve'''
-		# determine frame working space and frame step
-		frame = start = floor(context.scene.frame_start - 5)
-		end = ceil(context.scene.frame_end + 5)
-		
-		# get and erase amplitude_net fcurve
-		amplitude_net_curve = get_fcurve_by_data_path(clip, 
-										'curve_to_frame.amplitude_net')
-		if amplitude_net_curve is not None:
-			hide = amplitude_net_curve.hide
-			clip.animation_data.action.fcurves.remove(amplitude_net_curve)
-		else:
-			hide = True
-		clip.animation_data.action.fcurves.new('curve_to_frame.amplitude_net')
-		amplitude_net_curve = get_fcurve_by_data_path(clip,
-										'curve_to_frame.amplitude_net')
-		
-		# get amplitude fcurve
-		raw_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.amplitude')
-		raw_value = clip.curve_to_frame.amplitude
-		
-		# get mini and maxi fcurve
-		mini_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.mini')
-		mini_value = clip.curve_to_frame.mini
-		maxi_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.maxi')
-		maxi_value = clip.curve_to_frame.maxi
-		
-		# generate amplitude_net curve
-		while( frame <= end ):
-			# get mini value at this frame
-			if mini_curve is not None:
-				mini_value = mini_curve.evaluate(frame)
-			
-			# get maxi value at thes frame
-			if maxi_curve is not None:
-				maxi_value = max ( maxi_curve.evaluate(frame), mini_value )
-			
-			# get amplitude raw value
-			if raw_curve is not None:
-				raw_value = raw_curve.evaluate(frame)
-			
-			#compute net value
-			if raw_value >= maxi_value:
-				net_amplitude_value = 1
-			elif raw_value <= mini_value:
-				net_amplitude_value = 0
-			else:
-				net_amplitude_value = ( raw_value - mini_value )\
-										/( maxi_value - mini_value )
-			
-			# create keyframe
-			amplitude_net_curve.keyframe_points.insert(frame,
-								net_amplitude_value)
-			
-			frame += 1
-		
-		#erase keyframe on flat section
-		avoid_useless_keyframe( amplitude_net_curve )
-		
-		# prevent curve edition
-		amplitude_net_curve.lock = True
-		amplitude_net_curve.hide = hide
-		
-		return amplitude_net_curve
 	
 	
 	
