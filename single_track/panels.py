@@ -272,6 +272,42 @@ class Panel():
 	
 	
 	
+	
+	
+	def draw_combination_and_output( 
+						self, 
+						layout, 
+						refresh_curve, 
+						no_output=False ):
+		'''draw combination and output settings and value into the panel'''
+		# combination mode field
+		layout.separator()
+		row = layout.row()
+		row.prop(self, 'combination_mode')
+		
+		# visualize combination of peaks and amplitude curve
+		row = layout.row()
+		col = row.column()
+		col.enabled = False
+		col.prop(self, "combination")
+		
+		# visualize output frame
+		if no_output:
+			col = row.column()
+			col.prop(self, "rounding")
+		else:
+			col = row.column()
+			col.enabled = False
+			col.prop(self, "output")
+		
+		# refresh curve
+		col = row.column()
+		col.operator(
+			refresh_curve,
+			text='',
+			icon='FILE_REFRESH')
+	
+	
 
 
 
