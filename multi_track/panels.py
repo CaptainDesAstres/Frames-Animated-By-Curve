@@ -10,7 +10,7 @@ class ListPanel(bpy.types.Panel):
 	
 	def draw(self, context):
 		'''the function that draw the addon UI'''
-		context.scene.curve_to_frame.panel_tracks( self.layout, context )
+		context.scene.curve_to_frame.draw_track_list_panel( self.layout, context )
 
 
 
@@ -55,6 +55,79 @@ class OutputPanel(bpy.types.Panel):
 
 class Panel(SingleTrackPanel):
 	'''class containing all needed method to draw panel'''
+	
+	def draw_track_list_panel( self, layout, context ):
+		'''Draw the tracks list Panel'''
+		# track adding field
+		row = layout.row()
+		col = row.column()
+		col.prop_search(self, "track_add", bpy.data, "movieclips")
+		col = row.column()
+		col.operator(
+				"clip.open", text='', icon='FILESEL')
+		
+		# error message if unvalid track
+		if self.track_add != '':
+			row = layout.row()
+			if self.track_add not in bpy.data.movieclips.keys():
+				row.label( '  Error: movieclip not found', icon = 'ERROR' )
+			else:
+				row.label( '  Unvalid choice : only image sequence can be used.',
+								icon = 'ERROR' )
+		
+		# display Tracks list
+		row = layout.row()
+		col = row.column()
+		col.template_list(
+				"TrackItem",
+				"",
+				self,
+				"tracks",
+				self,
+				"selected_track",
+				rows=5)
+		
+		# track list action button
+		col = row.column( align=True )
+		col.operator("curve_to_frame.tracks_list_action", icon='TRIA_UP', text="").action = 'UP'
+		col.operator("curve_to_frame.tracks_list_action", icon='FILE_TICK', text="").action = 'CHECK'
+		col.operator("curve_to_frame.tracks_list_action", icon='X', text="").action = 'REMOVE'
+		col.operator("curve_to_frame.tracks_list_action", icon='TRIA_DOWN', text="").action = 'DOWN'
+		
+		# display selected track settings
+		if (self.selected_track >= 0 
+				and self.selected_track < len(self.tracks) ):
+			track = self.tracks[self.selected_track].get(context.scene).curve_to_frame
+			
+			# Display selected track directory path
+			layout.separator()
+			row = layout.row()
+			row.label( text = "Frame Directory path:" )
+			row = layout.row()
+			row.label( text= track.path )
+			
+			# Display selected track source file extension
+			row = layout.row()
+			col = row.column()
+			col.label( text="File type: "+track.ext )
+			
+			# Display first to last accepted frame name range
+			col = row.column()
+			col.label( text="Valid frames: "\
+				+track.get_frame_name(track.first)+' to '\
+				+track.get_frame_name(track.last) )
+			
+			# Display Start/End settings
+			layout.separator()
+			row = layout.row()
+			col = row.column()
+			col.prop(track, "start")
+			col = row.column()
+			col.prop(track, "end")
+	
+	
+	
+	
 	
 	def draw_amplitude_panel(self, context, layout):
 		'''Draw the amplitude panel for multi track'''
