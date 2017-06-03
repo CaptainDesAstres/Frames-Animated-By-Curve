@@ -454,7 +454,7 @@ class Peaks():
 	
 	def generate_peaks_curve_segment(
 						context,
-						clip,
+						ob,
 						peaks_curve,
 						shapes,
 						rate_curve,
@@ -467,13 +467,13 @@ class Peaks():
 		fps = context.scene.render.fps
 		
 		# get peaks shape range start/end curve
-		shape_start_curve =  get_fcurve_by_data_path( clip, 
+		shape_start_curve =  get_fcurve_by_data_path( ob, 
 				'curve_to_frame.peaks_shape_range_start' )
-		shape_end_curve = get_fcurve_by_data_path( clip, 
+		shape_end_curve = get_fcurve_by_data_path( ob, 
 				'curve_to_frame.peaks_shape_range_end' )
 		
 		# get default rate
-		rate = clip.curve_to_frame.rate
+		rate = ob.curve_to_frame.rate
 		if rate_curve is not None:
 			rate = rate_curve.evaluate( start )
 		
@@ -482,25 +482,25 @@ class Peaks():
 		if rate <= 0:
 			anticipate = False
 			frame, current_shape, shape_KF, rate =\
-						curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
+						curve_to_frame.generate_no_peaks_segment( ob, rate_curve,
 								peaks_curve, shape_start_curve, shape_end_curve,
 								shapes, frame, end )
 			if frame >= end:
 				return frame
 		
 		# convert rate if in ppm
-		if clip.curve_to_frame.rate_unit == 'ppm':
+		if ob.curve_to_frame.rate_unit == 'ppm':
 			rate = fps * 60 / rate
 		
 		# get peaks shape start range
 		if shape_start_curve is None:
-			shape_start = clip.curve_to_frame.peaks_shape_range_start
+			shape_start = ob.curve_to_frame.peaks_shape_range_start
 		else:
 			shape_start = shape_start_curve.evaluate( start )
 		
 		# get peaks shape end range
 		if shape_end_curve is None:
-			shape_end = clip.curve_to_frame.peaks_shape_range_end
+			shape_end = ob.curve_to_frame.peaks_shape_range_end
 		else:
 			shape_end = shape_end_curve.evaluate( start )
 		
@@ -511,7 +511,7 @@ class Peaks():
 		# generate anticipated keyframe
 		if anticipate:
 			frame, shape_key = curve_to_frame.generate_anticipated_peaks(
-							clip, shapes[current_shape],
+							ob, shapes[current_shape],
 							frame, rate, peaks_curve
 							)
 		
@@ -537,7 +537,7 @@ class Peaks():
 			# get rate value
 			if rate_curve is not None:
 				rate = rate_curve.evaluate( frame )
-				if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
+				if rate > 0 and ob.curve_to_frame.rate_unit == 'ppm':
 					rate = fps * 60 / rate
 			
 			# peaks end instructions
@@ -574,7 +574,7 @@ class Peaks():
 			
 			if rate <= 0:
 				frame, current_shape, shape_KF, rate =\
-							curve_to_frame.generate_no_peaks_segment( clip, rate_curve,
+							curve_to_frame.generate_no_peaks_segment( ob, rate_curve,
 									peaks_curve, shape_start_curve, shape_end_curve,
 									shapes, frame, end )
 				if frame >= end:
@@ -589,7 +589,7 @@ class Peaks():
 	
 	
 	
-	def generate_no_peaks_segment( clip,
+	def generate_no_peaks_segment( ob,
 					rate_curve,
 					peaks_curve,
 					shape_start_curve,
@@ -600,7 +600,7 @@ class Peaks():
 		'''generate flat peaks curve segment when rate <= 0'''
 		rate = rate_curve.evaluate( frame )
 		while rate <= 0:
-			frame += clip.curve_to_frame.accuracy
+			frame += ob.curve_to_frame.accuracy
 			
 			if rate == 0:
 				keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
@@ -613,10 +613,10 @@ class Peaks():
 			
 			rate = rate_curve.evaluate( frame )
 			while( rate <= 0 and ((rate == 0) == test) and frame <= end ):
-				frame += clip.curve_to_frame.accuracy
+				frame += ob.curve_to_frame.accuracy
 				rate = rate_curve.evaluate( frame )
 			
-			if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
+			if rate > 0 and ob.curve_to_frame.rate_unit == 'ppm':
 				rate = fps * 60 / rate
 			
 			# start a new peaks
