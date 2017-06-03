@@ -18,7 +18,7 @@ class TrackPanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.curve_to_frame.panel_single_track(context, layout, clip)
+			clip.curve_to_frame.draw_single_track_panel(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
@@ -37,10 +37,10 @@ class TrackPanel(bpy.types.Panel):
 class Panel():
 	'''class containing all needed method to draw panel'''
 	
-	def panel_single_track(self, context, layout, clip):
+	def draw_single_track_panel(self, context, layout, clip):
 		'''draw the single track panel layout'''
 		# draw movieclip load error if required
-		error = self.draw_clip_load_error( layout, clip )
+		error = self.draw_load_error( layout, clip )
 		
 		if not error:
 			refresh_curve = "curve_to_frame.generate_single_track_curves"
@@ -76,7 +76,7 @@ class Panel():
 	
 	
 	
-	def draw_clip_load_error(self, layout, clip):
+	def draw_load_error(self, layout, clip):
 		'''draw movieclip load error if required'''
 		if(clip.source != 'SEQUENCE'):
 			# Display an error message, requesting for a sequence of images
