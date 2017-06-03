@@ -50,7 +50,7 @@ class Panel():
 					"curve_to_frame.single_track_default_peak_shape"
 			
 			# draw Movie info & settings
-			self.draw_movieclip_settings( layout )
+			self.draw_track_info( layout )
 			
 			# draw amplitude settings
 			self.draw_amplitude( layout, 
@@ -105,7 +105,7 @@ class Panel():
 	
 	
 	
-	def draw_movieclip_settings(self, layout):
+	def draw_track_info(self, layout):
 		'''draw Movie info & settings in the panel'''
 		# Display the directory path
 		row = layout.row()
