@@ -63,7 +63,7 @@ class Panel(SingleTrackPanel):
 	
 	
 	def draw_output( self, layout, scene ):
-		'''draw rounding & output settings into the panel'''
+		'''Draw multi track output panel'''
 		warning = False
 		# A field to set the output path
 		row = layout.row()

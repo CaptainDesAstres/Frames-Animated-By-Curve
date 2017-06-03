@@ -312,7 +312,7 @@ class Panel():
 	
 	
 	def draw_output( self, layout, scene, clip ):
-		'''draw rounding & output settings into the panel'''
+		'''Draw output settings part of single track panel'''
 		warning = False
 		# A field to choose between Round Floor and 
 		# Ceil rounding method
