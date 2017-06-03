@@ -1,5 +1,5 @@
 from .TracksList import *
-from .Peaks import Peaks
+from single_track.Peaks import Peaks
 from .panels import Panel
 from single_track.CurveToFrameProperty import CurveToFrameProperty
 from functions import *
