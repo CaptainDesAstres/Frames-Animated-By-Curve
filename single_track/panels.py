@@ -18,7 +18,7 @@ class TrackPanel(bpy.types.Panel):
 			clip = context.space_data.clip
 			
 			# draw panel
-			clip.curve_to_frame.draw_single_track_panel(context, layout, clip)
+			clip.curve_to_frame.draw_panel(context, layout, clip)
 			
 		else:
 			# Display a request for a movie clip
@@ -37,7 +37,7 @@ class TrackPanel(bpy.types.Panel):
 class Panel():
 	'''Class containing all needed methods to draw panel'''
 	
-	def draw_single_track_panel(self, context, layout, clip):
+	def draw_panel(self, context, layout, clip):
 		'''Draw the single track panel layout'''
 		# draw movieclip load error if required
 		error = self.draw_load_error( layout, clip )
