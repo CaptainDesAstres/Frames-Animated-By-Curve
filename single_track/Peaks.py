@@ -584,6 +584,54 @@ class Peaks():
 				shape_KF = shapes[current_shape][shape_key]
 				frame += shape_KF['frame'] * rate
 		return frame
+	
+	
+	
+	
+	
+	def generate_no_peaks_segment( clip,
+					rate_curve,
+					peaks_curve,
+					shape_start_curve,
+					shape_end_curve,
+					shapes,
+					frame,
+					end ):
+		'''generate flat peaks curve segment when rate <= 0'''
+		rate = rate_curve.evaluate( frame )
+		while rate <= 0:
+			frame += clip.curve_to_frame.accuracy
+			
+			if rate == 0:
+				keyframe = peaks_curve.keyframe_points.insert( frame, 0 )
+				test = True
+			else:
+				keyframe = peaks_curve.keyframe_points.insert( frame, 1 )
+				test = False
+			
+			keyframe.interpolation = 'CONSTANT'
+			
+			rate = rate_curve.evaluate( frame )
+			while( rate <= 0 and ((rate == 0) == test) and frame <= end ):
+				frame += clip.curve_to_frame.accuracy
+				rate = rate_curve.evaluate( frame )
+			
+			if rate > 0 and clip.curve_to_frame.rate_unit == 'ppm':
+				rate = fps * 60 / rate
+			
+			# start a new peaks
+			shape_key = 0
+			
+			# get new range
+			if shape_start_curve is not None:
+				shape_start = shape_start_curve.evaluate( frame )
+			if shape_end_curve is not None:
+				shape_end = shape_end_curve.evaluate( frame )
+			current_shape = ( shape_start, shape_end )
+			
+			shape_KF = shapes[current_shape][shape_key]
+			
+			return frame, current_shape, shape_KF, rate
 
 
 
