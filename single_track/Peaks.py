@@ -333,12 +333,12 @@ class Peaks():
 		else:
 			# rate_curve is animated
 			if ob.curve_to_frame.synchronized:
-				curve_to_frame.generate_synchronized_peaks( context, ob,
+				curve_to_frame.generate_synchronized_peaks( context,
 						peaks_curve, shapes, rate_curve, amplitude_net_curve,
 						start, end
 						)
 			else:
-				curve_to_frame.generate_peaks_curve_segment( context, ob,
+				curve_to_frame.generate_peaks_curve_segment( context,
 						peaks_curve, shapes, rate_curve, start, end
 						)
 		
@@ -354,7 +354,6 @@ class Peaks():
 	
 	def generate_synchronized_peaks(
 				context,
-				ob,
 				peaks_curve,
 				shapes,
 				rate_curve,
@@ -363,6 +362,7 @@ class Peaks():
 				end
 				):
 		'''generate the peaks curve when synchronized with amplitude'''
+		ob = self.id_data
 		# get first segment starting frame
 		seg_start = start
 		amplitude = amplitude_net_curve.evaluate(seg_start)
@@ -387,7 +387,7 @@ class Peaks():
 				amplitude = amplitude_net_curve.evaluate(seg_end)
 			
 			seg_start = curve_to_frame.generate_peaks_curve_segment( 
-							context, ob, peaks_curve, shapes, rate_curve,
+							context, peaks_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
 	
@@ -396,13 +396,13 @@ class Peaks():
 	
 	
 	def generate_anticipated_peaks(
-				ob,
 				shape,
 				start,
 				rate,
 				peaks_curve
 				):
 		'''generate anticipated peaks keyframe'''
+		ob = self.id_data
 		# get anticipate settings
 		anticipate_curve = get_fcurve_by_data_path( ob, 
 				'curve_to_frame.anticipate' )
@@ -454,7 +454,6 @@ class Peaks():
 	
 	def generate_peaks_curve_segment(
 						context,
-						ob,
 						peaks_curve,
 						shapes,
 						rate_curve,
@@ -463,6 +462,7 @@ class Peaks():
 						anticipate = False
 						):
 		'''generate a segment of peaks curve'''
+		ob = self.id_data
 		# get frame rate and start/end frame
 		fps = context.scene.render.fps
 		
@@ -482,7 +482,7 @@ class Peaks():
 		if rate <= 0:
 			anticipate = False
 			frame, current_shape, shape_KF, rate =\
-						curve_to_frame.generate_no_peaks_segment( ob, rate_curve,
+						curve_to_frame.generate_no_peaks_segment( rate_curve,
 								peaks_curve, shape_start_curve, shape_end_curve,
 								shapes, frame, end )
 			if frame >= end:
@@ -511,7 +511,7 @@ class Peaks():
 		# generate anticipated keyframe
 		if anticipate:
 			frame, shape_key = curve_to_frame.generate_anticipated_peaks(
-							ob, shapes[current_shape],
+							shapes[current_shape],
 							frame, rate, peaks_curve
 							)
 		
@@ -574,7 +574,7 @@ class Peaks():
 			
 			if rate <= 0:
 				frame, current_shape, shape_KF, rate =\
-							curve_to_frame.generate_no_peaks_segment( ob, rate_curve,
+							curve_to_frame.generate_no_peaks_segment( rate_curve,
 									peaks_curve, shape_start_curve, shape_end_curve,
 									shapes, frame, end )
 				if frame >= end:
@@ -589,7 +589,7 @@ class Peaks():
 	
 	
 	
-	def generate_no_peaks_segment( ob,
+	def generate_no_peaks_segment( 
 					rate_curve,
 					peaks_curve,
 					shape_start_curve,
@@ -598,6 +598,7 @@ class Peaks():
 					frame,
 					end ):
 		'''generate flat peaks curve segment when rate <= 0'''
+		ob = self.id_data
 		rate = rate_curve.evaluate( frame )
 		while rate <= 0:
 			frame += ob.curve_to_frame.accuracy
