@@ -129,29 +129,29 @@ class Peaks():
 	
 	
 	def update_peaks_curve(self, 
-					clip, 
 					context, 
 					amplitude_net_curve, 
 					shapes ):
 		'''Update peaks curve with current settings'''
+		ob = self.id_data
 		# remove old peaks
-		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
+		peaks_curve = get_fcurve_by_data_path(ob, 'curve_to_frame.peaks')
 		if peaks_curve is not None:
 			hide = peaks_curve.hide
-			clip.animation_data.action.fcurves.remove(peaks_curve)
+			ob.animation_data.action.fcurves.remove(peaks_curve)
 		else:
 			hide = True
 		
 		# create new peaks
-		clip.animation_data.action.fcurves.new('curve_to_frame.peaks')
-		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
+		ob.animation_data.action.fcurves.new('curve_to_frame.peaks')
+		peaks_curve = get_fcurve_by_data_path(ob, 'curve_to_frame.peaks')
 		
 		# get rate curve and default value
-		rate_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.rate')
-		rate_value = clip.curve_to_frame.rate
+		rate_curve = get_fcurve_by_data_path(ob, 'curve_to_frame.rate')
+		rate_value = ob.curve_to_frame.rate
 		
 		# convert rate_curve to constant interpolation
-		if clip.curve_to_frame.auto_constant and rate_curve is not None:
+		if ob.curve_to_frame.auto_constant and rate_curve is not None:
 			for k in rate_curve.keyframe_points:
 				k.interpolation = 'CONSTANT'
 		
@@ -169,13 +169,13 @@ class Peaks():
 				peaks_curve.keyframe_points.insert(0, 1)
 		else:
 			# rate_curve is animated
-			if clip.curve_to_frame.synchronized:
-				curve_to_frame.generate_sync_peaks_curve( context, clip,
+			if ob.curve_to_frame.synchronized:
+				curve_to_frame.generate_sync_peaks_curve( context, ob,
 						peaks_curve, shapes, rate_curve, amplitude_net_curve,
 						start, end
 						)
 			else:
-				curve_to_frame.generate_peaks_curve_segment( context, clip,
+				curve_to_frame.generate_peaks_curve_segment( context, ob,
 						peaks_curve, shapes, rate_curve, start, end
 						)
 		

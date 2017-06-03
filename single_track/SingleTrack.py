@@ -35,7 +35,7 @@ class SingleTrack(
 		
 		
 		# update peaks curve
-		peaks_curve = self.update_peaks_curve(clip, context,
+		peaks_curve = self.update_peaks_curve( context,
 							amplitude_net_curve, peak_shapes )
 		
 		#update combination curve
