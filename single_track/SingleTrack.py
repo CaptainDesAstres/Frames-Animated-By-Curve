@@ -1,6 +1,7 @@
 from .Peaks import Peaks
 from .Amplitude import Amplitude
 from .Combination import Combination
+from .OutputFrame import OutputFrame
 from .Track import Track
 from .CurveToFrameProperty import CurveToFrameProperty
 from .panels import Panel
@@ -12,6 +13,7 @@ class SingleTrack(
 		Track,
 		Amplitude,
 		Combination,
+		OutputFrame,
 		Peaks,
 		CurveToFrameProperty
 		):
