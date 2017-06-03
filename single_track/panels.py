@@ -35,10 +35,10 @@ class TrackPanel(bpy.types.Panel):
 
 
 class Panel():
-	'''class containing all needed method to draw panel'''
+	'''Class containing all needed methods to draw panel'''
 	
 	def draw_single_track_panel(self, context, layout, clip):
-		'''draw the single track panel layout'''
+		'''Draw the single track panel layout'''
 		# draw movieclip load error if required
 		error = self.draw_load_error( layout, clip )
 		
@@ -77,7 +77,7 @@ class Panel():
 	
 	
 	def draw_load_error(self, layout, clip):
-		'''draw movieclip load error if required'''
+		'''Draw track load error part of single track panel'''
 		if(clip.source != 'SEQUENCE'):
 			# Display an error message, requesting for a sequence of images
 			row = layout.row()
@@ -106,7 +106,7 @@ class Panel():
 	
 	
 	def draw_track_info(self, layout):
-		'''draw Movie info & settings in the panel'''
+		'''Draw track info and settings part of single and multi track panels'''
 		# Display the directory path
 		row = layout.row()
 		col = row.column()
@@ -147,7 +147,7 @@ class Panel():
 						layout, 
 						refresh_curve, 
 						refresh_mini_maxi):
-		'''draw amplitude settings into the panel'''
+		'''Draw amplitude settings part of single and multi track panels'''
 		# A float amplitude field
 		layout.separator()
 		row = layout.row()
@@ -160,8 +160,10 @@ class Panel():
 			m = M = self.amplitude
 		else:
 			m, M = get_curve_limit(fCurve)
+		
 		m = round(m*1000)/1000
 		M = round(M*1000)/1000
+		
 		col = row.column()
 		col.label( text = "(Goes from "+str(m)\
 					+" to "+str(M)+')' )
@@ -183,6 +185,7 @@ class Panel():
 		col = row.column()
 		col.operator(refresh_mini_maxi,
 					text = 'auto')
+		
 		# display net amplitude value
 		col = row.column()
 		col.enabled = False
@@ -198,8 +201,8 @@ class Panel():
 	
 	
 	def draw_peaks(self, layout, refresh_curve):
-		'''draw peaks rythm settings into the panel'''
-		# a button to activate and set peaks per minute
+		'''Draw peak rate settings part of single and multi track panels'''
+		# peaks rate settings
 		layout.separator()
 		row = layout.row()
 		col = row.column()
@@ -211,6 +214,7 @@ class Panel():
 		col = row.column()
 		col.prop(self, "accuracy")
 		
+		# amplitude synchronized settings
 		row = layout.row()
 		col = row.column()
 		col.prop(self, "synchronized")
@@ -218,6 +222,8 @@ class Panel():
 		if (not self.synchronized):
 			col.enabled = False
 		col.prop(self, "anticipate")
+		
+		# resuling settings
 		col = row.column()
 		col.enabled = False
 		col.prop(self, "peaks")
