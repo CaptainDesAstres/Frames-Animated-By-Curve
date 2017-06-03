@@ -354,7 +354,7 @@ class Peaks():
 	
 	def generate_synchronized_peaks(
 				context,
-				clip,
+				ob,
 				peaks_curve,
 				shapes,
 				rate_curve,
@@ -378,16 +378,16 @@ class Peaks():
 				k = peaks_curve.keyframe_points.insert( seg_start, 0 )
 				k.interpolation = 'CONSTANT'
 				while amplitude == 0 and seg_start <= end:
-					seg_start += clip.curve_to_frame.accuracy
+					seg_start += ob.curve_to_frame.accuracy
 					amplitude = amplitude_net_curve.evaluate(seg_start)
 			
 			seg_end = seg_start
 			while amplitude != 0 and seg_end <= end:
-				seg_end += clip.curve_to_frame.accuracy
+				seg_end += ob.curve_to_frame.accuracy
 				amplitude = amplitude_net_curve.evaluate(seg_end)
 			
 			seg_start = curve_to_frame.generate_peaks_curve_segment( 
-							context, clip, peaks_curve, shapes, rate_curve,
+							context, ob, peaks_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
 
