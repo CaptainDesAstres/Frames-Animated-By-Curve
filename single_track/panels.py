@@ -345,7 +345,7 @@ class Panel():
 	
 	
 	def draw_run_button( self, layout, warning ):
-		'''check situation and draw run button into panel'''
+		'''Draw single track run button and warning message'''
 		if( self.check_driver() ):
 			# check no driver is use on curve to frame property
 			row = layout.row()
