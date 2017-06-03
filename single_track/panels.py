@@ -48,6 +48,7 @@ class Panel():
 					"curve_to_frame.single_track_get_amplitude_range"
 			restore_peak_shape =\
 					"curve_to_frame.single_track_default_peak_shape"
+			run_operator = "curve_to_frame.render_single_track"
 			
 			# draw Movie info & settings
 			self.draw_track_info( layout )
@@ -70,7 +71,7 @@ class Panel():
 			warning = self.draw_output( layout, context.scene, clip )
 			
 			# draw run button or error message
-			self.draw_run_button( layout, warning )
+			self.draw_run_button( layout, warning, run_operator )
 	
 	
 	
@@ -344,7 +345,7 @@ class Panel():
 	
 	
 	
-	def draw_run_button( self, layout, warning ):
+	def draw_run_button( self, layout, warning, run_operator ):
 		'''Draw single track run button and warning message'''
 		if( self.check_driver() ):
 			# check no driver is use on curve to frame property
@@ -355,14 +356,14 @@ class Panel():
 			# check there is no warning
 			row = layout.row()
 			row.operator(
-				"curve_to_frame.render_single_track",
+				run_operator,
 				text="ignore warning and run at my one risk",
 				icon = 'ERROR')
 		else:
 			# draw standart run button
 			row = layout.row()
 			row.operator(
-				"curve_to_frame.render_single_track",
+				run_operator,
 				text="run")
 
 
