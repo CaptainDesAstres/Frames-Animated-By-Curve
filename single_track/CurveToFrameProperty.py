@@ -1,6 +1,4 @@
-from functions import *
-import bpy, os
-from math import ceil, floor
+import bpy
 
 
 
