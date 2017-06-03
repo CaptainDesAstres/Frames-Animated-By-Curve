@@ -1,4 +1,5 @@
 from .Peaks import Peaks
+from .Amplitude import Amplitude
 from .CurveToFrameProperty import CurveToFrameProperty
 from .panels import Panel
 import bpy
@@ -6,6 +7,7 @@ import bpy
 class SingleTrack(
 		bpy.types.PropertyGroup,
 		Panel,
+		Amplitude,
 		Peaks,
 		CurveToFrameProperty
 		):

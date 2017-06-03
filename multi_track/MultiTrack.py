@@ -1,5 +1,6 @@
 from .TracksList import *
 from single_track.Peaks import Peaks
+from single_track.Amplitude import Amplitude
 from .panels import Panel
 from single_track.CurveToFrameProperty import CurveToFrameProperty
 from functions import *
@@ -18,6 +19,7 @@ class MultiTrack(
 		bpy.types.PropertyGroup,
 		Panel,
 		TracksList,
+		Amplitude,
 		Peaks,
 		CurveToFrameProperty
 		):
