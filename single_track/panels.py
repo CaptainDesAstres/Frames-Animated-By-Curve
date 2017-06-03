@@ -57,10 +57,10 @@ class Panel():
 								refresh_curve, refresh_mini_maxi )
 			
 			# draw peaks rythm settings
-			self.draw_peaks(layout, refresh_curve )
+			self.draw_peak(layout, refresh_curve )
 			
 			# draw peaks profile settings
-			self.draw_peaks_profile( layout, refresh_curve,
+			self.draw_peak_shape( layout, refresh_curve,
 						restore_peak_shape )
 			
 			# draw combination node settings and combination and output value
@@ -200,7 +200,7 @@ class Panel():
 	
 	
 	
-	def draw_peaks(self, layout, refresh_curve):
+	def draw_peak(self, layout, refresh_curve):
 		'''Draw peak rate settings part of single and multi track panels'''
 		# peaks rate settings
 		layout.separator()
@@ -237,7 +237,7 @@ class Panel():
 	
 	
 	
-	def draw_peaks_profile(
+	def draw_peak_shape(
 				self,
 				layout,
 				refresh_curve,

@@ -312,38 +312,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def draw_peaks_profile( self, layout, refresh_curve, restore_shape ):
-		'''draw peaks profile settings'''
-		layout.separator()
-		row = layout.row()
-		
-		# restore default shape button
-		col = row.column()
-		col.operator(
-			restore_shape,
-			text='',
-			icon='LOAD_FACTORY')
-		
-		# display peaks shapes settings
-		col = row.column()
-		col.prop(self, "peaks_shape")
-		col = row.column()
-		col.prop(self, "peaks_shape_range_start")
-		col = row.column()
-		col.prop(self, "peaks_shape_range_end")
-		
-		
-		# refresh curve
-		col = row.column()
-		col.operator(
-			refresh_curve,
-			text='',
-			icon='FILE_REFRESH')
-	
-	
-	
-	
-	
 	def draw_combination_and_output( 
 						self, 
 						layout, 
@@ -1073,10 +1041,10 @@ class CurveToFrameProperty():
 							refresh_curve, refresh_mini_maxi )
 		
 		# draw peaks rythm settings
-		self.draw_peaks(layout, refresh_curve )
+		self.draw_peak(layout, refresh_curve )
 		
 		# draw peaks profile settings
-		self.draw_peaks_profile( layout, refresh_curve,
+		self.draw_peak_shape( layout, refresh_curve,
 					restore_peak_shape )
 		
 		# draw combination node settings and combination and output value
