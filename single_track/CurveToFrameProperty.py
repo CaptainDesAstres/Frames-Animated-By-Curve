@@ -312,63 +312,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def draw_single_track_output( self, layout, scene, clip ):
-		'''draw rounding & output settings into the panel'''
-		warning = False
-		# A field to choose between Round Floor and 
-		# Ceil rounding method
-		layout.separator()
-		row = layout.row()
-		col = row.column()
-		col.prop(self, "rounding")
-		
-		# A checkbox to get real frame file copy
-		col = row.column()
-		
-		if(not scene.ctf_real_copy \
-				and platform.system().lower() not in ['linux', 'unix']):
-			col.prop( scene, "ctf_real_copy", icon='ERROR' )
-			warning = True
-			
-		else:
-			col.prop( scene, "ctf_real_copy" )
-		
-		# A field to set the output path
-		row = layout.row()
-		col = row.column()
-		col.prop(self, "output_path")
-		path = bpy.path.abspath(self.output_path )
-		
-		
-		return warning
-	
-	
-	
-	
-	
-	def draw_multi_track_output( self, layout, scene ):
-		'''draw rounding & output settings into the panel'''
-		warning = False
-		# A field to set the output path
-		row = layout.row()
-		col = row.column()
-		col.prop(self, "output_path")
-		
-		# A checkbox to get real frame file copy
-		col = row.column()
-		if(not scene.ctf_real_copy \
-				and platform.system().lower() not in ['linux', 'unix']):
-			col.prop( scene, "ctf_real_copy", icon='ERROR' )
-			warning = True
-		else:
-			col.prop( scene, "ctf_real_copy" )
-		
-		return warning
-	
-	
-	
-	
-	
 	def draw_run_button( self, layout, warning ):
 		'''check situation and draw run button into panel'''
 		if( self.check_driver() ):

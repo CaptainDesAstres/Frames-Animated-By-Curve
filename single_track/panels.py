@@ -1,4 +1,4 @@
-import bpy
+import bpy, platform
 from functions import *
 
 
@@ -307,6 +307,39 @@ class Panel():
 			text='',
 			icon='FILE_REFRESH')
 	
+	
+	
+	
+	
+	def draw_single_track_output( self, layout, scene, clip ):
+		'''draw rounding & output settings into the panel'''
+		warning = False
+		# A field to choose between Round Floor and 
+		# Ceil rounding method
+		layout.separator()
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "rounding")
+		
+		# A checkbox to get real frame file copy
+		col = row.column()
+		
+		if(not scene.ctf_real_copy \
+				and platform.system().lower() not in ['linux', 'unix']):
+			col.prop( scene, "ctf_real_copy", icon='ERROR' )
+			warning = True
+			
+		else:
+			col.prop( scene, "ctf_real_copy" )
+		
+		# A field to set the output path
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "output_path")
+		path = bpy.path.abspath(self.output_path )
+		
+		
+		return warning
 	
 
 

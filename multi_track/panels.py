@@ -1,4 +1,4 @@
-import bpy
+import bpy, platform
 from single_track.panels import Panel as SingleTrackPanel
 
 class ListPanel(bpy.types.Panel):
@@ -56,6 +56,30 @@ class OutputPanel(bpy.types.Panel):
 class Panel(SingleTrackPanel):
 	'''class containing all needed method to draw panel'''
 	
+	
+	
+	
+	
+	
+	
+	def draw_multi_track_output( self, layout, scene ):
+		'''draw rounding & output settings into the panel'''
+		warning = False
+		# A field to set the output path
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "output_path")
+		
+		# A checkbox to get real frame file copy
+		col = row.column()
+		if(not scene.ctf_real_copy \
+				and platform.system().lower() not in ['linux', 'unix']):
+			col.prop( scene, "ctf_real_copy", icon='ERROR' )
+			warning = True
+		else:
+			col.prop( scene, "ctf_real_copy" )
+		
+		return warning
 
 
 
