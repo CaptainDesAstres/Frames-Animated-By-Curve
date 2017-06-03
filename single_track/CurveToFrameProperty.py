@@ -220,49 +220,6 @@ class CurveToFrameProperty():
 	
 	
 	
-	def generate_sync_peaks_curve(
-				context,
-				clip,
-				peaks_curve,
-				shapes,
-				rate_curve,
-				amplitude_net_curve,
-				start,
-				end
-				):
-		'''generate the peaks curve when synchronized with amplitude'''
-		# get first segment starting frame
-		seg_start = start
-		amplitude = amplitude_net_curve.evaluate(seg_start)
-		if amplitude == 0:
-			anticipate = True
-		else:
-			anticipate = False
-		
-		
-		while( seg_start < end ):
-			amplitude = amplitude_net_curve.evaluate(seg_start)
-			if amplitude == 0:
-				k = peaks_curve.keyframe_points.insert( seg_start, 0 )
-				k.interpolation = 'CONSTANT'
-				while amplitude == 0 and seg_start <= end:
-					seg_start += clip.curve_to_frame.accuracy
-					amplitude = amplitude_net_curve.evaluate(seg_start)
-			
-			seg_end = seg_start
-			while amplitude != 0 and seg_end <= end:
-				seg_end += clip.curve_to_frame.accuracy
-				amplitude = amplitude_net_curve.evaluate(seg_end)
-			
-			seg_start = curve_to_frame.generate_peaks_curve_segment( 
-							context, clip, peaks_curve, shapes, rate_curve,
-							seg_start, seg_end, anticipate )
-			anticipate = True
-	
-	
-	
-	
-	
 	def generate_peaks_curve_segment(
 						context,
 						clip,
