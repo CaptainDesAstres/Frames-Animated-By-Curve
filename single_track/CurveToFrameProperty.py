@@ -1,7 +1,6 @@
 from functions import *
 import bpy, os
 from math import ceil, floor
-from uuid import uuid4
 
 
 
