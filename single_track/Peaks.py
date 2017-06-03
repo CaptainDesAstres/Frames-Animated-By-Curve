@@ -130,21 +130,22 @@ class Peaks():
 	
 	def check_and_get_peaks_shapes( self ):
 		'''get all peaks shapes and check them'''
+		ob = self.id_data
 		# get shape curve
-		shape_curve = get_fcurve_by_data_path( self.id_data, 
+		shape_curve = get_fcurve_by_data_path( ob, 
 				'curve_to_frame.peaks_shape' )
 		if shape_curve is None:
 			self.init_peaks_shape_curve()
-			shape_curve = get_fcurve_by_data_path( self.id_data, 'curve_to_frame.peaks_shape' )
+			shape_curve = get_fcurve_by_data_path( ob, 'curve_to_frame.peaks_shape' )
 		
 		# get shape range start settings/curve
 		start = self.peaks_shape_range_start
-		start_curve = get_fcurve_by_data_path( self.id_data, 
+		start_curve = get_fcurve_by_data_path( ob, 
 				'curve_to_frame.peaks_shape_range_start' )
 		
 		# get shape range end settings/curve
 		end = self.peaks_shape_range_end
-		end_curve = get_fcurve_by_data_path( self.id_data, 
+		end_curve = get_fcurve_by_data_path( ob, 
 				'curve_to_frame.peaks_shape_range_end' )
 		
 		# get all keyframe time for start curve
