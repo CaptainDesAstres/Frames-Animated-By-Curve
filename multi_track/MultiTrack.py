@@ -2,6 +2,7 @@ from .TracksList import *
 from single_track.Peaks import Peaks
 from single_track.Amplitude import Amplitude
 from single_track.Combination import Combination
+from .OutputFrame import OutputFrame
 from .panels import Panel
 from single_track.CurveToFrameProperty import CurveToFrameProperty
 from functions import *
@@ -22,6 +23,7 @@ class MultiTrack(
 		TracksList,
 		Amplitude,
 		Combination,
+		OutputFrame,
 		Peaks,
 		CurveToFrameProperty
 		):
