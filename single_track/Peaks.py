@@ -1,5 +1,5 @@
 import bpy
-
+from functions import *
 
 
 class Peaks():
@@ -7,16 +7,11 @@ class Peaks():
 		associates with peaks feature of 
 		Curve To Frame addon'''
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	def update_curves( self, context ):
 		'''method that must be over ride: update curve when settings have been changed'''
+	
+	
+	
 	
 	#################################
 	##       rate Properties       ##
@@ -128,6 +123,67 @@ class Peaks():
 				default = 1,
 				min = 0,
 				max = 1)
+	
+	
+	
+	
+	
+	def update_peaks_curve(self, 
+					clip, 
+					context, 
+					amplitude_net_curve, 
+					shapes ):
+		'''Update peaks curve with current settings'''
+		# remove old peaks
+		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
+		if peaks_curve is not None:
+			hide = peaks_curve.hide
+			clip.animation_data.action.fcurves.remove(peaks_curve)
+		else:
+			hide = True
+		
+		# create new peaks
+		clip.animation_data.action.fcurves.new('curve_to_frame.peaks')
+		peaks_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.peaks')
+		
+		# get rate curve and default value
+		rate_curve = get_fcurve_by_data_path(clip, 'curve_to_frame.rate')
+		rate_value = clip.curve_to_frame.rate
+		
+		# convert rate_curve to constant interpolation
+		if clip.curve_to_frame.auto_constant and rate_curve is not None:
+			for k in rate_curve.keyframe_points:
+				k.interpolation = 'CONSTANT'
+		
+		# get scene start/end frame
+		start = context.scene.frame_start
+		end = context.scene.frame_end
+		
+		
+		if rate_curve is None and rate_value <= 0:
+			if rate_value == 0:
+				# 0 valued flat peaks curve
+				peaks_curve.keyframe_points.insert(0, 0)
+			else:
+				# 1 valued flat peaks curve
+				peaks_curve.keyframe_points.insert(0, 1)
+		else:
+			# rate_curve is animated
+			if clip.curve_to_frame.synchronized:
+				curve_to_frame.generate_sync_peaks_curve( context, clip,
+						peaks_curve, shapes, rate_curve, amplitude_net_curve,
+						start, end
+						)
+			else:
+				curve_to_frame.generate_peaks_curve_segment( context, clip,
+						peaks_curve, shapes, rate_curve, start, end
+						)
+		
+		# prevent curve edition
+		peaks_curve.lock = True
+		peaks_curve.hide = hide
+		
+		return peaks_curve
 
 
 
