@@ -138,6 +138,7 @@ class Panel():
 		col.prop(self, "start")
 		col = row.column()
 		col.prop(self, "end")
+		layout.separator()
 	
 	
 	
@@ -150,7 +151,6 @@ class Panel():
 						refresh_mini_maxi):
 		'''Draw amplitude settings part of single and multi track panels'''
 		# A float amplitude field
-		layout.separator()
 		row = layout.row()
 		col = row.column()
 		col.prop(self, "amplitude")
