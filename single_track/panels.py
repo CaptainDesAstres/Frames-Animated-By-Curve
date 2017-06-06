@@ -68,10 +68,10 @@ class Panel():
 			self.draw_combination( layout, refresh_curve )
 			
 			# draw output and rounding settings
-			warning = self.draw_output( layout, context.scene, clip )
+			self.draw_output( layout )
 			
 			# draw run button or error message
-			self.draw_run_button( layout, warning, run_operator )
+			self.draw_run_button( layout, run_operator, context.scene )
 	
 	
 	
@@ -312,53 +312,51 @@ class Panel():
 	
 	
 	
-	def draw_output( self, layout, scene, clip ):
+	def draw_output( self, layout ):
 		'''Draw output settings part of single track panel'''
-		warning = False
+		
 		# A field to choose between Round Floor and 
 		# Ceil rounding method
 		layout.separator()
 		row = layout.row()
-		col = row.column()
-		col.prop(self, "rounding")
-		
-		# A checkbox to get real frame file copy
-		col = row.column()
-		
-		if(not scene.ctf_real_copy \
-				and platform.system().lower() not in ['linux', 'unix']):
-			col.prop( scene, "ctf_real_copy", icon='ERROR' )
-			warning = True
-			
-		else:
-			col.prop( scene, "ctf_real_copy" )
-		
-		return warning
+		row.prop(self, "rounding")
 	
 	
 	
 	
 	
-	def draw_run_button( self, layout, warning, run_operator ):
+	def draw_run_button( self, layout, run_operator, scene ):
 		'''Draw single track run button and warning message'''
+		warning = (not scene.ctf_real_copy \
+				and platform.system().lower() not in ['linux', 'unix'])
+		
+		row = layout.row()
+		col = row.column()
 		if( self.check_driver() ):
 			# check no driver is use on curve to frame property
-			row = layout.row()
-			row.label(text='This function can\'t be used with driver!', 
+			col.label(text='This function can\'t be used with driver!', 
 						icon='ERROR')
 		elif(warning):
 			# check there is no warning
-			row = layout.row()
-			row.operator(
+			col.operator(
 				run_operator,
 				text="ignore warning and run at my one risk",
 				icon = 'ERROR')
+			
+			# A checkbox to get real frame file copy
+			col = row.column()
+			col.prop( scene, "ctf_real_copy", icon='ERROR' )
+			warning = True
 		else:
 			# draw standart run button
-			row = layout.row()
-			row.operator(
+			col.operator(
 				run_operator,
 				text="run")
+			
+			# A checkbox to get real frame file copy
+			col = row.column()
+			col.prop( scene, "ctf_real_copy" )
+		
 
 
 
