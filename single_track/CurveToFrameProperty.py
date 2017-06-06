@@ -18,20 +18,3 @@ class CurveToFrameProperty():
 		
 		return False
 	
-	
-	
-	#################################################
-	##     output settings                         ##
-	#################################################
-	
-	
-	
-	
-	# output path
-	output_path = bpy.props.StringProperty(
-		name = "output",
-		description = "Output directory path.",
-		default = '//',
-		subtype = 'DIR_PATH')
-	
-	

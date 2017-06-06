@@ -116,7 +116,7 @@ class CurveToFrame(bpy.types.Operator):
 			output = os.symlink
 		
 		# get output path
-		dst = bpy.path.abspath( clip.curve_to_frame.output_path )
+		dst = bpy.path.abspath( context.scene.render.filepath )
 		if(dst[-1] != '/'):
 			dst += '/'
 		dst += clip.name+'.curve_to_frame_output'

@@ -333,12 +333,6 @@ class Panel():
 		else:
 			col.prop( scene, "ctf_real_copy" )
 		
-		# A field to set the output path
-		row = layout.row()
-		col = row.column()
-		col.prop(self, "output_path")
-		path = bpy.path.abspath(self.output_path )
-		
 		return warning
 	
 	
