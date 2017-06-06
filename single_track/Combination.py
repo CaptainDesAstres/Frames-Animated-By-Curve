@@ -17,7 +17,7 @@ class Combination():
 	
 	# method used to combine amplitude and peaks curve
 	combination_mode = bpy.props.EnumProperty(
-		name = 'combination mode',
+		name = 'Mode',
 		description = 'the way to combine amplitude and peaks curve',
 		default = 'ignore_peaks',
 		items = [

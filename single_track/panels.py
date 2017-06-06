@@ -281,19 +281,24 @@ class Panel():
 		# combination mode field
 		layout.separator()
 		row = layout.row()
-		row.prop(self, 'combination_mode')
+		col = row.column()
+		col.prop(self, 'combination_mode')
 		
 		# visualize combination of peaks and amplitude curve
-		row = layout.row()
 		col = row.column()
 		col.enabled = False
 		col.prop(self, "combination")
 		
+		
+		
+		# A field to choose between Round Floor and 
+		# Ceil rounding method
+		row = layout.row()
+		col = row.column()
+		col.prop(self, "rounding")
+		
 		# visualize output frame
-		if no_output:
-			col = row.column()
-			col.prop(self, "rounding")
-		else:
+		if not no_output:
 			col = row.column()
 			col.enabled = False
 			col.prop(self, "output")
@@ -305,10 +310,6 @@ class Panel():
 			text='',
 			icon='FILE_REFRESH')
 		
-		# A field to choose between Round Floor and 
-		# Ceil rounding method
-		row = layout.row()
-		row.prop(self, "rounding")
 		layout.separator()
 	
 	
