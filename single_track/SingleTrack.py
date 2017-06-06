@@ -3,7 +3,6 @@ from .Amplitude import Amplitude
 from .Combination import Combination
 from .OutputFrame import OutputFrame
 from .Track import Track
-from .CurveToFrameProperty import CurveToFrameProperty
 from .panels import Panel
 import bpy
 
@@ -14,8 +13,7 @@ class SingleTrack(
 		Amplitude,
 		Combination,
 		OutputFrame,
-		Peaks,
-		CurveToFrameProperty
+		Peaks
 		):
 	''' class containing all Curve to frame 
 			Properties, methods and operators 
