@@ -323,7 +323,7 @@ class Panel():
 		
 		row = layout.row()
 		col = row.column()
-		if( self.check_driver() ):
+		if( check_driver(self.id_data, 'curve_to_frame.' ) ):
 			# check no driver is use on curve to frame property
 			col.label(text='This function can\'t be used with driver!', 
 						icon='ERROR')

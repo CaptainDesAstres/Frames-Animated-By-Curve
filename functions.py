@@ -81,3 +81,25 @@ def avoid_useless_keyframe( curve ):
 		else:
 			k += 1
 
+
+
+
+
+
+def check_driver( ob, start ):
+	'''check the object have no driver on property used by the addon'''
+	if(		ob.animation_data is None
+			or ob.animation_data.drivers is None):
+		return False
+	
+	for driver in ob.animation_data.drivers:
+		if( driver.data_path.startswith( start ) ):
+			return True
+	
+	return False
+
+
+
+
+
+
