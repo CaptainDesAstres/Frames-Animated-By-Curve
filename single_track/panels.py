@@ -67,9 +67,6 @@ class Panel():
 			# draw combination node settings and combination and output value
 			self.draw_combination( layout, refresh_curve )
 			
-			# draw output and rounding settings
-			self.draw_output( layout )
-			
 			# draw run button or error message
 			self.draw_run_button( layout, run_operator, context.scene )
 	
@@ -307,19 +304,12 @@ class Panel():
 			refresh_curve,
 			text='',
 			icon='FILE_REFRESH')
-	
-	
-	
-	
-	
-	def draw_output( self, layout ):
-		'''Draw output settings part of single track panel'''
 		
 		# A field to choose between Round Floor and 
 		# Ceil rounding method
-		layout.separator()
 		row = layout.row()
 		row.prop(self, "rounding")
+		layout.separator()
 	
 	
 	
