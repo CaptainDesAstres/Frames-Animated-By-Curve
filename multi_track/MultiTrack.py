@@ -4,6 +4,7 @@ from single_track.Amplitude import Amplitude
 from single_track.Combination import Combination
 from .OutputFrame import OutputFrame
 from .panels import Panel
+from .Switch import Switch
 from functions import *
 import bpy, os, shutil, platform
 from math import ceil, floor
@@ -23,7 +24,8 @@ class MultiTrack(
 		Amplitude,
 		Combination,
 		OutputFrame,
-		Peaks
+		Peaks,
+		Switch
 		):
 	''' class containing all Curve to frame 
 			Properties, methods and operators 
