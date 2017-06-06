@@ -44,10 +44,10 @@ class OutputPanel(bpy.types.Panel):
 		layout = self.layout
 		scene = context.scene
 		
-		warning = scene.curve_to_frame.draw_output( layout, scene )
+		scene.curve_to_frame.draw_output( layout, scene )
 		
 		# draw run button or error message
-		#scene.curve_to_frame.draw_run_button( layout, warning )
+		#scene.curve_to_frame.draw_run_button( layout )
 
 
 
@@ -156,22 +156,36 @@ class Panel(SingleTrackPanel):
 	
 	def draw_output( self, layout, scene ):
 		'''Draw multi track output panel'''
-		warning = False
-		# A field to set the output path
+		warning = (not scene.ctf_real_copy \
+				and platform.system().lower() not in ['linux', 'unix'])
+		
 		row = layout.row()
 		col = row.column()
-		col.prop(self, "output_path")
-		
-		# A checkbox to get real frame file copy
-		col = row.column()
-		if(not scene.ctf_real_copy \
-				and platform.system().lower() not in ['linux', 'unix']):
+		if( self.check_driver() ):
+			# check no driver is use on curve to frame property
+			col.label(text='This function can\'t be used with driver!', 
+						icon='ERROR')
+		elif(warning):
+			# check there is no warning
+			col.operator(
+				"curve_to_frame.generate_multi_track_curves",
+				text="ignore warning and refresh at my one risk",
+				icon = 'ERROR')
+			
+			# A checkbox to get real frame file copy
+			col = row.column()
 			col.prop( scene, "ctf_real_copy", icon='ERROR' )
 			warning = True
 		else:
+			# draw standart run button
+			col.operator(
+				"curve_to_frame.generate_multi_track_curves",
+				text="Refresh")
+			
+			# A checkbox to get real frame file copy
+			col = row.column()
 			col.prop( scene, "ctf_real_copy" )
 		
-		return warning
 
 
 
