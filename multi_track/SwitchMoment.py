@@ -49,11 +49,16 @@ class SwitchMoment:
 		curve = get_fcurve_by_data_path( scene, 
 								'curve_to_frame.generated_switch')
 		if curve is not None:
+			hide = curve.hide
 			scene.animation_data.action.fcurves.remove(curve)
+		else:
+			hide = True
 		scene.animation_data.action.fcurves.new(
 									'curve_to_frame.generated_switch')
 		curve = get_fcurve_by_data_path(scene, 
 									'curve_to_frame.generated_switch')
+		curve.hide = hide
+		curve.lock = True
 		
 		# create keyframe at frame 0
 		curve.keyframe_points.insert( 0, 0 )
