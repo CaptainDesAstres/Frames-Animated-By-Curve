@@ -99,7 +99,10 @@ class Switch(SwitchMoment):
 		'''ramdomly generate final switch curve.'''
 		tracks_count = len(self.tracks)-1
 		
-		if never_the_same:
+		if tracks_count <= 0:
+			for KF in generated.keyframe_points:
+				KF.co[1] = 0
+		elif never_the_same:
 			cur = prev = -1
 			for KF in generated.keyframe_points:
 				while cur == prev:
