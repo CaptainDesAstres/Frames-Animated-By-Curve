@@ -198,16 +198,20 @@ class Switch(SwitchMoment):
 		
 		# set default value
 		if self.custom_cycle == '':
-			self['custom_cycle'] = '0'
-		if self.custom_cycle == 'None':
-			self['custom_cycle'] = ';'.join(
+			cycle = '0'
+		elif self.custom_cycle == 'None':
+			cycle = ';'.join(
 						str(i) for i in range( 0, count ) 
 						)
+		else:
+			cycle = self.custom_cycle
+		
+		
 		
 		try:
 			return [
 							(int(i) % count) 
-								for i in self.custom_cycle.split(';')
+								for i in cycle.split(';')
 								]
 		except ValueError:
 			return None
