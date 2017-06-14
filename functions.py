@@ -74,9 +74,15 @@ def avoid_useless_keyframe( curve ):
 	k = 1
 	while(k < len(curve.keyframe_points)-1 ):
 		prev = curve.keyframe_points[ k-1 ]
+		
 		cur = curve.keyframe_points[ k ]
 		next = curve.keyframe_points[ k+1 ]
-		if( prev.co[1] == cur.co[1] and cur.co[1] == next.co[1] ):
+		if( 
+			prev.co[1] == cur.co[1] and (
+				cur.co[1] == next.co[1] or(
+					prev.interpolation == cur.interpolation
+					and prev.interpolation == 'CONSTANT')
+			)):
 			curve.keyframe_points.remove( cur )
 		else:
 			k += 1
