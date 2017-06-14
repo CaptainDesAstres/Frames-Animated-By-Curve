@@ -72,11 +72,15 @@ def get_curve_limit( curve ):
 def avoid_useless_keyframe( curve ):
 	'''erase useless keyframe of a curve'''
 	k = 1
-	while(k < len(curve.keyframe_points)-1 ):
-		prev = curve.keyframe_points[ k-1 ]
+	while(k < len(curve.keyframe_points) ):
 		
+		prev = curve.keyframe_points[ k-1 ]
 		cur = curve.keyframe_points[ k ]
-		next = curve.keyframe_points[ k+1 ]
+		if k == len(curve.keyframe_points) - 1:
+			next = cur
+		else:
+			next = curve.keyframe_points[ k+1 ]
+		
 		if( 
 			prev.co[1] == cur.co[1] and (
 				cur.co[1] == next.co[1] or(
