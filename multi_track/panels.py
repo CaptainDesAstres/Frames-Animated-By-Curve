@@ -233,6 +233,15 @@ class Panel(SingleTrackPanel):
 		if self.switch_mode == 'manual':
 			row = layout.row()
 			row.prop(self, 'switch_at_perfect_frame')
+		else:
+			row = layout.row()
+			col = row.column()
+			col.prop( self, 'switch_at_custom_keyframe' )
+			
+			col = row.column()
+			col.prop( self, 'custom_keyframe' )
+			if not self.switch_at_custom_keyframe:
+				col.enabled = False
 		
 
 
