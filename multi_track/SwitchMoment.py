@@ -72,6 +72,19 @@ class SwitchMoment:
 					
 					curve.keyframe_points[-1].interpolation = 'CONSTANT'
 		
+		# create a key frame at each custom moments
+		if self.switch_mode != 'manual' and self.switch_at_custom_keyframe:
+			custom = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.custom_keyframe')
+			if custom is not None:
+				for KF in custom.keyframe_points:
+					curve.keyframe_points.insert( 
+						KF.co[0],
+						0
+						)
+					
+					curve.keyframe_points[-1].interpolation = 'CONSTANT'
+		
 		return curve
 
 
