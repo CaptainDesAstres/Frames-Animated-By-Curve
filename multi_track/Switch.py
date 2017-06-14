@@ -56,6 +56,9 @@ class Switch(SwitchMoment):
 			('random_forced',		'Ramdomly (never the same)',
 				'Track are randomly choosen and script make sure that the track is never 2 time the same',				2)
 			
+			('cyclic',		'cyclically',
+				'Track is changed according to a cycle',				3)
+			
 			],
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
