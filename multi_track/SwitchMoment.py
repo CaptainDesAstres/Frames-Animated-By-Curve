@@ -21,3 +21,11 @@ class SwitchMoment:
 		)
 	
 	
+	
+	
+	generated_keyframe = bpy.props.BoolProperty(
+		options = {'HIDDEN', 'ANIMATABLE'} )
+
+
+
+
