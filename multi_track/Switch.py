@@ -49,7 +49,10 @@ class Switch(SwitchMoment):
 				'You set tracks manually',				0),
 			
 			('random',		'Ramdomly',
-				'Track are randomly choosen',				1)
+				'Track are randomly choosen',				1),
+			
+			('random_forced',		'Ramdomly (never the same)',
+				'Track are randomly choosen and script make sure that the track is never 2 time the same',				2)
 			
 			],
 		options = {'LIBRARY_EDITABLE'},
