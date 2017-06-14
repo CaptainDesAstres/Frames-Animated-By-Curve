@@ -13,7 +13,7 @@ class SwitchMoment:
 	####################
 	##   Properties   ##
 	####################
-	
+	# property to switch exactly when track is manually change
 	switch_at_perfect_frame = bpy.props.BoolProperty(
 		name = 'Frame perfect',
 		description = 'Switch at the exact frame where you decide.',

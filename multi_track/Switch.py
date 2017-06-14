@@ -29,7 +29,7 @@ class Switch(SwitchMoment):
 	####################
 	##   Properties   ##
 	####################
-	
+	# track switching mode property
 	switch_mode = bpy.props.EnumProperty(
 		name = 'Switch mode',
 		description = 'Define how to switch between tracks.',
@@ -46,7 +46,7 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
-	
+	# manual switch settings
 	manual_switch = bpy.props.IntProperty(
 		name = 'Track',
 		description = 'Track to use.',
@@ -55,7 +55,7 @@ class Switch(SwitchMoment):
 		)
 	
 	
-	
+	# final switching curve
 	generated_switch = bpy.props.IntProperty(
 		options = {'HIDDEN'} )
 	
