@@ -25,7 +25,7 @@ class SwitchMoment:
 	
 	
 	
-	generated_keyframe = bpy.props.BoolProperty(
+	generated_switch = bpy.props.BoolProperty(
 		options = {'HIDDEN', 'ANIMATABLE'} )
 	
 	####################
@@ -36,15 +36,15 @@ class SwitchMoment:
 		'''generate keyframe of generated_switch curve and return the curve'''
 		scene = self.id_data
 		
-		# get and initialize generated_keyframe curve
+		# get and initialize generated_switch curve
 		curve = get_fcurve_by_data_path( scene, 
-								'curve_to_frame.generated_keyframe')
+								'curve_to_frame.generated_switch')
 		if curve is not None:
 			scene.animation_data.action.fcurves.remove(curve)
 		scene.animation_data.action.fcurves.new(
-									'curve_to_frame.generated_keyframe')
+									'curve_to_frame.generated_switch')
 		curve = get_fcurve_by_data_path(scene, 
-									'curve_to_frame.generated_keyframe')
+									'curve_to_frame.generated_switch')
 		
 		# create keyframe at frame 0
 		curve.keyframe_points.insert( 0, 0 )
