@@ -50,3 +50,9 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
+	
+	
+	generated_switch = bpy.props.IntProperty(
+		options = {'HIDDEN'} )
+	
+	

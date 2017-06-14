@@ -23,11 +23,6 @@ class SwitchMoment:
 		)
 	
 	
-	
-	
-	generated_switch = bpy.props.BoolProperty(
-		options = {'HIDDEN', 'ANIMATABLE'} )
-	
 	####################
 	##   Methods      ##
 	####################
