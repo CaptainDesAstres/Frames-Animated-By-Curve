@@ -1,5 +1,6 @@
 from .SwitchMoment import SwitchMoment
 import bpy
+from functions import *
 
 class Switch(SwitchMoment):
 	'''a class regrouping all settings and method
@@ -64,8 +65,16 @@ class Switch(SwitchMoment):
 	####################
 	def generate_manual_switch( self, generated ):
 		'''generate final switch curve in manual mode.'''
+		# get manual curve
+		manual = get_fcurve_by_data_path(self.id_data, 
+									'curve_to_frame.manual_switch')
 		
-		
+		if manual is None:
+			for KF in generated.keyframe_points:
+				KF.co[1] = self.manual_switch
+		else:
+			for KF in generated.keyframe_points:
+				KF.co[1] = manual.evaluate(KF.co[0])
 	
 
 
