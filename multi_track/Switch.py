@@ -1,6 +1,7 @@
 from .SwitchMoment import SwitchMoment
 import bpy
 from functions import *
+from random import randint
 
 class Switch(SwitchMoment):
 	'''a class regrouping all settings and method
@@ -91,7 +92,10 @@ class Switch(SwitchMoment):
 	
 	def generate_random_switch( self, generated ):
 		'''ramdomly generate final switch curve.'''
+		tracks_count = len(self.tracks)-1
 		
+		for KF in generated.keyframe_points:
+			KF.co[1] = randint( 0, tracks_count )
 
 
 
