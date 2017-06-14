@@ -173,7 +173,7 @@ class Switch(SwitchMoment):
 			asc.reverse()
 			cycle += asc[1:-1]
 		elif self.cyclic_mode == 'custom':
-			cycle = asc
+			cycle = self.get_custom_cycle()
 		
 		# generate switch curve
 		i = 0
@@ -182,6 +182,31 @@ class Switch(SwitchMoment):
 			KF.co[1] = cycle[i]
 			i += 1
 			i = i % cycle_length
+	
+	
+	
+	
+	
+	def get_custom_cycle( self ):
+		'''get user custom cycle'''
+		count = len(self.tracks)
+		
+		# set default value
+		if self.custom_cycle == '':
+			self['custom_cycle'] = '0'
+		if self.custom_cycle == 'None':
+			self['custom_cycle'] = ';'.join(
+						str(i) for i in range( 0, count ) 
+						)
+		
+		try:
+			return [
+							(int(i) % count) 
+								for i in self.custom_cycle.split(';')
+								]
+		except ValueError:
+			return None
+		
 
 
 
