@@ -13,15 +13,31 @@ class SwitchMoment:
 	####################
 	##   Properties   ##
 	####################
-	# property to switch exactly when track is manually change
+	# switch exactly when track is manually change
 	switch_at_perfect_frame = bpy.props.BoolProperty(
-		name = 'Frame perfect',
+		name = 'At perfect frame',
 		description = 'Switch at the exact frame where you decide.',
 		default = True,
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
+	# switch at custom moment
+	switch_at_custom_keyframe = bpy.props.BoolProperty(
+		name = 'At custom moment',
+		description = 'Manually define the moments to switch.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	# settings to define the custom keyframe position
+	custom_keyframe = bpy.props.BoolProperty(
+		name = 'Custom moment',
+		description = 'Add keyframe to define the moments to switch',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
 	
 	####################
 	##   Methods      ##
