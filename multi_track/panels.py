@@ -218,6 +218,22 @@ class Panel(SingleTrackPanel):
 			col = row.column()
 			col.prop(self, 'manual_switch')
 		
+		self.draw_switch_moment( layout )
+	
+	
+	
+	
+	
+	def draw_switch_moment( self, layout ):
+		'''Draw the switch moment settings in switch panel'''
+		layout.separator()
+		row = layout.row()
+		row.label(text = 'Switching moment:')
+		
+		if self.switch_mode == 'manual':
+			row = layout.row()
+			row.prop(self, 'switch_at_perfect_frame')
+		
 
 
 
