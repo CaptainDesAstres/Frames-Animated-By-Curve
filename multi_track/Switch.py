@@ -30,3 +30,12 @@ class Switch(SwitchMoment):
 			],
 		update = update_switch_curve
 		)
+	
+	
+	manual_switch = bpy.props.IntProperty(
+		name = 'Track',
+		description = 'Track to use.',
+		default = 0,
+		update = update_switch_curve
+		)
+	
