@@ -9,6 +9,7 @@ class Peaks():
 	
 	def update_curves( self, context ):
 		'''method that must be over ride: update curve when settings have been changed'''
+		type(self).update_curves( self, context )
 	
 	
 	
