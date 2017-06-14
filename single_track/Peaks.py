@@ -333,12 +333,12 @@ class Peaks():
 		else:
 			# rate_curve is animated
 			if ob.curve_to_frame.synchronized:
-				curve_to_frame.generate_synchronized_peaks( context,
+				ob.curve_to_frame.generate_synchronized_peaks( context,
 						peaks_curve, shapes, rate_curve, amplitude_net_curve,
 						start, end
 						)
 			else:
-				curve_to_frame.generate_peaks_curve_segment( context,
+				ob.curve_to_frame.generate_peaks_curve_segment( context,
 						peaks_curve, shapes, rate_curve, start, end
 						)
 		
@@ -353,6 +353,7 @@ class Peaks():
 	
 	
 	def generate_synchronized_peaks(
+				self,
 				context,
 				peaks_curve,
 				shapes,
@@ -386,7 +387,7 @@ class Peaks():
 				seg_end += ob.curve_to_frame.accuracy
 				amplitude = amplitude_net_curve.evaluate(seg_end)
 			
-			seg_start = curve_to_frame.generate_peaks_curve_segment( 
+			seg_start = ob.curve_to_frame.generate_peaks_curve_segment( 
 							context, peaks_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
@@ -396,6 +397,7 @@ class Peaks():
 	
 	
 	def generate_anticipated_peaks(
+				self,
 				shape,
 				start,
 				rate,
@@ -453,6 +455,7 @@ class Peaks():
 	
 	
 	def generate_peaks_curve_segment(
+						self,
 						context,
 						peaks_curve,
 						shapes,
@@ -510,7 +513,7 @@ class Peaks():
 		
 		# generate anticipated keyframe
 		if anticipate:
-			frame, shape_key = curve_to_frame.generate_anticipated_peaks(
+			frame, shape_key = ob.curve_to_frame.generate_anticipated_peaks(
 							shapes[current_shape],
 							frame, rate, peaks_curve
 							)
@@ -574,7 +577,7 @@ class Peaks():
 			
 			if rate <= 0:
 				frame, current_shape, shape_KF, rate =\
-							curve_to_frame.generate_no_peaks_segment( rate_curve,
+							ob.curve_to_frame.generate_no_peaks_segment( rate_curve,
 									peaks_curve, shape_start_curve, shape_end_curve,
 									shapes, frame, end )
 				if frame >= end:
@@ -590,6 +593,7 @@ class Peaks():
 	
 	
 	def generate_no_peaks_segment( 
+					self,
 					rate_curve,
 					peaks_curve,
 					shape_start_curve,
