@@ -21,7 +21,11 @@ class Switch(SwitchMoment):
 		generated_switch = self.get_generated_switch_curve_with_keyframes()
 		
 		# generate switch from settings
-		if self.switch_mode == 'manual':
+		tracks_count = len(self.tracks)
+		if tracks_count <= 1:
+			for KF in generated_switch.keyframe_points:
+				KF.co[1] = 0
+		elif self.switch_mode == 'manual':
 			self.generate_manual_switch(generated_switch)
 		elif self.switch_mode == 'random':
 			self.generate_random_switch(generated_switch)
@@ -130,10 +134,7 @@ class Switch(SwitchMoment):
 		'''ramdomly generate final switch curve.'''
 		tracks_count = len(self.tracks)-1
 		
-		if tracks_count <= 0:
-			for KF in generated.keyframe_points:
-				KF.co[1] = 0
-		elif never_the_same:
+		if never_the_same:
 			cur = prev = -1
 			for KF in generated.keyframe_points:
 				while cur == prev:
