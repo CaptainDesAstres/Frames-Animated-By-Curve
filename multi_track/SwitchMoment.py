@@ -34,6 +34,8 @@ class SwitchMoment:
 	custom_keyframe = bpy.props.IntProperty(
 		name = 'Custom moment',
 		description = 'Add keyframe to define the moments to switch',
+		min = 0,
+		max = 0,
 		update = update_switch_curve
 		)
 	
