@@ -35,6 +35,7 @@ class SwitchMoment:
 	def update_switch_keyframe_curve( self ):
 		'''update generated_keyframe curve'''
 		scene = self.id_data
+		
 		# get and initialize generated_keyframe curve
 		curve = get_fcurve_by_data_path( scene, 
 								'curve_to_frame.generated_keyframe')
@@ -61,6 +62,8 @@ class SwitchMoment:
 						)
 					
 					curve.keyframe_points[-1].interpolation = 'CONSTANT'
+		
+		return curve
 
 
 

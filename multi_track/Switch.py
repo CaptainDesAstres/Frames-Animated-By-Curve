@@ -15,7 +15,8 @@ class Switch(SwitchMoment):
 			scene.animation_data.action = bpy.data.actions.new( 
 						name= scene.name+'Action')
 		
-		self.update_switch_keyframe_curve()
+		# refresh and get keyframe curve
+		keyframe_curve = self.update_switch_keyframe_curve()
 		
 	
 	
