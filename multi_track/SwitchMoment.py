@@ -34,15 +34,15 @@ class SwitchMoment:
 	
 	def update_switch_keyframe_curve( self ):
 		'''update generated_keyframe curve'''
-		ob = self.id_data
+		scene = self.id_data
 		# get and initialize generated_keyframe curve
-		curve = get_fcurve_by_data_path( ob, 
+		curve = get_fcurve_by_data_path( scene, 
 								'curve_to_frame.generated_keyframe')
 		if curve is not None:
-			ob.animation_data.action.fcurves.remove(curve)
-		ob.animation_data.action.fcurves.new(
+			scene.animation_data.action.fcurves.remove(curve)
+		scene.animation_data.action.fcurves.new(
 									'curve_to_frame.generated_keyframe')
-		curve = get_fcurve_by_data_path(ob, 
+		curve = get_fcurve_by_data_path(scene, 
 									'curve_to_frame.generated_keyframe')
 		
 		# create keyframe at frame 0
@@ -51,7 +51,7 @@ class SwitchMoment:
 		
 		# create a keyframe at each manual switching keyframe
 		if self.switch_mode == 'manual' and self.switch_at_perfect_frame:
-			manual_switch = get_fcurve_by_data_path(ob, 
+			manual_switch = get_fcurve_by_data_path(scene, 
 									'curve_to_frame.manual_switch')
 			if manual_switch is not None:
 				for KF in manual_switch.keyframe_points:

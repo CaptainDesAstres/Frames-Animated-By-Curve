@@ -7,13 +7,13 @@ class Switch(SwitchMoment):
 	
 	def update_switch_curve( self, context ):
 		'''update switching curve'''
-		ob = self.id_data
+		scene = self.id_data
 		# ensure scene have animation data
-		if ob.animation_data is None:
-			ob.animation_data_create()
-		if ob.animation_data.action is None:
-			ob.animation_data.action = bpy.data.actions.new( 
-						name= ob.name+'Action')
+		if scene.animation_data is None:
+			scene.animation_data_create()
+		if scene.animation_data.action is None:
+			scene.animation_data.action = bpy.data.actions.new( 
+						name= scene.name+'Action')
 		
 		self.update_switch_keyframe_curve()
 		
