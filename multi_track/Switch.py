@@ -25,6 +25,8 @@ class Switch(SwitchMoment):
 			self.generate_manual_switch(generated_switch)
 		elif self.switch_mode == 'random':
 			self.generate_random_switch(generated_switch)
+		elif self.switch_mode == 'random_forced':
+			self.generate_random_switch(generated_switch, True)
 		
 		
 		# erase useless keyframe
@@ -93,7 +95,7 @@ class Switch(SwitchMoment):
 	
 	
 	
-	def generate_random_switch( self, generated ):
+	def generate_random_switch( self, generated, never_the_same = False ):
 		'''ramdomly generate final switch curve.'''
 		tracks_count = len(self.tracks)-1
 		
