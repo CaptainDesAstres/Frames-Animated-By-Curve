@@ -22,6 +22,8 @@ class Switch(SwitchMoment):
 		# generate switch from settings
 		if self.switch_mode == 'manual':
 			self.generate_manual_switch(generated_switch)
+		elif self.switch_mode == 'ramdom':
+			self.generate_random_switch(generated_switch)
 		
 		
 		# erase useless keyframe
@@ -83,6 +85,13 @@ class Switch(SwitchMoment):
 			for KF in generated.keyframe_points:
 				KF.co[1] = manual.evaluate(KF.co[0])
 	
+	
+	
+	
+	
+	def generate_random_switch( self, generated ):
+		'''ramdomly generate final switch curve.'''
+		
 
 
 
