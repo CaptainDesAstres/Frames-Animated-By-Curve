@@ -18,6 +18,9 @@ class Switch(SwitchMoment):
 		# refresh and get keyframe curve
 		generated_switch = self.get_generated_switch_curve_with_keyframes()
 		
+		# generate switch from settings
+		if self.switch_mode == 'manual':
+			self.generate_manual_switch(generated_switch)
 	
 	
 	
@@ -56,3 +59,17 @@ class Switch(SwitchMoment):
 		options = {'HIDDEN'} )
 	
 	
+	####################
+	##   Methods      ##
+	####################
+	def generate_manual_switch( self, generated ):
+		'''generate final switch curve in manual mode.'''
+		
+		
+	
+
+
+
+
+
+
