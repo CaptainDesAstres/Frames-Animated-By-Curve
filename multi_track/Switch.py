@@ -22,7 +22,7 @@ class Switch(SwitchMoment):
 		# generate switch from settings
 		if self.switch_mode == 'manual':
 			self.generate_manual_switch(generated_switch)
-		elif self.switch_mode == 'ramdom':
+		elif self.switch_mode == 'random':
 			self.generate_random_switch(generated_switch)
 		
 		
