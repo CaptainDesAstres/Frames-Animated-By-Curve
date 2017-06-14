@@ -32,8 +32,8 @@ class SwitchMoment:
 	##   Methods      ##
 	####################
 	
-	def update_switch_keyframe_curve( self ):
-		'''update generated_keyframe curve'''
+	def get_generated_switch_curve_with_keyframes( self ):
+		'''generate keyframe of generated_switch curve and return the curve'''
 		scene = self.id_data
 		
 		# get and initialize generated_keyframe curve

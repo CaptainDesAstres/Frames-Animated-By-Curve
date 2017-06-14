@@ -16,7 +16,7 @@ class Switch(SwitchMoment):
 						name= scene.name+'Action')
 		
 		# refresh and get keyframe curve
-		keyframe_curve = self.update_switch_keyframe_curve()
+		generated_switch = self.get_generated_switch_curve_with_keyframes()
 		
 	
 	
