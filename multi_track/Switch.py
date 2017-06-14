@@ -104,6 +104,15 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
+	# custom cycle order
+	custom_cycle = bpy.props.StringProperty(
+		name = 'Custom order',
+		description = 'The order to use as custom cycle. Use only numerical value separated by «;» .',
+		default = 'None',
+		update = update_switch_curve
+		)
+	
+	
 	# final switching curve
 	generated_switch = bpy.props.IntProperty(
 		options = {'HIDDEN'} )
