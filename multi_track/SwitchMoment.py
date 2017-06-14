@@ -1,4 +1,5 @@
 import bpy
+from functions import *
 
 class SwitchMoment:
 	'''a class regrouping all settings and method
@@ -32,14 +33,15 @@ class SwitchMoment:
 	
 	def update_switch_keyframe_curve( self ):
 		'''update generated_keyframe curve'''
+		ob = self.id_data
 		# get and initialize generated_keyframe curve
-		curve = get_fcurve_by_data_path(self.id_data, 
+		curve = get_fcurve_by_data_path( ob, 
 								'curve_to_frame.generated_keyframe')
 		if curve is not None:
-			clip.animation_data.action.fcurves.remove(curve)
-		clip.animation_data.action.fcurves.new(
+			ob.animation_data.action.fcurves.remove(curve)
+		ob.animation_data.action.fcurves.new(
 									'curve_to_frame.generated_keyframe')
-		curve = get_fcurve_by_data_path(self.id_data, 
+		curve = get_fcurve_by_data_path(ob, 
 									'curve_to_frame.generated_keyframe')
 		
 
