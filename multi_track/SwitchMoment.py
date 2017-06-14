@@ -32,7 +32,15 @@ class SwitchMoment:
 	
 	def update_switch_keyframe_curve( self ):
 		'''update generated_keyframe curve'''
-		
+		# get and initialize generated_keyframe curve
+		curve = get_fcurve_by_data_path(self.id_data, 
+								'curve_to_frame.generated_keyframe')
+		if curve is not None:
+			clip.animation_data.action.fcurves.remove(curve)
+		clip.animation_data.action.fcurves.new(
+									'curve_to_frame.generated_keyframe')
+		curve = get_fcurve_by_data_path(self.id_data, 
+									'curve_to_frame.generated_keyframe')
 		
 
 
