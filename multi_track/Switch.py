@@ -149,6 +149,21 @@ class Switch(SwitchMoment):
 	
 	def generate_cyclic_switch( self, generated ):
 		'''generate final switch curve acconding to a cycle.'''
+		# get cycle
+		count = len(self.tracks)
+		asc = list(range( 0, count ))
+		if self.cyclic_mode == 'ascending':
+			cycle = asc
+		elif self.cyclic_mode == 'descending':
+			cycle = asc
+			cycle.reverse()
+		elif self.cyclic_mode == 'asc_desc':
+			cycle = list(asc)
+			asc.reverse()
+			cycle += asc[1:-1]
+		elif self.cyclic_mode == 'custom':
+			cycle = asc
+		
 		
 
 
