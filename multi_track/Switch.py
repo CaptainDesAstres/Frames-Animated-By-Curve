@@ -110,16 +110,17 @@ class Switch(SwitchMoment):
 	####################
 	def generate_manual_switch( self, generated ):
 		'''generate final switch curve in manual mode.'''
+		tracks_count = len(self.tracks)
 		# get manual curve
 		manual = get_fcurve_by_data_path(self.id_data, 
 									'curve_to_frame.manual_switch')
 		
 		if manual is None:
 			for KF in generated.keyframe_points:
-				KF.co[1] = self.manual_switch
+				KF.co[1] = self.manual_switch % tracks_count
 		else:
 			for KF in generated.keyframe_points:
-				KF.co[1] = manual.evaluate(KF.co[0])
+				KF.co[1] = manual.evaluate(KF.co[0]) % tracks_count
 	
 	
 	
