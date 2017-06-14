@@ -7,7 +7,8 @@ class Switch(SwitchMoment):
 	
 	def update_switch_curve( self, context ):
 		'''update switching curve'''
-		return
+		self.update_switch_keyframe_curve()
+		
 	
 	
 	

@@ -25,6 +25,15 @@ class SwitchMoment:
 	
 	generated_keyframe = bpy.props.BoolProperty(
 		options = {'HIDDEN', 'ANIMATABLE'} )
+	
+	####################
+	##   Methods      ##
+	####################
+	
+	def update_switch_keyframe_curve( self ):
+		'''update generated_keyframe curve'''
+		
+		
 
 
 
