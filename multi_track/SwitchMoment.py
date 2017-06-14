@@ -46,6 +46,20 @@ class SwitchMoment:
 		
 		# create keyframe at frame 0
 		curve.keyframe_points.insert( 0, 0 )
+		curve.keyframe_points[-1].interpolation = 'CONSTANT'
+		
+		# create a keyframe at each manual switching keyframe
+		if self.switch_mode == 'manual' and self.switch_at_perfect_frame:
+			manual_switch = get_fcurve_by_data_path(ob, 
+									'curve_to_frame.manual_switch')
+			if manual_switch is not None:
+				for KF in manual_switch.keyframe_points:
+					curve.keyframe_points.insert( 
+						KF.co[0],
+						0
+						)
+					
+					curve.keyframe_points[-1].interpolation = 'CONSTANT'
 
 
 
