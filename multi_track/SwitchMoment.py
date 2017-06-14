@@ -44,6 +44,8 @@ class SwitchMoment:
 		curve = get_fcurve_by_data_path(ob, 
 									'curve_to_frame.generated_keyframe')
 		
+		# create keyframe at frame 0
+		curve.keyframe_points.insert( 0, 0 )
 
 
 
