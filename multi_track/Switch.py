@@ -74,6 +74,7 @@ class Switch(SwitchMoment):
 	
 	# cyclic mode
 	cyclic_mode = bpy.props.EnumProperty(
+		name = '',
 		description = 'Define the cycle mode.',
 		default = 'ascending',
 		items = [
@@ -89,7 +90,7 @@ class Switch(SwitchMoment):
 			('asc_desc',		'In ascending then descending order',
 				'Use ascending order until the last track then descending order until the first one and so on…',				2),
 			
-			('custom',		'Custom cycle',
+			('custom',		'In custom order',
 				'Use a custom order',				3)
 			
 			],

@@ -217,6 +217,9 @@ class Panel(SingleTrackPanel):
 		if self.switch_mode == 'manual':
 			col = row.column()
 			col.prop(self, 'manual_switch')
+		elif self.switch_mode == 'cyclic':
+			col = row.column()
+			col.prop(self, 'cyclic_mode')
 		
 		self.draw_switch_moment( layout )
 	
