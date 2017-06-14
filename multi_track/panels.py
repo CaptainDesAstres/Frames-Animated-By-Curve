@@ -220,6 +220,9 @@ class Panel(SingleTrackPanel):
 		elif self.switch_mode == 'cyclic':
 			col = row.column()
 			col.prop(self, 'cyclic_mode')
+			if self.cyclic_mode == 'custom':
+				row = layout.row()
+				row.prop(self, 'custom_cycle')
 		
 		self.draw_switch_moment( layout )
 	
