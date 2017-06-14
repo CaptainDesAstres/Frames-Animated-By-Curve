@@ -22,6 +22,10 @@ class Switch(SwitchMoment):
 		# generate switch from settings
 		if self.switch_mode == 'manual':
 			self.generate_manual_switch(generated_switch)
+		
+		
+		# erase useless keyframe
+		avoid_useless_keyframe( generated_switch )
 	
 	
 	
