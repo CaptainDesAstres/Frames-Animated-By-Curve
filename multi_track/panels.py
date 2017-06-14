@@ -65,7 +65,7 @@ class SwitchPanel(bpy.types.Panel):
 		'''the function that draw the panel'''
 		layout = self.layout
 		
-		scene.curve_to_frame.draw_switch( layout )
+		context.scene.curve_to_frame.draw_switch( layout )
 
 
 
@@ -210,7 +210,14 @@ class Panel(SingleTrackPanel):
 	
 	def draw_switch( self, layout ):
 		'''Draw multi track switch panel'''
-		return
+		row = layout.row()
+		col = row.column()
+		col.prop(self, 'switch_mode')
+		
+		if self.switch_mode == 'manual':
+			col = row.column()
+			col.prop(self, 'manual_switch')
+		
 
 
 
