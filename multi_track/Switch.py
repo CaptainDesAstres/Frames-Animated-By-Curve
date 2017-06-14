@@ -72,6 +72,30 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
+	# cyclic mode
+	cyclic_mode = bpy.props.EnumProperty(
+		description = 'Define the cycle mode.',
+		default = 'ascending',
+		items = [
+#			(identifier,			name,
+#				description, number)
+			
+			('ascending',		'In ascending order',
+				'Use the first track, then the second, then the third, and so on until the last track, then restart from the first…',				0),
+			
+			('descending',		'In descending order',
+				'Use the last track, then the previous, then the previous, and so on until the first one, then restart from the last…',				1),
+			
+			('asc_desc',		'In ascending then descending order',
+				'Use ascending order until the last track then descending order until the first one and so on…',				2),
+			
+			('custom',		'Custom cycle',
+				'Use a custom order',				3)
+			
+			],
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
 	
 	# final switching curve
 	generated_switch = bpy.props.IntProperty(
