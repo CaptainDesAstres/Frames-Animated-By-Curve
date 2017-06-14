@@ -31,11 +31,9 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	# settings to define the custom keyframe position
-	custom_keyframe = bpy.props.BoolProperty(
+	custom_keyframe = bpy.props.IntProperty(
 		name = 'Custom moment',
 		description = 'Add keyframe to define the moments to switch',
-		default = False,
-		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
