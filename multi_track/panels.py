@@ -222,7 +222,12 @@ class Panel(SingleTrackPanel):
 			col.prop(self, 'cyclic_mode')
 			if self.cyclic_mode == 'custom':
 				row = layout.row()
-				row.prop(self, 'custom_cycle')
+				col = row.column()
+				col.prop(self, 'custom_cycle')
+				
+				if self.get_custom_cycle() is None:
+					col = row.column()
+					col.label(icon = 'ERROR', text='Unvalid input.')
 		
 		self.draw_switch_moment( layout )
 	

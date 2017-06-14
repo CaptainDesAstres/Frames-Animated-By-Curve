@@ -22,6 +22,7 @@ class Switch(SwitchMoment):
 		
 		# generate switch from settings
 		tracks_count = len(self.tracks)
+		error = False
 		if tracks_count <= 1:
 			for KF in generated_switch.keyframe_points:
 				KF.co[1] = 0
@@ -32,7 +33,7 @@ class Switch(SwitchMoment):
 		elif self.switch_mode == 'random_forced':
 			self.generate_random_switch(generated_switch, True)
 		elif self.switch_mode == 'cyclic':
-			self.generate_cyclic_switch(generated_switch)
+			error = self.generate_cyclic_switch(generated_switch)
 		
 		
 		# erase useless keyframe
@@ -174,6 +175,8 @@ class Switch(SwitchMoment):
 			cycle += asc[1:-1]
 		elif self.cyclic_mode == 'custom':
 			cycle = self.get_custom_cycle()
+			if cycle is None:
+				return True
 		
 		# generate switch curve
 		i = 0
@@ -182,6 +185,8 @@ class Switch(SwitchMoment):
 			KF.co[1] = cycle[i]
 			i += 1
 			i = i % cycle_length
+		
+		return False
 	
 	
 	
