@@ -7,7 +7,7 @@ class SwitchMoment:
 	
 	def update_switch_curve( self, context ):
 		'''update switching curve. must be rewrite in Switch class.'''
-		return
+		type(self).update_switch_curve( self, context )
 	
 	
 	####################
