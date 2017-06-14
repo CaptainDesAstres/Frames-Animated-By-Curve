@@ -206,7 +206,11 @@ class Switch(SwitchMoment):
 		else:
 			cycle = self.custom_cycle
 		
-		
+		if self.custom_cycle in [ '', 'None' ]:
+			try:
+				self['custom_cycle'] = cycle
+			except AttributeError:
+				pass
 		
 		try:
 			return [
