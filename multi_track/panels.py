@@ -54,6 +54,23 @@ class OutputPanel(bpy.types.Panel):
 
 
 
+class SwitchPanel(bpy.types.Panel):
+	'''class of the panel who contains tracks switching settings for multi track feature'''
+	bl_space_type = "CLIP_EDITOR"
+	bl_region_type = "TOOLS"
+	bl_category = "Curve Anim"
+	bl_label = "Multi track: Track Switch Settings"
+	
+	def draw(self, context):
+		'''the function that draw the panel'''
+		layout = self.layout
+		
+		scene.curve_to_frame.draw_switch( layout )
+
+
+
+
+
 class Panel(SingleTrackPanel):
 	'''class containing all needed method to draw panel'''
 	
@@ -186,7 +203,14 @@ class Panel(SingleTrackPanel):
 			# A checkbox to get real frame file copy
 			col = row.column()
 			col.prop( scene, "ctf_real_copy" )
-		
+	
+	
+	
+	
+	
+	def draw_switch( self, layout ):
+		'''Draw multi track switch panel'''
+		return
 
 
 
