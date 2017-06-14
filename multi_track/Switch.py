@@ -166,7 +166,13 @@ class Switch(SwitchMoment):
 		elif self.cyclic_mode == 'custom':
 			cycle = asc
 		
-		
+		# generate switch curve
+		i = 0
+		cycle_length = len(cycle)
+		for KF in generated.keyframe_points:
+			KF.co[1] = cycle[i]
+			i += 1
+			i = i % cycle_length
 
 
 
