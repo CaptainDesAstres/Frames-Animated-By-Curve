@@ -37,6 +37,7 @@ class Switch(SwitchMoment):
 				'You set tracks manually',				0)
 			
 			],
+		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	

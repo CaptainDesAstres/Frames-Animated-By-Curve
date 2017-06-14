@@ -18,6 +18,7 @@ class SwitchMoment:
 		name = 'Frame perfect',
 		description = 'Switch at the exact frame where you decide.',
 		default = True,
+		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
