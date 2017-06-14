@@ -43,7 +43,10 @@ class Switch(SwitchMoment):
 #				description, number)
 			
 			('manual',		'Manually',
-				'You set tracks manually',				0)
+				'You set tracks manually',				0),
+			
+			('random',		'Ramdomly',
+				'Track are randomly choosen',				1)
 			
 			],
 		options = {'LIBRARY_EDITABLE'},
