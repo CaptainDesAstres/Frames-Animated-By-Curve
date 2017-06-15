@@ -352,12 +352,12 @@ class Peaks():
 			# rate_curve is animated
 			if ob.curve_to_frame.synchronized:
 				ob.curve_to_frame.generate_synchronized_peaks( context,
-						peaks_curve, shapes, rate_curve, amplitude_net_curve,
+						peaks_curve, peaks_start_curve, shapes, rate_curve, amplitude_net_curve,
 						start, end
 						)
 			else:
 				ob.curve_to_frame.generate_peaks_curve_segment( context,
-						peaks_curve, shapes, rate_curve, start, end
+						peaks_curve, peaks_start_curve, shapes, rate_curve, start, end
 						)
 		
 		# prevent curve edition
@@ -376,6 +376,7 @@ class Peaks():
 				self,
 				context,
 				peaks_curve,
+				peaks_start_curve,
 				shapes,
 				rate_curve,
 				amplitude_net_curve,
@@ -408,7 +409,7 @@ class Peaks():
 				amplitude = amplitude_net_curve.evaluate(seg_end)
 			
 			seg_start = ob.curve_to_frame.generate_peaks_curve_segment( 
-							context, peaks_curve, shapes, rate_curve,
+							context, peaks_curve, peaks_start_curve, shapes, rate_curve,
 							seg_start, seg_end, anticipate )
 			anticipate = True
 	
@@ -478,6 +479,7 @@ class Peaks():
 						self,
 						context,
 						peaks_curve,
+						peaks_start_curve,
 						shapes,
 						rate_curve,
 						start,
