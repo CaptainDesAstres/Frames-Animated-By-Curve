@@ -125,7 +125,11 @@ class Peaks():
 				min = 0,
 				max = 1)
 	
-	
+	peaks_start = bpy.props.BoolProperty(
+				name = "peaks start",
+				description = "Show when peaks start. \
+							Must no be manually edited.",
+				default = False)
 	
 	
 	
