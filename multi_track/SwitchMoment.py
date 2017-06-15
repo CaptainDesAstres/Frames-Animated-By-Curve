@@ -74,8 +74,8 @@ class SwitchMoment:
 		curve.hide = hide
 		curve.lock = True
 		
-		# create keyframe at frame 0
-		curve.keyframe_points.insert( 0, 0 )
+		# create keyframe at animation first frame
+		curve.keyframe_points.insert( scene.frame_start, 0 )
 		curve.keyframe_points[-1].interpolation = 'CONSTANT'
 		
 		# create a keyframe at each manual switching keyframe
