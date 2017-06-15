@@ -314,6 +314,19 @@ class Peaks():
 		ob.animation_data.action.fcurves.new('curve_to_frame.peaks')
 		peaks_curve = get_fcurve_by_data_path(ob, 'curve_to_frame.peaks')
 		
+		
+		# remove old peaks start keyframe
+		peaks_start_curve = get_fcurve_by_data_path(ob,
+						'curve_to_frame.peaks_start')
+		if peaks_start_curve is not None:
+			ob.animation_data.action.fcurves.remove(peaks_start_curve)
+		
+		# create new peaks start keyframe
+		ob.animation_data.action.fcurves.new('curve_to_frame.peaks_start')
+		peaks_start_curve = get_fcurve_by_data_path(ob,
+						'curve_to_frame.peaks_start')
+		
+		
 		# get rate curve and default value
 		rate_curve = get_fcurve_by_data_path(ob, 'curve_to_frame.rate')
 		rate_value = ob.curve_to_frame.rate
@@ -350,6 +363,8 @@ class Peaks():
 		# prevent curve edition
 		peaks_curve.lock = True
 		peaks_curve.hide = hide
+		peaks_start_curve.lock = True
+		peaks_start_curve.hide = True
 		
 		return peaks_curve
 	
