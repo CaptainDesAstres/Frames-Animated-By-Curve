@@ -22,6 +22,8 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	
+	
 	# switch at custom moment
 	switch_at_custom_keyframe = bpy.props.BoolProperty(
 		name = 'At custom moment',
@@ -39,6 +41,16 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	
+	
+	# switch at each peaks
+	switch_at_peaks = bpy.props.BoolProperty(
+		name = 'At each peaks',
+		description = 'Track is switch after each peak.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
 	####################
 	##   Methods      ##
 	####################
