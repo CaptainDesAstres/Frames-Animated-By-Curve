@@ -422,7 +422,8 @@ class Peaks():
 				shape,
 				start,
 				rate,
-				peaks_curve
+				peaks_curve,
+				peaks_start_curve
 				):
 		'''generate anticipated peaks keyframe'''
 		ob = self.id_data
@@ -444,6 +445,7 @@ class Peaks():
 		
 		KF = shape[shape_key]
 		l = len(shape)-1
+		peaks_start_curve.keyframe_points.insert( frame, -1 )
 		while(shape_key < l):
 			# insert anticipated keyframe
 			keyframe = peaks_curve.keyframe_points.insert( frame, KF['value'])
@@ -507,7 +509,7 @@ class Peaks():
 		if rate <= 0:
 			anticipate = False
 			frame, current_shape, shape_KF, rate =\
-						curve_to_frame.generate_no_peaks_segment( rate_curve,
+						ob.curve_to_frame.generate_no_peaks_segment( rate_curve,
 								peaks_curve, shape_start_curve, shape_end_curve,
 								shapes, frame, end )
 			if frame >= end:
@@ -537,13 +539,14 @@ class Peaks():
 		if anticipate:
 			frame, shape_key = ob.curve_to_frame.generate_anticipated_peaks(
 							shapes[current_shape],
-							frame, rate, peaks_curve
+							frame, rate, peaks_curve, peaks_start_curve
 							)
 		
 		# get shape keyframe
 		shape_KF = shapes[current_shape][shape_key]
 		
 		# generate the segment
+		peaks_start_curve.keyframe_points.insert( frame, -1 )
 		while( True ):
 			# insert keyframe
 			keyframe = peaks_curve.keyframe_points.insert( frame,
@@ -568,6 +571,7 @@ class Peaks():
 			# peaks end instructions
 			shape_key += 1
 			if shape_key == len(shapes[current_shape]):
+				peaks_start_curve.keyframe_points.insert( frame, -1 )
 				shape_key = 1
 				# get new range
 				if shape_start_curve is not None:
@@ -625,6 +629,10 @@ class Peaks():
 					end ):
 		'''generate flat peaks curve segment when rate <= 0'''
 		ob = self.id_data
+		
+		shape_start = self.peaks_shape_range_start
+		shape_end = self.peaks_shape_range_end
+		
 		rate = rate_curve.evaluate( frame )
 		while rate <= 0:
 			frame += ob.curve_to_frame.accuracy
