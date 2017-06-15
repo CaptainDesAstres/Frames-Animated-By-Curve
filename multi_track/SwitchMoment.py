@@ -104,6 +104,23 @@ class SwitchMoment:
 					
 					curve.keyframe_points[-1].interpolation = 'CONSTANT'
 		
+		# create a keyframe at each peaks start
+		if self.switch_at_peaks:
+			peaks_start = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.peaks_start')
+			
+			if peaks_start is None:
+				print('bin merde alors!')
+			
+			if peaks_start is not None:
+				for KF in peaks_start.keyframe_points:
+					curve.keyframe_points.insert( 
+						KF.co[0],
+						0
+						)
+					
+					curve.keyframe_points[-1].interpolation = 'CONSTANT'
+		
 		return curve
 
 
