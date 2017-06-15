@@ -242,9 +242,11 @@ class Panel(SingleTrackPanel):
 		row.label(text = 'Switching moment:')
 		
 		if self.switch_mode == 'manual':
+			# switch at perfect frame option when manual switching mode
 			row = layout.row()
 			row.prop(self, 'switch_at_perfect_frame')
 		else:
+			# switch at custom instant when no in manual switching mode
 			row = layout.row()
 			col = row.column()
 			col.prop( self, 'switch_at_custom_keyframe' )
@@ -254,6 +256,9 @@ class Panel(SingleTrackPanel):
 			if not self.switch_at_custom_keyframe:
 				col.enabled = False
 		
+		# switch at each peaks starting option
+		row = layout.row()
+		row.prop( self, 'switch_at_peaks' )
 
 
 
