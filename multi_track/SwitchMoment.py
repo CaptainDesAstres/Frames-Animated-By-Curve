@@ -75,7 +75,7 @@ class SwitchMoment:
 		)
 	
 	peaks_trigger_values = bpy.props.StringProperty(
-		name = 'peaks values',
+		name = 'Values',
 		description = 'The values to use to trigger a switch. Use only numerical value separated by «;» .',
 		default = '0',
 		update = update_switch_curve
@@ -93,7 +93,7 @@ class SwitchMoment:
 		)
 	
 	amplitude_trigger_values = bpy.props.StringProperty(
-		name = 'amplitude values',
+		name = 'Values',
 		description = 'The values of amplitude who trigger a switch. Use only numerical value separated by «;» .',
 		default = '0',
 		update = update_switch_curve
@@ -111,7 +111,7 @@ class SwitchMoment:
 		)
 	
 	combination_trigger_values = bpy.props.StringProperty(
-		name = 'combination values',
+		name = 'Values',
 		description = 'The values of combination who trigger a switch. Use only numerical value separated by «;» .',
 		default = '0',
 		update = update_switch_curve
