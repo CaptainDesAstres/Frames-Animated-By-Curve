@@ -268,10 +268,10 @@ class SwitchMoment:
 		if self.switch_when_peaks_get_over:
 			peaks = get_fcurve_by_data_path( scene, 
 									'curve_to_frame.peaks')
-			self.value_triggered_keyframe( 
-				self.peaks_over_trigger_values, # tragger values
-				peaks, # trigger curve
-				curve # moment curve
+			self.value_triggered_keyframe(
+				self.peaks_over_trigger_values,
+				peaks,
+				curve
 				)
 		
 		
