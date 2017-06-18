@@ -258,7 +258,10 @@ class Panel(SingleTrackPanel):
 		
 		# switch at each peaks starting option
 		row = layout.row()
-		row.prop( self, 'switch_at_peaks' )
+		col = row.column()
+		col.prop( self, 'switch_at_peaks' )
+		col = row.column()
+		col.prop( self, 'switch_at_peaks_keyframes' )
 
 
 
