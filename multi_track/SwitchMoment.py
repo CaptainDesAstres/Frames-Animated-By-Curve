@@ -51,6 +51,18 @@ class SwitchMoment:
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
+	
+	
+	
+	# switch at each peaks
+	switch_at_peaks_keyframes = bpy.props.BoolProperty(
+		name = 'At each peaks keyframe',
+		description = 'Track is switch after each keyframe in peaks curve.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
 	####################
 	##   Methods      ##
 	####################
