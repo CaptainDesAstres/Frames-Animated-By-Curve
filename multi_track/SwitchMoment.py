@@ -316,6 +316,29 @@ class SwitchMoment:
 		
 		
 		
+		# switch when combination curve get over values
+		if self.switch_when_combination_get_over:
+			combination = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.combination')
+			self.value_triggered_keyframe(
+				self.combination_over_trigger_values,
+				combination,
+				curve
+				)
+		
+		# switch when combination curve get under values
+		if self.switch_when_combination_get_under:
+			combination = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.combination')
+			self.value_triggered_keyframe( 
+				self.combination_under_trigger_values, 
+				combination, 
+				curve, 
+				False
+				)
+		
+		
+		
 		# avoid too closed switch moment
 		if self.minimal_switch_gap_option:
 			i = 1
