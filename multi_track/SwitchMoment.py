@@ -65,7 +65,7 @@ class SwitchMoment:
 	
 	
 	
-	# switch each teime peaks pas through X value
+	# switch each teime peaks pass through X value
 	switch_at_peaks_values = bpy.props.BoolProperty(
 		name = 'At X peaks values',
 		description = 'Track is switch each time peaks curve pass through designated values.',
@@ -83,7 +83,7 @@ class SwitchMoment:
 	
 	
 	
-	# switch each teime peaks pas through X value
+	# switch each teime amplitude pass through X value
 	switch_at_amplitude_values = bpy.props.BoolProperty(
 		name = 'At X amplitude (net) values',
 		description = 'Track is switch each time amplitude (net) curve pass through designated values.',
@@ -95,6 +95,24 @@ class SwitchMoment:
 	amplitude_values = bpy.props.StringProperty(
 		name = 'amplitude values',
 		description = 'The values of amplitude who trigger a switch. Use only numerical value separated by «;» .',
+		default = '0',
+		update = update_switch_curve
+		)
+	
+	
+	
+	# switch each teime combination curve pass through X value
+	switch_at_combination_values = bpy.props.BoolProperty(
+		name = 'At X combination values',
+		description = 'Track is switch each time combination curve pass through designated values.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	combination_values = bpy.props.StringProperty(
+		name = 'combination values',
+		description = 'The values of combination who trigger a switch. Use only numerical value separated by «;» .',
 		default = '0',
 		update = update_switch_curve
 		)
