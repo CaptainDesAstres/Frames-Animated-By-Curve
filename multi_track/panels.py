@@ -287,23 +287,43 @@ class Panel(SingleTrackPanel):
 			col.enabled = False
 		layout.separator()
 		
+		
 		# switch at amplitude value option
 		row = layout.row()
 		col = row.column()
-		col.prop( self, 'switch_at_amplitude_values' )
+		col.prop( self, 'switch_when_amplitude_get_over' )
 		col = row.column()
-		col.prop( self, 'amplitude_trigger_values' )
-		if not self.switch_at_amplitude_values:
+		col.prop( self, 'amplitude_over_trigger_values' )
+		if not self.switch_when_amplitude_get_over:
 			col.enabled = False
+		
+		row = layout.row()
+		col = row.column()
+		col.prop( self, 'switch_when_amplitude_get_under' )
+		col = row.column()
+		col.prop( self, 'amplitude_under_trigger_values' )
+		if not self.switch_when_amplitude_get_under:
+			col.enabled = False
+		layout.separator()
+		
 		
 		# switch at combination value option
 		row = layout.row()
 		col = row.column()
-		col.prop( self, 'switch_at_combination_values' )
+		col.prop( self, 'switch_when_combination_get_over' )
 		col = row.column()
-		col.prop( self, 'combination_trigger_values' )
-		if not self.switch_at_combination_values:
+		col.prop( self, 'combination_over_trigger_values' )
+		if not self.switch_when_combination_get_over:
 			col.enabled = False
+		
+		row = layout.row()
+		col = row.column()
+		col.prop( self, 'switch_when_combination_get_under' )
+		col = row.column()
+		col.prop( self, 'combination_under_trigger_values' )
+		if not self.switch_when_combination_get_under:
+			col.enabled = False
+		layout.separator()
 
 
 

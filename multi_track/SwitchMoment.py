@@ -99,43 +99,76 @@ class SwitchMoment:
 	
 	
 	# switch each teime amplitude pass through X value
-	switch_at_amplitude_values = bpy.props.BoolProperty(
-		name = 'At X amplitude (net) values',
-		description = 'Track is switch each time amplitude (net) curve pass through designated values.',
+	switch_when_amplitude_get_over = bpy.props.BoolProperty(
+		name = 'When amplitude (net) get over:',
+		description = 'Switch track when amplitude (net) curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
-	amplitude_trigger_values = bpy.props.StringProperty(
-		name = 'Values',
-		description = 'The values of amplitude who trigger a switch. Use only numerical value separated by «;» .',
-		default = '0',
+	amplitude_over_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When amplitude (net) get over:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
 		update = update_switch_curve
 		)
 	
-	
-	
-	# switch each teime combination curve pass through X value
-	switch_at_combination_values = bpy.props.BoolProperty(
-		name = 'At X combination values',
-		description = 'Track is switch each time combination curve pass through designated values.',
+	switch_when_amplitude_get_under = bpy.props.BoolProperty(
+		name = 'When amplitude (net) get under:',
+		description = 'switch track when amplitude (net) curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
-	combination_trigger_values = bpy.props.StringProperty(
-		name = 'Values',
-		description = 'The values of combination who trigger a switch. Use only numerical value separated by «;» .',
-		default = '0',
+	amplitude_under_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When amplitude (net) get under:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
 		update = update_switch_curve
 		)
+	
+	
+	
+	# switch each teime combination pass through X value
+	switch_when_combination_get_over = bpy.props.BoolProperty(
+		name = 'When combination get over:',
+		description = 'switch track when combination curve get over designated values.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	combination_over_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When combination get over:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
+		update = update_switch_curve
+		)
+	
+	switch_when_combination_get_under = bpy.props.BoolProperty(
+		name = 'When combination get under:',
+		description = 'switch track when combination curve get under designated values.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	combination_under_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When combination get under:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
+		update = update_switch_curve
+		)
+	
+	
+	
 	
 	# value evaluation gap
 	values_evaluation_accuracy = bpy.props.FloatProperty(
 		name = 'Evaluation accuracy',
-		description = 'Gap between to evaluation of peaks/amplitude/combination values.',
+		description = 'Gap between two evaluation of peaks/amplitude/combination values.',
 		default = 0.1,
 		update = update_switch_curve
 		)
