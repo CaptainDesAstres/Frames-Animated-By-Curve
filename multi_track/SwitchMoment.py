@@ -274,6 +274,17 @@ class SwitchMoment:
 				curve
 				)
 		
+		# switch when peaks curve get under values
+		if self.switch_when_peaks_get_under:
+			peaks = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.peaks')
+			self.value_triggered_keyframe( 
+				self.peaks_under_trigger_values, 
+				peaks, 
+				curve, 
+				False
+				)
+		
 		
 		
 		# avoid too closed switch moment
