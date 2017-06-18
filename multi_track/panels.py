@@ -263,6 +263,12 @@ class Panel(SingleTrackPanel):
 		col = row.column()
 		col.prop( self, 'switch_at_peaks_keyframes' )
 		
+		# accuracy settings
+		layout.separator()
+		layout.separator()
+		row = layout.row()
+		row.prop( self, 'values_evaluation_accuracy' )
+		
 		# switch at peaks value option
 		row = layout.row()
 		col = row.column()
