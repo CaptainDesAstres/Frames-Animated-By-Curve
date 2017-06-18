@@ -229,6 +229,8 @@ class SwitchMoment:
 						0
 						)
 		
+		
+		
 		# create a switch moment at each custom moments
 		if self.switch_mode != 'manual' and self.switch_at_custom_keyframe:
 			custom = get_fcurve_by_data_path( scene, 
@@ -239,6 +241,8 @@ class SwitchMoment:
 						KF.co[0],
 						0
 						)
+		
+		
 		
 		if self.switch_at_peaks_keyframes:
 			# create a switch moment at each peaks start
@@ -264,6 +268,8 @@ class SwitchMoment:
 						0
 						)
 		
+		
+		
 		# switch when peaks curve get over values
 		if self.switch_when_peaks_get_over:
 			peaks = get_fcurve_by_data_path( scene, 
@@ -281,6 +287,29 @@ class SwitchMoment:
 			self.value_triggered_keyframe( 
 				self.peaks_under_trigger_values, 
 				peaks, 
+				curve, 
+				False
+				)
+		
+		
+		
+		# switch when amplitude curve get over values
+		if self.switch_when_amplitude_get_over:
+			amplitude = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.amplitude_net')
+			self.value_triggered_keyframe(
+				self.amplitude_over_trigger_values,
+				amplitude,
+				curve
+				)
+		
+		# switch when amplitude curve get under values
+		if self.switch_when_amplitude_get_under:
+			amplitude = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.amplitude_net')
+			self.value_triggered_keyframe( 
+				self.amplitude_under_trigger_values, 
+				amplitude, 
 				curve, 
 				False
 				)
