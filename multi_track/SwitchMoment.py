@@ -173,6 +173,22 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	# Introduce a minimal gap between two switching moment
+	minimal_switch_gap_option = bpy.props.BoolProperty(
+		name = 'Switching minimal gap:',
+		description = 'Do not switch more than once by this gap time.',
+		default = True,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	minimal_switch_gap = bpy.props.FloatProperty(
+		name = '',
+		description = 'Minimal Gap between two track switch.',
+		default = 0.5,
+		update = update_switch_curve
+		)
+	
 	
 	####################
 	##   Methods      ##
