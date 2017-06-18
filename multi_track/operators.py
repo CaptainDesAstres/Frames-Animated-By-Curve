@@ -64,3 +64,15 @@ class CurvesRefresh(bpy.types.Operator):
 
 
 
+class SwitchCurveRefresh(bpy.types.Operator):
+	'''operator to refresh track switching curve'''
+	bl_idname = "curve_to_frame.generate_track_switching_curve"
+	bl_label= "refresh track switching curve"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		'''refresh track switching curve'''
+		context.scene.curve_to_frame.update_switch_curve( context )
+		return {'FINISHED'}
+
+
