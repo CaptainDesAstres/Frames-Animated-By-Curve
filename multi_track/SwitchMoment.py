@@ -263,6 +263,20 @@ class SwitchMoment:
 						0
 						)
 		
+		# avoid too closed keyframe
+		if self.minimal_switch_gap_option:
+			i = 1
+			prev = curve.keyframe_points[0]
+			minimal_gap = self.minimal_switch_gap
+			
+			while i < len(curve.keyframe_points):
+				KF = curve.keyframe_points[i]
+				if KF.co[0]-prev.co[0] < minimal_gap:
+					curve.keyframe_points.remove(KF)
+				else:
+					prev = KF
+					i += 1
+		
 		# convert keyframe in constant interpolation
 		for KF in curve.keyframe_points:
 			KF.interpolation = 'CONSTANT'
