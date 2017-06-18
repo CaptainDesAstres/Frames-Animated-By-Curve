@@ -67,7 +67,7 @@ class SwitchMoment:
 	
 	# switch each teime peaks pass through X value
 	switch_when_peaks_get_over = bpy.props.BoolProperty(
-		name = 'When peaks get over:',
+		name = 'Peaks get over:',
 		description = 'switch track when peaks curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
@@ -82,7 +82,7 @@ class SwitchMoment:
 		)
 	
 	switch_when_peaks_get_under = bpy.props.BoolProperty(
-		name = 'When peaks get under:',
+		name = 'Peaks get under:',
 		description = 'switch track when peaks curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
@@ -100,7 +100,7 @@ class SwitchMoment:
 	
 	# switch each teime amplitude pass through X value
 	switch_when_amplitude_get_over = bpy.props.BoolProperty(
-		name = 'When amplitude (net) get over:',
+		name = 'Amplitude (net) get over:',
 		description = 'Switch track when amplitude (net) curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
@@ -115,7 +115,7 @@ class SwitchMoment:
 		)
 	
 	switch_when_amplitude_get_under = bpy.props.BoolProperty(
-		name = 'When amplitude (net) get under:',
+		name = 'Amplitude (net) get under:',
 		description = 'switch track when amplitude (net) curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
@@ -133,7 +133,7 @@ class SwitchMoment:
 	
 	# switch each teime combination pass through X value
 	switch_when_combination_get_over = bpy.props.BoolProperty(
-		name = 'When combination get over:',
+		name = 'Combination get over:',
 		description = 'switch track when combination curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
@@ -148,7 +148,7 @@ class SwitchMoment:
 		)
 	
 	switch_when_combination_get_under = bpy.props.BoolProperty(
-		name = 'When combination get under:',
+		name = 'Combination get under:',
 		description = 'switch track when combination curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},

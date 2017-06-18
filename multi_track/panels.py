@@ -263,11 +263,9 @@ class Panel(SingleTrackPanel):
 		col = row.column()
 		col.prop( self, 'switch_at_peaks_keyframes' )
 		
-		# accuracy settings
-		layout.separator()
 		layout.separator()
 		row = layout.row()
-		row.prop( self, 'values_evaluation_accuracy' )
+		row.label('Switch when:' )
 		
 		# switch at peaks value option
 		row = layout.row()
@@ -285,7 +283,6 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'peaks_under_trigger_values' )
 		if not self.switch_when_peaks_get_under:
 			col.enabled = False
-		layout.separator()
 		
 		
 		# switch at amplitude value option
@@ -304,7 +301,6 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'amplitude_under_trigger_values' )
 		if not self.switch_when_amplitude_get_under:
 			col.enabled = False
-		layout.separator()
 		
 		
 		# switch at combination value option
@@ -323,7 +319,12 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'combination_under_trigger_values' )
 		if not self.switch_when_combination_get_under:
 			col.enabled = False
-		layout.separator()
+		
+		
+		
+		# accuracy settings
+		row = layout.row()
+		row.prop( self, 'values_evaluation_accuracy' )
 
 
 
