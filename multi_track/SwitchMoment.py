@@ -215,10 +215,10 @@ class SwitchMoment:
 		curve.hide = hide
 		curve.lock = True
 		
-		# create keyframe at animation first frame
+		# create switch moment at animation first frame
 		curve.keyframe_points.insert( scene.frame_start, 0 )
 		
-		# create a keyframe at each manual switching keyframe
+		# create a switch moment at each manual switching keyframe
 		if self.switch_mode == 'manual' and self.switch_at_perfect_frame:
 			manual_switch = get_fcurve_by_data_path(scene, 
 									'curve_to_frame.manual_switch')
@@ -229,7 +229,7 @@ class SwitchMoment:
 						0
 						)
 		
-		# create a key frame at each custom moments
+		# create a switch moment at each custom moments
 		if self.switch_mode != 'manual' and self.switch_at_custom_keyframe:
 			custom = get_fcurve_by_data_path( scene, 
 									'curve_to_frame.custom_keyframe')
@@ -240,8 +240,8 @@ class SwitchMoment:
 						0
 						)
 		
-		# create a keyframe at each peaks start
 		if self.switch_at_peaks_keyframes:
+			# create a switch moment at each peaks start
 			peaks = get_fcurve_by_data_path( scene, 
 									'curve_to_frame.peaks')
 			
@@ -253,6 +253,7 @@ class SwitchMoment:
 						)
 			
 		elif self.switch_at_peaks:
+			# create a switch moment at each peaks keyframe
 			peaks_start = get_fcurve_by_data_path( scene, 
 									'curve_to_frame.peaks_start')
 			
@@ -263,7 +264,9 @@ class SwitchMoment:
 						0
 						)
 		
-		# avoid too closed keyframe
+		
+		
+		# avoid too closed switch moment
 		if self.minimal_switch_gap_option:
 			i = 1
 			prev = curve.keyframe_points[0]
@@ -277,7 +280,7 @@ class SwitchMoment:
 					prev = KF
 					i += 1
 		
-		# convert keyframe in constant interpolation
+		# convert switch moment keyframe in constant interpolation
 		for KF in curve.keyframe_points:
 			KF.interpolation = 'CONSTANT'
 		
