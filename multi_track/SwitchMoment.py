@@ -63,6 +63,26 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	
+	
+	# switch each teime peaks pas through X value
+	switch_at_peaks_values = bpy.props.BoolProperty(
+		name = 'At X peaks values',
+		description = 'Track is switch each time peaks curve pass through designated values.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	peaks_values = bpy.props.StringProperty(
+		name = 'peaks values',
+		description = 'The values to use to trigger a switch. Use only numerical value separated by «;» .',
+		default = '0',
+		update = update_switch_curve
+		)
+	
+	
+	
 	####################
 	##   Methods      ##
 	####################
