@@ -269,6 +269,8 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'switch_at_peaks_values' )
 		col = row.column()
 		col.prop( self, 'peaks_trigger_values' )
+		if not self.switch_at_peaks_values:
+			col.enabled = False
 		
 		# switch at  value option
 		row = layout.row()
@@ -276,6 +278,8 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'switch_at_amplitude_values' )
 		col = row.column()
 		col.prop( self, 'amplitude_trigger_values' )
+		if not self.switch_at_amplitude_values:
+			col.enabled = False
 		
 		# switch at  value option
 		row = layout.row()
@@ -283,6 +287,8 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'switch_at_combination_values' )
 		col = row.column()
 		col.prop( self, 'combination_trigger_values' )
+		if not self.switch_at_combination_values:
+			col.enabled = False
 
 
 
