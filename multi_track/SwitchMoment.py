@@ -264,6 +264,36 @@ class SwitchMoment:
 						0
 						)
 		
+		accuracy = self.values_evaluation_accuracy
+		
+		# switch when peaks curve get over values
+		if self.switch_when_peaks_get_over:
+			# get peaks curve
+			peaks = get_fcurve_by_data_path( scene, 
+									'curve_to_frame.peaks')
+			
+			if peaks is not None:
+				# do the loop test for each peaks trigger values
+				for v in self.peaks_over_trigger_values.split(';'):
+					try:
+						value = float(v)
+						
+						frame = scene.frame_start
+						previous = 0
+						# add a switch moment when peaks curve get over trigger value
+						while frame < scene.frame_end:
+							current = peaks.evaluate(frame)
+							if previous < value and current >= value:
+								curve.keyframe_points.insert( 
+										frame,
+										0
+										)
+							previous = current
+							frame += accuracy
+						
+					except ValueError:
+						pass
+		
 		
 		
 		# avoid too closed switch moment
