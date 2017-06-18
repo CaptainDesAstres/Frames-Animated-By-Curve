@@ -66,18 +66,33 @@ class SwitchMoment:
 	
 	
 	# switch each teime peaks pass through X value
-	switch_at_peaks_values = bpy.props.BoolProperty(
-		name = 'At X peaks values',
-		description = 'Track is switch each time peaks curve pass through designated values.',
+	switch_when_peaks_get_over = bpy.props.BoolProperty(
+		name = 'When peaks get over:',
+		description = 'switch track when peaks curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
 	
-	peaks_trigger_values = bpy.props.StringProperty(
-		name = 'Values',
-		description = 'The values to use to trigger a switch. Use only numerical value separated by «;» .',
-		default = '0',
+	peaks_over_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When peaks get over:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
+		update = update_switch_curve
+		)
+	
+	switch_when_peaks_get_under = bpy.props.BoolProperty(
+		name = 'When peaks get under:',
+		description = 'switch track when peaks curve get under designated values.',
+		default = False,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	peaks_under_trigger_values = bpy.props.StringProperty(
+		name = '',
+		description = 'The values to use for «When peaks get under:» option. Use only numerical value separated by «;» .',
+		default = '0.5',
 		update = update_switch_curve
 		)
 	
@@ -117,6 +132,7 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	# value evaluation gap
 	values_evaluation_accuracy = bpy.props.FloatProperty(
 		name = 'Evaluation accuracy',
 		description = 'Gap between to evaluation of peaks/amplitude/combination values.',

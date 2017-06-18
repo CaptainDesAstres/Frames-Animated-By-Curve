@@ -272,11 +272,20 @@ class Panel(SingleTrackPanel):
 		# switch at peaks value option
 		row = layout.row()
 		col = row.column()
-		col.prop( self, 'switch_at_peaks_values' )
+		col.prop( self, 'switch_when_peaks_get_over' )
 		col = row.column()
-		col.prop( self, 'peaks_trigger_values' )
-		if not self.switch_at_peaks_values:
+		col.prop( self, 'peaks_over_trigger_values' )
+		if not self.switch_when_peaks_get_over:
 			col.enabled = False
+		
+		row = layout.row()
+		col = row.column()
+		col.prop( self, 'switch_when_peaks_get_under' )
+		col = row.column()
+		col.prop( self, 'peaks_under_trigger_values' )
+		if not self.switch_when_peaks_get_under:
+			col.enabled = False
+		layout.separator()
 		
 		# switch at amplitude value option
 		row = layout.row()
