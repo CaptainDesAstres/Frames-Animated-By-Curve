@@ -185,7 +185,7 @@ class SwitchMoment:
 	minimal_switch_gap = bpy.props.FloatProperty(
 		name = '',
 		description = 'Minimal Gap between two track switch.',
-		default = 0.5,
+		default = 1,
 		update = update_switch_curve
 		)
 	

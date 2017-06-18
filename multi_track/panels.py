@@ -323,8 +323,18 @@ class Panel(SingleTrackPanel):
 		
 		
 		# accuracy settings
+		layout.separator()
 		row = layout.row()
 		row.prop( self, 'values_evaluation_accuracy' )
+		
+		# switch minimal gap
+		row = layout.row()
+		col = row.column()
+		col.prop( self, 'minimal_switch_gap_option' )
+		col = row.column()
+		col.prop( self, 'minimal_switch_gap' )
+		if not self.minimal_switch_gap_option:
+			col.enabled = False
 
 
 
