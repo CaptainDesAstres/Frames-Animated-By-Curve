@@ -304,10 +304,18 @@ class SwitchMoment:
 				self,
 				values, # tragger values
 				trigger, # trigger curve
-				moment # moment curve
+				moment, # moment curve
+				over = True
 				):
 		'''add switching moment in moment curve when another curve value get under or over certain value'''
 		scene = self.id_data
+		
+		if over:
+			test = lambda previous, current, value : \
+					previous < value and current >= value
+		else:
+			test = lambda previous, current, value :\
+					previous > value and current <= value
 		
 		if trigger is not None:
 			# do the loop test for each trigger values
@@ -320,7 +328,7 @@ class SwitchMoment:
 					# add a switch moment when trigger curve get over trigger value
 					while frame < scene.frame_end:
 						current = trigger.evaluate(frame)
-						if previous < value and current >= value:
+						if test( previous, current, value ):
 							moment.keyframe_points.insert( 
 									frame,
 									0
