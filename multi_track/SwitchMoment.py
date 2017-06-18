@@ -264,35 +264,15 @@ class SwitchMoment:
 						0
 						)
 		
-		accuracy = self.values_evaluation_accuracy
-		
 		# switch when peaks curve get over values
 		if self.switch_when_peaks_get_over:
-			# get peaks curve
 			peaks = get_fcurve_by_data_path( scene, 
 									'curve_to_frame.peaks')
-			
-			if peaks is not None:
-				# do the loop test for each peaks trigger values
-				for v in self.peaks_over_trigger_values.split(';'):
-					try:
-						value = float(v)
-						
-						frame = scene.frame_start
-						previous = 0
-						# add a switch moment when peaks curve get over trigger value
-						while frame < scene.frame_end:
-							current = peaks.evaluate(frame)
-							if previous < value and current >= value:
-								curve.keyframe_points.insert( 
-										frame,
-										0
-										)
-							previous = current
-							frame += accuracy
-						
-					except ValueError:
-						pass
+			self.value_triggered_keyframe( 
+				self.peaks_over_trigger_values, # tragger values
+				peaks, # trigger curve
+				curve # moment curve
+				)
 		
 		
 		
@@ -315,6 +295,41 @@ class SwitchMoment:
 			KF.interpolation = 'CONSTANT'
 		
 		return curve
+	
+	
+	
+	
+	
+	def value_triggered_keyframe( 
+				self,
+				values, # tragger values
+				trigger, # trigger curve
+				moment # moment curve
+				):
+		'''add switching moment in moment curve when another curve value get under or over certain value'''
+		scene = self.id_data
+		
+		if trigger is not None:
+			# do the loop test for each trigger values
+			for v in values.split(';'):
+				try:
+					value = float(v)
+					
+					frame = scene.frame_start
+					previous = 0
+					# add a switch moment when trigger curve get over trigger value
+					while frame < scene.frame_end:
+						current = trigger.evaluate(frame)
+						if previous < value and current >= value:
+							moment.keyframe_points.insert( 
+									frame,
+									0
+									)
+						previous = current
+						frame += self.values_evaluation_accuracy
+					
+				except ValueError:
+					pass
 
 
 
