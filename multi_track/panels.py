@@ -335,6 +335,14 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'minimal_switch_gap' )
 		if not self.minimal_switch_gap_option:
 			col.enabled = False
+		
+		
+		layout.separator()
+		row = layout.row()
+		row.operator(
+			"curve_to_frame.generate_track_switching_curve",
+			 icon='FILE_REFRESH',
+			 text="refresh switch curve")
 
 
 
