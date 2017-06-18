@@ -170,6 +170,7 @@ class SwitchMoment:
 		name = 'Evaluation accuracy',
 		description = 'Gap between two evaluation of peaks/amplitude/combination values.',
 		default = 0.1,
+		min = 0.001,
 		update = update_switch_curve
 		)
 	
@@ -186,6 +187,7 @@ class SwitchMoment:
 		name = '',
 		description = 'Minimal Gap between two track switch.',
 		default = 1,
+		min = 0,
 		update = update_switch_curve
 		)
 	
