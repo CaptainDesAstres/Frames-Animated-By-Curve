@@ -117,6 +117,12 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	values_evaluation_accuracy = bpy.props.FloatProperty(
+		name = 'Evaluation accuracy',
+		description = 'Gap between to evaluation of peaks/amplitude/combination values.',
+		default = 0.1,
+		update = update_switch_curve
+		)
 	
 	
 	####################
