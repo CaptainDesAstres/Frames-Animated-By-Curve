@@ -1,5 +1,6 @@
 import bpy
 from functions import *
+from math import ceil, floor
 
 class SwitchMoment:
 	'''a class regrouping all settings and method
@@ -375,8 +376,21 @@ class SwitchMoment:
 				gap = current.co[0]-previous.co[0]
 				if gap > maximal_gap:
 					if self.maximal_switch_gap_proportional_option:
-						print('not yet implemented')
-						i += 1
+						section = ceil( gap / maximal_gap )
+						size = gap / section
+						
+						# avoid too small gap
+						if self.minimal_switch_gap_option\
+								and size < self.minimal_switch_gap:
+							section = floor( gap / self.minimal_switch_gap )
+							size = gap / section
+						
+						frame = previous.co[0] + size
+						gap_end = current.co[0] - ( size / 10 )
+						while frame < gap_end:
+							curve.keyframe_points.insert( frame, 0 )
+							frame += size
+							i += 1
 					else:
 						previous= curve.keyframe_points.insert( 
 								previous.co[0] + maximal_gap, 0 )
