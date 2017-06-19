@@ -189,6 +189,8 @@ class TracksList():
 		new.name = track.name
 		new.uid = track.curve_to_frame.uid
 		new.track_id = len(self.tracks)-1
+		new.start = 0
+		new.end = track.curve_to_frame.number_size
 		self.selected_track = new.track_id
 		
 		# clear the add field
