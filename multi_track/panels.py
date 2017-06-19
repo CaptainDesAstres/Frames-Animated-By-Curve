@@ -221,7 +221,15 @@ class Panel(SingleTrackPanel):
 		col = row.column()
 		col.prop(self, 'switch_mode')
 		
-		if self.switch_mode == 'manual':
+		if self.switch_mode == 'random':
+			row = layout.row()
+			col = row.column()
+			col.prop(self, 'follow_rules')
+			col = row.column()
+			col.prop(self, 'never_the_same')
+			if self.follow_rules:
+				col.enabled = False
+		elif self.switch_mode == 'manual':
 			row = layout.row()
 			row.prop(self, 'manual_switch')
 		elif self.switch_mode == 'cyclic':
