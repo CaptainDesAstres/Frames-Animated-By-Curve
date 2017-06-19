@@ -88,6 +88,25 @@ class Track(bpy.types.PropertyGroup):
 		
 		# if none corresponding movieclip finded
 		return None
+	
+	
+	
+	
+	
+	def get_followers( self, list_size ):
+		'''return a list of possible followers'''
+		followers = []
+		
+		strings = self.followers.split(';')
+		for fol in strings:
+			try:
+				fol = int(fol) % list_size
+				if fol not in followers:
+					followers.append( fol )
+			except ValueError:
+				pass
+		
+		return followers
 
 
 
