@@ -330,6 +330,19 @@ class Panel(SingleTrackPanel):
 		# switch minimal gap
 		row = layout.row()
 		col = row.column()
+		col.prop( self, 'maximal_switch_gap_option' )
+		col = row.column()
+		col.prop( self, 'maximal_switch_gap' )
+		if not self.maximal_switch_gap_option:
+			col.enabled = False
+		col = row.column()
+		col.prop( self, 'maximal_switch_gap_proportional_option' )
+		if not self.maximal_switch_gap_option:
+			col.enabled = False
+		
+		# switch minimal gap
+		row = layout.row()
+		col = row.column()
 		col.prop( self, 'minimal_switch_gap_option' )
 		col = row.column()
 		col.prop( self, 'minimal_switch_gap' )
