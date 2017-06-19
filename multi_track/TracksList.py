@@ -52,7 +52,7 @@ class TrackItem(bpy.types.UIList):
 				index ):
 		'''draw item row'''
 		# display name and index in list
-		sp = layout.split(0.8)
+		sp = layout.split(0.05)
 		col = sp.column()
 		col.label( str(item.track_id) )
 		col = sp.column()
