@@ -8,6 +8,8 @@ class Track(bpy.types.PropertyGroup):
 	name = bpy.props.StringProperty()
 	uid = bpy.props.StringProperty()
 	track_id = bpy.props.IntProperty()
+	start = bpy.props.IntProperty()
+	end = bpy.props.IntProperty()
 	
 	def get( self, scene, rename = False):
 		'''return the movie clip corresponding to this track'''
