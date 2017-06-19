@@ -47,8 +47,16 @@ class Track(bpy.types.PropertyGroup):
 	name = bpy.props.StringProperty()
 	uid = bpy.props.StringProperty()
 	track_id = bpy.props.IntProperty()
-	start = bpy.props.IntProperty(update = set_start_frame)
-	end = bpy.props.IntProperty(update = set_end_frame)
+	
+	start = bpy.props.IntProperty(
+		name = "First frame",
+		description = "First frame to take in count",
+					update = set_start_frame)
+	
+	end = bpy.props.IntProperty(
+		name = "Last frame",
+		description = "Last frame to take in count",
+		update = set_end_frame)
 	
 	def get( self, rename = False):
 		'''return the movie clip corresponding to this track'''
