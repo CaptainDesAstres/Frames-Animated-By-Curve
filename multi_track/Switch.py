@@ -90,7 +90,7 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
-	never_the_same = bpy.props.BoolProperty(
+	follow_rules = bpy.props.BoolProperty(
 		name = 'With rules',
 		description = 'Use track following rules while randomly choose next track.',
 		default = False,
