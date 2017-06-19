@@ -152,9 +152,20 @@ class Switch(SwitchMoment):
 	
 	def generate_random_switch( self, generated):
 		'''ramdomly generate final switch curve.'''
-		tracks_count = len(self.tracks)-1
-		
-		if self.never_the_same:
+		if self.follow_rules:
+			tracks_count = len(self.tracks)
+			tracks = list( range( 0, tracks_count ) )
+			for KF in generated.keyframe_points:
+				current = tracks[ randint( 0, len(tracks)-1 ) ]
+				KF.co[1] = current
+				tracks = self.tracks[current].get_followers(tracks_count)
+				
+				if len(tracks) == 0:
+					tracks = list( range( 0, tracks_count ) )
+				
+		elif self.never_the_same:
+			tracks_count = len(self.tracks)-1
+			
 			cur = prev = -1
 			for KF in generated.keyframe_points:
 				while cur == prev:
@@ -162,6 +173,8 @@ class Switch(SwitchMoment):
 				prev = KF.co[1] = cur
 			
 		else:
+			tracks_count = len(self.tracks)-1
+			
 			for KF in generated.keyframe_points:
 				KF.co[1] = randint( 0, tracks_count )
 	
