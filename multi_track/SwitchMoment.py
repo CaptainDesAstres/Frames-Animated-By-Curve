@@ -364,6 +364,29 @@ class SwitchMoment:
 		
 		
 		
+		# avoid too long gap:
+		if self.maximal_switch_gap_option:
+			i = 1
+			previous = curve.keyframe_points[0]
+			maximal_gap = self.maximal_switch_gap
+			
+			while i < len(curve.keyframe_points):
+				current = curve.keyframe_points[i]
+				gap = current.co[0]-previous.co[0]
+				if gap > maximal_gap:
+					if self.maximal_switch_gap_proportional_option:
+						print('not yet implemented')
+						i += 1
+					else:
+						previous= curve.keyframe_points.insert( 
+								previous.co[0] + maximal_gap, 0 )
+						i += 1
+				else:
+					previous = current
+					i += 1
+		
+		
+		
 		# avoid too closed switch moment
 		if self.minimal_switch_gap_option:
 			i = 1
