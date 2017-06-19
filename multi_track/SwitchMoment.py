@@ -174,6 +174,31 @@ class SwitchMoment:
 		update = update_switch_curve
 		)
 	
+	# Introduce a maximal gap between two switching moment
+	maximal_switch_gap_option = bpy.props.BoolProperty(
+		name = 'Switching maximal gap:',
+		description = 'Switch at least one time every X frames.',
+		default = True,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
+	maximal_switch_gap = bpy.props.FloatProperty(
+		name = 'X:',
+		description = 'Maximal gap between two track switch.',
+		default = 10,
+		min = 0,
+		update = update_switch_curve
+		)
+	
+	maximal_switch_gap_proportional_option = bpy.props.BoolProperty(
+		name = 'proportional',
+		description = 'When a gap greater than X Frames is found:\n- If this option is checked, the gap is divide in equal size sections.\n- If this option is not checked, the gap is filled with as many section of X frames long as possible. So, the last one generally don\'t measure X frames long',
+		default = True,
+		options = {'LIBRARY_EDITABLE'},
+		update = update_switch_curve
+		)
+	
 	# Introduce a minimal gap between two switching moment
 	minimal_switch_gap_option = bpy.props.BoolProperty(
 		name = 'Switching minimal gap:',
