@@ -222,9 +222,10 @@ class Panel(SingleTrackPanel):
 		col.prop(self, 'switch_mode')
 		
 		if self.switch_mode == 'manual':
-			col = row.column()
-			col.prop(self, 'manual_switch')
+			row = layout.row()
+			row.prop(self, 'manual_switch')
 		elif self.switch_mode == 'cyclic':
+			row = layout.row()
 			col = row.column()
 			col.prop(self, 'cyclic_mode')
 			if self.cyclic_mode == 'custom':
