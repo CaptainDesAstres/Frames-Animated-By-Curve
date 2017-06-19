@@ -348,6 +348,13 @@ class Panel(SingleTrackPanel):
 		col.prop( self, 'minimal_switch_gap' )
 		if not self.minimal_switch_gap_option:
 			col.enabled = False
+		elif self.maximal_switch_gap_option and \
+					self.minimal_switch_gap > self.maximal_switch_gap:
+			row = layout.row()
+			row.label(
+					icon='ERROR',
+					text='Error: Minimal gap must be smaller than maximal gap!'
+					)
 		
 		
 		layout.separator()
