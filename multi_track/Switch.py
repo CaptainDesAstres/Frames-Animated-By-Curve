@@ -30,8 +30,6 @@ class Switch(SwitchMoment):
 			self.generate_manual_switch(generated_switch)
 		elif self.switch_mode == 'random':
 			self.generate_random_switch(generated_switch)
-		elif self.switch_mode == 'random_forced':
-			self.generate_random_switch(generated_switch, True)
 		elif self.switch_mode == 'cyclic':
 			error = self.generate_cyclic_switch(generated_switch)
 		
@@ -158,11 +156,11 @@ class Switch(SwitchMoment):
 	
 	
 	
-	def generate_random_switch( self, generated, never_the_same = False ):
+	def generate_random_switch( self, generated):
 		'''ramdomly generate final switch curve.'''
 		tracks_count = len(self.tracks)-1
 		
-		if never_the_same:
+		if self.never_the_same:
 			cur = prev = -1
 			for KF in generated.keyframe_points:
 				while cur == prev:
