@@ -115,25 +115,26 @@ class Panel(SingleTrackPanel):
 		# display selected track settings
 		if (self.selected_track >= 0 
 				and self.selected_track < len(self.tracks) ):
-			track = self.tracks[self.selected_track].get(context.scene).curve_to_frame
+			track = self.tracks[self.selected_track]
+			track_info = track.get(context.scene).curve_to_frame
 			
 			# Display selected track directory path
 			layout.separator()
 			row = layout.row()
 			row.label( text = "Frame Directory path:" )
 			row = layout.row()
-			row.label( text= track.path )
+			row.label( text= track_info.path )
 			
 			# Display selected track source file extension
 			row = layout.row()
 			col = row.column()
-			col.label( text="File type: "+track.ext )
+			col.label( text="File type: "+track_info.ext )
 			
 			# Display first to last accepted frame name range
 			col = row.column()
 			col.label( text="Valid frames: "\
-				+track.get_frame_name(track.first)+' to '\
-				+track.get_frame_name(track.last) )
+				+track_info.get_frame_name(track_info.first)+' to '\
+				+track_info.get_frame_name(track_info.last) )
 			
 			# Display Start/End settings
 			layout.separator()
