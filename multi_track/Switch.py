@@ -82,6 +82,21 @@ class Switch(SwitchMoment):
 		update = update_switch_curve
 		)
 	
+	# random options
+	never_the_same = bpy.props.BoolProperty(
+		name = 'never the same',
+		description = 'Avoid having two subsequent time the same track.',
+		default = False,
+		update = update_switch_curve
+		)
+	
+	never_the_same = bpy.props.BoolProperty(
+		name = 'With rules',
+		description = 'Use track following rules while randomly choose next track.',
+		default = False,
+		update = update_switch_curve
+		)
+	
 	# cyclic mode
 	cyclic_mode = bpy.props.EnumProperty(
 		name = '',
