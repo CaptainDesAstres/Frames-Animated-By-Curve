@@ -116,7 +116,7 @@ class Panel(SingleTrackPanel):
 		if (self.selected_track >= 0 
 				and self.selected_track < len(self.tracks) ):
 			track = self.tracks[self.selected_track]
-			track_info = track.get(context.scene).curve_to_frame
+			track_info = track.get().curve_to_frame
 			
 			# Display selected track directory path
 			layout.separator()

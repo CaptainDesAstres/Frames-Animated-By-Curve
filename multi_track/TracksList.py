@@ -11,7 +11,7 @@ class Track(bpy.types.PropertyGroup):
 	start = bpy.props.IntProperty()
 	end = bpy.props.IntProperty()
 	
-	def get( self, scene, rename = False):
+	def get( self, rename = False):
 		'''return the movie clip corresponding to this track'''
 		# get movieclip by name
 		try:
@@ -124,7 +124,7 @@ class TracksActions(bpy.types.Operator):
 				index += 1
 				
 				# report and remove inexistant Track
-				track = scn.curve_to_frame.tracks[key].get(scn, True)
+				track = scn.curve_to_frame.tracks[key].get( True)
 				if track is None:
 					self.report({'ERROR'}, 'Error: \''+key+'\' movieclip didn\'t exist. the corresponding track have been removed.')
 					scn.curve_to_frame.tracks.remove(index)
