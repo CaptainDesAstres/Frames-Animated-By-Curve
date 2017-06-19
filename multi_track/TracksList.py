@@ -57,8 +57,11 @@ class TrackItem(bpy.types.UIList):
 		sp = layout.split(0.05)
 		col = sp.column()
 		col.label( str(item.track_id) )
+		sp = sp.split(0.75)
 		col = sp.column()
 		col.label(item.name, icon='CLIP')
+		col = sp.column()
+		col.label('['+str(item.start)+'-'+str(item.end)+']')
 
 
 
@@ -190,7 +193,7 @@ class TracksList():
 		new.uid = track.curve_to_frame.uid
 		new.track_id = len(self.tracks)-1
 		new.start = 0
-		new.end = track.curve_to_frame.number_size
+		new.end = track.curve_to_frame.size
 		self.selected_track = new.track_id
 		
 		# clear the add field
