@@ -178,7 +178,7 @@ class SwitchMoment:
 	maximal_switch_gap_option = bpy.props.BoolProperty(
 		name = 'Switching maximal gap:',
 		description = 'Switch at least one time every X frames.',
-		default = True,
+		default = False,
 		options = {'LIBRARY_EDITABLE'},
 		update = update_switch_curve
 		)
@@ -187,7 +187,7 @@ class SwitchMoment:
 		name = 'X:',
 		description = 'Maximal gap between two track switch.',
 		default = 10,
-		min = 0,
+		min = 1,
 		update = update_switch_curve
 		)
 	
