@@ -63,8 +63,11 @@ class Switch(SwitchMoment):
 			('random_forced',		'Ramdomly (never the same)',
 				'Track are randomly choosen and script make sure that the track is never 2 time the same',				2),
 			
+			('random_ruled',		'Ramdomly with succession rules',
+				'Track are randomly choosen following each track following rules',				3),
+			
 			('cyclic',		'cyclically',
-				'Track is changed according to a cycle',				3)
+				'Track is changed according to a cycle',				4)
 			
 			],
 		options = {'LIBRARY_EDITABLE'},

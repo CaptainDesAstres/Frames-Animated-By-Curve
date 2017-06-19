@@ -58,6 +58,11 @@ class Track(bpy.types.PropertyGroup):
 		description = "Last frame to take in count",
 		update = set_end_frame)
 	
+	followers = bpy.props.StringProperty(
+		name = "Random following track",
+		description = "Which track can follow this track when switch mode is «Ramdomly with succession rules». Specify integer value separated by «;». empty string means every track.",
+		default = '')
+	
 	def get( self, rename = False):
 		'''return the movie clip corresponding to this track'''
 		# get movieclip by name

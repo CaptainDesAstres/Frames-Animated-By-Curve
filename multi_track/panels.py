@@ -143,6 +143,12 @@ class Panel(SingleTrackPanel):
 			col.prop(track, "start")
 			col = row.column()
 			col.prop(track, "end")
+			
+			# Display Random following track
+			if self.switch_mode == 'random_ruled':
+				row = layout.row()
+				row.prop(track, "followers")
+			
 	
 	
 	
