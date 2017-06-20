@@ -76,3 +76,17 @@ class SwitchCurveRefresh(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+
+
+
+class CurveToFrame(bpy.types.Operator):
+	'''the operator to render multi track curve to frame animation'''
+	bl_idname = "curve_to_frame.render_multi_track"
+	bl_label= "Animate Tracks By Curves"
+	bl_options = {'INTERNAL'}
+	
+	def execute(self, context):
+		
+		return {'FINISHED'}
+
+
