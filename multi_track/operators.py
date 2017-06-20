@@ -86,7 +86,22 @@ class CurveToFrame(bpy.types.Operator):
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
+		# check every image of every track
+		
+		# refresh animation curves
+		
+		# refresh track switcthing curve
+		
+		# create/check output directory
+		
+		# generate animation
 		
 		return {'FINISHED'}
+
+
+
+
+
+
 
 
