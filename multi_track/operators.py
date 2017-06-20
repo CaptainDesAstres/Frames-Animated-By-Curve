@@ -86,6 +86,13 @@ class CurveToFrame(bpy.types.Operator):
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
+		scene = context.scene.curve_to_frame
+		
+		# check track list isn't empty
+		if len(scene.tracks) == 0:
+			self.report( {'ERROR'}, 'There is no tracks in the list!' )
+			return {'CANCELLED'}
+		
 		# check every image of every track
 		
 		# refresh animation curves
