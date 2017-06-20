@@ -102,7 +102,7 @@ class Track():
 		self.number_size = l - len(self.suffix)-len(self.prefix)
 		
 		# Get clip length and first and last frame number
-		self.first = int(name[len(self.suffix):n+1])
+		self.first = int(name[len(self.prefix):len(name)-len(self.suffix)])
 		self.size = clip.frame_duration
 		self.last = self.first + self.size -1
 		
