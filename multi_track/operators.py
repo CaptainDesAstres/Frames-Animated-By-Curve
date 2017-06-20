@@ -93,7 +93,18 @@ class CurveToFrame(bpy.types.Operator):
 			self.report( {'ERROR'}, 'There is no tracks in the list!' )
 			return {'CANCELLED'}
 		
-		# check every image of every track
+		for t in scene.tracks:
+			# check every track correspond to a movie clip
+			track = t.get(True)
+			if track is None:
+				self.report( {'ERROR'}, 'There is no loaded movieclip corresponding to «'+t.name+'» track!' )
+				return {'CANCELLED'}
+			
+			# check every image of every track
+			if not track.curve_to_frame.check_image_file():
+				self.report( {'ERROR'}, 'There is at least one image file missing for «'+track.curve_to_frame.name+'» (in «'+track.curve_to_frame.path+'» directory)!' )
+				return {'CANCELLED'}
+		
 		
 		# refresh animation curves
 		
