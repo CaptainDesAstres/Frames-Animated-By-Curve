@@ -116,39 +116,44 @@ class Panel(SingleTrackPanel):
 		if (self.selected_track >= 0 
 				and self.selected_track < len(self.tracks) ):
 			track = self.tracks[self.selected_track]
-			track_info = track.get().curve_to_frame
-			
-			# Display selected track directory path
-			layout.separator()
-			row = layout.row()
-			row.label( text = "Frame Directory path:" )
-			row = layout.row()
-			row.label( text= track_info.path )
-			
-			# Display selected track source file extension
-			row = layout.row()
-			col = row.column()
-			col.label( text="File type: "+track_info.ext )
-			
-			# Display first to last accepted frame name range
-			col = row.column()
-			col.label( text="Valid frames: "\
-				+track_info.get_frame_name(track_info.first)+' to '\
-				+track_info.get_frame_name(track_info.last) )
-			
-			# Display Start/End settings
-			layout.separator()
-			row = layout.row()
-			col = row.column()
-			col.prop(track, "start")
-			col = row.column()
-			col.prop(track, "end")
-			
-			# Display Random following track
-			if self.follow_rules:
+			track_clip = track.get()
+			if track_clip is not None:
+				track_info = track_clip.curve_to_frame
+				
+				# Display selected track directory path
+				layout.separator()
 				row = layout.row()
-				row.prop(track, "followers")
-			
+				row.label( text = "Frame Directory path:" )
+				row = layout.row()
+				row.label( text= track_info.path )
+				
+				# Display selected track source file extension
+				row = layout.row()
+				col = row.column()
+				col.label( text="File type: "+track_info.ext )
+				
+				# Display first to last accepted frame name range
+				col = row.column()
+				col.label( text="Valid frames: "\
+					+track_info.get_frame_name(track_info.first)+' to '\
+					+track_info.get_frame_name(track_info.last) )
+				
+				# Display Start/End settings
+				layout.separator()
+				row = layout.row()
+				col = row.column()
+				col.prop(track, "start")
+				col = row.column()
+				col.prop(track, "end")
+				
+				# Display Random following track
+				if self.follow_rules:
+					row = layout.row()
+					row.prop(track, "followers")
+			else:
+				layout.separator()
+				row = layout.row()
+				row.label( text = "Can't find any movie clip corresponding to this track!", icon = 'ERROR' )
 	
 	
 	
