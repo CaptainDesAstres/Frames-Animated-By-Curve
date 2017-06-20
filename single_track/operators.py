@@ -90,7 +90,7 @@ class CurvesRefresh(bpy.types.Operator):
 class CurveToFrame(bpy.types.Operator):
 	'''the operator to render single track curve to frame animation'''
 	bl_idname = "curve_to_frame.render_single_track"
-	bl_label= "Frames Animated By Curve"
+	bl_label= "Animate Single Track By Curves"
 	bl_options = {'INTERNAL'}
 	
 	def execute(self, context):
