@@ -193,8 +193,8 @@ class Panel(SingleTrackPanel):
 		elif(warning):
 			# check there is no warning
 			col.operator(
-				"curve_to_frame.generate_multi_track_curves",
-				text="ignore warning and refresh at my one risk",
+				"curve_to_frame.render_multi_track",
+				text="Ignore warning and generate animation",
 				icon = 'ERROR')
 			
 			# A checkbox to get real frame file copy
@@ -204,8 +204,8 @@ class Panel(SingleTrackPanel):
 		else:
 			# draw standart run button
 			col.operator(
-				"curve_to_frame.generate_multi_track_curves",
-				text="Refresh")
+				"curve_to_frame.render_multi_track",
+				text="Generate animation")
 			
 			# A checkbox to get real frame file copy
 			col = row.column()
