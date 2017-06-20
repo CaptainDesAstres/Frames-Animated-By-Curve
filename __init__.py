@@ -52,8 +52,8 @@ def register():
 	# multi track feature Panel
 	bpy.utils.register_class(multi_track.panels.ListPanel)
 	bpy.utils.register_class(multi_track.panels.AmplitudePanel)
-	bpy.utils.register_class(multi_track.panels.OutputPanel)
 	bpy.utils.register_class(multi_track.panels.SwitchPanel)
+	bpy.utils.register_class(multi_track.panels.OutputPanel)
 	
 	# multi track feature Operator
 	bpy.utils.register_class(multi_track.operators.RestoreDefaultPeakShape)
@@ -112,8 +112,8 @@ def unregister():
 	# multi track feature Panel
 	bpy.utils.unregister_class(multi_track.panels.ListPanel)
 	bpy.utils.unregister_class(multi_track.panels.AmplitudePanel)
-	bpy.utils.unregister_class(multi_track.panels.OutputPanel)
 	bpy.utils.unregister_class(multi_track.panels.SwitchPanel)
+	bpy.utils.unregister_class(multi_track.panels.OutputPanel)
 	
 	# multi track feature Operator
 	bpy.utils.unregister_class(multi_track.operators.RestoreDefaultPeakShape)
