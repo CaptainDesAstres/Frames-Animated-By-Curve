@@ -204,8 +204,8 @@ class Switch(SwitchMoment):
 			cycle += asc[1:-1]
 		elif self.cyclic_mode == 'custom':
 			cycle = self.get_custom_cycle()
-			if cycle is None:
-				return True
+			if len(cycle) == 0:
+				cycle = list(asc)
 		
 		# generate switch curve
 		i = 0
