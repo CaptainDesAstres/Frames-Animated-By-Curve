@@ -232,7 +232,6 @@ class Switch(SwitchMoment):
 			except AttributeError:
 				pass
 		
-		try:
 		order = []
 		for i in cycle.split(';'):
 			try:
