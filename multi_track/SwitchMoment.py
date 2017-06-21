@@ -6,9 +6,9 @@ class SwitchMoment:
 	'''a class regrouping all settings and method
 			about track switching'''
 	
-	def auto_update_switch_curve( self, context ):
+	def update_switch_curve( self, context ):
 		'''update switching curve. must be rewrite in Switch class.'''
-		type(self).auto_update_switch_curve( self, context )
+		type(self).update_switch_curve( self, context )
 	
 	
 	####################
@@ -20,7 +20,7 @@ class SwitchMoment:
 		description = 'Switch at the exact frame where you decide.',
 		default = True,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -31,7 +31,7 @@ class SwitchMoment:
 		description = 'Manually define the moments to switch.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	# settings to define the custom keyframe position
 	custom_keyframe = bpy.props.IntProperty(
@@ -39,7 +39,7 @@ class SwitchMoment:
 		description = 'Add keyframe to define the moments to switch',
 		min = 0,
 		max = 0,
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -50,7 +50,7 @@ class SwitchMoment:
 		description = 'Track is switch after each peak.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -61,7 +61,7 @@ class SwitchMoment:
 		description = 'Track is switch after each keyframe in peaks curve.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -72,14 +72,14 @@ class SwitchMoment:
 		description = 'switch track when peaks curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	peaks_over_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When peaks get over:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	switch_when_peaks_get_under = bpy.props.BoolProperty(
@@ -87,14 +87,14 @@ class SwitchMoment:
 		description = 'switch track when peaks curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	peaks_under_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When peaks get under:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -105,14 +105,14 @@ class SwitchMoment:
 		description = 'Switch track when amplitude (net) curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	amplitude_over_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When amplitude (net) get over:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	switch_when_amplitude_get_under = bpy.props.BoolProperty(
@@ -120,14 +120,14 @@ class SwitchMoment:
 		description = 'switch track when amplitude (net) curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	amplitude_under_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When amplitude (net) get under:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -138,14 +138,14 @@ class SwitchMoment:
 		description = 'switch track when combination curve get over designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	combination_over_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When combination get over:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	switch_when_combination_get_under = bpy.props.BoolProperty(
@@ -153,14 +153,14 @@ class SwitchMoment:
 		description = 'switch track when combination curve get under designated values.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	combination_under_trigger_values = bpy.props.StringProperty(
 		name = '',
 		description = 'The values to use for «When combination get under:» option. Use only numerical value separated by «;» .',
 		default = '0.5',
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
@@ -172,7 +172,7 @@ class SwitchMoment:
 		description = 'Gap between two evaluation of peaks/amplitude/combination values.',
 		default = 0.1,
 		min = 0.001,
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	# Introduce a maximal gap between two switching moment
@@ -181,7 +181,7 @@ class SwitchMoment:
 		description = 'Switch at least one time every X frames.',
 		default = False,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	maximal_switch_gap = bpy.props.FloatProperty(
@@ -189,7 +189,7 @@ class SwitchMoment:
 		description = 'Maximal gap between two track switch.',
 		default = 10,
 		min = 1,
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	maximal_switch_gap_proportional_option = bpy.props.BoolProperty(
@@ -197,7 +197,7 @@ class SwitchMoment:
 		description = 'When a gap greater than X Frames is found:\n- If this option is checked, the gap is divide in equal size sections.\n- If this option is not checked, the gap is filled with as many section of X frames long as possible. So, the last one generally don\'t measure X frames long',
 		default = True,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	# Introduce a minimal gap between two switching moment
@@ -206,7 +206,7 @@ class SwitchMoment:
 		description = 'Do not switch more than once by this gap time.',
 		default = True,
 		options = {'LIBRARY_EDITABLE'},
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	minimal_switch_gap = bpy.props.FloatProperty(
@@ -214,7 +214,7 @@ class SwitchMoment:
 		description = 'Minimal Gap between two track switch.',
 		default = 1,
 		min = 0,
-		update = auto_update_switch_curve
+		update = update_switch_curve
 		)
 	
 	
