@@ -113,6 +113,7 @@ class CurveToFrame(bpy.types.Operator):
 			return {'CANCELLED'}
 		
 		# refresh track switcthing curve
+		scene.update_switch_curve( context )
 		
 		# create/check output directory
 		

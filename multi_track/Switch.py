@@ -7,6 +7,11 @@ class Switch(SwitchMoment):
 	'''a class regrouping all settings and method
 			about track switching'''
 	
+	
+	def auto_update_switch_curve( self, context ):
+		'''alias of update_switch_curve, which return None value'''
+		self.update_switch_curve( context )
+	
 	def update_switch_curve( self, context ):
 		'''update switching curve'''
 		scene = self.id_data
@@ -36,6 +41,7 @@ class Switch(SwitchMoment):
 		
 		# erase useless keyframe
 		avoid_useless_keyframe( generated_switch )
+		return error
 	
 	
 	
@@ -63,7 +69,7 @@ class Switch(SwitchMoment):
 			
 			],
 		options = {'LIBRARY_EDITABLE'},
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	# manual switch settings
@@ -71,7 +77,7 @@ class Switch(SwitchMoment):
 		name = 'Track',
 		description = 'Track to use.',
 		default = 0,
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	# random options
@@ -79,14 +85,14 @@ class Switch(SwitchMoment):
 		name = 'never the same',
 		description = 'Avoid having two subsequent time the same track.',
 		default = False,
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	follow_rules = bpy.props.BoolProperty(
 		name = 'With rules',
 		description = 'Use track following rules while randomly choose next track.',
 		default = False,
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	# cyclic mode
@@ -112,7 +118,7 @@ class Switch(SwitchMoment):
 			
 			],
 		options = {'LIBRARY_EDITABLE'},
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	# custom cycle order
@@ -120,7 +126,7 @@ class Switch(SwitchMoment):
 		name = 'Custom order',
 		description = 'The order to use as custom cycle. Use only numerical value separated by «;» .',
 		default = 'None',
-		update = update_switch_curve
+		update = auto_update_switch_curve
 		)
 	
 	
