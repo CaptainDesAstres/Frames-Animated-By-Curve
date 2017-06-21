@@ -242,12 +242,13 @@ class Switch(SwitchMoment):
 				pass
 		
 		try:
-			return [
-							(int(i) % count) 
-								for i in cycle.split(';')
-								]
-		except ValueError:
-			return None
+		order = []
+		for i in cycle.split(';'):
+			try:
+				order.append( (int(i) % count) )
+			except ValueError:
+				pass
+		return order
 		
 
 
