@@ -107,6 +107,10 @@ class CurveToFrame(bpy.types.Operator):
 		
 		
 		# refresh animation curves
+		confirm = scene.update_curves( context )
+		if confirm is not True:
+			self.report( {'ERROR'}, confirm )
+			return {'CANCELLED'}
 		
 		# refresh track switcthing curve
 		
