@@ -168,10 +168,21 @@ class CurveToFrame(bpy.types.Operator):
 			# get output frame and track
 			track = scene.tracks[ scene.generated_switch ]
 			clip = track.get( True )
-			frame = clip.curve_to_frame.first
-			frame += track.get_frame( scene.combination ) - 1
+			fr = clip.curve_to_frame.first
+			fr += track.get_frame( scene.combination ) - 1
 			
-			
+			# copy (or symlink) the corresponding 
+			# frame into the output path
+			try:
+				output( clip.curve_to_frame.path + clip.curve_to_frame.get_frame_name(fr),
+						dst + str(context.scene.frame_current).rjust( 6, '0') + clip.curve_to_frame.ext
+						)
+			except OSError as e:
+				self.report({'ERROR'}, 
+						'error while copying or linking file: «'\
+							+e.strerror+'». Abort action.')
+				context.scene.frame_set(current)
+				return {'CANCELLED'}
 		
 		context.scene.frame_set(current)
 		
