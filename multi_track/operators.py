@@ -133,7 +133,21 @@ class CurveToFrame(bpy.types.Operator):
 			dst += '/'
 		dst += blender_file_name+':'+scene_name+'.curve_to_frame_output'
 		
-		# create/check output directory
+		# make backup if output path already exists
+		if( os.path.exists( dst ) ):
+			# check path access
+			if(os.access(dst, os.W_OK)):
+				# backup old output
+				backup_n = context.user_preferences.filepaths.save_version
+				backup_output( dst, 0, backup_n )
+				
+			else:
+				# report error then quit 
+				self.report(	{'ERROR'},
+								'Output path : no write permission' )
+				return {'CANCELLED'}
+				
+		dst += '/'
 		
 		# generate animation
 		
