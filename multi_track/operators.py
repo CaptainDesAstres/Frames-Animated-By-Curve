@@ -157,7 +157,17 @@ class CurveToFrame(bpy.types.Operator):
 					'Unable to create the output path directory:'+e.strerror)
 			return {'CANCELLED'}
 		
-		# generate animation
+		# loop from start frame to end frame
+		current = context.scene.frame_current
+		for frame in range(
+						context.scene.frame_start, 
+						context.scene.frame_end + 1):
+			# set current frame and update property value
+			context.scene.frame_set(frame)
+			
+			
+		
+		context.scene.frame_set(current)
 		
 		
 		print('Animation have been generated from «'+context.scene.name+'» scene multi track to:\n\t\t'+dst+'')
