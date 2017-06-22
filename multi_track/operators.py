@@ -1,4 +1,4 @@
-import bpy
+import bpy, os, shutil
 from functions import *
 
 
