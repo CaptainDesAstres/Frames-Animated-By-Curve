@@ -107,6 +107,14 @@ class Track(bpy.types.PropertyGroup):
 				pass
 		
 		return followers
+	
+	
+	
+	
+	
+	def get_frame( self, combination ):
+		'''Return frame number relative to combination value and start/end settings'''
+		return round( self.start + ( self.end - self.start ) * combination )
 
 
 
