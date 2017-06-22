@@ -291,12 +291,7 @@ class Panel():
 		
 		
 		
-		# A field to choose between Round Floor and 
-		# Ceil rounding method
 		row = layout.row()
-		col = row.column()
-		col.prop(self, "rounding")
-		
 		# visualize output frame
 		if not no_output:
 			col = row.column()

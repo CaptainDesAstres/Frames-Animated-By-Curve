@@ -18,23 +18,6 @@ class OutputFrame():
 		description = "Only to visualize the output frames. \
 						Can't be edit manually.")
 	
-	# Rounding method
-	rounding = bpy.props.EnumProperty(
-		name = 'Rounding method',
-		description = 'the rounding method use by the \
-						script to round the float computed \
-						value into a integer value corresponding \
-						to a frame',
-		options = {'LIBRARY_EDITABLE'},
-		default = 'round',
-		items = [
-			#(identifier,	name, 		description )
-			('round',		'round',	'the closest integer.'),
-			('ceil',		'ceil',		'the closest greater integer'),
-			('floor',		'floor',		'the closest smaller integer')
-			]
-		)
-	
 	
 	
 	
@@ -60,13 +43,6 @@ class OutputFrame():
 		output_curve.keyframe_points.insert( start - 1, 0 )
 		output_curve.keyframe_points[-1].interpolation = 'LINEAR'
 		
-		# get rounding method
-		if(clip.curve_to_frame.rounding == 'round'):
-			rounding = round
-		elif(clip.curve_to_frame.rounding == 'floor'):
-			rounding = floor
-		else:
-			rounding = ceil
 		
 		# generate a keyframe at each frame
 		frame = start
@@ -97,7 +73,7 @@ class OutputFrame():
 				end_value = clip.curve_to_frame.size
 			
 			# generate keyframe
-			output_frame = rounding(
+			output_frame = round(
 					clip.curve_to_frame.first + start_value - 1 
 					+ combination_curve.evaluate(frame)
 					* (end_value - start_value)
