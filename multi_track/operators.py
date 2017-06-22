@@ -121,6 +121,18 @@ class CurveToFrame(bpy.types.Operator):
 		else:
 			output = os.symlink
 		
+		# get output path
+		blender_file_name = os.path.splitext( 
+				bpy.path.basename(
+						bpy.context.blend_data.filepath
+						)
+				)[0]
+		scene_name = context.scene.name
+		dst = bpy.path.abspath( context.scene.render.filepath )
+		if(dst[-1] != '/'):
+			dst += '/'
+		dst += blender_file_name+':'+scene_name+'.curve_to_frame_output'
+		
 		# create/check output directory
 		
 		# generate animation
