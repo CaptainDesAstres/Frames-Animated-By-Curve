@@ -159,6 +159,8 @@ class CurveToFrame(bpy.types.Operator):
 		
 		# generate animation
 		
+		
+		print('Animation have been generated from «'+context.scene.name+'» scene multi track to:\n\t\t'+dst+'')
 		return {'FINISHED'}
 
 
