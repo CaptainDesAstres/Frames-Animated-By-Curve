@@ -172,7 +172,7 @@ class CurveToFrame(bpy.types.Operator):
 		
 		context.scene.frame_set(current)
 		
-		print("Frames Animated By Curve have been executed")
+		print('Animation have been generated from '+clip.name+' single track into '+dst+'.')
 		return {'FINISHED'}
 
 
