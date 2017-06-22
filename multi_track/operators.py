@@ -149,6 +149,14 @@ class CurveToFrame(bpy.types.Operator):
 				
 		dst += '/'
 		
+		# create new output directory
+		try:
+			os.mkdir(dst)
+		except OSError as e:
+			self.report({'ERROR'}, 
+					'Unable to create the output path directory:'+e.strerror)
+			return {'CANCELLED'}
+		
 		# generate animation
 		
 		return {'FINISHED'}
