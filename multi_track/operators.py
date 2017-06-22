@@ -115,6 +115,12 @@ class CurveToFrame(bpy.types.Operator):
 		# refresh track switcthing curve
 		scene.update_switch_curve( context )
 		
+		# check output method
+		if(context.scene.ctf_real_copy):
+			output = shutil.copyfile
+		else:
+			output = os.symlink
+		
 		# create/check output directory
 		
 		# generate animation
