@@ -165,6 +165,12 @@ class CurveToFrame(bpy.types.Operator):
 			# set current frame and update property value
 			context.scene.frame_set(frame)
 			
+			# get output frame and track
+			track = scene.tracks[ scene.generated_switch ]
+			clip = track.get( True )
+			frame = clip.curve_to_frame.first
+			frame += track.get_frame( scene.combination ) - 1
+			
 			
 		
 		context.scene.frame_set(current)
